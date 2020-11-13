@@ -6,12 +6,14 @@ Claudio Bailon-Schubert && Meghan Domeck && Paul O'Brien && Matthew Petersen
 
 ## WireFrames + ERD + Domain Model
 
-![WireFrame](images/After-Party Details.png)
-![WireFrame](images/Party Details.png)
-![WireFrame](images/Party Acceptance.png)
-![WireFrame](images/Party Activity.png)
-![WireFrame](images/Party Setup.png)
-![WireFrame](images/Sign Up Process.png)
+![WireFrame](images/main.png)
+![WireFrame](images/afterParty.png)
+![WireFrame](images/partyDetails.png)
+![WireFrame](images/partyAccept.png)
+![WireFrame](images/partyActivity.png)
+![WireFrame](images/partySet.png)
+![WireFrame](images/signup.png)
+
 
 ![ERD](images/ERD.PNG)
 
