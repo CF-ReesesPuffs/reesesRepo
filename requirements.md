@@ -2,20 +2,20 @@
 
 ## Software Requirements
 
-###Vision
+### Vision
 Our vision for the app is to provide our users with a meaningful and fun way to bring their family and friends together and give gifts. We are doing this by creating a 
 white elephant game!
 This gives our users a covid-friendly way to still stay in touch and celebrate any occasion. 
 This also offers us a way to celebrate with friends/family who are too far away.
 
 ### Scope IN
-- 
-- 
-- 
+- This **IS** and android app, downloadable from google play store.
+- This app is meant for a group of players.
+- This is meant to be a game to exchange gifts with others.
 - 
 
 ### Scope OUT
-- 
+- This is NOT a website
 - 
 
 ### MVP
