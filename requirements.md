@@ -11,12 +11,12 @@ This also offers us a way to celebrate with friends/family who are too far away.
 ### Scope IN
 - This **IS** and android app, downloadable from google play store.
 - This app is meant for a group of players.
-- This is meant to be a game to exchange gifts with others.
-- 
+- This is meant to be a game to exchange virtual gifts with others.
+- The app organizes a party based on users invited
 
 ### Scope OUT
 - This is NOT a website
-- 
+- We do not facilitate/order the items for users
 
 ### MVP
 - Users login/signup
@@ -58,7 +58,7 @@ Once the party has concluded, the user is suggested to leave the page and go bac
 
 Security: User information should be encrypted other than their usernme. We'll use a password encoder to ensure that private data is not visible to the public.
 
-Testability: ??
+Usability: Users must sign up in and login in order to play a game. We will make some conditions for users to meet before they can play!
 
 
 
