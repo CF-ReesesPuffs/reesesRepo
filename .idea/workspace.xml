@@ -8,14 +8,19 @@
   <component name="ChangeListManager">
     <list default="true" id="97757e31-486f-4fae-9836-f993b9fe0720" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/amplify/backend/api/reesesrepo/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/amplify/backend/api/reesesrepo/schema.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/SignUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/SignUp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/SignupConfirmation.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/SignupConfirmation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_signup_confirmation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_signup_confirmation.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Pixel_2_XL_API_30]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -38,6 +43,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Task_Master_Matthew" />
@@ -139,25 +145,49 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2660" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605549640641" />
-    <state width="1876" height="281" key="GridCell.Tab.0.bottom" timestamp="1605556236378">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state width="1876" height="226" key="GridCell.Tab.0.bottom" timestamp="1605566474468">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1876" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605556236378" />
-    <state width="1876" height="281" key="GridCell.Tab.0.center" timestamp="1605556236378">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state width="1876" height="226" key="GridCell.Tab.0.bottom/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605566474468" />
+    <state width="1876" height="226" key="GridCell.Tab.0.center" timestamp="1605566474468">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1876" height="281" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605556236378" />
-    <state width="1876" height="281" key="GridCell.Tab.0.left" timestamp="1605556236378">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state width="1876" height="226" key="GridCell.Tab.0.center/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605566474468" />
+    <state width="1876" height="226" key="GridCell.Tab.0.left" timestamp="1605566474468">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1876" height="281" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605556236378" />
-    <state width="1876" height="281" key="GridCell.Tab.0.right" timestamp="1605556236378">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state width="1876" height="226" key="GridCell.Tab.0.left/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605566474468" />
+    <state width="1876" height="226" key="GridCell.Tab.0.right" timestamp="1605566474468">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1876" height="281" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605556236378" />
+    <state width="1876" height="226" key="GridCell.Tab.0.right/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605566474468" />
     <state x="461" y="185" key="SettingsEditor" timestamp="1605548166254">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="461" y="185" key="SettingsEditor/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605548166254" />
+    <state x="-900" y="4" width="916" height="972" key="dock-window-1" timestamp="1605560985545">
+      <screen x="-900" y="0" width="900" height="1440" />
+    </state>
+    <state x="-900" y="4" width="916" height="972" key="dock-window-1/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605560985545" />
+    <state x="-900" y="0" width="916" height="972" key="dock-window-2" timestamp="1605560985545">
+      <screen x="-900" y="0" width="900" height="1440" />
+    </state>
+    <state x="-900" y="0" width="916" height="972" key="dock-window-2/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605560985545" />
+    <state x="-900" y="0" width="916" height="1254" key="dock-window-3" timestamp="1605562633879">
+      <screen x="-900" y="0" width="900" height="1440" />
+    </state>
+    <state x="-900" y="0" width="916" height="1254" key="dock-window-3/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605562633879" />
+    <state x="-900" y="0" width="916" height="1066" key="dock-window-4" timestamp="1605567456549">
+      <screen x="-900" y="0" width="900" height="1440" />
+    </state>
+    <state x="-900" y="0" width="916" height="1066" key="dock-window-4/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605567456549" />
+    <state x="623" y="235" width="672" height="678" key="search.everywhere.popup" timestamp="1605560210711">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="623" y="235" width="672" height="678" key="search.everywhere.popup/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605560210711" />
   </component>
 </project>
