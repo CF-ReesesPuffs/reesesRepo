@@ -1,0 +1,21 @@
+{
+    "appName": "reesesrepo",
+    "roleName": "pinpointLambdaRole93101c12",
+    "cloudformationPolicyName": "cloudformationPolicy93101c12",
+    "cloudWatchPolicyName": "cloudWatchPolicy93101c12",
+    "pinpointPolicyName": "pinpointPolicy93101c12",
+    "authPolicyName": "pinpoint_amplify_93101c12",
+    "unauthPolicyName": "pinpoint_amplify_93101c12",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}
