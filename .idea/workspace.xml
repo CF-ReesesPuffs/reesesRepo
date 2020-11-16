@@ -6,7 +6,39 @@
     </shared>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="97757e31-486f-4fae-9836-f993b9fe0720" name="Default Changelist" comment="" />
+    <list default="true" id="97757e31-486f-4fae-9836-f993b9fe0720" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/CreateGifts.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/HostParty.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/Login.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/SignUp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/SignupConfirmation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/CurrentParty.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Database/Database.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/InvitedPartyPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Models/Gift.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Models/Party.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Models/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/PendingPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/PostParty.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/UserProfile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_create_gifts.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_current_party.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_host_party.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_invited_party_page.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_pending_page.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_post_party.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_signup_confirmation.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_user_profile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,7 +50,18 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1kNgWPl2Suy49YdhCW7598GtVve" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -26,10 +69,16 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Task_Master_Matthew" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+  </component>
+  <component name="RecentsManager">
+    <key name="android.template.-1912404570">
+      <recent name="com.cfreesespuffs.github.giftswapper" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
@@ -115,6 +164,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="477" y="286" key="#PSD/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605548234619" />
+    <state x="2660" y="275" key="FileChooserDialogImpl" timestamp="1605549640641">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2660" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605549640641" />
     <state x="461" y="185" key="SettingsEditor" timestamp="1605548166254">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
