@@ -14,7 +14,6 @@ import com.cfreesespuffs.github.giftswapper.R;
 import java.util.ArrayList;
 
 public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHolder> {
-
     public ArrayList<Gift> giftsList;
     public OnCommWithGiftsListener listener;
 
@@ -23,37 +22,17 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
         this.listener = listener;
     }
 
-    public static class GiftsToViewHolder extends RecyclerView.ViewHolder {
-
-        public Gift gifts;
-        public View giftView;
-
-        public GiftsToViewHolder(@NonNull View giftView) {
-            super(giftView);
-            this.giftView = giftView;
-        }
-    }
-
     @NonNull
     @Override
     public GiftsToViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_gifts, parent, false);
+        GiftsToViewHolder giftViewHolder = new GiftsToViewHolder(view);
 
-        GiftsToViewHolder viewHolder = new GiftsToViewHolder(view);
-
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.giftsToDoListener(viewHolder.gifts);
-            }
+        view.setOnClickListener((newView) -> {
+                listener.giftListener(giftViewHolder.gifts);
         });
-        return viewHolder;
-    }
-
-    public static interface OnCommWithGiftsListener {
-        public void giftsToDoListener(Gift gift);
+        return giftViewHolder;
     }
 
     @Override
@@ -65,6 +44,25 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
     }
 
     @Override
-    public int getItemCount() { return giftsList.size(); } // MUST be getItemCount
+    public int getItemCount() {
+       if (giftsList == null) {
+           return 0;
+       } else {
+           return giftsList.size();
+       }
+    }
 
+    public static interface OnCommWithGiftsListener {
+        public void giftListener(Gift gift);
+    }
+
+    public static class GiftsToViewHolder extends RecyclerView.ViewHolder {
+        public Gift gifts;
+        public View giftView;
+
+        public GiftsToViewHolder(@NonNull View giftView) {
+            super(giftView);
+            this.giftView = giftView;
+        }
+    }
 }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,10 +16,13 @@ import android.widget.TextView;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
+import com.amplifyframework.datastore.generated.model.User;
+import com.cfreesespuffs.github.giftswapper.Adapters.GiftAdapter;
+import com.cfreesespuffs.github.giftswapper.Adapters.PartyAdapter;
 
 import java.util.ArrayList;
 
-public class UserProfile extends AppCompatActivity {
+public class UserProfile extends AppCompatActivity implements GiftAdapter.OnCommWithGiftsListener { // Do need to actually implement and create the listener, *on* this page.
 
     RecyclerView recyclerView;
     ArrayList<Gift> giftsOfUser;
@@ -40,7 +44,7 @@ public class UserProfile extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.allTheGifts);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setAdapter(new ); // Build the adapter.
+        recyclerView.setAdapter(new GiftAdapter(giftsOfUser, this)); // Build the adapter.
 
         String username = Amplify.Auth.getCurrentUser().getUsername();
         TextView usernameTv = findViewById(R.id.userNameProfileTv);
@@ -58,5 +62,12 @@ public class UserProfile extends AppCompatActivity {
                 },
                 error -> Log.e ("Amplify.query", "No tasks could be received.")
         );
+    }
+
+    @Override
+    public void giftListener(Gift gift) {
+        Intent goToGiftPage = new Intent(UserProfile.this, UserProfile.class);
+        goToGiftPage.putExtra("giftTitle", gift.getTitle());
+        this.startActivity(goToGiftPage);
     }
 }

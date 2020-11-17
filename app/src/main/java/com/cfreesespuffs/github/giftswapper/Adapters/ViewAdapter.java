@@ -40,9 +40,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_party, parent, false);
 
-
         final AdapterViewHolder viewHolder = new AdapterViewHolder(view);
-
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

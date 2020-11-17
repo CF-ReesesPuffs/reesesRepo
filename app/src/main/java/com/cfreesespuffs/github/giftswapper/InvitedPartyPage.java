@@ -22,7 +22,7 @@ import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
 
 public class InvitedPartyPage extends AppCompatActivity {
 
-    Handler handlecheckLoggedIn;
+    Handler handleCheckLoggedIn;
     User loggedUser;
 
     @Override
@@ -30,7 +30,7 @@ public class InvitedPartyPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invited_party_page);
 
-        handlecheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
+        handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 0) {
                 Log.i("Amplify.login", "They weren't logged in");
             } else if (message.arg1 == 1) {
