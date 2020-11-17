@@ -6,4 +6,89 @@
     android:layout_height="match_parent"
     tools:context=".Activities.HostParty">
 
+    <TextView
+        android:id="@+id/textView_partyName"
+        android:layout_width="193dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="56dp"
+        android:text="Party Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.412"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/guestSearchRecycler"
+        android:layout_width="321dp"
+        android:layout_height="169dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guestNameTextView" />
+
+    <Button
+        android:id="@+id/button_createParty"
+        android:layout_width="257dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="24dp"
+        android:text="Create the Party"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guestSearchRecycler"
+        app:layout_constraintVertical_bias="0.076" />
+
+    <EditText
+        android:id="@+id/editTextDate"
+        android:layout_width="94dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="36dp"
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintEnd_toStartOf="@+id/editTextTime"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_partyName" />
+
+    <EditText
+        android:id="@+id/editTextTime"
+        android:layout_width="94dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="36dp"
+        android:ems="10"
+        android:inputType="time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/editTextDate"
+        app:layout_constraintTop_toBottomOf="@+id/textView_partyName" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="122dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+
+    <Button
+        android:id="@+id/add_guest_button"
+        android:layout_width="92dp"
+        android:layout_height="51dp"
+        android:text="Add Guest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/guestNameTextView"
+        tools:layout_editor_absoluteY="298dp" />
+
+    <TextView
+        android:id="@+id/guestNameTextView"
+        android:layout_width="161dp"
+        android:layout_height="45dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toStartOf="@+id/add_guest_button"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="304dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

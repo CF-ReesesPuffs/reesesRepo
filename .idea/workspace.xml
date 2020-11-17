@@ -12,6 +12,7 @@
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +20,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Nexus_6_API_23]" />
+
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -58,15 +60,21 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Task_Master_Matthew" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../taskmaster" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
   <component name="RecentsManager">
+    <key name="android.template.356908295">
+      <recent name="com.cfreesespuffs.github.giftswapper" />
+      <recent name="com.cfreesespuffs.github.giftswapper.Activities" />
+<!--     <key name="android.template.-845083669"> -->
+    </key>
     <key name="android.template.-1912404570">
       <recent name="com.cfreesespuffs.github.giftswapper" />
     </key>
@@ -169,6 +177,11 @@
     <state x="2660" y="286" width="424" height="491" key="FileChooserDialogImpl" timestamp="1605565776256">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
+    <state x="43" y="376" key="#com.intellij.ide.util.MemberChooser/0.0.1504.963/-1920.0.1920.1040@0.0.1504.963" timestamp="1605576180852" />
+    <state x="580" y="255" key="FileChooserDialogImpl" timestamp="1605566137021">
+      <screen x="0" y="0" width="1504" height="963" />
+    </state>
+    <state x="580" y="255" key="FileChooserDialogImpl/0.0.1504.963/-1920.0.1920.1040@0.0.1504.963" timestamp="1605566137021" />
     <state x="2660" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605549640641" />
     <state x="2660" y="286" width="424" height="491" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.985@1920.0.1920.1080" timestamp="1605565776256" />
     <state width="914" height="253" key="GridCell.Tab.0.bottom" timestamp="1605570630227">
@@ -191,9 +204,31 @@
     </state>
     <state width="1876" height="281" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605556236378" />
     <state width="914" height="253" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.985@1920.0.1920.1080" timestamp="1605570630227" />
+
     <state x="461" y="185" key="SettingsEditor" timestamp="1605548166254">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="461" y="185" key="SettingsEditor/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605548166254" />
+
+    <state x="-900" y="4" width="916" height="972" key="dock-window-1" timestamp="1605560985545">
+      <screen x="-900" y="0" width="900" height="1440" />
+    </state>
+    <state x="-900" y="4" width="916" height="972" key="dock-window-1/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605560985545" />
+    <state x="-900" y="0" width="916" height="972" key="dock-window-2" timestamp="1605560985545">
+      <screen x="-900" y="0" width="900" height="1440" />
+    </state>
+    <state x="-900" y="0" width="916" height="972" key="dock-window-2/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605560985545" />
+    <state x="-900" y="0" width="916" height="1254" key="dock-window-3" timestamp="1605562633879">
+      <screen x="-900" y="0" width="900" height="1440" />
+    </state>
+    <state x="-900" y="0" width="916" height="1254" key="dock-window-3/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605562633879" />
+    <state x="-900" y="0" width="916" height="1066" key="dock-window-4" timestamp="1605567456549">
+      <screen x="-900" y="0" width="900" height="1440" />
+    </state>
+    <state x="-900" y="0" width="916" height="1066" key="dock-window-4/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605567456549" />
+    <state x="623" y="235" width="672" height="678" key="search.everywhere.popup" timestamp="1605560210711">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="623" y="235" width="672" height="678" key="search.everywhere.popup/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605560210711" />
   </component>
 </project>
