@@ -25,13 +25,14 @@ public final class Party implements Model {
   public static final QueryField HOSTED_ON = field("hostedOn");
   public static final QueryField HOSTED_AT = field("hostedAt");
   public static final QueryField PRICE = field("price");
+
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String title;
   private final @ModelField(targetType="String") String hostedOn;
   private final @ModelField(targetType="String") String hostedAt;
   private final @ModelField(targetType="String") String price;
-  private final @ModelField(targetType="GuestList") @HasMany(associatedWith = "party", type = GuestList.class) List<GuestList> users = null;
-  private final @ModelField(targetType="Gift") @HasMany(associatedWith = "party", type = Gift.class) List<Gift> gifts = null;
+  public final @ModelField(targetType="GuestList") @HasMany(associatedWith = "party", type = GuestList.class) List<GuestList> users = null;
+  public final @ModelField(targetType="Gift") @HasMany(associatedWith = "party", type = Gift.class) List<Gift> gifts = null;
   public String getId() {
       return id;
   }
