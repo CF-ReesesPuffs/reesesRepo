@@ -46,6 +46,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:21.0.0'
 //    implementation 'com.google.android.gms:play-services-ads:19.5.0'
     implementation 'androidx.activity:activity:1.2.0-beta01'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
