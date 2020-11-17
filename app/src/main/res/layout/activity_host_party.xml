@@ -13,7 +13,6 @@
         android:layout_marginTop="56dp"
         android:text="Party Name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.412"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -63,7 +62,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView_partyName" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/price_spinner"
         android:layout_width="122dp"
         android:layout_height="45dp"
         android:layout_marginTop="36dp"
@@ -81,7 +80,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/guestNameTextView"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/price_spinner" />
 
     <TextView
         android:id="@+id/guestNameTextView"
@@ -92,5 +91,5 @@
         app:layout_constraintEnd_toStartOf="@+id/findGuest_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/price_spinner" />
 </androidx.constraintlayout.widget.ConstraintLayout>

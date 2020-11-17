@@ -32,17 +32,17 @@
 
     <TextView
         android:id="@+id/invitedFragment"
-        android:layout_width="82dp"
-        android:layout_height="23dp"
-        android:layout_marginEnd="24dp"
+        android:layout_width="89dp"
+        android:layout_height="21dp"
+        android:layout_marginEnd="12dp"
         android:text="Invited"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/checkBox"
+        app:layout_constraintEnd_toStartOf="@+id/rsvpCheckBox"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.529" />
+        app:layout_constraintVertical_bias="0.473" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/rsvpCheckBox"
         android:layout_width="99dp"
         android:layout_height="23dp"
         android:layout_marginEnd="16dp"
