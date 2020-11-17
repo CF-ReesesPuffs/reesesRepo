@@ -16,32 +16,32 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
-/** This is an auto generated class representing the GuestList type in your schema. */
+/** This is an auto generated class representing the InviteStatus type in your schema. */
 @SuppressWarnings("all")
-@ModelConfig(pluralName = "GuestLists")
-public final class GuestList implements Model {
+@ModelConfig(pluralName = "InviteStatuses")
+public final class InviteStatus implements Model {
   public static final QueryField ID = field("id");
-  public static final QueryField USER = field("guestListUserId");
-  public static final QueryField PARTY = field("guestListPartyId");
+  public static final QueryField STATUS = field("status");
+  public static final QueryField NAME = field("inviteStatusNameId");
     public final @ModelField(targetType="ID", isRequired = true) String id;
-    public final @ModelField(targetType="User") @BelongsTo(targetName = "guestListUserId", type = User.class) User user;
-    public final @ModelField(targetType="Party") @BelongsTo(targetName = "guestListPartyId", type = Party.class) Party party;
+    public final @ModelField(targetType="String") String status;
+    public final @ModelField(targetType="User") @BelongsTo(targetName = "inviteStatusNameId", type = User.class) User name;
   public String getId() {
       return id;
   }
   
-  public User getUser() {
-      return user;
+  public String getStatus() {
+      return status;
   }
   
-  public Party getParty() {
-      return party;
+  public User getName() {
+      return name;
   }
   
-  private GuestList(String id, User user, Party party) {
+  private InviteStatus(String id, String status, User name) {
     this.id = id;
-    this.user = user;
-    this.party = party;
+    this.status = status;
+    this.name = name;
   }
   
   @Override
@@ -51,10 +51,10 @@ public final class GuestList implements Model {
       } else if(obj == null || getClass() != obj.getClass()) {
         return false;
       } else {
-      GuestList guestList = (GuestList) obj;
-      return ObjectsCompat.equals(getId(), guestList.getId()) &&
-              ObjectsCompat.equals(getUser(), guestList.getUser()) &&
-              ObjectsCompat.equals(getParty(), guestList.getParty());
+      InviteStatus inviteStatus = (InviteStatus) obj;
+      return ObjectsCompat.equals(getId(), inviteStatus.getId()) &&
+              ObjectsCompat.equals(getStatus(), inviteStatus.getStatus()) &&
+              ObjectsCompat.equals(getName(), inviteStatus.getName());
       }
   }
   
@@ -62,8 +62,8 @@ public final class GuestList implements Model {
    public int hashCode() {
     return new StringBuilder()
       .append(getId())
-      .append(getUser())
-      .append(getParty())
+      .append(getStatus())
+      .append(getName())
       .toString()
       .hashCode();
   }
@@ -71,10 +71,10 @@ public final class GuestList implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append("GuestList {")
+      .append("InviteStatus {")
       .append("id=" + String.valueOf(getId()) + ", ")
-      .append("user=" + String.valueOf(getUser()) + ", ")
-      .append("party=" + String.valueOf(getParty()))
+      .append("status=" + String.valueOf(getStatus()) + ", ")
+      .append("name=" + String.valueOf(getName()))
       .append("}")
       .toString();
   }
@@ -92,7 +92,7 @@ public final class GuestList implements Model {
    * @return an instance of this model with only ID populated
    * @throws IllegalArgumentException Checks that ID is in the proper format
    */
-  public static GuestList justId(String id) {
+  public static InviteStatus justId(String id) {
     try {
       UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
     } catch (Exception exception) {
@@ -102,7 +102,7 @@ public final class GuestList implements Model {
               "creating a new object, use the standard builder method and leave the ID field blank."
       );
     }
-    return new GuestList(
+    return new InviteStatus(
       id,
       null,
       null
@@ -111,40 +111,40 @@ public final class GuestList implements Model {
   
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
-      user,
-      party);
+      status,
+      name);
   }
   public interface BuildStep {
-    GuestList build();
+    InviteStatus build();
     BuildStep id(String id) throws IllegalArgumentException;
-    BuildStep user(User user);
-    BuildStep party(Party party);
+    BuildStep status(String status);
+    BuildStep name(User name);
   }
   
 
   public static class Builder implements BuildStep {
     private String id;
-    private User user;
-    private Party party;
+    private String status;
+    private User name;
     @Override
-     public GuestList build() {
+     public InviteStatus build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
         
-        return new GuestList(
+        return new InviteStatus(
           id,
-          user,
-          party);
+          status,
+          name);
     }
     
     @Override
-     public BuildStep user(User user) {
-        this.user = user;
+     public BuildStep status(String status) {
+        this.status = status;
         return this;
     }
     
     @Override
-     public BuildStep party(Party party) {
-        this.party = party;
+     public BuildStep name(User name) {
+        this.name = name;
         return this;
     }
     
@@ -171,20 +171,20 @@ public final class GuestList implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, User user, Party party) {
+    private CopyOfBuilder(String id, String status, User name) {
       super.id(id);
-      super.user(user)
-        .party(party);
+      super.status(status)
+        .name(name);
     }
     
     @Override
-     public CopyOfBuilder user(User user) {
-      return (CopyOfBuilder) super.user(user);
+     public CopyOfBuilder status(String status) {
+      return (CopyOfBuilder) super.status(status);
     }
     
     @Override
-     public CopyOfBuilder party(Party party) {
-      return (CopyOfBuilder) super.party(party);
+     public CopyOfBuilder name(User name) {
+      return (CopyOfBuilder) super.name(name);
     }
   }
   

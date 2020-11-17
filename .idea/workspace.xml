@@ -58,6 +58,7 @@
     <key name="android.template.356908295">
       <recent name="com.cfreesespuffs.github.giftswapper" />
       <recent name="com.cfreesespuffs.github.giftswapper.Activities" />
+<!--     <key name="android.template.-845083669"> -->
     </key>
     <key name="android.template.-1912404570">
       <recent name="com.cfreesespuffs.github.giftswapper" />
@@ -151,6 +152,14 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="765" y="246" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605576101528" />
+<!--     <state x="2685" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1605576011731">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2685" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605576011731" />
+    <state x="2610" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1605570688199">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2610" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605570688199" /> -->
     <state x="2660" y="275" key="FileChooserDialogImpl" timestamp="1605549640641">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
@@ -175,6 +184,23 @@
     </state>
     <state width="1876" height="281" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605556236378" />
     <state width="1876" height="226" key="GridCell.Tab.0.right/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605566474468" />
+
+<!--     <state width="1876" height="281" key="GridCell.Tab.0.bottom" timestamp="1605566839313">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1876" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605566839313" />
+    <state width="1876" height="281" key="GridCell.Tab.0.center" timestamp="1605566839313">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1876" height="281" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605566839313" />
+    <state width="1876" height="281" key="GridCell.Tab.0.left" timestamp="1605566839313">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1876" height="281" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605566839313" />
+    <state width="1876" height="281" key="GridCell.Tab.0.right" timestamp="1605566839313">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1876" height="281" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605566839313" /> -->
     <state x="461" y="185" key="SettingsEditor" timestamp="1605548166254">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>

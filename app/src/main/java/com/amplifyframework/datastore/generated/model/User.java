@@ -22,16 +22,27 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 public final class User implements Model {
   public static final QueryField ID = field("id");
   public static final QueryField USER_NAME = field("userName");
-  private final @ModelField(targetType="ID", isRequired = true) String id;
-  private final @ModelField(targetType="String", isRequired = true) String userName;
-  private final @ModelField(targetType="Gift") @HasMany(associatedWith = "user", type = Gift.class) List<Gift> gifts = null;
-  private final @ModelField(targetType="GuestList") @HasMany(associatedWith = "user", type = GuestList.class) List<GuestList> parties = null;
+  public static final QueryField EMAIL = field("email");
+    public final @ModelField(targetType="ID", isRequired = true) String id;
+    public final @ModelField(targetType="String", isRequired = true) String userName;
+    public final @ModelField(targetType="String") String email;
+    public final @ModelField(targetType="InviteStatus") @HasMany(associatedWith = "name", type = InviteStatus.class) List<InviteStatus> inviteStatus = null;
+    public final @ModelField(targetType="Gift") @HasMany(associatedWith = "user", type = Gift.class) List<Gift> gifts = null;
+    public final @ModelField(targetType="GuestList") @HasMany(associatedWith = "user", type = GuestList.class) List<GuestList> parties = null;
   public String getId() {
       return id;
   }
   
   public String getUserName() {
       return userName;
+  }
+  
+  public String getEmail() {
+      return email;
+  }
+  
+  public List<InviteStatus> getInviteStatus() {
+      return inviteStatus;
   }
   
   public List<Gift> getGifts() {
@@ -42,9 +53,10 @@ public final class User implements Model {
       return parties;
   }
   
-  private User(String id, String userName) {
+  private User(String id, String userName, String email) {
     this.id = id;
     this.userName = userName;
+    this.email = email;
   }
   
   @Override
@@ -56,7 +68,8 @@ public final class User implements Model {
       } else {
       User user = (User) obj;
       return ObjectsCompat.equals(getId(), user.getId()) &&
-              ObjectsCompat.equals(getUserName(), user.getUserName());
+              ObjectsCompat.equals(getUserName(), user.getUserName()) &&
+              ObjectsCompat.equals(getEmail(), user.getEmail());
       }
   }
   
@@ -65,6 +78,7 @@ public final class User implements Model {
     return new StringBuilder()
       .append(getId())
       .append(getUserName())
+      .append(getEmail())
       .toString()
       .hashCode();
   }
@@ -74,7 +88,8 @@ public final class User implements Model {
     return new StringBuilder()
       .append("User {")
       .append("id=" + String.valueOf(getId()) + ", ")
-      .append("userName=" + String.valueOf(getUserName()))
+      .append("userName=" + String.valueOf(getUserName()) + ", ")
+      .append("email=" + String.valueOf(getEmail()))
       .append("}")
       .toString();
   }
@@ -104,13 +119,15 @@ public final class User implements Model {
     }
     return new User(
       id,
+      null,
       null
     );
   }
   
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
-      userName);
+      userName,
+      email);
   }
   public interface UserNameStep {
     BuildStep userName(String userName);
@@ -120,25 +137,34 @@ public final class User implements Model {
   public interface BuildStep {
     User build();
     BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep email(String email);
   }
   
 
   public static class Builder implements UserNameStep, BuildStep {
     private String id;
     private String userName;
+    private String email;
     @Override
      public User build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
         
         return new User(
           id,
-          userName);
+          userName,
+          email);
     }
     
     @Override
      public BuildStep userName(String userName) {
         Objects.requireNonNull(userName);
         this.userName = userName;
+        return this;
+    }
+    
+    @Override
+     public BuildStep email(String email) {
+        this.email = email;
         return this;
     }
     
@@ -165,14 +191,20 @@ public final class User implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String userName) {
+    private CopyOfBuilder(String id, String userName, String email) {
       super.id(id);
-      super.userName(userName);
+      super.userName(userName)
+        .email(email);
     }
     
     @Override
      public CopyOfBuilder userName(String userName) {
       return (CopyOfBuilder) super.userName(userName);
+    }
+    
+    @Override
+     public CopyOfBuilder email(String email) {
+      return (CopyOfBuilder) super.email(email);
     }
   }
   

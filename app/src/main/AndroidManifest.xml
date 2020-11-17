@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Giftswapper">
         <activity android:name=".MainActivity"></activity>
-        <activity android:name=".Activities.CreateGifts" />
+        <activity android:name=".PendingPartyFragment"></activity>
         <activity android:name=".Activities.SignupConfirmation" />
         <activity android:name=".Activities.SignUp" />
         <activity android:name=".Activities.Login" />
