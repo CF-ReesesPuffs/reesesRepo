@@ -9,14 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Giftswapper">
-        <activity android:name=".PendingPartyFragment"></activity>
+        <activity android:name=".InvitationList"></activity>
+        <activity android:name=".PendingPartyFragment" />
         <activity android:name=".Activities.SignupConfirmation" />
         <activity android:name=".Activities.SignUp" />
         <activity android:name=".Activities.Login" />
         <activity android:name=".PostParty" />
         <activity android:name=".CurrentParty" />
         <activity android:name=".PendingPage" />
-        <activity android:name=".InvitedPartyPage" />
+        <activity android:name=".InvitationDetails" />
         <activity android:name=".Activities.HostParty" />
         <activity android:name=".UserProfile" />
         <activity android:name=".Activities.MainActivity">
