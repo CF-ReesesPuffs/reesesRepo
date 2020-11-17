@@ -27,11 +27,11 @@ public class SignUp extends AppCompatActivity {
             EditText password = findViewById(R.id.passwordOneEt);
             EditText passwordTwo = findViewById((R.id.passwordTwoEt));
 
-            //TODO: passwords never match
-            if (password.getText().toString() != passwordTwo.getText().toString()) {
-                Toast.makeText(this, "Your password doesn't match.", Toast.LENGTH_SHORT).show();
-                return;
-            }
+//           //TODO: passwords never match
+//            if (password.getText().toString() != passwordTwo.getText().toString()) {
+//                Toast.makeText(this, "Your password doesn't match.", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
 
             Amplify.Auth.signUp(
                     userName.getText().toString().toLowerCase(),
