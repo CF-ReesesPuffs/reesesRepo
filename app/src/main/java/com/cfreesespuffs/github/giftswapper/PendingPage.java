@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.InviteStatus;
 import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
+import com.cfreesespuffs.github.giftswapper.Adapters.ViewAdapter;
 
 import java.util.ArrayList;
 
