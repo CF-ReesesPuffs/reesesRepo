@@ -8,12 +8,12 @@
   <component name="ChangeListManager">
     <list default="true" id="97757e31-486f-4fae-9836-f993b9fe0720" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/SignUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/SignUp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/SignupConfirmation.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/SignupConfirmation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_signup_confirmation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_signup_confirmation.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/UserProfile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/UserProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/UserProfile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_user_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_user_profile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +37,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1kNgWPl2Suy49YdhCW7598GtVve" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -53,6 +55,10 @@
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
   <component name="RecentsManager">
+    <key name="android.template.356908295">
+      <recent name="com.cfreesespuffs.github.giftswapper" />
+      <recent name="com.cfreesespuffs.github.giftswapper.Activities" />
+    </key>
     <key name="android.template.-1912404570">
       <recent name="com.cfreesespuffs.github.giftswapper" />
     </key>
@@ -141,6 +147,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="477" y="286" key="#PSD/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605548234619" />
+    <state x="765" y="246" key="#com.intellij.ide.util.MemberChooser" timestamp="1605576101528">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="765" y="246" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605576101528" />
     <state x="2660" y="275" key="FileChooserDialogImpl" timestamp="1605549640641">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
