@@ -8,18 +8,36 @@
   <component name="ChangeListManager">
     <list default="true" id="97757e31-486f-4fae-9836-f993b9fe0720" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/amplify/backend/api/reesesrepo/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/amplify/backend/api/reesesrepo/schema.graphql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Pixel_2_XL_API_30]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Nexus_6_API_23]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -32,7 +50,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1kNgWPl2Suy49YdhCW7598GtVve" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -117,6 +137,9 @@
       </method>
     </configuration>
   </component>
+  <component name="StructureViewFactory">
+    <option name="AUTOSCROLL_FROM_SOURCE" value="true" />
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -135,26 +158,39 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="477" y="286" key="#PSD/0.0.1920.1080/-900.0.900.1440/1920.669.1360.768@0.0.1920.1080" timestamp="1605548234619" />
-    <state x="2660" y="275" key="FileChooserDialogImpl" timestamp="1605549640641">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state x="2208" y="227" width="374" height="592" key="#com.intellij.ide.util.MemberChooser" timestamp="1605576195379">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2208" y="227" width="374" height="592" key="#com.intellij.ide.util.MemberChooser/1920.0.1920.1080/0.27.1920.985@1920.0.1920.1080" timestamp="1605576195379" />
+    <state x="2696" y="307" width="367" height="431" key="AndroidCreateXmlResourceDialog" timestamp="1605570672356">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2696" y="307" width="367" height="431" key="AndroidCreateXmlResourceDialog/1920.0.1920.1080/0.27.1920.985@1920.0.1920.1080" timestamp="1605570672356" />
+    <state x="2660" y="286" width="424" height="491" key="FileChooserDialogImpl" timestamp="1605565776256">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2660" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605549640641" />
-    <state width="1876" height="281" key="GridCell.Tab.0.bottom" timestamp="1605556236378">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state x="2660" y="286" width="424" height="491" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.985@1920.0.1920.1080" timestamp="1605565776256" />
+    <state width="914" height="253" key="GridCell.Tab.0.bottom" timestamp="1605570630227">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1876" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605556236378" />
-    <state width="1876" height="281" key="GridCell.Tab.0.center" timestamp="1605556236378">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state width="914" height="253" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.985@1920.0.1920.1080" timestamp="1605570630227" />
+    <state width="914" height="253" key="GridCell.Tab.0.center" timestamp="1605570630227">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1876" height="281" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605556236378" />
-    <state width="1876" height="281" key="GridCell.Tab.0.left" timestamp="1605556236378">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state width="914" height="253" key="GridCell.Tab.0.center/1920.0.1920.1080/0.27.1920.985@1920.0.1920.1080" timestamp="1605570630227" />
+    <state width="914" height="253" key="GridCell.Tab.0.left" timestamp="1605570630227">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1876" height="281" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605556236378" />
-    <state width="1876" height="281" key="GridCell.Tab.0.right" timestamp="1605556236378">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state width="914" height="253" key="GridCell.Tab.0.left/1920.0.1920.1080/0.27.1920.985@1920.0.1920.1080" timestamp="1605570630227" />
+    <state width="914" height="253" key="GridCell.Tab.0.right" timestamp="1605570630227">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1876" height="281" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605556236378" />
+    <state width="914" height="253" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.985@1920.0.1920.1080" timestamp="1605570630227" />
     <state x="461" y="185" key="SettingsEditor" timestamp="1605548166254">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
