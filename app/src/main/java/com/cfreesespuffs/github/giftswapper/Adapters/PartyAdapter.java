@@ -47,7 +47,12 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.PartyViewHol
     }
 
     @Override
-    public int getItemCount() { return parties.size(); }
+    public int getItemCount() {
+        if(parties == null){
+            return 0;
+        }
+        return parties.size();
+    }
 
     public static interface InteractWithPartyListener{
         public void listener(Party party);

@@ -1,4 +1,4 @@
-package com.cfreesespuffs.github.giftswapper;
+package com.cfreesespuffs.github.giftswapper.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.amplifyframework.datastore.generated.model.InviteStatus;
+import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
 

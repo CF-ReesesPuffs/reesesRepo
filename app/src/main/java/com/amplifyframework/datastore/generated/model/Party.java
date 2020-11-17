@@ -25,7 +25,6 @@ public final class Party implements Model {
   public static final QueryField HOSTED_ON = field("hostedOn");
   public static final QueryField HOSTED_AT = field("hostedAt");
   public static final QueryField PRICE = field("price");
-
     public final @ModelField(targetType="ID", isRequired = true) String id;
     public final @ModelField(targetType="String", isRequired = true) String title;
     public final @ModelField(targetType="String") String hostedOn;

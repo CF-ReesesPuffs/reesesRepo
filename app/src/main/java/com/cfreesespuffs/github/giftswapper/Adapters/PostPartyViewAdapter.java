@@ -1,4 +1,4 @@
-package com.cfreesespuffs.github.giftswapper;
+package com.cfreesespuffs.github.giftswapper.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,13 +7,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.amplifyframework.datastore.generated.model.GuestList;
-import com.amplifyframework.datastore.generated.model.InviteStatus;
 import com.amplifyframework.datastore.generated.model.Party;
+import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
 
-public class PostPartyViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHolder> {
+public class PostPartyViewAdapter extends RecyclerView.Adapter<PostPartyViewAdapter.AdapterViewHolder> {
     public ArrayList<Party> partyResults;
     public OnInteractWithTaskListener listener;
 
@@ -57,21 +56,21 @@ public class PostPartyViewAdapter extends RecyclerView.Adapter<ViewAdapter.Adapt
         return viewHolder;
     }
 
-
-    public static interface OnInteractWithTaskListener {
-        public void taskListener(Party party);
-    }
-
     @Override
-    public void onBindViewHolder(@NonNull ViewAdapter.AdapterViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdapterViewHolder holder, int position) {
         holder.party = partyResults.get(position);
-
         TextView userName = holder.itemView.findViewById(R.id.guestName);
         TextView gift = holder.itemView.findViewById(R.id.giftRecieved);
 
         userName.setText((CharSequence) holder.party.users);
         gift.setText((CharSequence) holder.party.gifts);
     }
+
+
+    public static interface OnInteractWithTaskListener {
+        public void taskListener(Party party);
+    }
+
 
     @Override
     // This gets called so it knows how many fragments (list item) to put on the screen at once
