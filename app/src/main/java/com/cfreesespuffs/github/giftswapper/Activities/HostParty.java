@@ -18,10 +18,11 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
 
+import com.cfreesespuffs.github.giftswapper.Adapters.HostPartyAdapter;
 import com.cfreesespuffs.github.giftswapper.InvitedPartyPage;
 import com.cfreesespuffs.github.giftswapper.R;
 
-public class HostParty extends AppCompatActivity {
+public class HostParty extends AppCompatActivity implements HostPartyAdapter.GuestListListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class HostParty extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.guestSearchRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //recyclerView.setAdapter(new HostPartyAdapter(users, this));
+        recyclerView.setAdapter(new HostPartyAdapter(user, this));
 
 
 
