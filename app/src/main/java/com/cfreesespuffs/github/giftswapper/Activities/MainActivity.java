@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -54,6 +55,24 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         hostPartyButton.setOnClickListener((view)-> {
             Intent goToHostPartyIntent = new Intent(MainActivity.this, HostParty.class);
             MainActivity.this.startActivity(goToHostPartyIntent);
+        });
+
+        ImageButton loginButton = MainActivity.this.findViewById(R.id.login_button);
+        loginButton.setOnClickListener((view)-> {//maybe make this button invisible when clicked
+            Intent goToLoginIntent = new Intent(MainActivity.this, Login.class);
+            MainActivity.this.startActivity(goToLoginIntent);
+        });
+
+        ImageButton logoutButton= MainActivity.this.findViewById(R.id.nav_button);
+        navButton.setOnClickListener((view)-> {
+            logoutButton.setVisibility(View.INVISIBLE);
+
+            Amplify.Auth.signOut(
+                    AuthSignOutOptions.builder().globalSignOut(true).build(),
+                    () -> Log.i("AuthQuickstart", "Signed out globally"),
+                    error -> Log.e("AuthQuickstart", error.toString())
+
+            );
         });
 //==============================================================================
 
