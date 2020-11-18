@@ -10,21 +10,25 @@
         android:id="@+id/signUpConfirmButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="288dp"
+        android:layout_marginBottom="192dp"
         android:text="Confirm Sign Up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/codeEt"
+        app:layout_constraintVertical_bias="0.684" />
 
     <EditText
         android:id="@+id/codeEt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="316dp"
         android:ems="10"
         android:inputType="textPassword"
-        android:text="Confirmation Code"
-        tools:layout_editor_absoluteX="100dp"
-        tools:layout_editor_absoluteY="307dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/codeConfirmTv"
@@ -34,33 +38,31 @@
         android:text="Confirmation Code"
         app:layout_constraintBottom_toTopOf="@+id/codeEt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.387"
+        app:layout_constraintHorizontal_bias="0.34"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameConfirmEt" />
+        app:layout_constraintTop_toBottomOf="@+id/usernameConfirmEt"
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/usernameConfirmEt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="216dp"
+        android:layout_marginTop="4dp"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:text="Username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/usernameconfirmTv" />
 
     <TextView
         android:id="@+id/usernameconfirmTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="176dp"
+        android:layout_marginTop="192dp"
         android:text="username"
-        app:layout_constraintBottom_toTopOf="@+id/usernameConfirmEt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.303"
+        app:layout_constraintHorizontal_bias="0.286"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
