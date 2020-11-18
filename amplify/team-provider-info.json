@@ -1,22 +1,4 @@
 {
-  "dev": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-reesesrepo-dev-101729-authRole",
-      "UnauthRoleArn": "arn:aws:iam::420971069960:role/amplify-reesesrepo-dev-101729-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::420971069960:role/amplify-reesesrepo-dev-101729-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-reesesrepo-dev-101729-deployment",
-      "UnauthRoleName": "amplify-reesesrepo-dev-101729-unauthRole",
-      "StackName": "amplify-reesesrepo-dev-101729",
-      "StackId": "arn:aws:cloudformation:us-east-1:420971069960:stack/amplify-reesesrepo-dev-101729/009b9d10-2838-11eb-be69-0e4f19f4771b",
-      "AmplifyAppId": "d3sx6terhw7xlc"
-    },
-    "categories": {
-      "auth": {
-        "reesesrepo3c12c17a": {}
-      }
-    }
-  },
   "reesesrepo": {
     "awscloudformation": {
       "AuthRoleName": "amplify-reesesrepo-reesesrepo-103944-authRole",
@@ -28,6 +10,24 @@
       "StackName": "amplify-reesesrepo-reesesrepo-103944",
       "StackId": "arn:aws:cloudformation:us-west-2:420971069960:stack/amplify-reesesrepo-reesesrepo-103944/1b1080e0-283b-11eb-b493-06291b278cac",
       "AmplifyAppId": "d112jn0csgd2f0"
+    },
+    "categories": {
+      "auth": {
+        "reesesrepo3c12c17a": {}
+      }
+    }
+  },
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-reesesrepo-dev-101729-authRole",
+      "UnauthRoleArn": "arn:aws:iam::420971069960:role/amplify-reesesrepo-dev-101729-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::420971069960:role/amplify-reesesrepo-dev-101729-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-reesesrepo-dev-101729-deployment",
+      "UnauthRoleName": "amplify-reesesrepo-dev-101729-unauthRole",
+      "StackName": "amplify-reesesrepo-dev-101729",
+      "StackId": "arn:aws:cloudformation:us-east-1:420971069960:stack/amplify-reesesrepo-dev-101729/009b9d10-2838-11eb-be69-0e4f19f4771b",
+      "AmplifyAppId": "d3sx6terhw7xlc"
     },
     "categories": {
       "auth": {
