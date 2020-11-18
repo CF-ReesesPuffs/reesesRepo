@@ -40,21 +40,19 @@ public class SignupConfirmation extends AppCompatActivity {
 
 
             Amplify.Auth.confirmSignUp(
-<<<<<<< HEAD
                 usernameConfirm.getText().toString().toLowerCase(),
                 confirmCode.getText().toString(),
                 result -> {
                     Log.i("Amplify.confirm", result.isSignUpComplete() ? "Signup: Successful" : "Signup: FAIL"); // TODO: something better needs to happen here?
                     message.arg1 = 123; // Todo: might need to create handler here.
                     signUpHandler.sendEmptyMessage(message.arg1);
-=======
+
                     usernameConfirm.getText().toString().toLowerCase(),
                     confirmCode.getText().toString(),
                     result -> {
                         Log.i("Amplify.confirm", result.isSignUpComplete() ? "Signup: Successful" : "Signup: FAIL"); // TODO: something better needs to happen here?
                         message.arg1 = 123; // Todo: might need to create handler here.
                         signUpHandler.sendEmptyMessage(message.arg1);
->>>>>>> origin/host-party
 
                         User newUser = User.builder()
                                 .userName(username)
@@ -67,7 +65,7 @@ public class SignupConfirmation extends AppCompatActivity {
                                 error -> Log.e("Amplify.API", "newUser not created: " + error)
                         );
 
-<<<<<<< HEAD
+
                     Amplify.Auth.signIn(
                             username.toLowerCase(),
                             password,
@@ -78,7 +76,7 @@ public class SignupConfirmation extends AppCompatActivity {
                 error -> Log.e("Auth.Result", "failure")
             )
         ;
-=======
+
                         Amplify.Auth.signIn(
                                 username.toLowerCase(),
                                 password,
@@ -88,17 +86,12 @@ public class SignupConfirmation extends AppCompatActivity {
                     },
                     error -> Log.e("Auth.Result", "failure")
             );
->>>>>>> origin/host-party
 
             Intent lastIntent = new Intent(SignupConfirmation.this, MainActivity.class);
             this.startActivity(lastIntent);
         });
 
         signUpHandler = new Handler(Looper.getMainLooper(), message -> {
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/host-party
             if (message.arg1 == 123) {
                 Context context = getApplicationContext();
                 CharSequence text = "User Confirmation Complete!";

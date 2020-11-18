@@ -22,6 +22,9 @@ import android.widget.TextView;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
+
+import com.amplifyframework.datastore.generated.model.GuestList;
+
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
 
@@ -108,10 +111,11 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 TextView partyDate = findViewById(R.id.editTextDate);
                 TextView partyTime = findViewById(R.id.editTextTime);
                 Spinner selectedPriceSpinner = findViewById(R.id.price_spinner);
-                Log.i("Android.usersToAdd", ((HostPartyAdapter)recyclerView.getAdapter()).usersToAdd.toString());
+                Log.i("Android.usersToAdd", ((HostPartyAdapter) recyclerView.getAdapter()).usersToAdd.toString());
 
-                Set guestsToInvite = ((HostPartyAdapter)recyclerView.getAdapter()).usersToAdd;
-                List guestsToInviteList = new ArrayList();
+                Set guestsToInvite = ((HostPartyAdapter) recyclerView.getAdapter()).usersToAdd;
+                List<User> guestsToInviteList = new ArrayList();
+
                 guestsToInviteList.addAll(guestsToInvite);
 
                 String nameOfParty = partyName.getText().toString();
@@ -133,9 +137,22 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                         response -> Log.i("Amplify.API", "success party started"),
                         error -> Log.e("Amplify/API", "Message failed " + error)
                 );
+
+                for (User thisGuest : guestsToInviteList) {
+                    GuestList guestListFinal = GuestList.builder()
+                            .party(party)
+                            .user(thisGuest)
+                            .build();
+
+                    Amplify.API.mutate(
+                            ModelMutation.create(guestListFinal),
+                            response -> Log.i("Amplify.API", "success users added"),
+                            error -> Log.e("Amplify/API", "Message failed " + error)
+                    );
+
+                }
             }
         });
-
     }
 
     public void priceSpinner() {
