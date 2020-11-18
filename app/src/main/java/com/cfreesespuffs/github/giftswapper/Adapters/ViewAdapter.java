@@ -68,8 +68,8 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
         TextView userName = holder.itemView.findViewById(R.id.guestName);
         TextView status = holder.itemView.findViewById(R.id.status);
 
-        userName.setText(holder.inviteStatus.name.userName);
-        status.setText(holder.inviteStatus.status);
+        userName.setText(holder.inviteStatus.getName().getUserName());
+        status.setText(holder.inviteStatus.getStatus());
     }
 
     @Override

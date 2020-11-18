@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Party;
@@ -79,11 +80,11 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                             TextView foundGuest = findViewById(R.id.userFindGuestSearch);
                             String foundGuestString = foundGuest.getText().toString();
                             //  Log.i("Amplify.string", "this is what we are looking for: " + foundGuestString);
-                            if (user.userName.toLowerCase().contains(foundGuestString.toLowerCase())) {
+                            if (user.getUserName().toLowerCase().contains(foundGuestString.toLowerCase())) {
                                 //TODO limit to first letters STRETCH
                                 // Log.i("Amplify.string", "this is the user we are looking for: " + user);
-                                if (!uniqueGuestList.containsKey(user.userName)) {
-                                    uniqueGuestList.put(user.userName, user);
+                                if (!uniqueGuestList.containsKey(user.getUserName())) {
+                                    uniqueGuestList.put(user.getUserName(), user);
                                     guestList.add(user);
                                 }
                             }
@@ -117,8 +118,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 String dateOfParty = partyDate.getText().toString();
                 String timeOfParty = partyTime.getText().toString();
                 String priceOfParty = selectedPriceSpinner.getSelectedItem().toString();
-                //String guestOfParty = guestName.getText().toString();
-
 
                 Party party;
                 party = Party.builder()
@@ -128,8 +127,12 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                         .price(priceOfParty)
                        // .
                         .build();
-                //Amplify.API.mutate()
 
+                Amplify.API.mutate(
+                        ModelMutation.create(party),
+                        response -> Log.i("Amplify.API", "success party started"),
+                        error -> Log.e("Amplify/API", "Message failed " + error)
+                );
             }
         });
 
