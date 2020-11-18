@@ -1,5 +1,6 @@
 package com.cfreesespuffs.github.giftswapper.Adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,13 @@ import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class HostPartyAdapter extends RecyclerView.Adapter<HostPartyAdapter.GuestListViewHolder> {
     public ArrayList<User> guestList;
     public GuestListListener listener;
+    public Set<User> usersToAdd = new HashSet<>();
 
     public HostPartyAdapter(ArrayList<User> guestList, GuestListListener listener){
         this.guestList = guestList;
@@ -50,8 +54,11 @@ public class HostPartyAdapter extends RecyclerView.Adapter<HostPartyAdapter.Gues
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
                     usernameView.setSelected(true);
+                    Log.i("Android.hostAdapter", "This has been selected " + guestList.get(position) + "add position " + position);
+                    usersToAdd.add(guestList.get(position));
                 } else {
                     usernameView.setSelected(false);
+                    usersToAdd.remove(guestList.get(position));
                 }
             }
         });
