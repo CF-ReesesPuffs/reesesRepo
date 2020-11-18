@@ -1,4 +1,4 @@
-package com.cfreesespuffs.github.giftswapper.Adapters;
+package com.cfreesespuffs.github.giftswapper.Fragments;
 
 import android.os.Bundle;
 
