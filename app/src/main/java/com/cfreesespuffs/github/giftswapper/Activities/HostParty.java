@@ -4,10 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,11 +19,9 @@ import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
 
 import com.cfreesespuffs.github.giftswapper.Adapters.HostPartyAdapter;
-import com.cfreesespuffs.github.giftswapper.InvitedPartyPage;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 public class HostParty extends AppCompatActivity implements HostPartyAdapter.GuestListListener{
