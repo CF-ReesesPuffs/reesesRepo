@@ -1,18 +1,32 @@
-type Blog @model {
+type User @model {
   id: ID!
-  name: String!
-  posts: [Post] @connection(keyName: "byBlog", fields: ["id"])
+  userName: String!
+  email: String
+  inviteStatus: [InviteStatus] @connection(name: "RSVP")
+  gifts: [Gift] @connection(name: "GiftGroup")
+  parties: [GuestList] @connection(name:"ConUser")
 }
 
-type Post @model @key(name: "byBlog", fields: ["blogID"]) {
+type InviteStatus @model{
+  id: ID!
+  status: String
+  name: User @connection(name: "RSVP")
+}
+
+type GuestList @model {
+  id: ID!
+  user: User @connection(name: "ConUser")
+  party: Party @connection(name:"ConParty")
+}
+
+type Gift @model {
   id: ID!
   title: String!
-  blogID: ID!
-  blog: Blog @connection(fields: ["blogID"])
-  comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+  user: User @connection(name: "GiftGroup")
+  party: Party @connection(name: "PartyGifts")
 }
 
-type Comment @model @key(name: "byPost", fields: ["postID", "content"]) {
+type Party @model {
   id: ID!
   title: String!
   hostedOn: String
