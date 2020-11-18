@@ -3,6 +3,8 @@ package com.cfreesespuffs.github.giftswapper.Adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,7 +43,19 @@ public class HostPartyAdapter extends RecyclerView.Adapter<HostPartyAdapter.Gues
         holder.user = guestList.get(position);
         TextView usernameView = holder.itemView.findViewById(R.id.usernameFragment);
         usernameView.setText(holder.user.getUserName());
-        //TODO checkbox button
+        holder.checkBox.setOnCheckedChangeListener(null);
+        holder.checkBox.setSelected(holder.usernameView.isSelected()); //TODO once in the schema this might need updated
+        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    usernameView.setSelected(true);
+                } else {
+                    usernameView.setSelected(false);
+                }
+            }
+        });
+        holder.checkBox.setChecked(usernameView.isSelected());
     }
 
     @Override
@@ -59,10 +73,12 @@ public class HostPartyAdapter extends RecyclerView.Adapter<HostPartyAdapter.Gues
     public static class GuestListViewHolder extends RecyclerView.ViewHolder{
         public User user;
         public View usernameView;
+        public CheckBox checkBox;
 
         public GuestListViewHolder(@NonNull View usernameView){
             super(usernameView);
             this.usernameView = usernameView;
+            this.checkBox = (CheckBox) usernameView.findViewById(R.id.rsvpCheckBox);
         }
     }
 
