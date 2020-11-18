@@ -20,7 +20,7 @@ import com.amplifyframework.datastore.generated.model.InviteStatus;
 import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
 
-public class InvitedPartyPage extends AppCompatActivity {
+public class InvitationDetails extends AppCompatActivity {
 
     Handler handlecheckLoggedIn;
     User loggedUser;
@@ -35,7 +35,7 @@ public class InvitedPartyPage extends AppCompatActivity {
                 Log.i("Amplify.login", "They weren't logged in");
             } else if (message.arg1 == 1) {
                 Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
-                TextView loggedUser = InvitedPartyPage.this.findViewById(R.id.current_user);
+                TextView loggedUser = InvitationDetails.this.findViewById(R.id.current_user);
                 loggedUser.setText(Amplify.Auth.getCurrentUser().getUsername());
                 loggedUser.setVisibility(View.VISIBLE);
 
@@ -47,23 +47,23 @@ public class InvitedPartyPage extends AppCompatActivity {
 //=================================================================================================== Invitation details
         Intent intent = getIntent();
 
-        TextView partyName = InvitedPartyPage.this.findViewById(R.id.partyName);
+        TextView partyName = InvitationDetails.this.findViewById(R.id.partyName);
         partyName.setText(intent.getExtras().getString("partyName"));
 
-        TextView host = InvitedPartyPage.this.findViewById(R.id.partyHost);
+        TextView host = InvitationDetails.this.findViewById(R.id.partyHost);
         host.setText(intent.getExtras().getString("host"));
 
-        TextView when = InvitedPartyPage.this.findViewById(R.id.dateOfParty);
+        TextView when = InvitationDetails.this.findViewById(R.id.dateOfParty);
         when.setText(intent.getExtras().getString("when"));
 
-        TextView setTime = InvitedPartyPage.this.findViewById(R.id.timeOfParty);
+        TextView setTime = InvitationDetails.this.findViewById(R.id.timeOfParty);
         setTime.setText(intent.getExtras().getString("setTime"));
 
-        TextView budget = InvitedPartyPage.this.findViewById(R.id.budgetLimit);
+        TextView budget = InvitationDetails.this.findViewById(R.id.budgetLimit);
         budget.setText(intent.getExtras().getString("budget"));
 
 //=================================================================================================== Decline invite
-        Button declineInvite = InvitedPartyPage.this.findViewById(R.id.declineInvite);
+        Button declineInvite = InvitationDetails.this.findViewById(R.id.declineInvite);
         declineInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,17 +80,17 @@ public class InvitedPartyPage extends AppCompatActivity {
                         error -> Log.e("DeclinedInviteFail", error.toString())
                 );
 
-                Intent gotoMain = new Intent(InvitedPartyPage.this, MainActivity.class);
-                InvitedPartyPage.this.startActivity(gotoMain);
+                Intent gotoMain = new Intent(InvitationDetails.this, MainActivity.class);
+                InvitationDetails.this.startActivity(gotoMain);
             }
         });
 
 //=================================================================================================== Accept invite
-        Button acceptInvite = InvitedPartyPage.this.findViewById(R.id.acceptInvite);
+        Button acceptInvite = InvitationDetails.this.findViewById(R.id.acceptInvite);
         acceptInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText giftChosen = InvitedPartyPage.this.findViewById(R.id.giftUserBrings);
+                EditText giftChosen = InvitationDetails.this.findViewById(R.id.giftUserBrings);
                 String giftName = giftChosen.getText().toString();
 
                 //TODO: Set the invite status to accepted/true
@@ -115,15 +115,15 @@ public class InvitedPartyPage extends AppCompatActivity {
                         response -> Log.i("AddGift", "You saved a new gift to bring, " + giftName + "----"),
                         error -> Log.e("AddGiftFail", error.toString())
                 );
-                Intent gotoPending = new Intent(InvitedPartyPage.this, PendingPage.class);
-                InvitedPartyPage.this.startActivity(gotoPending);
+                Intent gotoPending = new Intent(InvitationDetails.this, PendingPage.class);
+                InvitationDetails.this.startActivity(gotoPending);
             }
         });
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(InvitedPartyPage.this, MainActivity.class);
-        InvitedPartyPage.this.startActivity(intent);
+        Intent intent = new Intent(InvitationDetails.this, MainActivity.class);
+        InvitationDetails.this.startActivity(intent);
         return true;
     }
 }

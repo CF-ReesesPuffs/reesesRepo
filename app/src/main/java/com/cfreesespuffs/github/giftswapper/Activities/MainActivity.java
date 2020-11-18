@@ -21,8 +21,9 @@ import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.auth.options.AuthSignOutOptions;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Party;
-import com.cfreesespuffs.github.giftswapper.InvitedPartyPage;
+import com.cfreesespuffs.github.giftswapper.InvitationDetails;
 import com.cfreesespuffs.github.giftswapper.Adapters.PartyAdapter;
+import com.cfreesespuffs.github.giftswapper.InvitationList;
 import com.cfreesespuffs.github.giftswapper.R;
 import com.cfreesespuffs.github.giftswapper.UserProfile;
 
@@ -51,13 +52,14 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             Intent goToProfileIntent = new Intent(MainActivity.this, UserProfile.class);
             MainActivity.this.startActivity(goToProfileIntent);
         });
-
+//================= invites
         ImageButton notificationButton = MainActivity.this.findViewById(R.id.notification_button);
         notificationButton.setOnClickListener((view)-> {
-            Intent goToNotificationsIntent = new Intent(MainActivity.this, InvitedPartyPage.class);//Is this were we want to send them?
+            Intent goToNotificationsIntent = new Intent(MainActivity.this, InvitationList.class);//Is this were we want to send them?
             MainActivity.this.startActivity(goToNotificationsIntent);
         });
 
+//================= sign up
         ImageButton navButton= MainActivity.this.findViewById(R.id.nav_button);
         navButton.setOnClickListener((view)-> {
             Intent goToNavIntent = new Intent(MainActivity.this, SignUp.class);//Maybe this shouldn't be a button, possibly a spinner?
@@ -87,7 +89,8 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
             );
         });
-//==============================================================================
+
+//============================================================================== handler check logged
         handlecheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 0) {
                 Log.i("Amplify.login", "They weren't logged in");
@@ -100,16 +103,16 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             }
             return false;
         });
-
     }
 
+//========================================================= user -sign-in
     public boolean getIsSignedIn() {
         boolean[] isSingedIn = {false};
         Amplify.Auth.fetchAuthSession(
                 result -> {
                     Log.i("Amplify.login", result.toString());
                     Message message = new Message();
-                    if (result.isSignedIn()) {
+                    if(result.isSignedIn()) {
                         message.arg1 = 1;
                         handlecheckLoggedIn.sendMessage(message);
                     } else {
@@ -121,11 +124,12 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         );
         return isSingedIn[0];
     }
+
+//========================================================================== aws
     private void configureAws() {
         try {
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
-//            Amplify.addPlugin(new AWSS3StoragePlugin());
             Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(getApplication()));
             Amplify.configure(getApplicationContext());
         } catch (AmplifyException error) {
@@ -133,10 +137,9 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         }
     }
 
-
     @Override
     public void listener(Party party) {
-        Intent goToPartyDetailInent = new Intent(MainActivity.this, InvitedPartyPage.class);//we don't have an activity for a single party do we? sent it to invited party for now
+        Intent goToPartyDetailInent = new Intent(MainActivity.this, InvitationDetails.class);//we don't have an activity for a single party do we? sent it to invited party for now
         goToPartyDetailInent.putExtra("title",party.getTitle());
         goToPartyDetailInent.putExtra("price",party.getPrice());
         this.startActivity(goToPartyDetailInent);

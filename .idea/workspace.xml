@@ -14,21 +14,21 @@
   <component name="ChangeListManager">
     <list default="true" id="97757e31-486f-4fae-9836-f993b9fe0720" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/HostParty.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/HostParty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Adapters/HostPartyAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Adapters/HostPartyAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/GuestList.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/GuestListFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_host_party.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_host_party.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_signup_confirmation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_signup_confirmation.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_guest_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_guest_list.xml" afterDir="false" />
+
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/Activities/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/InvitedPartyPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/cfreesespuffs/github/giftswapper/InvitationDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_invited_party_page.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_invited_party_page.xml" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Pixel_3_API_28]" />
+
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Pixel_2_XL_API_30]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -73,13 +73,16 @@
     <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-11-17T20:18:30.022Z" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../taskmaster" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
   <component name="RecentsManager">
+    <key name="android.template.1075008087">
+      <recent name="com.cfreesespuffs.github.giftswapper" />
+    </key>
     <key name="android.template.356908295">
       <recent name="com.cfreesespuffs.github.giftswapper" />
       <recent name="com.cfreesespuffs.github.giftswapper.Activities" />
@@ -198,29 +201,31 @@
     <state x="580" y="255" key="FileChooserDialogImpl/0.0.1504.963/-1920.0.1920.1040@0.0.1504.963" timestamp="1605654163432" />
     <state x="2660" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605549640641" />
     <state x="2660" y="286" width="424" height="491" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.985@1920.0.1920.1080" timestamp="1605565776256" />
-    <state width="1460" height="256" key="GridCell.Tab.0.bottom" timestamp="1605661720026">
-      <screen x="0" y="0" width="1504" height="963" />
+
+    <state width="1876" height="290" key="GridCell.Tab.0.bottom" timestamp="1605654668094">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1460" height="256" key="GridCell.Tab.0.bottom/0.0.1504.963/-1920.0.1920.1040@0.0.1504.963" timestamp="1605661720026" />
-    <state width="1876" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605634635091" />
+    <state width="1460" height="255" key="GridCell.Tab.0.bottom/0.0.1504.963/-1920.0.1920.1040@0.0.1504.963" timestamp="1605642371542" />
+    <state width="1876" height="290" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605654668094" />
     <state width="914" height="253" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.985@1920.0.1920.1080" timestamp="1605570630227" />
-    <state width="1460" height="256" key="GridCell.Tab.0.center" timestamp="1605661720026">
-      <screen x="0" y="0" width="1504" height="963" />
+    <state width="1876" height="290" key="GridCell.Tab.0.center" timestamp="1605654668094">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1460" height="256" key="GridCell.Tab.0.center/0.0.1504.963/-1920.0.1920.1040@0.0.1504.963" timestamp="1605661720026" />
-    <state width="1876" height="281" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605634635091" />
+    <state width="1460" height="255" key="GridCell.Tab.0.center/0.0.1504.963/-1920.0.1920.1040@0.0.1504.963" timestamp="1605642371541" />
+    <state width="1876" height="290" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605654668094" />
     <state width="914" height="253" key="GridCell.Tab.0.center/1920.0.1920.1080/0.27.1920.985@1920.0.1920.1080" timestamp="1605570630227" />
-    <state width="1460" height="256" key="GridCell.Tab.0.left" timestamp="1605661720025">
-      <screen x="0" y="0" width="1504" height="963" />
+    <state width="1876" height="290" key="GridCell.Tab.0.left" timestamp="1605654668094">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1460" height="256" key="GridCell.Tab.0.left/0.0.1504.963/-1920.0.1920.1040@0.0.1504.963" timestamp="1605661720025" />
-    <state width="1876" height="281" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605634635091" />
+    <state width="1460" height="255" key="GridCell.Tab.0.left/0.0.1504.963/-1920.0.1920.1040@0.0.1504.963" timestamp="1605642371539" />
+    <state width="1876" height="290" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605654668094" />
     <state width="914" height="253" key="GridCell.Tab.0.left/1920.0.1920.1080/0.27.1920.985@1920.0.1920.1080" timestamp="1605570630227" />
-    <state width="1460" height="256" key="GridCell.Tab.0.right" timestamp="1605661720026">
-      <screen x="0" y="0" width="1504" height="963" />
+    <state width="1876" height="290" key="GridCell.Tab.0.right" timestamp="1605654668094">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1460" height="256" key="GridCell.Tab.0.right/0.0.1504.963/-1920.0.1920.1040@0.0.1504.963" timestamp="1605661720026" />
-    <state width="1876" height="281" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605634635091" />
+    <state width="1460" height="255" key="GridCell.Tab.0.right/0.0.1504.963/-1920.0.1920.1040@0.0.1504.963" timestamp="1605642371541" />
+    <state width="1876" height="290" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605654668094" />
+
     <state width="1874" height="253" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.985@1920.0.1920.1080" timestamp="1605648423723" />
     <state x="461" y="185" key="SettingsEditor" timestamp="1605548166254">
       <screen x="0" y="0" width="1920" height="1080" />
