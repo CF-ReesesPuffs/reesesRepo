@@ -83,7 +83,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                     ModelQuery.list(User.class),
                     response -> {
                         for (User user : response.getData()) {
-                            if (user.userName.contains(foundGuestString)) {
+                            if (user.getUserName().contains(foundGuestString)) {
                                 guestList.add(user);
                             }
                         }

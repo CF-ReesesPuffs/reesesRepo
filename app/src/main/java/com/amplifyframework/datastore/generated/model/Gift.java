@@ -24,10 +24,10 @@ public final class Gift implements Model {
   public static final QueryField TITLE = field("title");
   public static final QueryField USER = field("giftUserId");
   public static final QueryField PARTY = field("giftPartyId");
-    public final @ModelField(targetType="ID", isRequired = true) String id;
-    public final @ModelField(targetType="String", isRequired = true) String title;
-    public final @ModelField(targetType="User") @BelongsTo(targetName = "giftUserId", type = User.class) User user;
-    public final @ModelField(targetType="Party") @BelongsTo(targetName = "giftPartyId", type = Party.class) Party party;
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="String", isRequired = true) String title;
+  private final @ModelField(targetType="User") @BelongsTo(targetName = "giftUserId", type = User.class) User user;
+  private final @ModelField(targetType="Party") @BelongsTo(targetName = "giftPartyId", type = Party.class) Party party;
   public String getId() {
       return id;
   }

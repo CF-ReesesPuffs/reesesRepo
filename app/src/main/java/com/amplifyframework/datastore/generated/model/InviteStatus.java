@@ -23,9 +23,9 @@ public final class InviteStatus implements Model {
   public static final QueryField ID = field("id");
   public static final QueryField STATUS = field("status");
   public static final QueryField NAME = field("inviteStatusNameId");
-    public final @ModelField(targetType="ID", isRequired = true) String id;
-    public final @ModelField(targetType="String") String status;
-    public final @ModelField(targetType="User") @BelongsTo(targetName = "inviteStatusNameId", type = User.class) User name;
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="String") String status;
+  private final @ModelField(targetType="User") @BelongsTo(targetName = "inviteStatusNameId", type = User.class) User name;
   public String getId() {
       return id;
   }

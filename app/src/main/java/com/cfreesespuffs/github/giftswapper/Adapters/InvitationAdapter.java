@@ -62,8 +62,8 @@ public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.Ad
         TextView userName = holder.itemView.findViewById(R.id.guestName);
         TextView gift = holder.itemView.findViewById(R.id.giftRecieved);
 
-        userName.setText((CharSequence) holder.party.users);
-        gift.setText((CharSequence) holder.party.gifts);
+        userName.setText((CharSequence) holder.party.getUsers());
+        gift.setText((CharSequence) holder.party.getGifts());
     }
 
 

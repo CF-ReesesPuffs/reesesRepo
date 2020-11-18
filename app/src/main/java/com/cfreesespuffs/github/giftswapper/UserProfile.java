@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class UserProfile extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    ArrayList<Gift> giftsOfUser;
+    ArrayList<Gift> giftsOfUser = new ArrayList<>();
     Handler handler;
 
     @Override

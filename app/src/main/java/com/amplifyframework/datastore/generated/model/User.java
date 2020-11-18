@@ -23,12 +23,12 @@ public final class User implements Model {
   public static final QueryField ID = field("id");
   public static final QueryField USER_NAME = field("userName");
   public static final QueryField EMAIL = field("email");
-    public final @ModelField(targetType="ID", isRequired = true) String id;
-    public final @ModelField(targetType="String", isRequired = true) String userName;
-    public final @ModelField(targetType="String") String email;
-    public final @ModelField(targetType="InviteStatus") @HasMany(associatedWith = "name", type = InviteStatus.class) List<InviteStatus> inviteStatus = null;
-    public final @ModelField(targetType="Gift") @HasMany(associatedWith = "user", type = Gift.class) List<Gift> gifts = null;
-    public final @ModelField(targetType="GuestList") @HasMany(associatedWith = "user", type = GuestList.class) List<GuestList> parties = null;
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="String", isRequired = true) String userName;
+  private final @ModelField(targetType="String") String email;
+  private final @ModelField(targetType="InviteStatus") @HasMany(associatedWith = "name", type = InviteStatus.class) List<InviteStatus> inviteStatus = null;
+  private final @ModelField(targetType="Gift") @HasMany(associatedWith = "user", type = Gift.class) List<Gift> gifts = null;
+  private final @ModelField(targetType="GuestList") @HasMany(associatedWith = "user", type = GuestList.class) List<GuestList> parties = null;
   public String getId() {
       return id;
   }

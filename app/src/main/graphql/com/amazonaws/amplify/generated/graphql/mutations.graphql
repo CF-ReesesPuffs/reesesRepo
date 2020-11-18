@@ -1,16 +1,33 @@
 # this is an auto generated file. This will be overwritten
-mutation CreateBlog(
-  $input: CreateBlogInput!
-  $condition: ModelBlogConditionInput
+mutation CreateUser(
+  $input: CreateUserInput!
+  $condition: ModelUserConditionInput
 ) {
-  createBlog(input: $input, condition: $condition) {
+  createUser(input: $input, condition: $condition) {
     id
-    name
-    posts {
+    userName
+    email
+    inviteStatus {
+      items {
+        id
+        status
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    gifts {
       items {
         id
         title
-        blogID
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    parties {
+      items {
+        id
         createdAt
         updatedAt
       }
@@ -20,18 +37,35 @@ mutation CreateBlog(
     updatedAt
   }
 }
-mutation UpdateBlog(
-  $input: UpdateBlogInput!
-  $condition: ModelBlogConditionInput
+mutation UpdateUser(
+  $input: UpdateUserInput!
+  $condition: ModelUserConditionInput
 ) {
-  updateBlog(input: $input, condition: $condition) {
+  updateUser(input: $input, condition: $condition) {
     id
-    name
-    posts {
+    userName
+    email
+    inviteStatus {
+      items {
+        id
+        status
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    gifts {
       items {
         id
         title
-        blogID
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    parties {
+      items {
+        id
         createdAt
         updatedAt
       }
@@ -41,49 +75,35 @@ mutation UpdateBlog(
     updatedAt
   }
 }
-mutation DeleteBlog(
-  $input: DeleteBlogInput!
-  $condition: ModelBlogConditionInput
+mutation DeleteUser(
+  $input: DeleteUserInput!
+  $condition: ModelUserConditionInput
 ) {
-  deleteBlog(input: $input, condition: $condition) {
+  deleteUser(input: $input, condition: $condition) {
     id
-    name
-    posts {
+    userName
+    email
+    inviteStatus {
+      items {
+        id
+        status
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    gifts {
       items {
         id
         title
-        blogID
         createdAt
         updatedAt
       }
       nextToken
     }
-    createdAt
-    updatedAt
-  }
-}
-mutation CreatePost(
-  $input: CreatePostInput!
-  $condition: ModelPostConditionInput
-) {
-  createPost(input: $input, condition: $condition) {
-    id
-    title
-    blogID
-    blog {
-      id
-      name
-      posts {
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    comments {
+    parties {
       items {
         id
-        postID
-        content
         createdAt
         updatedAt
       }
@@ -93,59 +113,385 @@ mutation CreatePost(
     updatedAt
   }
 }
-mutation UpdatePost(
-  $input: UpdatePostInput!
-  $condition: ModelPostConditionInput
+mutation CreateInviteStatus(
+  $input: CreateInviteStatusInput!
+  $condition: ModelInviteStatusConditionInput
 ) {
-  updatePost(input: $input, condition: $condition) {
+  createInviteStatus(input: $input, condition: $condition) {
+    id
+    status
+    name {
+      id
+      userName
+      email
+      inviteStatus {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      parties {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+mutation UpdateInviteStatus(
+  $input: UpdateInviteStatusInput!
+  $condition: ModelInviteStatusConditionInput
+) {
+  updateInviteStatus(input: $input, condition: $condition) {
+    id
+    status
+    name {
+      id
+      userName
+      email
+      inviteStatus {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      parties {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+mutation DeleteInviteStatus(
+  $input: DeleteInviteStatusInput!
+  $condition: ModelInviteStatusConditionInput
+) {
+  deleteInviteStatus(input: $input, condition: $condition) {
+    id
+    status
+    name {
+      id
+      userName
+      email
+      inviteStatus {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      parties {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+mutation CreateGuestList(
+  $input: CreateGuestListInput!
+  $condition: ModelGuestListConditionInput
+) {
+  createGuestList(input: $input, condition: $condition) {
+    id
+    user {
+      id
+      userName
+      email
+      inviteStatus {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      parties {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      price
+      status {
+        nextToken
+      }
+      users {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+mutation UpdateGuestList(
+  $input: UpdateGuestListInput!
+  $condition: ModelGuestListConditionInput
+) {
+  updateGuestList(input: $input, condition: $condition) {
+    id
+    user {
+      id
+      userName
+      email
+      inviteStatus {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      parties {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      price
+      status {
+        nextToken
+      }
+      users {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+mutation DeleteGuestList(
+  $input: DeleteGuestListInput!
+  $condition: ModelGuestListConditionInput
+) {
+  deleteGuestList(input: $input, condition: $condition) {
+    id
+    user {
+      id
+      userName
+      email
+      inviteStatus {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      parties {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      price
+      status {
+        nextToken
+      }
+      users {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+mutation CreateGift(
+  $input: CreateGiftInput!
+  $condition: ModelGiftConditionInput
+) {
+  createGift(input: $input, condition: $condition) {
     id
     title
-    blogID
-    blog {
+    user {
       id
-      name
-      posts {
+      userName
+      email
+      inviteStatus {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      parties {
         nextToken
       }
       createdAt
       updatedAt
     }
-    comments {
-      items {
-        id
-        postID
-        content
-        createdAt
-        updatedAt
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      price
+      status {
+        nextToken
       }
-      nextToken
+      users {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      createdAt
+      updatedAt
     }
     createdAt
     updatedAt
   }
 }
-mutation DeletePost(
-  $input: DeletePostInput!
-  $condition: ModelPostConditionInput
+mutation UpdateGift(
+  $input: UpdateGiftInput!
+  $condition: ModelGiftConditionInput
 ) {
-  deletePost(input: $input, condition: $condition) {
+  updateGift(input: $input, condition: $condition) {
     id
     title
-    blogID
-    blog {
+    user {
       id
-      name
-      posts {
+      userName
+      email
+      inviteStatus {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      parties {
         nextToken
       }
       createdAt
       updatedAt
     }
-    comments {
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      price
+      status {
+        nextToken
+      }
+      users {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+mutation DeleteGift(
+  $input: DeleteGiftInput!
+  $condition: ModelGiftConditionInput
+) {
+  deleteGift(input: $input, condition: $condition) {
+    id
+    title
+    user {
+      id
+      userName
+      email
+      inviteStatus {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      parties {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      price
+      status {
+        nextToken
+      }
+      users {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+mutation CreateParty(
+  $input: CreatePartyInput!
+  $condition: ModelPartyConditionInput
+) {
+  createParty(input: $input, condition: $condition) {
+    id
+    title
+    hostedOn
+    hostedAt
+    price
+    status {
       items {
         id
-        postID
-        content
+        status
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    users {
+      items {
+        id
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    gifts {
+      items {
+        id
+        title
         createdAt
         updatedAt
       }
@@ -155,86 +501,82 @@ mutation DeletePost(
     updatedAt
   }
 }
-mutation CreateComment(
-  $input: CreateCommentInput!
-  $condition: ModelCommentConditionInput
+mutation UpdateParty(
+  $input: UpdatePartyInput!
+  $condition: ModelPartyConditionInput
 ) {
-  createComment(input: $input, condition: $condition) {
+  updateParty(input: $input, condition: $condition) {
     id
-    postID
-    post {
-      id
-      title
-      blogID
-      blog {
+    title
+    hostedOn
+    hostedAt
+    price
+    status {
+      items {
         id
-        name
+        status
         createdAt
         updatedAt
       }
-      comments {
-        nextToken
-      }
-      createdAt
-      updatedAt
+      nextToken
     }
-    content
+    users {
+      items {
+        id
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    gifts {
+      items {
+        id
+        title
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
     createdAt
     updatedAt
   }
 }
-mutation UpdateComment(
-  $input: UpdateCommentInput!
-  $condition: ModelCommentConditionInput
+mutation DeleteParty(
+  $input: DeletePartyInput!
+  $condition: ModelPartyConditionInput
 ) {
-  updateComment(input: $input, condition: $condition) {
+  deleteParty(input: $input, condition: $condition) {
     id
-    postID
-    post {
-      id
-      title
-      blogID
-      blog {
+    title
+    hostedOn
+    hostedAt
+    price
+    status {
+      items {
         id
-        name
+        status
         createdAt
         updatedAt
       }
-      comments {
-        nextToken
-      }
-      createdAt
-      updatedAt
+      nextToken
     }
-    content
-    createdAt
-    updatedAt
-  }
-}
-mutation DeleteComment(
-  $input: DeleteCommentInput!
-  $condition: ModelCommentConditionInput
-) {
-  deleteComment(input: $input, condition: $condition) {
-    id
-    postID
-    post {
-      id
-      title
-      blogID
-      blog {
+    users {
+      items {
         id
-        name
         createdAt
         updatedAt
       }
-      comments {
-        nextToken
-      }
-      createdAt
-      updatedAt
+      nextToken
     }
-    content
+    gifts {
+      items {
+        id
+        title
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
     createdAt
     updatedAt
   }
