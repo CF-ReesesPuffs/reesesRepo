@@ -97,7 +97,9 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 ImageButton profile = MainActivity.this.findViewById(R.id.profile_button);
                 profile.setVisibility(View.INVISIBLE);
             } else if (message.arg1 == 1) {
-                Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
+                if (Amplify.Auth.getCurrentUser() != null) {
+                    Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
+                }
             } else {
                 Log.i("Amplify.login", "Send true or false pls");
             }

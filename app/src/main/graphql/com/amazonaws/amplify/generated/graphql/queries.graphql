@@ -1,13 +1,30 @@
 # this is an auto generated file. This will be overwritten
-query GetBlog($id: ID!) {
-  getBlog(id: $id) {
+query GetUser($id: ID!) {
+  getUser(id: $id) {
     id
-    name
-    posts {
+    userName
+    email
+    inviteStatus {
+      items {
+        id
+        status
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    gifts {
       items {
         id
         title
-        blogID
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    parties {
+      items {
+        id
         createdAt
         updatedAt
       }
@@ -17,16 +34,23 @@ query GetBlog($id: ID!) {
     updatedAt
   }
 }
-query ListBlogs(
-  $filter: ModelBlogFilterInput
+query ListUsers(
+  $filter: ModelUserFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listBlogs(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      name
-      posts {
+      userName
+      email
+      inviteStatus {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      parties {
         nextToken
       }
       createdAt
@@ -35,25 +59,224 @@ query ListBlogs(
     nextToken
   }
 }
-query GetPost($id: ID!) {
-  getPost(id: $id) {
+query GetInviteStatus($id: ID!) {
+  getInviteStatus(id: $id) {
+    id
+    status
+    name {
+      id
+      userName
+      email
+      inviteStatus {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      parties {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+query ListInviteStatuss(
+  $filter: ModelInviteStatusFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listInviteStatuss(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      status
+      name {
+        id
+        userName
+        email
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+query GetGuestList($id: ID!) {
+  getGuestList(id: $id) {
+    id
+    user {
+      id
+      userName
+      email
+      inviteStatus {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      parties {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      price
+      status {
+        nextToken
+      }
+      users {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+query ListGuestLists(
+  $filter: ModelGuestListFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listGuestLists(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      user {
+        id
+        userName
+        email
+        createdAt
+        updatedAt
+      }
+      party {
+        id
+        title
+        hostedOn
+        hostedAt
+        price
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+query GetGift($id: ID!) {
+  getGift(id: $id) {
     id
     title
-    blogID
-    blog {
+    user {
       id
-      name
-      posts {
+      userName
+      email
+      inviteStatus {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      parties {
         nextToken
       }
       createdAt
       updatedAt
     }
-    comments {
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      price
+      status {
+        nextToken
+      }
+      users {
+        nextToken
+      }
+      gifts {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+query ListGifts(
+  $filter: ModelGiftFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listGifts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      title
+      user {
+        id
+        userName
+        email
+        createdAt
+        updatedAt
+      }
+      party {
+        id
+        title
+        hostedOn
+        hostedAt
+        price
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+query GetParty($id: ID!) {
+  getParty(id: $id) {
+    id
+    title
+    hostedOn
+    hostedAt
+    price
+    status {
       items {
         id
-        postID
-        content
+        status
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    users {
+      items {
+        id
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    gifts {
+      items {
+        id
+        title
         createdAt
         updatedAt
       }
@@ -63,73 +286,27 @@ query GetPost($id: ID!) {
     updatedAt
   }
 }
-query ListPosts(
-  $filter: ModelPostFilterInput
+query ListPartys(
+  $filter: ModelPartyFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listPartys(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
       title
-      blogID
-      blog {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      comments {
+      hostedOn
+      hostedAt
+      price
+      status {
         nextToken
       }
-      createdAt
-      updatedAt
-    }
-    nextToken
-  }
-}
-query GetComment($id: ID!) {
-  getComment(id: $id) {
-    id
-    postID
-    post {
-      id
-      title
-      blogID
-      blog {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      comments {
+      users {
         nextToken
       }
-      createdAt
-      updatedAt
-    }
-    content
-    createdAt
-    updatedAt
-  }
-}
-query ListComments(
-  $filter: ModelCommentFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      postID
-      post {
-        id
-        title
-        blogID
-        createdAt
-        updatedAt
+      gifts {
+        nextToken
       }
-      content
       createdAt
       updatedAt
     }

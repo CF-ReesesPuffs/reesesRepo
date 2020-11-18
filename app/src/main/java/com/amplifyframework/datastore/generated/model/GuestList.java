@@ -23,9 +23,9 @@ public final class GuestList implements Model {
   public static final QueryField ID = field("id");
   public static final QueryField USER = field("guestListUserId");
   public static final QueryField PARTY = field("guestListPartyId");
-    public final @ModelField(targetType="ID", isRequired = true) String id;
-    public final @ModelField(targetType="User") @BelongsTo(targetName = "guestListUserId", type = User.class) User user;
-    public final @ModelField(targetType="Party") @BelongsTo(targetName = "guestListPartyId", type = Party.class) Party party;
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="User") @BelongsTo(targetName = "guestListUserId", type = User.class) User user;
+  private final @ModelField(targetType="Party") @BelongsTo(targetName = "guestListPartyId", type = Party.class) Party party;
   public String getId() {
       return id;
   }
