@@ -1,4 +1,4 @@
-package com.cfreesespuffs.github.giftswapper;
+package com.cfreesespuffs.github.giftswapper.Fragments;
 
 import android.os.Bundle;
 
@@ -8,23 +8,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cfreesespuffs.github.giftswapper.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link GuestListFragment#newInstance} factory method to
+ * Use the {@link InvitationFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GuestListFragment extends Fragment {
+public class InvitationFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "paramUsername";
-    //private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM1 = "party";
 
     // TODO: Rename and change types of parameters
-    private String mUsername;
-    //private String mParam2;
+    private String mParty;
 
-    public GuestListFragment() {
+    public InvitationFragment() {
         // Required empty public constructor
     }
 
@@ -34,14 +34,13 @@ public class GuestListFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment GuestList.
+     * @return A new instance of fragment InvitationFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GuestListFragment newInstance(String paramUsername) {
-        GuestListFragment fragment = new GuestListFragment();
+    public static InvitationFragment newInstance(String party) {
+        InvitationFragment fragment = new InvitationFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, paramUsername);
-        //args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM1, party);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,8 +49,7 @@ public class GuestListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mUsername = getArguments().getString(ARG_PARAM1);
-            //mParam2 = getArguments().getString(ARG_PARAM2);
+            mParty = getArguments().getString(ARG_PARAM1);
         }
     }
 
@@ -59,6 +57,6 @@ public class GuestListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_guest_list, container, false);
+        return inflater.inflate(R.layout.fragment_invitation, container, false);
     }
 }
