@@ -40,6 +40,13 @@ public class SignupConfirmation extends AppCompatActivity {
 
 
             Amplify.Auth.confirmSignUp(
+                usernameConfirm.getText().toString().toLowerCase(),
+                confirmCode.getText().toString(),
+                result -> {
+                    Log.i("Amplify.confirm", result.isSignUpComplete() ? "Signup: Successful" : "Signup: FAIL"); // TODO: something better needs to happen here?
+                    message.arg1 = 123; // Todo: might need to create handler here.
+                    signUpHandler.sendEmptyMessage(message.arg1);
+
                     usernameConfirm.getText().toString().toLowerCase(),
                     confirmCode.getText().toString(),
                     result -> {
@@ -57,6 +64,18 @@ public class SignupConfirmation extends AppCompatActivity {
                                 response -> Log.i("Amplify.API", "success"),
                                 error -> Log.e("Amplify.API", "newUser not created: " + error)
                         );
+
+
+                    Amplify.Auth.signIn(
+                            username.toLowerCase(),
+                            password,
+                            loginResult -> this.startActivity(new Intent(SignupConfirmation.this, MainActivity.class)),
+                            thisError -> Log.e("Auth.Result", "Fail")
+                    );
+                },
+                error -> Log.e("Auth.Result", "failure")
+            )
+        ;
 
                         Amplify.Auth.signIn(
                                 username.toLowerCase(),

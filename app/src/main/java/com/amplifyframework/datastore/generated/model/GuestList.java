@@ -38,7 +38,7 @@ public final class GuestList implements Model {
       return party;
   }
   
-  public GuestList(String id, User user, Party party) {
+  private GuestList(String id, User user, Party party) {
     this.id = id;
     this.user = user;
     this.party = party;

@@ -108,6 +108,7 @@ public class InvitationDetails extends AppCompatActivity {
                 Gift gift;
                 gift = Gift.builder()
                         .title(giftName)
+                        .user(loggedUser) //---------------------------> Does a user have to own this gift, to bring it to the party?
                         .build();
 
                 Amplify.API.mutate(

@@ -22,7 +22,9 @@ import android.widget.TextView;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
+
 import com.amplifyframework.datastore.generated.model.GuestList;
+
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
 
@@ -113,6 +115,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
                 Set guestsToInvite = ((HostPartyAdapter) recyclerView.getAdapter()).usersToAdd;
                 List<User> guestsToInviteList = new ArrayList();
+
                 guestsToInviteList.addAll(guestsToInvite);
 
                 String nameOfParty = partyName.getText().toString();
@@ -126,6 +129,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                         .hostedAt(timeOfParty)
                         .hostedOn(dateOfParty)
                         .price(priceOfParty)
+                       // .
                         .build();
 
                 Amplify.API.mutate(
