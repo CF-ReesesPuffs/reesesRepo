@@ -28,7 +28,10 @@ import com.cfreesespuffs.github.giftswapper.Adapters.HostPartyAdapter;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class HostParty extends AppCompatActivity implements HostPartyAdapter.GuestListListener {
 
@@ -36,6 +39,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
     public HashSet<Integer> invitedGuestList;
     Handler handler;
     RecyclerView recyclerView;
+    HashMap<String, User> uniqueGuestList = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,38 +57,35 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                     }
                 });
 
-        Amplify.API.query(
-                ModelQuery.list(User.class),
-                response -> {
-                    guestList.clear();
-                    for (User user : response.getData()) {
-                        guestList.add(user);
-                    }
-                    handler.sendEmptyMessage(1);
-                    Log.i("Amplify.queryItems", "this is our users");
-                },
-                error -> Log.e("Amplify.queryItems", "no users received")
-        );
-
+        guestList.add(User.builder().userName("paul").build());
+        guestList.add(User.builder().userName("claudio").build());
+        guestList.add(User.builder().userName("meghan").build());
+        guestList.add(User.builder().userName("1").build());
+        guestList.add(User.builder().userName("2").build());
+        guestList.add(User.builder().userName("3").build());
+        guestList.add(User.builder().userName("4").build());
+        guestList.add(User.builder().userName("5").build());
+        guestList.add(User.builder().userName("6").build());
+        guestList.add(User.builder().userName("7").build());
+        handler.sendEmptyMessage(1);
 
         Button findGuestButton = findViewById(R.id.findGuest_button);
-        TextView foundGuest = findViewById(R.id.userFindGuestSearch);
-        String foundGuestString = foundGuest.getText().toString();
         findGuestButton.setOnClickListener((view) -> {
-
-
-            guestList.add(User.builder().userName("paul").build());
-            guestList.add(User.builder().userName("claudio").build());
-            guestList.add(User.builder().userName("meghan").build());
-            handler.sendEmptyMessage(1);
-
 
             Amplify.API.query(
                     ModelQuery.list(User.class),
                     response -> {
                         for (User user : response.getData()) {
-                            if (user.userName.contains(foundGuestString)) {
-                                guestList.add(user);
+                            TextView foundGuest = findViewById(R.id.userFindGuestSearch);
+                            String foundGuestString = foundGuest.getText().toString();
+                            //  Log.i("Amplify.string", "this is what we are looking for: " + foundGuestString);
+                            if (user.userName.toLowerCase().contains(foundGuestString.toLowerCase())) {
+                                //TODO limit to first letters STRETCH
+                                // Log.i("Amplify.string", "this is the user we are looking for: " + user);
+                                if (!uniqueGuestList.containsKey(user.userName)) {
+                                    uniqueGuestList.put(user.userName, user);
+                                    guestList.add(user);
+                                }
                             }
                         }
                     },
@@ -97,7 +98,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new HostPartyAdapter(guestList, this));
 
-
         Button addParty = HostParty.this.findViewById(R.id.button_createParty);
         addParty.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,12 +107,11 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 TextView partyDate = findViewById(R.id.editTextDate);
                 TextView partyTime = findViewById(R.id.editTextTime);
                 Spinner selectedPriceSpinner = findViewById(R.id.price_spinner);
+                Log.i("Android.usersToAdd", ((HostPartyAdapter)recyclerView.getAdapter()).usersToAdd.toString());
 
-                // TODO add guest list
-                //TextView guestName = findViewById(R.id.guestNameTextView);
-
-//                Intent addAttendeeIntent = new Intent(HostParty.this, InvitedPartyPage.class);
-//                addAttendeeIntent.putExtra("partyName", party.partyName);
+                Set guestsToInvite = ((HostPartyAdapter)recyclerView.getAdapter()).usersToAdd;
+                List guestsToInviteList = new ArrayList();
+                guestsToInviteList.addAll(guestsToInvite);
 
                 String nameOfParty = partyName.getText().toString();
                 String dateOfParty = partyDate.getText().toString();
@@ -127,7 +126,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                         .hostedAt(timeOfParty)
                         .hostedOn(dateOfParty)
                         .price(priceOfParty)
-                        //TODO guestlist
+                       // .
                         .build();
                 //Amplify.API.mutate()
 
