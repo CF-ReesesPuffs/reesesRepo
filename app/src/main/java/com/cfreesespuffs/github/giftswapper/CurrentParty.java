@@ -116,9 +116,10 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     }
         public void guestsTakeTurns(){
         for(int i = 0; i < guestList.size(); i ++){
+
             while(guestList.get(i).getGifts() == null){
                 //the user can choose a gift
-            }
+//            }
         }
         Intent intent = new Intent(CurrentParty.this, PostParty.class);
         intent.putExtra("partyName", String.valueOf(Party.TITLE));

@@ -75,6 +75,9 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
     @Override
     // This gets called so it knows how many fragments (list item) to put on the screen at once
     public int getItemCount() {
+        if(listOfAttendees == null){
+            return 0;
+        }
         return listOfAttendees.size();
     }
 }
