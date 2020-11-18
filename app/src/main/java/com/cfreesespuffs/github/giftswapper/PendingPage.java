@@ -6,15 +6,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.InviteStatus;
+import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
 import com.cfreesespuffs.github.giftswapper.Adapters.ViewAdapter;
 
@@ -67,6 +73,27 @@ public class PendingPage extends AppCompatActivity {
 
         TextView budget = PendingPage.this.findViewById(R.id.priceLimit);
         budget.setText(intent.getExtras().getString("budget"));
+
+        //TODO: Query api to get users who's preference equals "accepted"/"RSVP"?
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        Amplify.API.query(
+                ModelQuery.list(InviteStatus.class),
+                response -> {
+                    for (InviteStatus invite : response.getData()) {
+                        if (preferences.contains("RSVP")) {
+                            if (invite.status.equals(preferences.getString("RSVP", null))) {
+                                inviteStatusList.add(invite);
+                            }
+                        } else {
+                            inviteStatusList.add(invite);
+                        }
+                    }
+                    handler.sendEmptyMessage(1);
+                },
+                error -> Log.e("Amplify", "Failed to retrieve store")
+        );
+        //TODO: How do we keep track of the gifts?
 
     }
     private void connectAdapterToRecycler() {
