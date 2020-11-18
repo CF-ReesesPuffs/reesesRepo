@@ -67,8 +67,8 @@ public class CurrentPartyUserAdapter extends RecyclerView.Adapter<CurrentPartyUs
         TextView userName = holder.itemView.findViewById(R.id.guestName);
         TextView gift = holder.itemView.findViewById(R.id.giftRecieved);
 
-        userName.setText((CharSequence) holder.user.userName);
-        gift.setText((CharSequence) holder.user.gifts);
+        userName.setText((CharSequence) holder.user.getUserName());
+        gift.setText((CharSequence) holder.user.getGifts());
     }
 
 

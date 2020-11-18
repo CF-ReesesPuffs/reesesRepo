@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.os.Handler;
@@ -29,6 +30,7 @@ import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
 
 import com.cfreesespuffs.github.giftswapper.Adapters.HostPartyAdapter;
+import com.cfreesespuffs.github.giftswapper.PendingPage;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
@@ -151,6 +153,13 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                     );
 
                 }
+                Intent intent = new Intent(HostParty.this, PendingPage.class);
+                intent.putExtra("partyName", party.title);
+                intent.putExtra("when", party.hostedOn);
+                intent.putExtra("setTime", party.hostedAt);
+                intent.putExtra("budget", party.price);
+                intent.putExtra("id", party.id);
+                HostParty.this.startActivity(intent);
             }
         });
     }

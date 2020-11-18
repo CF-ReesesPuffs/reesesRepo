@@ -82,7 +82,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 response -> {
                     for (User guest : response.getData()) {
                         if (preferences.contains("RSVP")) {
-                            if (guest.inviteStatus.equals(preferences.getString("RSVP", null))) {
+                            if (guest.getInviteStatus().equals(preferences.getString("RSVP", null))) {
                                 guestList.add(guest);
                             }
                         } else {
@@ -99,7 +99,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 response -> {
                     for (Gift giftBrought : response.getData()) {
                         if (preferences.contains("GiftGroup")) {
-                            if (giftBrought.user.gifts.equals(preferences.getString("GiftGroup", null))) {
+                            if (giftBrought.getUser().getGifts().equals(preferences.getString("GiftGroup", null))) {
                                 giftList.add(giftBrought);
                             }
                         } else {
@@ -116,9 +116,9 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     }
         public void guestsTakeTurns(){
         for(int i = 0; i < guestList.size(); i ++){
-            while(guestList.get(i).gifts == null){
+//            while(guestList.get(i).gifts == null){
                 //the user can choose a gift
-            }
+//            }
         }
         Intent intent = new Intent(CurrentParty.this, PostParty.class);
         intent.putExtra("partyName", String.valueOf(Party.TITLE));

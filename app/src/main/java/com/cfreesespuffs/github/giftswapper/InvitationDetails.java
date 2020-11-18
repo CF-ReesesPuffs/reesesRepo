@@ -50,8 +50,8 @@ public class InvitationDetails extends AppCompatActivity {
         TextView partyName = InvitationDetails.this.findViewById(R.id.partyName);
         partyName.setText(intent.getExtras().getString("partyName"));
 
-        TextView host = InvitationDetails.this.findViewById(R.id.partyHost);
-        host.setText(intent.getExtras().getString("host"));
+//        TextView host = InvitationDetails.this.findViewById(R.id.partyHost);
+//        host.setText(intent.getExtras().getString("host"));
 
         TextView when = InvitationDetails.this.findViewById(R.id.dateOfParty);
         when.setText(intent.getExtras().getString("when"));

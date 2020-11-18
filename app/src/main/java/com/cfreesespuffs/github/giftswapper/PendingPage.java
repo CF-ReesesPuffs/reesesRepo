@@ -20,23 +20,27 @@ import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.InviteStatus;
+import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
 import com.cfreesespuffs.github.giftswapper.Adapters.ViewAdapter;
 
 import java.util.ArrayList;
 
-public class PendingPage extends AppCompatActivity {
+public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskListener{
 
     RecyclerView recyclerView;
     Handler handler;
     Handler handleSingleItem;
     ArrayList<InviteStatus> inviteStatusList;
+    ArrayList<GuestList> guestList;
+    Party party;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pending_page);
+
 
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -52,18 +56,22 @@ public class PendingPage extends AppCompatActivity {
                 new Handler.Callback() {
                     @Override
                     public boolean handleMessage(@NonNull Message msg) {
-                        recyclerView.getAdapter().notifyItemInserted(inviteStatusList.size() - 1);
+                        if(msg.arg1 == 1){
+                            Log.i("Amplify");
+                        }
+                        recyclerView.getAdapter().notifyItemInserted(inviteStatusList.size());
                         return false;
                     }
                 });
+        connectAdapterToRecycler();
 
         Intent intent = getIntent();
 
         TextView partyName = PendingPage.this.findViewById(R.id.partyName);
         partyName.setText(intent.getExtras().getString("partyName"));
 
-        TextView host = PendingPage.this.findViewById(R.id.hostUser);
-        host.setText(intent.getExtras().getString("host"));
+//        TextView host = PendingPage.this.findViewById(R.id.hostUser);
+//        host.setText(intent.getExtras().getString("host"));
 
         TextView when = PendingPage.this.findViewById(R.id.startDate);
         when.setText(intent.getExtras().getString("when"));
@@ -75,19 +83,34 @@ public class PendingPage extends AppCompatActivity {
         budget.setText(intent.getExtras().getString("budget"));
 
         //TODO: Query api to get users who's preference equals "accepted"/"RSVP"?
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        Amplify.API.query(
+                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+                        response -> {
+                    for(GuestList guest : response.getData().getUsers()){
+                        if(party.users.contains(guest)){
+                            guestList.add(guest);
+                        }
+                    }
+                            Log.i("AmplifyTest", "Checking the intent" + intent.getExtras().getString("partyName"));
+                            Log.i("Amplify.Query", "You got a party, lets check that out " + response.getData());
+                            party = response.getData();
+                            handleSingleItem.sendEmptyMessage(1);
+                        },
+                        error -> Log.e("Amplify.Query", "error, you dun goofed")
+        );
 
         Amplify.API.query(
                 ModelQuery.list(InviteStatus.class),
                 response -> {
                     for (InviteStatus invite : response.getData()) {
-                        if (preferences.contains("RSVP")) {
-                            if (invite.status.equals(preferences.getString("RSVP", null))) {
-                                inviteStatusList.add(invite);
-                            }
-                        } else {
-                            inviteStatusList.add(invite);
-                        }
+//                        if (preferences.contains("RSVP")) {
+//                            if (invite.getStatus().equals(preferences.getString("RSVP", null))) {
+//                                inviteStatusList.add(invite);
+//                            }
+//                        } else {
+//                            inviteStatusList.add(invite);
+//                        }
                     }
                     handler.sendEmptyMessage(1);
                 },
@@ -99,12 +122,17 @@ public class PendingPage extends AppCompatActivity {
     private void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new ViewAdapter(inviteStatusList, (ViewAdapter.OnInteractWithTaskListener) this));
+        recyclerView.setAdapter(new ViewAdapter(inviteStatusList, this));
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = new Intent(PendingPage.this, MainActivity.class);
         PendingPage.this.startActivity(intent);
         return true;
+    }
+
+    @Override
+    public void taskListener(InviteStatus inviteStatus) {
+
     }
 }
