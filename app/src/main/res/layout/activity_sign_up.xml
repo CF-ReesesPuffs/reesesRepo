@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/Theme.gsSignUpConfirmLogin"
     tools:context=".Activities.SignUp">
 
     <Button
@@ -12,6 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="102dp"
         android:text="Sign Up"
+        android:textAppearance="@style/gs_button"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,10 +54,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="136dp"
         android:ems="10"
+        android:focusedByDefault="true"
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
-        android:focusedByDefault="true"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
