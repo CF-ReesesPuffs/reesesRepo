@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,7 +21,7 @@ import com.cfreesespuffs.github.giftswapper.Adapters.InvitationAdapter;
 
 import java.util.ArrayList;
 
-public class InvitationList extends AppCompatActivity {
+public class InvitationList extends AppCompatActivity implements InvitationAdapter.OnInteractWithTaskListener{
 
     RecyclerView recyclerView;
     ArrayList<Party> partyUserIsInvited;
@@ -32,7 +33,7 @@ public class InvitationList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invitation_list);
 
-//        connectAdapterToRecycler();
+        connectAdapterToRecycler();
 
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -59,14 +60,14 @@ public class InvitationList extends AppCompatActivity {
                 ModelQuery.list(Party.class),
                 response -> {
                     for (Party party : response.getData()) { //TODO: find any invitations,
-//                        if (preferences.contains("RSVP")) {
-//                            if (party.users.equals(preferences.getString("RSVP", null))) {
+                        if (preferences.contains("RSVP")) {
+                            if (party.users.equals(preferences.getString("RSVP", null))) {
                                 partyUserIsInvited.add(party);
                             }
-//                        } else {
-//                            partyUserIsInvited.add(party);
-//                        }
-//                    }
+                        } else {
+                            partyUserIsInvited.add(party);
+                        }
+                    }
                     handler.sendEmptyMessage(1);
                 },
                 error -> Log.e("Amplify", "Failed to retrieve store")
@@ -76,6 +77,15 @@ public class InvitationList extends AppCompatActivity {
     private void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new InvitationAdapter(partyUserIsInvited, (InvitationAdapter.OnInteractWithTaskListener) this));
+        recyclerView.setAdapter(new InvitationAdapter(partyUserIsInvited, this));
+    }
+
+    @Override
+    public void taskListener(Party party) {
+        Intent intent = new Intent(InvitationList.this, InvitationDetails.class);
+        intent.putExtra("partyName", Party.class);
+        intent.putExtra("when", Party.class);
+        intent.putExtra("setTime", Party.class);
+        intent.putExtra("budget", Party.class);
     }
 }

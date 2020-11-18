@@ -7,23 +7,28 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.Party;
+import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
 
-public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.AdapterViewHolder> {
-    public ArrayList<Party> partyResults;
+public class CurrentPartyUserAdapter extends RecyclerView.Adapter<CurrentPartyUserAdapter.AdapterViewHolder> {
+    public ArrayList<User> userActiveParty;
+//    public ArrayList<Gift> giftsBrought;
     public OnInteractWithTaskListener listener;
 
-    public InvitationAdapter(ArrayList<Party> partyResults, OnInteractWithTaskListener listener) {
-        this.partyResults = partyResults;
+    public CurrentPartyUserAdapter(ArrayList<User> userActiveParty, OnInteractWithTaskListener listener) {
+        this.userActiveParty = userActiveParty;
+//        this.giftsBrought = giftsBrought;
         this.listener = listener;
     }
 
     // view holder deals with the passing of data from java to the fragment (list item)
     public static class AdapterViewHolder extends RecyclerView.ViewHolder {
-        public Party party;
+        public User user;
+//        public Gift gift;
         public View itemView;
 
 
@@ -35,9 +40,12 @@ public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.Ad
 
     @NonNull
     @Override
+    // This gets called when a fragment (list item) pops into existence
     public AdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //choose which fragment (list item) to build
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_invitation, parent, false);
+                .inflate(R.layout.fragment_current_partyfrag, parent, false);
+
 
         final AdapterViewHolder viewHolder = new AdapterViewHolder(view);
 
@@ -45,8 +53,8 @@ public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.Ad
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println(viewHolder.party);
-                listener.taskListener(viewHolder.party);
+                System.out.println(viewHolder.user);
+                listener.taskListener(viewHolder.user);
             }
         });
 
@@ -55,28 +63,23 @@ public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.Ad
 
     @Override
     public void onBindViewHolder(@NonNull AdapterViewHolder holder, int position) {
-        holder.party = partyResults.get(position);
-        TextView partyName = holder.itemView.findViewById(R.id.partyName);
-        partyName.setText(holder.party.title);
-//        TextView userName = holder.itemView.findViewById(R.id.guestName);
-//        TextView gift = holder.itemView.findViewById(R.id.giftRecieved);
+        holder.user = userActiveParty.get(position);
+        TextView userName = holder.itemView.findViewById(R.id.guestName);
+        TextView gift = holder.itemView.findViewById(R.id.giftRecieved);
 
-//        userName.setText((CharSequence) holder.party.users);
-//        gift.setText((CharSequence) holder.party.gifts);
+        userName.setText((CharSequence) holder.user.userName);
+        gift.setText((CharSequence) holder.user.gifts);
     }
 
 
     public static interface OnInteractWithTaskListener {
-        public void taskListener(Party party);
+        public void taskListener(User party);
     }
 
 
     @Override
     // This gets called so it knows how many fragments (list item) to put on the screen at once
     public int getItemCount() {
-        if(partyResults == null){
-            return 0;
-        }
-        return partyResults.size();
+        return userActiveParty.size();
     }
 }

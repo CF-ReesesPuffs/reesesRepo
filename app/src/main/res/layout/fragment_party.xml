@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="40dp"
-    tools:context=".Adapters.PartyFragment">
+    tools:context=".Fragments.PartyFragment">
 
     <TextView
         android:id="@+id/party_price"
