@@ -47,7 +47,7 @@ public class InvitationDetails extends AppCompatActivity {
 //=================================================================================================== Invitation details
         Intent intent = getIntent();
 
-        TextView partyName = InvitationDetails.this.findViewById(R.id.partyName);
+        TextView partyName = InvitationDetails.this.findViewById(R.id.homePartyTitleButton);
         partyName.setText(intent.getExtras().getString("partyName"));
 
 //        TextView host = InvitationDetails.this.findViewById(R.id.partyHost);

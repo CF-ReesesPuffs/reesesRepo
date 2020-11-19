@@ -119,16 +119,17 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         for(int i = 0; i < guestList.size(); i ++){
 //            while(guestList.get(i).gifts == null){
                 //the user can choose a gift
-//            }
-        }
-        Intent intent = new Intent(CurrentParty.this, PostParty.class);
-        intent.putExtra("partyName", String.valueOf(Party.TITLE));
-//        intent.putExtra("host", String.valueOf(Party.));
-        intent.putExtra("when", String.valueOf(Party.HOSTED_ON));
-        intent.putExtra("setTime", String.valueOf(Party.HOSTED_AT));
-//        intent.putExtra("users", String.valueOf(Party.));
-        }
 
+//            }
+                }
+                Intent intent = new Intent(CurrentParty.this, PostParty.class);
+                intent.putExtra("partyName", String.valueOf(Party.TITLE));
+//        intent.putExtra("host", String.valueOf(Party.));
+                intent.putExtra("when", String.valueOf(Party.HOSTED_ON));
+                intent.putExtra("setTime", String.valueOf(Party.HOSTED_AT));
+//        intent.putExtra("users", String.valueOf(Party.));
+            }
+        }
     private void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.usersRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

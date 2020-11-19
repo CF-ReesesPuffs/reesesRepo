@@ -12,10 +12,10 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.amplifyframework.api.graphql.model.ModelQuery;
-import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
@@ -62,10 +62,18 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 });
         connectAdapterToRecycler();
 
+        ImageButton homeDetailButton = PendingPage.this.findViewById(R.id.homePartyDetailButton);
+        homeDetailButton.setOnClickListener((view)-> {
+            Intent goToMainIntent = new Intent(PendingPage.this, MainActivity.class);
+            PendingPage.this.startActivity(goToMainIntent);
+        });
+
+
         Intent intent = getIntent();
 
-        TextView partyName = PendingPage.this.findViewById(R.id.partyName);
+        TextView partyName = PendingPage.this.findViewById(R.id.homePartyTitleButton);
         partyName.setText(intent.getExtras().getString("partyName"));
+
 
 //        TextView host = PendingPage.this.findViewById(R.id.hostUser);
 //        host.setText(intent.getExtras().getString("host"));
@@ -120,6 +128,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         //TODO: How do we keep track of the gifts?
 
     }
+
     private void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
