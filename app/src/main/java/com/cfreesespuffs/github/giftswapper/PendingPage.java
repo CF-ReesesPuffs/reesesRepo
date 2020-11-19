@@ -12,6 +12,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amplifyframework.api.graphql.model.ModelQuery;
@@ -23,7 +25,7 @@ import com.cfreesespuffs.github.giftswapper.Adapters.ViewAdapter;
 
 import java.util.ArrayList;
 
-public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskListener{
+public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskListener {
 
     RecyclerView recyclerView;
     Handler handler;
@@ -53,7 +55,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 new Handler.Callback() {
                     @Override
                     public boolean handleMessage(@NonNull Message msg) {
-                        if(msg.arg1 == 1){
+                        if (msg.arg1 == 1) {
                             Log.i("Amplify", "It worked!");
                         }
                         recyclerView.getAdapter().notifyItemInserted(guestList.size());
@@ -62,10 +64,18 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 });
         connectAdapterToRecycler();
 
+        ImageButton homeDetailButton = PendingPage.this.findViewById(R.id.homePartyDetailButton);
+        homeDetailButton.setOnClickListener((view) -> {
+            Intent goToMainIntent = new Intent(PendingPage.this, MainActivity.class);
+            PendingPage.this.startActivity(goToMainIntent);
+        });
+
+
         Intent intent = getIntent();
 
-        TextView partyName = PendingPage.this.findViewById(R.id.partyName);
+        TextView partyName = PendingPage.this.findViewById(R.id.homePartyTitleButton);
         partyName.setText(intent.getExtras().getString("partyName"));
+
 
 //        TextView host = PendingPage.this.findViewById(R.id.hostUser);
 //        host.setText(intent.getExtras().getString("host"));
@@ -103,8 +113,15 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
                     for (GuestList user : response.getData().getUsers()) {
-                            Log.i("Amplify.test", "stuff to test " + user);
-                            attendingGuests.add(user.getInvitedUser());
+//                        if (guestList.getParty().getId().contains(intent.getExtras().getString("id"))) {
+//                            attendingGuests.add(guestList.getUser().getUserName());
+                        Log.i("Amplify.test", "stuff to test " + user);
+                        attendingGuests.add(user.getInvitedUser());
+//                            Log.i("Amplify.test", "Lets look at all of our parties users " + user.);
+//                            Log.i("Amplify.test", "================= " + guestList.);
+//                            Log.i("Amplify.test", "lets look at all the statuses of our users" + guestList.getUsers());
+//                            statusGuests.add(guestList.getUser().getInviteStatus().toString());
+
                     }
                     handler.sendEmptyMessage(1);
                 },
@@ -113,6 +130,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         //TODO: How do we keep track of the gifts?
 
     }
+
     private void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

@@ -8,10 +8,11 @@
     tools:context=".Fragments.InvitationFragment">
 
     <TextView
-        android:id="@+id/partyName"
+        android:id="@+id/homePartyTitleButton"
         android:layout_width="171dp"
         android:layout_height="43dp"
-        android:text="TextView"
+        android:background="#FFFFFF"
+        android:text="WORDS"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.135"

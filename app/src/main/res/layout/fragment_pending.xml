@@ -12,6 +12,7 @@
         android:id="@+id/guestName"
         android:layout_width="219dp"
         android:layout_height="47dp"
+        android:hint="fragment pending"
         android:text="@string/hello_blank_fragment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

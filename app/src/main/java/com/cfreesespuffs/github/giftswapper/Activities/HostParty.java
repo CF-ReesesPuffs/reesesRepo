@@ -194,10 +194,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
     @Override
     public void listener(User user) {
-//        CheckBox selectedUser = findViewById(R.id.rsvpCheckBox);
-//
-//        if (selectedUser.isChecked()) {
-//
-//        }
+
     }
 }
