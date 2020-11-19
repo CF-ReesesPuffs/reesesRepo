@@ -29,7 +29,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCommWithGiftsListener {
+public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCommWithGiftsListener, CurrentPartyUserAdapter.OnInteractWithTaskListener{
     ArrayList<GuestList> guestList;
     ArrayList<Gift> giftList;
     Handler handler;
@@ -46,11 +46,10 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
         Intent intent = getIntent();
 
-        TextView partyName = CurrentParty.this.findViewById(R.id.partyName);
-        partyName.setText(intent.getExtras().getString("partyName"));
+//        TextView partyName = CurrentParty.this.findViewById(R.id.partyName);
+//        partyName.setText(intent.getExtras().getString("partyName"));
 
-        connectAdapterToRecycler();
-        connectAdapterToRecycler2();
+
 
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -71,7 +70,8 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                         return false;
                     }
                 });
-
+        connectAdapterToRecycler();
+        connectAdapterToRecycler2();
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
@@ -135,7 +135,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     private void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.usersRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new CurrentPartyUserAdapter(attendingGuests, (CurrentPartyUserAdapter.OnInteractWithTaskListener) this));
+        recyclerView.setAdapter(new CurrentPartyUserAdapter(attendingGuests,  this));
 
     }
 
@@ -151,4 +151,8 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         //gift now belongs to that user
     }
 
+    @Override
+    public void taskListener(String party) {
+
+    }
 }
