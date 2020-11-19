@@ -15,18 +15,24 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.AuthUser;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
+import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.Adapters.InvitationAdapter;
+import com.cfreesespuffs.github.giftswapper.Adapters.PartyAdapter;
 
 import java.util.ArrayList;
 
-public class InvitationList extends AppCompatActivity implements InvitationAdapter.OnInteractWithTaskListener{
+public class InvitationList extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener{
 
     RecyclerView recyclerView;
-    ArrayList<Party> partyUserIsInvited;
+    public ArrayList<Party> parties= new ArrayList<>();
     Handler handler;
-    Handler handleSingleItem;
+    Handler handleParties;
+    User currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,47 +51,64 @@ public class InvitationList extends AppCompatActivity implements InvitationAdapt
                     }
                 });
 
-        handleSingleItem = new Handler(Looper.getMainLooper(),
+        handleParties = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
                     @Override
                     public boolean handleMessage(@NonNull Message msg) {
-                        recyclerView.getAdapter().notifyItemInserted(partyUserIsInvited.size() - 1);
+                        if(msg.arg1 == 1){
+                            Log.i("Amplify", "Parties are showing");
+                        }
+                        recyclerView.getAdapter().notifyItemInserted(parties.size());
                         return false;
                     }
                 });
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        AuthUser authUser = Amplify.Auth.getCurrentUser();
+        if(Amplify.Auth.getCurrentUser() != null) {
+            Amplify.API.query(
+                    ModelQuery.list(User.class),
+                    response -> {
+                        for (User user : response.getData()) {
+                            if (user.getUserName().contains(authUser.getUsername())) {
+                                currentUser = user;
+                                Log.i("Amplify.currentUser", "This is the current user, " + currentUser);
+                                Amplify.API.query(
+                                        ModelQuery.get(User.class, currentUser.getId()),
+                                        response2 -> {
+                                            for (GuestList party : response2.getData().getParties()) {
 
-        Amplify.API.query(
-                ModelQuery.list(Party.class),
-                response -> {
-                    for (Party party : response.getData()) { //TODO: find any invitations,
-                        if (preferences.contains("RSVP")) {
-                            if (party.getUsers().equals(preferences.getString("RSVP", null))) {
-                                partyUserIsInvited.add(party);
+                                                parties.add(party.getParty());
+                                                Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
+
+                                            }
+                                            handleParties.sendEmptyMessage(1);
+                                        },
+                                        error -> Log.e("Amplify", "Failed to retrieve store")
+                                );
                             }
-                        } else {
-                            partyUserIsInvited.add(party);
                         }
+                    },
+                    error -> {
+                        Log.e("Amplify.currentUser", "No current user found");
                     }
-                    handler.sendEmptyMessage(1);
-                },
-                error -> Log.e("Amplify", "Failed to retrieve store")
-        );
+            );
+        }
     }
 
     private void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new InvitationAdapter(partyUserIsInvited, this));
+        recyclerView.setAdapter(new PartyAdapter(parties, this));
     }
 
     @Override
-    public void taskListener(Party party) {
+    public void listener(Party party) {
         Intent intent = new Intent(InvitationList.this, InvitationDetails.class);
-        intent.putExtra("partyName", Party.class);
-        intent.putExtra("when", Party.class);
-        intent.putExtra("setTime", Party.class);
-        intent.putExtra("budget", Party.class);
+//        intent.putExtra("host", party.getHost());
+        intent.putExtra("partyName", party.getTitle());
+        intent.putExtra("when", party.getHostedOn());
+        intent.putExtra("setTime", party.getHostedAt());
+        intent.putExtra("budget", party.getPrice());
+        this.startActivity(intent);
     }
 }

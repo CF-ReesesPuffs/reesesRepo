@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.AuthUser;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.GuestList;
@@ -30,14 +32,28 @@ public class InvitationDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invited_party_page);
 
+        AuthUser authUser = Amplify.Auth.getCurrentUser();
+        if(Amplify.Auth.getCurrentUser() != null) {
+            Amplify.API.query(
+                    ModelQuery.list(User.class),
+                    response -> {
+                        for (User user : response.getData()) {
+                            if (user.getUserName().contains(authUser.getUsername())) {
+                                loggedUser = user;
+                                Log.i("Amplify.currentUser", "This is the current user, " + loggedUser);
+                            }
+                        }
+                    },
+            error -> Log.e("Amplify.currentUser", "error"));
+        }
+
         handlecheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 0) {
                 Log.i("Amplify.login", "They weren't logged in");
             } else if (message.arg1 == 1) {
                 Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
                 TextView loggedUser = InvitationDetails.this.findViewById(R.id.current_user);
-                loggedUser.setText(Amplify.Auth.getCurrentUser().getUsername());
-                loggedUser.setVisibility(View.VISIBLE);
+                loggedUser.setText(authUser.getUsername());
 
             } else {
                 Log.i("Amplify.login", "Send true or false pls");
