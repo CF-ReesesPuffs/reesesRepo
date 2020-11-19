@@ -97,8 +97,9 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                                         ModelQuery.get(User.class, currentUser.getId()),
                                         response2 -> {
                                             for (GuestList party : response2.getData().getParties()) {
-
-                                                parties.add(party.getParty());
+                                                if(party.getInviteStatus() == "Accepted"){
+                                                    parties.add(party.getParty());
+                                                }
                                                 Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
 
                                             }
