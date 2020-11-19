@@ -57,7 +57,7 @@ public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.Ad
     public void onBindViewHolder(@NonNull AdapterViewHolder holder, int position) {
         holder.party = partyResults.get(position);
         TextView partyName = holder.itemView.findViewById(R.id.partyName);
-        partyName.setText(holder.party.title);
+        partyName.setText(holder.party.getTitle());
 //        TextView userName = holder.itemView.findViewById(R.id.guestName);
 //        TextView gift = holder.itemView.findViewById(R.id.giftRecieved);
 

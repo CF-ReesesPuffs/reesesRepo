@@ -61,7 +61,7 @@ public class InvitationList extends AppCompatActivity implements InvitationAdapt
                 response -> {
                     for (Party party : response.getData()) { //TODO: find any invitations,
                         if (preferences.contains("RSVP")) {
-                            if (party.users.equals(preferences.getString("RSVP", null))) {
+                            if (party.getUsers().equals(preferences.getString("RSVP", null))) {
                                 partyUserIsInvited.add(party);
                             }
                         } else {

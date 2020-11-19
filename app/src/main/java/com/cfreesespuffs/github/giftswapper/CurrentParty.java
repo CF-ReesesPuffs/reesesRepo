@@ -1,3 +1,4 @@
+
 package com.cfreesespuffs.github.giftswapper;
 
 import androidx.annotation.NonNull;
@@ -81,13 +82,13 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 ModelQuery.list(User.class),
                 response -> {
                     for (User guest : response.getData()) {
-                        if (preferences.contains("RSVP")) {
-                            if (guest.getInviteStatus().equals(preferences.getString("RSVP", null))) {
-                                guestList.add(guest);
-                            }
-                        } else {
-                            guestList.add(guest);
-                        }
+//                        if (preferences.contains("RSVP")) {
+//                            if (guest.get().equals(preferences.getString("RSVP", null))) {
+//                                guestList.add(guest);
+//                            }
+//                        } else {
+//                            guestList.add(guest);
+//                        }
                     }
                     handler.sendEmptyMessage(1);
                 },
@@ -116,8 +117,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     }
         public void guestsTakeTurns(){
         for(int i = 0; i < guestList.size(); i ++){
-
-            while(guestList.get(i).getGifts() == null){
+//            while(guestList.get(i).gifts == null){
                 //the user can choose a gift
 //            }
         }
@@ -146,4 +146,5 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         //user clicks on a gift
         //gift now belongs to that user
     }
+
 }

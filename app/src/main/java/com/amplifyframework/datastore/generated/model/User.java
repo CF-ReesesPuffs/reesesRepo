@@ -26,7 +26,6 @@ public final class User implements Model {
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String userName;
   private final @ModelField(targetType="String") String email;
-  private final @ModelField(targetType="InviteStatus") @HasMany(associatedWith = "name", type = InviteStatus.class) List<InviteStatus> inviteStatus = null;
   private final @ModelField(targetType="Gift") @HasMany(associatedWith = "user", type = Gift.class) List<Gift> gifts = null;
   private final @ModelField(targetType="GuestList") @HasMany(associatedWith = "user", type = GuestList.class) List<GuestList> parties = null;
   public String getId() {
@@ -39,10 +38,6 @@ public final class User implements Model {
   
   public String getEmail() {
       return email;
-  }
-  
-  public List<InviteStatus> getInviteStatus() {
-      return inviteStatus;
   }
   
   public List<Gift> getGifts() {
