@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         getIsSignedIn();
 
 
-
+//=====================Popluate recyclerView===========================================
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
                     @Override
@@ -75,18 +75,19 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         connectRecycler();
         Intent intent = getIntent();
 
-        Amplify.API.query(
-                ModelQuery.get(User.class, intent.getExtras().getString("id")),
-                response -> {
-                    for (GuestList party : response.getData().getParties()) {
-
-                        parties.add(party.getParty());
-
-                    }
-                    handler.sendEmptyMessage(1);
-                },
-                error -> Log.e("Amplify", "Failed to retrieve store")
-        );
+//        Amplify.API.query(
+//                ModelQuery.get(User.class, intent.getExtras().getString("id")),
+//                response -> {
+//                    for (GuestList party : response.getData().getParties()) {
+//
+//                        parties.add(party.getParty());
+//
+//                    }
+//                    handler.sendEmptyMessage(1);
+//                },
+//                error -> Log.e("Amplify", "Failed to retrieve store")
+//        );
+        // not sure why the above code isn't working
 
 
 //===================== Buttons =====================================
