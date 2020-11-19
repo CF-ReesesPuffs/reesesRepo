@@ -8,7 +8,7 @@
     tools:context=".Fragments.InvitationFragment">
 
     <TextView
-        android:id="@+id/partyName"
+        android:id="@+id/homePartyTitleButton"
         android:layout_width="171dp"
         android:layout_height="43dp"
         android:text="TextView"

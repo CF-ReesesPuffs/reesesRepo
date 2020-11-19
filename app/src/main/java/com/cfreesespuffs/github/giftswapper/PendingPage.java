@@ -12,10 +12,10 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.amplifyframework.api.graphql.model.ModelQuery;
-import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
@@ -63,10 +63,18 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 });
         connectAdapterToRecycler();
 
+        ImageButton homeDetailButton = PendingPage.this.findViewById(R.id.homePartyDetailButton);
+        homeDetailButton.setOnClickListener((view)-> {
+            Intent goToMainIntent = new Intent(PendingPage.this, MainActivity.class);
+            PendingPage.this.startActivity(goToMainIntent);
+        });
+
+
         Intent intent = getIntent();
 
-        TextView partyName = PendingPage.this.findViewById(R.id.partyName);
+        TextView partyName = PendingPage.this.findViewById(R.id.homePartyTitleButton);
         partyName.setText(intent.getExtras().getString("partyName"));
+
 
 //        TextView host = PendingPage.this.findViewById(R.id.hostUser);
 //        host.setText(intent.getExtras().getString("host"));
@@ -98,29 +106,30 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 //                        error -> Log.e("Amplify.Query", "error, you dun goofed")
 //        );
 
-        Amplify.API.query(
-                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
-                response -> {
-                    for (Party guestList : response.getData()) {
-                        Amplify.API.query(
-                                ModelQuery.list(GuestList.class)
-                        )
-//                        if (guestList.getParty().getId().contains(intent.getExtras().getString("id"))) {
-//                            attendingGuests.add(guestList.getUser().getUserName());
-                            Log.i("Amplify.test", "stuff to test" + intent.getExtras().getString("id"));
-                            Log.i("Amplify.test", "Lets look at all of our parties users" + guestList.getId());
-                            Log.i("Amplify.test", "================= " + guestList.getUsers());
-                            Log.i("Amplify.test", "lets look at all the statuses of our users" + guestList.getUsers());
-//                            statusGuests.add(guestList.getUser().getInviteStatus().toString());
-
-                    }
-                    handler.sendEmptyMessage(1);
-                },
-                error -> Log.e("Amplify", "Failed to retrieve store")
-        );
+//        Amplify.API.query(
+//                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+//                response -> {
+//                    for (Party guestList : response.getData()) {
+//                        Amplify.API.query(
+//                                ModelQuery.list(GuestList.class)
+//                        )
+////                        if (guestList.getParty().getId().contains(intent.getExtras().getString("id"))) {
+////                            attendingGuests.add(guestList.getUser().getUserName());
+//                            Log.i("Amplify.test", "stuff to test" + intent.getExtras().getString("id"));
+//                            Log.i("Amplify.test", "Lets look at all of our parties users" + guestList.getId());
+//                            Log.i("Amplify.test", "================= " + guestList.getUsers());
+//                            Log.i("Amplify.test", "lets look at all the statuses of our users" + guestList.getUsers());
+////                            statusGuests.add(guestList.getUser().getInviteStatus().toString());
+//
+//                    }
+//                    handler.sendEmptyMessage(1);
+//                },
+//                error -> Log.e("Amplify", "Failed to retrieve store")
+//        );
         //TODO: How do we keep track of the gifts?
 
     }
+
     private void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
