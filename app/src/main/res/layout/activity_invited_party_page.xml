@@ -28,35 +28,36 @@
         android:layout_width="110dp"
         android:layout_height="55dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         android:background="@drawable/tv_style"
         android:elegantTextHeight="true"
         android:padding="3sp"
         android:text="Host:"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/partyHost"
-        app:layout_constraintHorizontal_bias="0.581"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homePartyTitleButton" />
+        app:layout_constraintTop_toBottomOf="@+id/partyName" />
 
     <TextView
         android:id="@+id/partyHost"
-        android:layout_width="85dp"
-        android:layout_height="47dp"
+        android:layout_width="100dp"
+        android:layout_height="44dp"
         android:layout_marginEnd="76dp"
         android:background="@drawable/tv_style"
         android:elegantTextHeight="true"
         android:text="host"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView2" />
 
     <TextView
         android:id="@+id/budgetLimit"
-        android:layout_width="88dp"
-        android:layout_height="53dp"
+        android:layout_width="100dp"
+        android:layout_height="44dp"
         android:layout_marginEnd="76dp"
         android:background="@drawable/tv_style"
         android:elegantTextHeight="true"
@@ -85,8 +86,8 @@
 
     <TextView
         android:id="@+id/timeOfParty"
-        android:layout_width="91dp"
-        android:layout_height="49dp"
+        android:layout_width="100dp"
+        android:layout_height="44dp"
         android:layout_marginEnd="76dp"
         android:background="@drawable/tv_style"
         android:elegantTextHeight="true"
@@ -115,8 +116,8 @@
 
     <TextView
         android:id="@+id/dateOfParty"
-        android:layout_width="90dp"
-        android:layout_height="50dp"
+        android:layout_width="100dp"
+        android:layout_height="44dp"
         android:background="@drawable/tv_style"
         android:elegantTextHeight="true"
         android:padding="3sp"
@@ -197,7 +198,7 @@
         app:layout_constraintTop_toBottomOf="@+id/budgetLimit" />
 
     <TextView
-        android:id="@+id/homePartyTitleButton"
+        android:id="@+id/partyName"
         android:layout_width="371dp"
         android:layout_height="55dp"
         android:layout_marginTop="16dp"

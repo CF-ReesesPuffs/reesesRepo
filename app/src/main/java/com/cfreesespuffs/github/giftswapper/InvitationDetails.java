@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +36,7 @@ public class InvitationDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invited_party_page);
 
-        getIsSignedIn();
+//        getIsSignedIn();
         intent = getIntent();
         String partyId = intent.getExtras().getString("partyId");
 
@@ -83,20 +82,20 @@ public class InvitationDetails extends AppCompatActivity {
 //=================================================================================================== Invitation details
         Intent intent = getIntent();
 
-        TextView partyName = InvitationDetails.this.findViewById(R.id.homePartyTitleButton);
-        partyName.setText(intent.getExtras().getString("title"));
+        TextView partyName = InvitationDetails.this.findViewById(R.id.partyName);
+        partyName.setText(intent.getExtras().getString("partyName"));
 
-        TextView host = InvitationDetails.this.findViewById(R.id.partyHost);
-        host.setText(intent.getExtras().getString("host"));
+//        TextView host = InvitationDetails.this.findViewById(R.id.partyHost);
+//        host.setText(intent.getExtras().getString("host"));
 
         TextView when = InvitationDetails.this.findViewById(R.id.dateOfParty);
-        when.setText(intent.getExtras().getString("hostedOn"));
+        when.setText(intent.getExtras().getString("when"));
 
         TextView setTime = InvitationDetails.this.findViewById(R.id.timeOfParty);
-        setTime.setText(intent.getExtras().getString("hostedAt"));
+        setTime.setText(intent.getExtras().getString("setTime"));
 
         TextView budget = InvitationDetails.this.findViewById(R.id.budgetLimit);
-        budget.setText(intent.getExtras().getString("price"));
+        budget.setText(intent.getExtras().getString("budget"));
 
 //=================================================================================================== Decline invite
         Button declineInvite = InvitationDetails.this.findViewById(R.id.declineInvite);
@@ -113,8 +112,9 @@ public class InvitationDetails extends AppCompatActivity {
                         .party(party)
                         .build();
                 Log.i("Aplify.status", "This is status " + status);
+
                 Amplify.API.mutate(
-                        ModelMutation.create(status),
+                        ModelMutation.update(status), //TODO: This breaks because we are NOT creating a status, we are updating it.
                         response -> Log.i("DeclinedInvite", "You declined an invite!"),
                         error -> Log.e("DeclinedInviteFail", error.toString())
                 );
@@ -135,9 +135,14 @@ public class InvitationDetails extends AppCompatActivity {
                 //TODO: Set the invite status to accepted/true
                 GuestList status;
                 status = GuestList.builder()
-                        .inviteStatus("accepted")
+                        .inviteStatus("Accepted")
+                        .invitee("host")
+                        .invitedUser(loggedUser.getUserName())
                         .user(loggedUser)
+                        .party(party)
                         .build();
+                Log.i("Aplify.status", "This is status " + status);
+
 
                 Amplify.API.mutate(
                         ModelMutation.create(status),
@@ -162,24 +167,24 @@ public class InvitationDetails extends AppCompatActivity {
         });
     }
 
-    public boolean getIsSignedIn() {
-        boolean[] isSignedIn = {false};
-        Amplify.Auth.fetchAuthSession(
-                result -> {
-                    Log.i("Amplify.login", result.toString());
-                    Message message = new Message();
-                    if(result.isSignedIn()) {
-                        message.arg1 = 1;
-                        handlecheckLoggedIn.sendMessage(message);
-                    } else {
-                        message.arg1 = 0;
-                        handlecheckLoggedIn.sendMessage(message);
-                    }
-                },
-                error -> Log.e("Amplify.login", error.toString())
-        );
-        return isSignedIn[0];
-    }
+//    public boolean getIsSignedIn() {
+//        boolean[] isSignedIn = {false};
+//        Amplify.Auth.fetchAuthSession(
+//                result -> {
+//                    Log.i("Amplify.login", result.toString());
+//                    Message message = new Message();
+//                    if(result.isSignedIn()) {
+//                        message.arg1 = 1;
+//                        handlecheckLoggedIn.sendMessage(message);
+//                    } else {
+//                        message.arg1 = 0;
+//                        handlecheckLoggedIn.sendMessage(message);
+//                    }
+//                },
+//                error -> Log.e("Amplify.login", error.toString())
+//        );
+//        return isSignedIn[0];
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

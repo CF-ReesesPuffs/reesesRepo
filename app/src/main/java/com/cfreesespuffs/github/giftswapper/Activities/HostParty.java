@@ -151,7 +151,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 //                            error -> Log.e("Amplify/API", "Message failed " + error)
 //                    );
 //                }
-                            //TODO: increase statement depth ||
                 for(User guest : guestsToInviteList){
                     GuestList inviteStatus = GuestList.builder()
                             .inviteStatus("Pending")

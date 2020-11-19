@@ -16,6 +16,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.AuthUser;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.GuestList;
@@ -23,6 +24,8 @@ import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.Adapters.CurrentPartyUserAdapter;
 import com.cfreesespuffs.github.giftswapper.Adapters.GiftAdapter;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -34,11 +37,17 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     RecyclerView recyclerView;
     RecyclerView recyclerView2;
     ArrayList<String> attendingGuests = new ArrayList<>();
+    GuestList loggedUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_party);
+
+        Intent intent = getIntent();
+
+        TextView partyName = CurrentParty.this.findViewById(R.id.partyName);
+        partyName.setText(intent.getExtras().getString("partyName"));
 
         connectAdapterToRecycler();
         connectAdapterToRecycler2();
@@ -63,8 +72,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                     }
                 });
 
-        Intent intent = getIntent();
-
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
@@ -88,9 +95,21 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 },
                 error -> Log.e("Amplify", "Failed to retrieve store")
         );
-        guestsTakeTurns();
-
-
+        AuthUser authUser = Amplify.Auth.getCurrentUser();
+        if(Amplify.Auth.getCurrentUser() != null) {
+            Amplify.API.query(
+                    ModelQuery.list(GuestList.class),
+                    response -> {
+                        for (GuestList host : response.getData()) {
+                            if (host.getInvitee().contains(authUser.getUsername())) {
+                                guestsTakeTurns();
+                                loggedUser = host;
+                                Log.i("Amplify.currentUser", "This is the current host, he just gave perms to start the game " + loggedUser);
+                            }
+                        }
+                    },
+                    error -> Log.e("Amplify.currentUser", "error"));
+        }
 
     }
 
