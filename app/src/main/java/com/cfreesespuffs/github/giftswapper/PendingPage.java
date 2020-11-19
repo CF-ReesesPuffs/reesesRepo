@@ -6,12 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -19,9 +17,7 @@ import android.widget.TextView;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.GuestList;
-import com.amplifyframework.datastore.generated.model.InviteStatus;
 import com.amplifyframework.datastore.generated.model.Party;
-import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
 import com.cfreesespuffs.github.giftswapper.Adapters.ViewAdapter;
 
@@ -32,8 +28,10 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     RecyclerView recyclerView;
     Handler handler;
     Handler handleSingleItem;
-    ArrayList<InviteStatus> inviteStatusList;
+//    ArrayList<InviteStatus> inviteStatusList;
     ArrayList<GuestList> guestList;
+    ArrayList<String> attendingGuests;
+    ArrayList<String> statusGuests;
     Party party;
 
     @Override
@@ -57,9 +55,9 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                     @Override
                     public boolean handleMessage(@NonNull Message msg) {
                         if(msg.arg1 == 1){
-                            Log.i("Amplify");
+                            Log.i("Amplify", "It worked!");
                         }
-                        recyclerView.getAdapter().notifyItemInserted(inviteStatusList.size());
+                        recyclerView.getAdapter().notifyItemInserted(guestList.size());
                         return false;
                     }
                 });
@@ -84,33 +82,37 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
         //TODO: Query api to get users who's preference equals "accepted"/"RSVP"?
 
-        Amplify.API.query(
-                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
-                        response -> {
-                    for(GuestList guest : response.getData().getUsers()){
-                        if(party.users.contains(guest)){
-                            guestList.add(guest);
-                        }
-                    }
-                            Log.i("AmplifyTest", "Checking the intent" + intent.getExtras().getString("partyName"));
-                            Log.i("Amplify.Query", "You got a party, lets check that out " + response.getData());
-                            party = response.getData();
-                            handleSingleItem.sendEmptyMessage(1);
-                        },
-                        error -> Log.e("Amplify.Query", "error, you dun goofed")
-        );
+//        Amplify.API.query(
+//                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+//                        response -> {
+//                    for(GuestList guest : response.getData().getUsers()){
+//                        if(party.users.contains(guest)){
+//                            guestList.add(guest);
+//                        }
+//                    }
+//                            Log.i("AmplifyTest", "Checking the intent" + intent.getExtras().getString("partyName"));
+//                            Log.i("Amplify.Query", "You got a party, lets check that out " + response.getData());
+//                            party = response.getData();
+//                            handleSingleItem.sendEmptyMessage(1);
+//                        },
+//                        error -> Log.e("Amplify.Query", "error, you dun goofed")
+//        );
 
         Amplify.API.query(
-                ModelQuery.list(InviteStatus.class),
+                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
-                    for (InviteStatus invite : response.getData()) {
-//                        if (preferences.contains("RSVP")) {
-//                            if (invite.getStatus().equals(preferences.getString("RSVP", null))) {
-//                                inviteStatusList.add(invite);
-//                            }
-//                        } else {
-//                            inviteStatusList.add(invite);
-//                        }
+                    for (Party guestList : response.getData()) {
+                        Amplify.API.query(
+                                ModelQuery.list(GuestList.class)
+                        )
+//                        if (guestList.getParty().getId().contains(intent.getExtras().getString("id"))) {
+//                            attendingGuests.add(guestList.getUser().getUserName());
+                            Log.i("Amplify.test", "stuff to test" + intent.getExtras().getString("id"));
+                            Log.i("Amplify.test", "Lets look at all of our parties users" + guestList.getId());
+                            Log.i("Amplify.test", "================= " + guestList.getUsers());
+                            Log.i("Amplify.test", "lets look at all the statuses of our users" + guestList.getUsers());
+//                            statusGuests.add(guestList.getUser().getInviteStatus().toString());
+
                     }
                     handler.sendEmptyMessage(1);
                 },
@@ -122,7 +124,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     private void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new ViewAdapter(inviteStatusList, this));
+        recyclerView.setAdapter(new ViewAdapter(attendingGuests, this));
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -132,7 +134,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     }
 
     @Override
-    public void taskListener(InviteStatus inviteStatus) {
+    public void taskListener(String inviteStatus) {
 
     }
 }

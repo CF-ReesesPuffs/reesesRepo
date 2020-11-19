@@ -6,23 +6,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.amplifyframework.datastore.generated.model.InviteStatus;
+
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
 
 public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHolder> {
-    public ArrayList<InviteStatus> listOfAttendees;
+    public ArrayList<String> listOfAttendees;
     public OnInteractWithTaskListener listener;
 
-    public ViewAdapter(ArrayList<InviteStatus> listOfAttendees, OnInteractWithTaskListener listener) {
+    public ViewAdapter(ArrayList<String> listOfAttendees, OnInteractWithTaskListener listener) {
         this.listOfAttendees = listOfAttendees;
         this.listener = listener;
     }
 
     // view holder deals with the passing of data from java to the fragment (list item)
     public static class AdapterViewHolder extends RecyclerView.ViewHolder {
-        public InviteStatus inviteStatus;
+        public String inviteStatus;
         public View itemView;
 
 
@@ -56,7 +56,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
     }
 
     public static interface OnInteractWithTaskListener {
-        public void taskListener(InviteStatus inviteStatus);
+        public void taskListener(String inviteStatus);
     }
 
 
@@ -68,8 +68,8 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
         TextView userName = holder.itemView.findViewById(R.id.guestName);
         TextView status = holder.itemView.findViewById(R.id.status);
 
-        userName.setText(holder.inviteStatus.getName().getUserName());
-        status.setText(holder.inviteStatus.getStatus());
+        userName.setText(holder.inviteStatus);
+        status.setText(holder.inviteStatus);
     }
 
     @Override

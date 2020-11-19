@@ -2,19 +2,21 @@ type User @model {
   id: ID!
   userName: String!
   email: String
-  inviteStatus: [InviteStatus] @connection(name: "RSVP")
+#  inviteStatus: [InviteStatus] @connection(name: "RSVP")
   gifts: [Gift] @connection(name: "GiftGroup")
   parties: [GuestList] @connection(name:"ConUser")
 }
 
-type InviteStatus @model{
-  id: ID!
-  status: String
-  name: User @connection(name: "RSVP")
-}
+#type InviteStatus @model{
+#  id: ID!
+#  status: String
+#  name: User @connection(name: "RSVP")
+#}
 
 type GuestList @model {
   id: ID!
+  inviteStatus: String
+  invitee: String
   user: User @connection(name: "ConUser")
   party: Party @connection(name:"ConParty")
 }
