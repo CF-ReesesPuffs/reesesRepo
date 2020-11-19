@@ -25,7 +25,7 @@ import com.cfreesespuffs.github.giftswapper.Adapters.ViewAdapter;
 
 import java.util.ArrayList;
 
-public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskListener{
+public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskListener {
 
     RecyclerView recyclerView;
     Handler handler;
@@ -55,7 +55,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 new Handler.Callback() {
                     @Override
                     public boolean handleMessage(@NonNull Message msg) {
-                        if(msg.arg1 == 1){
+                        if (msg.arg1 == 1) {
                             Log.i("Amplify", "It worked!");
                         }
                         recyclerView.getAdapter().notifyItemInserted(guestList.size());
@@ -65,6 +65,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         connectAdapterToRecycler();
 
         ImageButton homeDetailButton = PendingPage.this.findViewById(R.id.homePartyDetailButton);
+
         homeDetailButton.setOnClickListener((view)-> {
 //            Intent goToMainIntent = new Intent(PendingPage.this, MainActivity.class);
 //            PendingPage.this.startActivity(goToMainIntent);
@@ -116,8 +117,8 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                     for (GuestList user : response.getData().getUsers()) {
 //                        if (guestList.getParty().getId().contains(intent.getExtras().getString("id"))) {
 //                            attendingGuests.add(guestList.getUser().getUserName());
-                            Log.i("Amplify.test", "stuff to test " + user);
-                            attendingGuests.add(user.getInvitedUser());
+                        Log.i("Amplify.test", "stuff to test " + user);
+                        attendingGuests.add(user.getInvitedUser());
 //                            Log.i("Amplify.test", "Lets look at all of our parties users " + user.);
 //                            Log.i("Amplify.test", "================= " + guestList.);
 //                            Log.i("Amplify.test", "lets look at all the statuses of our users" + guestList.getUsers());
