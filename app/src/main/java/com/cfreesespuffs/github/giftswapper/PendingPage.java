@@ -65,9 +65,11 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         connectAdapterToRecycler();
 
         ImageButton homeDetailButton = PendingPage.this.findViewById(R.id.homePartyDetailButton);
-        homeDetailButton.setOnClickListener((view) -> {
-            Intent goToMainIntent = new Intent(PendingPage.this, MainActivity.class);
-            PendingPage.this.startActivity(goToMainIntent);
+
+        homeDetailButton.setOnClickListener((view)-> {
+//            Intent goToMainIntent = new Intent(PendingPage.this, MainActivity.class);
+//            PendingPage.this.startActivity(goToMainIntent);
+            finish();
         });
 
 
