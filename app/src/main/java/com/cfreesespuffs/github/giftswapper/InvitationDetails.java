@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,9 +17,11 @@ import android.widget.TextView;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.auth.AuthUser;
+
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.GuestList;
+import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
 
@@ -26,11 +29,26 @@ public class InvitationDetails extends AppCompatActivity {
 
     Handler handlecheckLoggedIn;
     User loggedUser;
+    Intent intent;
+    Party party;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invited_party_page);
+
+        getIsSignedIn();
+        intent = getIntent();
+        String partyId = intent.getExtras().getString("partyId");
+
+        Amplify.API.query(
+                ModelQuery.get(Party.class, partyId),
+                response -> {
+                    party = response.getData();
+                    Log.i("Amplify.query", "We got a party");
+                },
+                error -> Log.e("Amplify.query", "no party " + error)
+        );
 
         AuthUser authUser = Amplify.Auth.getCurrentUser();
         if(Amplify.Auth.getCurrentUser() != null) {
@@ -47,11 +65,13 @@ public class InvitationDetails extends AppCompatActivity {
             error -> Log.e("Amplify.currentUser", "error"));
         }
 
+
         handlecheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 0) {
                 Log.i("Amplify.login", "They weren't logged in");
             } else if (message.arg1 == 1) {
                 Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
+
                 TextView loggedUser = InvitationDetails.this.findViewById(R.id.current_user);
                 loggedUser.setText(authUser.getUsername());
 
@@ -64,32 +84,35 @@ public class InvitationDetails extends AppCompatActivity {
         Intent intent = getIntent();
 
         TextView partyName = InvitationDetails.this.findViewById(R.id.homePartyTitleButton);
-        partyName.setText(intent.getExtras().getString("partyName"));
+        partyName.setText(intent.getExtras().getString("title"));
 
-//        TextView host = InvitationDetails.this.findViewById(R.id.partyHost);
-//        host.setText(intent.getExtras().getString("host"));
+        TextView host = InvitationDetails.this.findViewById(R.id.partyHost);
+        host.setText(intent.getExtras().getString("host"));
 
         TextView when = InvitationDetails.this.findViewById(R.id.dateOfParty);
-        when.setText(intent.getExtras().getString("when"));
+        when.setText(intent.getExtras().getString("hostedOn"));
 
         TextView setTime = InvitationDetails.this.findViewById(R.id.timeOfParty);
-        setTime.setText(intent.getExtras().getString("setTime"));
+        setTime.setText(intent.getExtras().getString("hostedAt"));
 
         TextView budget = InvitationDetails.this.findViewById(R.id.budgetLimit);
-        budget.setText(intent.getExtras().getString("budget"));
+        budget.setText(intent.getExtras().getString("price"));
 
 //=================================================================================================== Decline invite
         Button declineInvite = InvitationDetails.this.findViewById(R.id.declineInvite);
         declineInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 //TODO: Set the invite status to false
                 GuestList status;
                 status = GuestList.builder()
                         .inviteStatus("declined")
+                        .invitee("host")
+                        .invitedUser(loggedUser.getUserName())
                         .user(loggedUser)
+                        .party(party)
                         .build();
+                Log.i("Aplify.status", "This is status " + status);
                 Amplify.API.mutate(
                         ModelMutation.create(status),
                         response -> Log.i("DeclinedInvite", "You declined an invite!"),
@@ -115,6 +138,7 @@ public class InvitationDetails extends AppCompatActivity {
                         .inviteStatus("accepted")
                         .user(loggedUser)
                         .build();
+
                 Amplify.API.mutate(
                         ModelMutation.create(status),
                         response -> Log.i("AcceptedInvite", "You declined an invite!"),
@@ -137,6 +161,26 @@ public class InvitationDetails extends AppCompatActivity {
             }
         });
     }
+
+    public boolean getIsSignedIn() {
+        boolean[] isSignedIn = {false};
+        Amplify.Auth.fetchAuthSession(
+                result -> {
+                    Log.i("Amplify.login", result.toString());
+                    Message message = new Message();
+                    if(result.isSignedIn()) {
+                        message.arg1 = 1;
+                        handlecheckLoggedIn.sendMessage(message);
+                    } else {
+                        message.arg1 = 0;
+                        handlecheckLoggedIn.sendMessage(message);
+                    }
+                },
+                error -> Log.e("Amplify.login", error.toString())
+        );
+        return isSignedIn[0];
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = new Intent(InvitationDetails.this, MainActivity.class);

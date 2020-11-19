@@ -69,7 +69,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         homeDetailButton.setOnClickListener((view)-> {
 //            Intent goToMainIntent = new Intent(PendingPage.this, MainActivity.class);
 //            PendingPage.this.startActivity(goToMainIntent);
-            finish();
         });
 
 
