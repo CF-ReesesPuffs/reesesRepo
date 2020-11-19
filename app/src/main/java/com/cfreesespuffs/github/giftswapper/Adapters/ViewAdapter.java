@@ -38,7 +38,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
     public AdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //choose which fragment (list item) to build
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_party, parent, false);
+                .inflate(R.layout.fragment_pending, parent, false);
 
 
         final AdapterViewHolder viewHolder = new AdapterViewHolder(view);
@@ -69,7 +69,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
         TextView status = holder.itemView.findViewById(R.id.status);
 
         userName.setText(holder.inviteStatus);
-        status.setText(holder.inviteStatus);
+        status.setText("pending");
     }
 
     @Override

@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
-import com.amplifyframework.datastore.generated.model.InviteStatus;
+import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
 
@@ -69,10 +69,10 @@ public class InvitationDetails extends AppCompatActivity {
             public void onClick(View v) {
 
                 //TODO: Set the invite status to false
-                InviteStatus status;
-                status = InviteStatus.builder()
-                        .status("declined")
-                        .name(loggedUser)
+                GuestList status;
+                status = GuestList.builder()
+                        .inviteStatus("declined")
+                        .user(loggedUser)
                         .build();
                 Amplify.API.mutate(
                         ModelMutation.create(status),
@@ -94,10 +94,10 @@ public class InvitationDetails extends AppCompatActivity {
                 String giftName = giftChosen.getText().toString();
 
                 //TODO: Set the invite status to accepted/true
-                InviteStatus status;
-                status = InviteStatus.builder()
-                        .status("accepted")
-                        .name(loggedUser)
+                GuestList status;
+                status = GuestList.builder()
+                        .inviteStatus("accepted")
+                        .user(loggedUser)
                         .build();
                 Amplify.API.mutate(
                         ModelMutation.create(status),

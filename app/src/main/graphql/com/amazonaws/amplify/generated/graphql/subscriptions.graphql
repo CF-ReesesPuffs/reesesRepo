@@ -4,19 +4,26 @@ subscription OnCreateUser {
     id
     userName
     email
-    inviteStatus {
-      items {
-        id
-        status
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
     gifts {
       items {
         id
         title
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -25,6 +32,25 @@ subscription OnCreateUser {
     parties {
       items {
         id
+        inviteStatus
+        invitee
+        invitedUser
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -39,19 +65,26 @@ subscription OnUpdateUser {
     id
     userName
     email
-    inviteStatus {
-      items {
-        id
-        status
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
     gifts {
       items {
         id
         title
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -60,6 +93,25 @@ subscription OnUpdateUser {
     parties {
       items {
         id
+        inviteStatus
+        invitee
+        invitedUser
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -74,19 +126,26 @@ subscription OnDeleteUser {
     id
     userName
     email
-    inviteStatus {
-      items {
-        id
-        status
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
     gifts {
       items {
         id
         title
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -95,6 +154,25 @@ subscription OnDeleteUser {
     parties {
       items {
         id
+        inviteStatus
+        invitee
+        invitedUser
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -104,92 +182,34 @@ subscription OnDeleteUser {
     updatedAt
   }
 }
-subscription OnCreateInviteStatus {
-  onCreateInviteStatus {
-    id
-    status
-    name {
-      id
-      userName
-      email
-      inviteStatus {
-        nextToken
-      }
-      gifts {
-        nextToken
-      }
-      parties {
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    createdAt
-    updatedAt
-  }
-}
-subscription OnUpdateInviteStatus {
-  onUpdateInviteStatus {
-    id
-    status
-    name {
-      id
-      userName
-      email
-      inviteStatus {
-        nextToken
-      }
-      gifts {
-        nextToken
-      }
-      parties {
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    createdAt
-    updatedAt
-  }
-}
-subscription OnDeleteInviteStatus {
-  onDeleteInviteStatus {
-    id
-    status
-    name {
-      id
-      userName
-      email
-      inviteStatus {
-        nextToken
-      }
-      gifts {
-        nextToken
-      }
-      parties {
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    createdAt
-    updatedAt
-  }
-}
 subscription OnCreateGuestList {
   onCreateGuestList {
     id
+    inviteStatus
+    invitee
+    invitedUser
     user {
       id
       userName
       email
-      inviteStatus {
-        nextToken
-      }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -201,13 +221,24 @@ subscription OnCreateGuestList {
       hostedOn
       hostedAt
       price
-      status {
-        nextToken
-      }
       users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -220,17 +251,31 @@ subscription OnCreateGuestList {
 subscription OnUpdateGuestList {
   onUpdateGuestList {
     id
+    inviteStatus
+    invitee
+    invitedUser
     user {
       id
       userName
       email
-      inviteStatus {
-        nextToken
-      }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -242,13 +287,24 @@ subscription OnUpdateGuestList {
       hostedOn
       hostedAt
       price
-      status {
-        nextToken
-      }
       users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -261,17 +317,31 @@ subscription OnUpdateGuestList {
 subscription OnDeleteGuestList {
   onDeleteGuestList {
     id
+    inviteStatus
+    invitee
+    invitedUser
     user {
       id
       userName
       email
-      inviteStatus {
-        nextToken
-      }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -283,13 +353,24 @@ subscription OnDeleteGuestList {
       hostedOn
       hostedAt
       price
-      status {
-        nextToken
-      }
       users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -307,13 +388,24 @@ subscription OnCreateGift {
       id
       userName
       email
-      inviteStatus {
-        nextToken
-      }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -325,13 +417,24 @@ subscription OnCreateGift {
       hostedOn
       hostedAt
       price
-      status {
-        nextToken
-      }
       users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -349,13 +452,24 @@ subscription OnUpdateGift {
       id
       userName
       email
-      inviteStatus {
-        nextToken
-      }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -367,13 +481,24 @@ subscription OnUpdateGift {
       hostedOn
       hostedAt
       price
-      status {
-        nextToken
-      }
       users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -391,13 +516,24 @@ subscription OnDeleteGift {
       id
       userName
       email
-      inviteStatus {
-        nextToken
-      }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -409,13 +545,24 @@ subscription OnDeleteGift {
       hostedOn
       hostedAt
       price
-      status {
-        nextToken
-      }
       users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -432,18 +579,28 @@ subscription OnCreateParty {
     hostedOn
     hostedAt
     price
-    status {
-      items {
-        id
-        status
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
     users {
       items {
         id
+        inviteStatus
+        invitee
+        invitedUser
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -453,6 +610,22 @@ subscription OnCreateParty {
       items {
         id
         title
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -469,18 +642,28 @@ subscription OnUpdateParty {
     hostedOn
     hostedAt
     price
-    status {
-      items {
-        id
-        status
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
     users {
       items {
         id
+        inviteStatus
+        invitee
+        invitedUser
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -490,6 +673,22 @@ subscription OnUpdateParty {
       items {
         id
         title
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -506,18 +705,28 @@ subscription OnDeleteParty {
     hostedOn
     hostedAt
     price
-    status {
-      items {
-        id
-        status
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
     users {
       items {
         id
+        inviteStatus
+        invitee
+        invitedUser
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -527,6 +736,22 @@ subscription OnDeleteParty {
       items {
         id
         title
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }

@@ -28,9 +28,8 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     RecyclerView recyclerView;
     Handler handler;
     Handler handleSingleItem;
-//    ArrayList<InviteStatus> inviteStatusList;
     ArrayList<GuestList> guestList;
-    ArrayList<String> attendingGuests;
+    ArrayList<String> attendingGuests = new ArrayList<>();
     ArrayList<String> statusGuests;
     Party party;
 
@@ -106,26 +105,26 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 //                        error -> Log.e("Amplify.Query", "error, you dun goofed")
 //        );
 
-//        Amplify.API.query(
-//                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
-//                response -> {
-//                    for (Party guestList : response.getData()) {
-//                        Amplify.API.query(
-//                                ModelQuery.list(GuestList.class)
-//                        )
-////                        if (guestList.getParty().getId().contains(intent.getExtras().getString("id"))) {
-////                            attendingGuests.add(guestList.getUser().getUserName());
-//                            Log.i("Amplify.test", "stuff to test" + intent.getExtras().getString("id"));
-//                            Log.i("Amplify.test", "Lets look at all of our parties users" + guestList.getId());
-//                            Log.i("Amplify.test", "================= " + guestList.getUsers());
+        Log.i("Here is our id", intent.getExtras().getString("id"));
+
+        Amplify.API.query(
+                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+                response -> {
+                    for (GuestList user : response.getData().getUsers()) {
+//                        if (guestList.getParty().getId().contains(intent.getExtras().getString("id"))) {
+//                            attendingGuests.add(guestList.getUser().getUserName());
+                            Log.i("Amplify.test", "stuff to test " + user);
+                            attendingGuests.add(user.getInvitedUser());
+//                            Log.i("Amplify.test", "Lets look at all of our parties users " + user.);
+//                            Log.i("Amplify.test", "================= " + guestList.);
 //                            Log.i("Amplify.test", "lets look at all the statuses of our users" + guestList.getUsers());
-////                            statusGuests.add(guestList.getUser().getInviteStatus().toString());
-//
-//                    }
-//                    handler.sendEmptyMessage(1);
-//                },
-//                error -> Log.e("Amplify", "Failed to retrieve store")
-//        );
+//                            statusGuests.add(guestList.getUser().getInviteStatus().toString());
+
+                    }
+                    handler.sendEmptyMessage(1);
+                },
+                error -> Log.e("Amplify", "Failed to retrieve store")
+        );
         //TODO: How do we keep track of the gifts?
 
     }

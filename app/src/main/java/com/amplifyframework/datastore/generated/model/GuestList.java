@@ -21,13 +21,31 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @ModelConfig(pluralName = "GuestLists")
 public final class GuestList implements Model {
   public static final QueryField ID = field("id");
+  public static final QueryField INVITE_STATUS = field("inviteStatus");
+  public static final QueryField INVITEE = field("invitee");
+  public static final QueryField INVITED_USER = field("invitedUser");
   public static final QueryField USER = field("guestListUserId");
   public static final QueryField PARTY = field("guestListPartyId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="String") String inviteStatus;
+  private final @ModelField(targetType="String") String invitee;
+  private final @ModelField(targetType="String") String invitedUser;
   private final @ModelField(targetType="User") @BelongsTo(targetName = "guestListUserId", type = User.class) User user;
   private final @ModelField(targetType="Party") @BelongsTo(targetName = "guestListPartyId", type = Party.class) Party party;
   public String getId() {
       return id;
+  }
+  
+  public String getInviteStatus() {
+      return inviteStatus;
+  }
+  
+  public String getInvitee() {
+      return invitee;
+  }
+  
+  public String getInvitedUser() {
+      return invitedUser;
   }
   
   public User getUser() {
@@ -38,8 +56,11 @@ public final class GuestList implements Model {
       return party;
   }
   
-  private GuestList(String id, User user, Party party) {
+  private GuestList(String id, String inviteStatus, String invitee, String invitedUser, User user, Party party) {
     this.id = id;
+    this.inviteStatus = inviteStatus;
+    this.invitee = invitee;
+    this.invitedUser = invitedUser;
     this.user = user;
     this.party = party;
   }
@@ -53,6 +74,9 @@ public final class GuestList implements Model {
       } else {
       GuestList guestList = (GuestList) obj;
       return ObjectsCompat.equals(getId(), guestList.getId()) &&
+              ObjectsCompat.equals(getInviteStatus(), guestList.getInviteStatus()) &&
+              ObjectsCompat.equals(getInvitee(), guestList.getInvitee()) &&
+              ObjectsCompat.equals(getInvitedUser(), guestList.getInvitedUser()) &&
               ObjectsCompat.equals(getUser(), guestList.getUser()) &&
               ObjectsCompat.equals(getParty(), guestList.getParty());
       }
@@ -62,6 +86,9 @@ public final class GuestList implements Model {
    public int hashCode() {
     return new StringBuilder()
       .append(getId())
+      .append(getInviteStatus())
+      .append(getInvitee())
+      .append(getInvitedUser())
       .append(getUser())
       .append(getParty())
       .toString()
@@ -73,6 +100,9 @@ public final class GuestList implements Model {
     return new StringBuilder()
       .append("GuestList {")
       .append("id=" + String.valueOf(getId()) + ", ")
+      .append("inviteStatus=" + String.valueOf(getInviteStatus()) + ", ")
+      .append("invitee=" + String.valueOf(getInvitee()) + ", ")
+      .append("invitedUser=" + String.valueOf(getInvitedUser()) + ", ")
       .append("user=" + String.valueOf(getUser()) + ", ")
       .append("party=" + String.valueOf(getParty()))
       .append("}")
@@ -105,18 +135,27 @@ public final class GuestList implements Model {
     return new GuestList(
       id,
       null,
+      null,
+      null,
+      null,
       null
     );
   }
   
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
+      inviteStatus,
+      invitee,
+      invitedUser,
       user,
       party);
   }
   public interface BuildStep {
     GuestList build();
     BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep inviteStatus(String inviteStatus);
+    BuildStep invitee(String invitee);
+    BuildStep invitedUser(String invitedUser);
     BuildStep user(User user);
     BuildStep party(Party party);
   }
@@ -124,6 +163,9 @@ public final class GuestList implements Model {
 
   public static class Builder implements BuildStep {
     private String id;
+    private String inviteStatus;
+    private String invitee;
+    private String invitedUser;
     private User user;
     private Party party;
     @Override
@@ -132,8 +174,29 @@ public final class GuestList implements Model {
         
         return new GuestList(
           id,
+          inviteStatus,
+          invitee,
+          invitedUser,
           user,
           party);
+    }
+    
+    @Override
+     public BuildStep inviteStatus(String inviteStatus) {
+        this.inviteStatus = inviteStatus;
+        return this;
+    }
+    
+    @Override
+     public BuildStep invitee(String invitee) {
+        this.invitee = invitee;
+        return this;
+    }
+    
+    @Override
+     public BuildStep invitedUser(String invitedUser) {
+        this.invitedUser = invitedUser;
+        return this;
     }
     
     @Override
@@ -171,10 +234,28 @@ public final class GuestList implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, User user, Party party) {
+    private CopyOfBuilder(String id, String inviteStatus, String invitee, String invitedUser, User user, Party party) {
       super.id(id);
-      super.user(user)
+      super.inviteStatus(inviteStatus)
+        .invitee(invitee)
+        .invitedUser(invitedUser)
+        .user(user)
         .party(party);
+    }
+    
+    @Override
+     public CopyOfBuilder inviteStatus(String inviteStatus) {
+      return (CopyOfBuilder) super.inviteStatus(inviteStatus);
+    }
+    
+    @Override
+     public CopyOfBuilder invitee(String invitee) {
+      return (CopyOfBuilder) super.invitee(invitee);
+    }
+    
+    @Override
+     public CopyOfBuilder invitedUser(String invitedUser) {
+      return (CopyOfBuilder) super.invitedUser(invitedUser);
     }
     
     @Override
