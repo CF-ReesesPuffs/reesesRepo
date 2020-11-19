@@ -1,3 +1,4 @@
+
 package com.cfreesespuffs.github.giftswapper;
 
 import androidx.annotation.NonNull;
@@ -145,4 +146,5 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         //user clicks on a gift
         //gift now belongs to that user
     }
+
 }
