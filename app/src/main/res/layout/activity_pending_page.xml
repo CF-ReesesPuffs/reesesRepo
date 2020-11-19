@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#AF0000"
+
     tools:context=".PendingPage">
 
     <TextView
@@ -12,8 +14,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
         android:layout_marginTop="36dp"
+        android:fontFamily="@font/autour_one"
         android:text="partyName"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="#000000"
+        android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/homePartyDetailButton"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,6 +26,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
+        android:background="@drawable/et_style"
         android:layout_width="350dp"
         android:layout_height="342dp"
         android:layout_marginBottom="48dp"
@@ -30,11 +36,15 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/pendingPageInvitedGuests"
         android:layout_width="162dp"
         android:layout_height="44dp"
         android:layout_marginBottom="388dp"
+        android:background="@drawable/tv_style"
+        android:elegantTextHeight="true"
+        android:padding="3sp"
         android:text="Invited Guests"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,10 +55,13 @@
 
     <TextView
         android:id="@+id/hostUser"
+        android:text="hostUser"
+        android:background="@drawable/tv_style"
         android:layout_width="127dp"
         android:layout_height="44dp"
         android:layout_marginTop="36dp"
-        android:text="hostUser"
+        android:padding="3sp"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toStartOf="@+id/priceLimit"
         app:layout_constraintHorizontal_bias="0.5"
@@ -60,7 +73,10 @@
         android:layout_width="127dp"
         android:layout_height="44dp"
         android:layout_marginTop="24dp"
+        android:background="@drawable/tv_style"
+        android:padding="3sp"
         android:text="startDate"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toStartOf="@+id/startTime"
         app:layout_constraintHorizontal_bias="0.5"
@@ -72,7 +88,10 @@
         android:layout_width="127dp"
         android:layout_height="44dp"
         android:layout_marginTop="36dp"
+        android:background="@drawable/tv_style"
+        android:padding="3sp"
         android:text="priceLimit"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -85,7 +104,10 @@
         android:layout_height="44dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="52dp"
+        android:background="@drawable/tv_style"
+        android:padding="3sp"
         android:text="startTime"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/priceLimit" />
@@ -96,6 +118,8 @@
         android:layout_height="50dp"
         android:layout_marginTop="36dp"
         android:layout_marginEnd="64dp"
+        android:background="@color/gold_yellow"
+        android:backgroundTint="#99ED8922"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/home_foreground" />
