@@ -206,6 +206,8 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         goToPartyDetailInent.putExtra("title",party.getTitle());
         goToPartyDetailInent.putExtra("price",party.getPrice());
         goToPartyDetailIntent.putExtra("partyId",party.getId());
+        goToPartyDetailInent.putExtra("date",party.getHostedOn());
+        goToPartyDetailInent.putExtra("time",party.getHostedAt());
         this.startActivity(goToPartyDetailInent);
     }
 }
