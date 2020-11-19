@@ -39,10 +39,14 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.PartyViewHol
     public void onBindViewHolder(@NonNull PartyViewHolder holder, int position) {
         holder.party= parties.get(position);
         TextView titleView = holder.itemView.findViewById(R.id.party_title);
-        TextView priceView = holder.itemView.findViewById(R.id.party_price);
+        TextView dateView = holder.itemView.findViewById(R.id.party_date);
+        TextView timeView = holder.itemView.findViewById(R.id.party_time);
+//        TextView priceView = holder.itemView.findViewById(R.id.party_price);
 
         titleView.setText(holder.party.getTitle());
-        priceView.setText(holder.party.getPrice());
+        dateView.setText(holder.party.getHostedOn());
+        timeView.setText(holder.party.getHostedAt());
+//        priceView.setText(holder.party.getPrice());
 
     }
 

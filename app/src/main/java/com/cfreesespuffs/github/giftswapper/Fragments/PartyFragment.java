@@ -20,11 +20,15 @@ public class PartyFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "title";
-    private static final String ARG_PARAM2 = "price";
+    private static final String ARG_PARAM2 = "date";
+    private static final String ARG_PARAM3 = "time";
+    private static final String ARG_PARAM4 = "price";
 
     // TODO: Rename and change types of parameters
     private String mTitle;
-    private String mPrice;
+    private String mDate;
+    private String mTime;
+//    private String mPrice;
 
     public PartyFragment() {
         // Required empty public constructor
@@ -35,15 +39,19 @@ public class PartyFragment extends Fragment {
      * this fragment using the provided parameters.
      *
      * @param title Parameter 1.
-     * @param price Parameter 2.
+     * @param date Parameter 2.
+     * @param time Parameter 3.
+     * @param price Parameter 4.
      * @return A new instance of fragment PartyFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PartyFragment newInstance(String title, String price) {
+    public static PartyFragment newInstance(String title, String date, String time, String price) {
         PartyFragment fragment = new PartyFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, title);
-        args.putString(ARG_PARAM2, price);
+        args.putString(ARG_PARAM2, date);
+        args.putString(ARG_PARAM3, time);
+//        args.putString(ARG_PARAM4, price);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,7 +61,9 @@ public class PartyFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mTitle = getArguments().getString(ARG_PARAM1);
-            mPrice = getArguments().getString(ARG_PARAM2);
+            mDate = getArguments().getString(ARG_PARAM2);
+            mTime = getArguments().getString(ARG_PARAM3);
+//            mPrice = getArguments().getString(ARG_PARAM4);
         }
     }
 

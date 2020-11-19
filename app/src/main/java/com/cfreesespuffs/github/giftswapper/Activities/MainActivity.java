@@ -203,6 +203,8 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     public void listener(Party party) {
         Intent goToPartyDetailInent = new Intent(MainActivity.this, InvitationDetails.class);//we don't have an activity for a single party do we? sent it to invited party for now
         goToPartyDetailInent.putExtra("title",party.getTitle());
+        goToPartyDetailInent.putExtra("date",party.getHostedOn());
+        goToPartyDetailInent.putExtra("time",party.getHostedAt());
         goToPartyDetailInent.putExtra("price",party.getPrice());
         this.startActivity(goToPartyDetailInent);
     }
