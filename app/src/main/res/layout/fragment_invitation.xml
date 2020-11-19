@@ -11,6 +11,7 @@
         android:id="@+id/homePartyTitleButton"
         android:layout_width="171dp"
         android:layout_height="43dp"
+        android:background="#FFFFFF"
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"

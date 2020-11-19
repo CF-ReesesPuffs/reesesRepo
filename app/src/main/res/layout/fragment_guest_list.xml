@@ -24,6 +24,7 @@
         android:id="@+id/usernameFragment"
         android:layout_width="127dp"
         android:layout_height="23dp"
+        android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/rsvpCheckBox"
         app:layout_constraintStart_toStartOf="@+id/textView7"
