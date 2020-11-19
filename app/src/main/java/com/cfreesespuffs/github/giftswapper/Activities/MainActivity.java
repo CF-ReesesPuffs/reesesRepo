@@ -19,6 +19,7 @@ import com.amplifyframework.AmplifyException;
 import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.AuthUser;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.auth.options.AuthSignOutOptions;
 import com.amplifyframework.core.Amplify;
@@ -34,11 +35,12 @@ import com.cfreesespuffs.github.giftswapper.UserProfile;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener{
-    public ArrayList<Party> parties;
+    public ArrayList<Party> parties= new ArrayList<>();
     Handler handlecheckLoggedIn;
-    Handler handler;
     Handler handleParties;
-    RecyclerView recyclerView;
+    RecyclerView partyRecyclerView;
+    User currentUser;
+    AWSCognitoAuthPlugin auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +50,24 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         configureAws();
         getIsSignedIn();
 
+//        Log.i("Auth.detail", "Auth: " + auth.getCurrentUser());
+//============================================================================== handler check logged
+        handlecheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
+            if (message.arg1 == 0) {
+                Log.i("Amplify.login", "They weren't logged in");
+                ImageButton profile = MainActivity.this.findViewById(R.id.profile_button);
+                profile.setVisibility(View.INVISIBLE);
+            } else if (message.arg1 == 1) {
+                if (Amplify.Auth.getCurrentUser() != null) {
+                    Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
+                }
+            } else {
+                Log.i("Amplify.login", "Send true or false pls");
+            }
+            return false;
+        });
 
 //=====================Popluate recyclerView===========================================
-        handler = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message msg) {
-                        connectRecycler();
-                        recyclerView.getAdapter().notifyDataSetChanged();
-                        return false;
-                    }
-                });
 
         handleParties = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -67,29 +76,43 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                         if(msg.arg1 == 1){
                             Log.i("Amplify", "Parties are showing");
                         }
-                        recyclerView.getAdapter().notifyItemInserted(parties.size());
+                        partyRecyclerView.getAdapter().notifyItemInserted(parties.size());
                         return false;
                     }
                 });
 
         connectRecycler();
-        Intent intent = getIntent();
+        Log.i("Amplify.authUser", "This is the current user, " + Amplify.Auth.getCurrentUser());
+        AuthUser authUser = Amplify.Auth.getCurrentUser();
+        if(Amplify.Auth.getCurrentUser() != null) {
+            Amplify.API.query(
+                    ModelQuery.list(User.class),
+                    response -> {
+                        for (User user : response.getData()) {
+                            if (user.getUserName().contains(authUser.getUsername())) {
+                                currentUser = user;
+                                Log.i("Amplify.currentUser", "This is the current user, " + currentUser);
+                                Amplify.API.query(
+                                        ModelQuery.get(User.class, currentUser.getId()),
+                                        response2 -> {
+                                            for (GuestList party : response2.getData().getParties()) {
 
-//        Amplify.API.query(
-//                ModelQuery.get(User.class, intent.getExtras().getString("id")),
-//                response -> {
-//                    for (GuestList party : response.getData().getParties()) {
-//
-//                        parties.add(party.getParty());
-//
-//                    }
-//                    handler.sendEmptyMessage(1);
-//                },
-//                error -> Log.e("Amplify", "Failed to retrieve store")
-//        );
-        // not sure why the above code isn't working
+                                                parties.add(party.getParty());
+                                                Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
 
-
+                                            }
+                                            handleParties.sendEmptyMessage(1);
+                                        },
+                                        error -> Log.e("Amplify", "Failed to retrieve store")
+                                );
+                            }
+                        }
+                    },
+                    error -> {
+                        Log.e("Amplify.currentUser", "No current user found");
+                    }
+            );
+        }
 //===================== Buttons =====================================
         ImageButton profileButton = MainActivity.this.findViewById(R.id.profile_button);
         profileButton.setOnClickListener((view)-> {
@@ -134,33 +157,19 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             );
         });
 
-//============================================================================== handler check logged
-        handlecheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
-            if (message.arg1 == 0) {
-                Log.i("Amplify.login", "They weren't logged in");
-                ImageButton profile = MainActivity.this.findViewById(R.id.profile_button);
-                profile.setVisibility(View.INVISIBLE);
-            } else if (message.arg1 == 1) {
-                if (Amplify.Auth.getCurrentUser() != null) {
-                    Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
-                }
-            } else {
-                Log.i("Amplify.login", "Send true or false pls");
-            }
-            return false;
-        });
+
     }
     //=========== RecyclerView=======================
     private void connectRecycler(){
-        RecyclerView partyRecyclerView = findViewById(R.id.party_recyclerview);
+        partyRecyclerView = findViewById(R.id.party_recyclerview);
         partyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        partyRecyclerView.setAdapter(new PartyAdapter(parties, this)); //will we need to create a PartyAdapter?
+        partyRecyclerView.setAdapter(new PartyAdapter(parties, this));
     }
 
     // =======================================================================
 //========================================================= user -sign-in
     public boolean getIsSignedIn() {
-        boolean[] isSingedIn = {false};
+        boolean[] isSignedIn = {false};
         Amplify.Auth.fetchAuthSession(
                 result -> {
                     Log.i("Amplify.login", result.toString());
@@ -175,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 },
                 error -> Log.e("Amplify.login", error.toString())
         );
-        return isSingedIn[0];
+        return isSignedIn[0];
     }
 
 //========================================================================== aws
