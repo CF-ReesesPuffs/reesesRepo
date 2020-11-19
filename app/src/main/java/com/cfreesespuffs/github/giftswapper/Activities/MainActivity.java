@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         Intent goToPartyDetailInent = new Intent(MainActivity.this, PendingPage.class);//we don't have an activity for a single party do we? sent it to invited party for now
         goToPartyDetailInent.putExtra("title",party.getTitle());
         goToPartyDetailInent.putExtra("price",party.getPrice());
-        goToPartyDetailIntent.putExtra("partyId",party.getId());
+//        goToPartyDetailIntent.putExtra("partyId",party.getId());
         goToPartyDetailInent.putExtra("date",party.getHostedOn());
         goToPartyDetailInent.putExtra("time",party.getHostedAt());
         this.startActivity(goToPartyDetailInent);
