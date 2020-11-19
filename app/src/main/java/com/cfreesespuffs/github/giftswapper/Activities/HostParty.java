@@ -42,6 +42,7 @@ import java.util.Set;
 public class HostParty extends AppCompatActivity implements HostPartyAdapter.GuestListListener {
 
     public ArrayList<User> guestList = new ArrayList<>();
+//    public ArrayList<String> guestListUserName = new ArrayList<>();
     public HashSet<Integer> invitedGuestList;
     Handler handler;
     RecyclerView recyclerView;

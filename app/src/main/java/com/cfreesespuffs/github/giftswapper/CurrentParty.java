@@ -13,10 +13,12 @@ import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
+import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.Adapters.CurrentPartyUserAdapter;
@@ -25,27 +27,13 @@ import com.cfreesespuffs.github.giftswapper.Adapters.GiftAdapter;
 import java.util.ArrayList;
 
 public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCommWithGiftsListener {
-    ArrayList<User> guestList;
+    ArrayList<GuestList> guestList;
     ArrayList<Gift> giftList;
     Handler handler;
     Handler handler2;
     RecyclerView recyclerView;
     RecyclerView recyclerView2;
-
-    //TODO: Take all users from pending-party and display in recycler vertically
-    //TODO: Take all gifts from pending-party and display in recycler horizontally
-    //TODO: Encrypt the gift name while it is in the giftRecycler
-
-    //TODO: Randomize the order of guests
-    //TODO: Give the users the ability to take a SINGLE item
-
-    //TODO: After one users picks a gift, the next user is able to select
-    //TODO: The userRecycler updates and shows which gift the user chose
-
-    //TODO: Once each user has taken a gift, end the game
-
-    //TODO: Once the game ends, the post-party-results is shown
-
+    ArrayList<String> attendingGuests = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,19 +63,14 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                     }
                 });
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Intent intent = getIntent();
 
         Amplify.API.query(
-                ModelQuery.list(User.class),
+                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
-                    for (User guest : response.getData()) {
-//                        if (preferences.contains("RSVP")) {
-//                            if (guest.get().equals(preferences.getString("RSVP", null))) {
-//                                guestList.add(guest);
-//                            }
-//                        } else {
-//                            guestList.add(guest);
-//                        }
+                    for (GuestList user : response.getData().getUsers()) {
+                        Log.i("Amplify.test", "stuff to test " + user);
+                        attendingGuests.add(user.getInvitedUser());
                     }
                     handler.sendEmptyMessage(1);
                 },
@@ -95,30 +78,32 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         );
 
         Amplify.API.query(
-                ModelQuery.list(Gift.class),
+                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
-                    for (Gift giftBrought : response.getData()) {
-                        if (preferences.contains("GiftGroup")) {
-                            if (giftBrought.getUser().getGifts().equals(preferences.getString("GiftGroup", null))) {
-                                giftList.add(giftBrought);
-                            }
-                        } else {
-                            giftList.add(giftBrought); //TODO: when we add the gift, can we mutate its name?
+                    for (Gift giftBrought : response.getData().getGifts()) {
+                        Log.i("Amplify.gifts", "Here is all the gifts from users! ");
+                        giftList.add(giftBrought);
                         }
-                    }
                     handler.sendEmptyMessage(1);
                 },
                 error -> Log.e("Amplify", "Failed to retrieve store")
         );
-
         guestsTakeTurns();
 
+
+
     }
-        public void guestsTakeTurns(){
+
+    public void guestsTakeTurns(){
         for(int i = 0; i < guestList.size(); i ++){
-//            while(guestList.get(i).gifts == null){
-                //the user can choose a gift
-//            }
+            while(guestList.get(i).getUser().getGifts() == null){
+                TextView currentUser = CurrentParty.this.findViewById(R.id.usersTurn);
+                currentUser.setText(guestList.get(i).getUser().getUserName());
+                for(int j = 0; i < giftList.size(); j++){
+                    guestList.get(i).getUser().getGifts().add(giftList.get(j));
+//                    TextView giftChosen = CurrentParty.this.findViewById(R.id.)
+                }//TODO: how do we add a single gift to a list of gifts, then show that gift?
+            }
         }
         Intent intent = new Intent(CurrentParty.this, PostParty.class);
         intent.putExtra("partyName", String.valueOf(Party.TITLE));
@@ -131,7 +116,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     private void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.usersRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new CurrentPartyUserAdapter(guestList, (CurrentPartyUserAdapter.OnInteractWithTaskListener) this));
+        recyclerView.setAdapter(new CurrentPartyUserAdapter(attendingGuests, (CurrentPartyUserAdapter.OnInteractWithTaskListener) this));
     }
 
     private void connectAdapterToRecycler2() {

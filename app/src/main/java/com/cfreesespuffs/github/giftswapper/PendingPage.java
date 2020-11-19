@@ -103,15 +103,8 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
                     for (GuestList user : response.getData().getUsers()) {
-//                        if (guestList.getParty().getId().contains(intent.getExtras().getString("id"))) {
-//                            attendingGuests.add(guestList.getUser().getUserName());
                             Log.i("Amplify.test", "stuff to test " + user);
                             attendingGuests.add(user.getInvitedUser());
-//                            Log.i("Amplify.test", "Lets look at all of our parties users " + user.);
-//                            Log.i("Amplify.test", "================= " + guestList.);
-//                            Log.i("Amplify.test", "lets look at all the statuses of our users" + guestList.getUsers());
-//                            statusGuests.add(guestList.getUser().getInviteStatus().toString());
-
                     }
                     handler.sendEmptyMessage(1);
                 },
