@@ -7,19 +7,26 @@ mutation CreateUser(
     id
     userName
     email
-    inviteStatus {
-      items {
-        id
-        status
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
     gifts {
       items {
         id
         title
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -28,6 +35,25 @@ mutation CreateUser(
     parties {
       items {
         id
+        inviteStatus
+        invitee
+        invitedUser
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -45,19 +71,26 @@ mutation UpdateUser(
     id
     userName
     email
-    inviteStatus {
-      items {
-        id
-        status
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
     gifts {
       items {
         id
         title
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -66,6 +99,25 @@ mutation UpdateUser(
     parties {
       items {
         id
+        inviteStatus
+        invitee
+        invitedUser
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -83,19 +135,26 @@ mutation DeleteUser(
     id
     userName
     email
-    inviteStatus {
-      items {
-        id
-        status
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
     gifts {
       items {
         id
         title
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -104,91 +163,29 @@ mutation DeleteUser(
     parties {
       items {
         id
+        inviteStatus
+        invitee
+        invitedUser
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
       nextToken
-    }
-    createdAt
-    updatedAt
-  }
-}
-mutation CreateInviteStatus(
-  $input: CreateInviteStatusInput!
-  $condition: ModelInviteStatusConditionInput
-) {
-  createInviteStatus(input: $input, condition: $condition) {
-    id
-    status
-    name {
-      id
-      userName
-      email
-      inviteStatus {
-        nextToken
-      }
-      gifts {
-        nextToken
-      }
-      parties {
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    createdAt
-    updatedAt
-  }
-}
-mutation UpdateInviteStatus(
-  $input: UpdateInviteStatusInput!
-  $condition: ModelInviteStatusConditionInput
-) {
-  updateInviteStatus(input: $input, condition: $condition) {
-    id
-    status
-    name {
-      id
-      userName
-      email
-      inviteStatus {
-        nextToken
-      }
-      gifts {
-        nextToken
-      }
-      parties {
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    createdAt
-    updatedAt
-  }
-}
-mutation DeleteInviteStatus(
-  $input: DeleteInviteStatusInput!
-  $condition: ModelInviteStatusConditionInput
-) {
-  deleteInviteStatus(input: $input, condition: $condition) {
-    id
-    status
-    name {
-      id
-      userName
-      email
-      inviteStatus {
-        nextToken
-      }
-      gifts {
-        nextToken
-      }
-      parties {
-        nextToken
-      }
-      createdAt
-      updatedAt
     }
     createdAt
     updatedAt
@@ -200,17 +197,31 @@ mutation CreateGuestList(
 ) {
   createGuestList(input: $input, condition: $condition) {
     id
+    inviteStatus
+    invitee
+    invitedUser
     user {
       id
       userName
       email
-      inviteStatus {
-        nextToken
-      }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -222,13 +233,24 @@ mutation CreateGuestList(
       hostedOn
       hostedAt
       price
-      status {
-        nextToken
-      }
       users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -244,17 +266,31 @@ mutation UpdateGuestList(
 ) {
   updateGuestList(input: $input, condition: $condition) {
     id
+    inviteStatus
+    invitee
+    invitedUser
     user {
       id
       userName
       email
-      inviteStatus {
-        nextToken
-      }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -266,13 +302,24 @@ mutation UpdateGuestList(
       hostedOn
       hostedAt
       price
-      status {
-        nextToken
-      }
       users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -288,17 +335,31 @@ mutation DeleteGuestList(
 ) {
   deleteGuestList(input: $input, condition: $condition) {
     id
+    inviteStatus
+    invitee
+    invitedUser
     user {
       id
       userName
       email
-      inviteStatus {
-        nextToken
-      }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -310,13 +371,24 @@ mutation DeleteGuestList(
       hostedOn
       hostedAt
       price
-      status {
-        nextToken
-      }
       users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -337,13 +409,24 @@ mutation CreateGift(
       id
       userName
       email
-      inviteStatus {
-        nextToken
-      }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -355,13 +438,24 @@ mutation CreateGift(
       hostedOn
       hostedAt
       price
-      status {
-        nextToken
-      }
       users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -382,13 +476,24 @@ mutation UpdateGift(
       id
       userName
       email
-      inviteStatus {
-        nextToken
-      }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -400,13 +505,24 @@ mutation UpdateGift(
       hostedOn
       hostedAt
       price
-      status {
-        nextToken
-      }
       users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -427,13 +543,24 @@ mutation DeleteGift(
       id
       userName
       email
-      inviteStatus {
-        nextToken
-      }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -445,13 +572,24 @@ mutation DeleteGift(
       hostedOn
       hostedAt
       price
-      status {
-        nextToken
-      }
       users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       createdAt
@@ -471,18 +609,28 @@ mutation CreateParty(
     hostedOn
     hostedAt
     price
-    status {
-      items {
-        id
-        status
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
     users {
       items {
         id
+        inviteStatus
+        invitee
+        invitedUser
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -492,6 +640,22 @@ mutation CreateParty(
       items {
         id
         title
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -511,18 +675,28 @@ mutation UpdateParty(
     hostedOn
     hostedAt
     price
-    status {
-      items {
-        id
-        status
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
     users {
       items {
         id
+        inviteStatus
+        invitee
+        invitedUser
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -532,6 +706,22 @@ mutation UpdateParty(
       items {
         id
         title
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -551,18 +741,28 @@ mutation DeleteParty(
     hostedOn
     hostedAt
     price
-    status {
-      items {
-        id
-        status
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
     users {
       items {
         id
+        inviteStatus
+        invitee
+        invitedUser
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }
@@ -572,6 +772,22 @@ mutation DeleteParty(
       items {
         id
         title
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }

@@ -26,7 +26,6 @@ import com.amplifyframework.core.Amplify;
 
 import com.amplifyframework.datastore.generated.model.GuestList;
 
-import com.amplifyframework.datastore.generated.model.InviteStatus;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
 
@@ -132,47 +131,53 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                         .hostedAt(timeOfParty)
                         .hostedOn(dateOfParty)
                         .price(priceOfParty)
-                       // .
                         .build();
 
                 Amplify.API.mutate(
                         ModelMutation.create(party),
-                        response -> Log.i("Amplify.API", "success party started"),
-                        error -> Log.e("Amplify/API", "Message failed " + error)
-                );
-
-                for (User thisGuest : guestsToInviteList) {
-                    GuestList guestListFinal = GuestList.builder()
-                            .party(party)
-                            .user(thisGuest)
-                            .build();
-
-                    Amplify.API.mutate(
-                            ModelMutation.create(guestListFinal),
-                            response -> Log.i("Amplify.API", "success users added"),
-                            error -> Log.e("Amplify/API", "Message failed " + error)
-                    );
-                }
+                        response -> {
+                            Log.i("Amplify.API", "success party started");
+                            Party party2 = response.getData();
+//                for (User thisGuest : guestsToInviteList) {
+//                    GuestList guestListFinal = GuestList.builder()
+//                            .party(party)
+//                            .user(thisGuest)
+//                            .build();
+//
+//                    Amplify.API.mutate(
+//                            ModelMutation.create(guestListFinal),
+//                            response -> Log.i("Amplify.API", "success users added"),
+//                            error -> Log.e("Amplify/API", "Message failed " + error)
+//                    );
+//                }
+                            //TODO: increase statement depth ||
                 for(User guest : guestsToInviteList){
-                    InviteStatus inviteStatus = InviteStatus.builder()
-                            .status("Pending")
-                            .name(guest)
+                    GuestList inviteStatus = GuestList.builder()
+                            .inviteStatus("Pending")
+                            .user(guest)
+                            .invitee("Host")
+                            .invitedUser(guest.getUserName())
+                            .party(party2)
                             .build();
 
                     Amplify.API.mutate(
                             ModelMutation.create(inviteStatus),
-                            response -> Log.i("Amplify.API", "Users are now pending!!!"),
+                            response2 -> Log.i("Amplify.API", "Users are now pending!!!"),
                             error -> Log.e("Amplify/API", "Message failed " + error)
                     );
                 }
 
                 Intent intent = new Intent(HostParty.this, PendingPage.class);
-                intent.putExtra("partyName", party.title);
-                intent.putExtra("when", party.hostedOn);
-                intent.putExtra("setTime", party.hostedAt);
-                intent.putExtra("budget", party.price);
-                intent.putExtra("id", party.id);
+                intent.putExtra("partyName", party2.getTitle());
+                intent.putExtra("when", party2.getHostedOn());
+                intent.putExtra("setTime", party2.getHostedAt());
+                intent.putExtra("budget", party2.getPrice());
+                intent.putExtra("id", party2.getId());
                 HostParty.this.startActivity(intent);
+                        },
+                        error -> Log.e("Amplify/API", "Message failed " + error)
+                );
+
             }
         });
     }

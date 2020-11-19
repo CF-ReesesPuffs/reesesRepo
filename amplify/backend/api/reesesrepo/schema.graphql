@@ -2,21 +2,15 @@ type User @model {
   id: ID!
   userName: String!
   email: String
-#  inviteStatus: [InviteStatus] @connection(name: "RSVP")
   gifts: [Gift] @connection(name: "GiftGroup")
   parties: [GuestList] @connection(name:"ConUser")
 }
-
-#type InviteStatus @model{
-#  id: ID!
-#  status: String
-#  name: User @connection(name: "RSVP")
-#}
 
 type GuestList @model {
   id: ID!
   inviteStatus: String
   invitee: String
+  invitedUser: String
   user: User @connection(name: "ConUser")
   party: Party @connection(name:"ConParty")
 }
@@ -34,7 +28,6 @@ type Party @model {
   hostedOn: String
   hostedAt: String
   price: String
-  status: [InviteStatus] @connection(name: "RSVP")
   users: [GuestList] @connection(name: "ConParty")
   gifts: [Gift] @connection(name: "PartyGifts")
 }

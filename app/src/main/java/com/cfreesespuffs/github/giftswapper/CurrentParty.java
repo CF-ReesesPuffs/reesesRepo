@@ -81,13 +81,13 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 ModelQuery.list(User.class),
                 response -> {
                     for (User guest : response.getData()) {
-                        if (preferences.contains("RSVP")) {
-                            if (guest.getInviteStatus().equals(preferences.getString("RSVP", null))) {
-                                guestList.add(guest);
-                            }
-                        } else {
-                            guestList.add(guest);
-                        }
+//                        if (preferences.contains("RSVP")) {
+//                            if (guest.get().equals(preferences.getString("RSVP", null))) {
+//                                guestList.add(guest);
+//                            }
+//                        } else {
+//                            guestList.add(guest);
+//                        }
                     }
                     handler.sendEmptyMessage(1);
                 },
