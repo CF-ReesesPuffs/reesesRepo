@@ -201,9 +201,11 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
     @Override
     public void listener(Party party) {
-        Intent goToPartyDetailInent = new Intent(MainActivity.this, InvitationDetails.class);//we don't have an activity for a single party do we? sent it to invited party for now
-        goToPartyDetailInent.putExtra("title",party.getTitle());
-        goToPartyDetailInent.putExtra("price",party.getPrice());
-        this.startActivity(goToPartyDetailInent);
+        Log.i("MainActivity.party", "party " + party);
+        Intent goToPartyDetailIntent = new Intent(MainActivity.this, InvitationDetails.class);//we don't have an activity for a single party do we? sent it to invited party for now
+        goToPartyDetailIntent.putExtra("title",party.getTitle());
+        goToPartyDetailIntent.putExtra("price",party.getPrice());
+        goToPartyDetailIntent.putExtra("partyId",party.getId());
+        this.startActivity(goToPartyDetailIntent);
     }
 }
