@@ -26,6 +26,7 @@ import com.amplifyframework.core.Amplify;
 
 import com.amplifyframework.datastore.generated.model.GuestList;
 
+import com.amplifyframework.datastore.generated.model.InviteStatus;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
 
@@ -151,8 +152,20 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                             response -> Log.i("Amplify.API", "success users added"),
                             error -> Log.e("Amplify/API", "Message failed " + error)
                     );
-
                 }
+                for(User guest : guestsToInviteList){
+                    InviteStatus inviteStatus = InviteStatus.builder()
+                            .status("Pending")
+                            .name(guest)
+                            .build();
+
+                    Amplify.API.mutate(
+                            ModelMutation.create(inviteStatus),
+                            response -> Log.i("Amplify.API", "Users are now pending!!!"),
+                            error -> Log.e("Amplify/API", "Message failed " + error)
+                    );
+                }
+
                 Intent intent = new Intent(HostParty.this, PendingPage.class);
                 intent.putExtra("partyName", party.title);
                 intent.putExtra("when", party.hostedOn);
