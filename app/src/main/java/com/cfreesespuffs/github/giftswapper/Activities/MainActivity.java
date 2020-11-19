@@ -29,6 +29,7 @@ import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.InvitationDetails;
 import com.cfreesespuffs.github.giftswapper.Adapters.PartyAdapter;
 import com.cfreesespuffs.github.giftswapper.InvitationList;
+import com.cfreesespuffs.github.giftswapper.PendingPage;
 import com.cfreesespuffs.github.giftswapper.R;
 import com.cfreesespuffs.github.giftswapper.UserProfile;
 
@@ -201,11 +202,10 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
     @Override
     public void listener(Party party) {
-        Log.i("MainActivity.party", "party " + party);
-        Intent goToPartyDetailIntent = new Intent(MainActivity.this, InvitationDetails.class);//we don't have an activity for a single party do we? sent it to invited party for now
-        goToPartyDetailIntent.putExtra("title",party.getTitle());
-        goToPartyDetailIntent.putExtra("price",party.getPrice());
+        Intent goToPartyDetailInent = new Intent(MainActivity.this, PendingPage.class);//we don't have an activity for a single party do we? sent it to invited party for now
+        goToPartyDetailInent.putExtra("title",party.getTitle());
+        goToPartyDetailInent.putExtra("price",party.getPrice());
         goToPartyDetailIntent.putExtra("partyId",party.getId());
-        this.startActivity(goToPartyDetailIntent);
+        this.startActivity(goToPartyDetailInent);
     }
 }
