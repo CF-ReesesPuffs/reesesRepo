@@ -1,5 +1,6 @@
 package com.cfreesespuffs.github.giftswapper.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,10 +18,13 @@ import android.widget.ImageButton;
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
 import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.auth.options.AuthSignOutOptions;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
+import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.InvitationDetails;
 import com.cfreesespuffs.github.giftswapper.Adapters.PartyAdapter;
 import com.cfreesespuffs.github.giftswapper.InvitationList;
@@ -32,6 +36,9 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener{
     public ArrayList<Party> parties;
     Handler handlecheckLoggedIn;
+    Handler handler;
+    Handler handleParties;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +47,47 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
         configureAws();
         getIsSignedIn();
-        //=========== RecyclerView=======================
-        RecyclerView partyRecyclerView = findViewById(R.id.party_recyclerview);
-        partyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        partyRecyclerView.setAdapter(new PartyAdapter(parties, this)); //will we need to create a PartyAdapter?
-// =======================================================================
+
+
+
+        handler = new Handler(Looper.getMainLooper(),
+                new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(@NonNull Message msg) {
+                        connectRecycler();
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                        return false;
+                    }
+                });
+
+        handleParties = new Handler(Looper.getMainLooper(),
+                new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(@NonNull Message msg) {
+                        if(msg.arg1 == 1){
+                            Log.i("Amplify", "Parties are showing");
+                        }
+                        recyclerView.getAdapter().notifyItemInserted(parties.size());
+                        return false;
+                    }
+                });
+
+        connectRecycler();
+        Intent intent = getIntent();
+
+        Amplify.API.query(
+                ModelQuery.get(User.class, intent.getExtras().getString("id")),
+                response -> {
+                    for (GuestList party : response.getData().getParties()) {
+
+                        parties.add(party.getParty());
+
+                    }
+                    handler.sendEmptyMessage(1);
+                },
+                error -> Log.e("Amplify", "Failed to retrieve store")
+        );
+
 
 //===================== Buttons =====================================
         ImageButton profileButton = MainActivity.this.findViewById(R.id.profile_button);
@@ -106,7 +149,14 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             return false;
         });
     }
+    //=========== RecyclerView=======================
+    private void connectRecycler(){
+        RecyclerView partyRecyclerView = findViewById(R.id.party_recyclerview);
+        partyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        partyRecyclerView.setAdapter(new PartyAdapter(parties, this)); //will we need to create a PartyAdapter?
+    }
 
+    // =======================================================================
 //========================================================= user -sign-in
     public boolean getIsSignedIn() {
         boolean[] isSingedIn = {false};

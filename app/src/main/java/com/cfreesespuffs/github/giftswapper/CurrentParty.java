@@ -121,7 +121,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 //the user can choose a gift
 
 //            }
-                }
+//                }
                 Intent intent = new Intent(CurrentParty.this, PostParty.class);
                 intent.putExtra("partyName", String.valueOf(Party.TITLE));
 //        intent.putExtra("host", String.valueOf(Party.));
