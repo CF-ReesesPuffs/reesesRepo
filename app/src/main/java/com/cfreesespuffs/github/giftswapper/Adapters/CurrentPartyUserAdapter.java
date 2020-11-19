@@ -15,11 +15,11 @@ import com.cfreesespuffs.github.giftswapper.R;
 import java.util.ArrayList;
 
 public class CurrentPartyUserAdapter extends RecyclerView.Adapter<CurrentPartyUserAdapter.AdapterViewHolder> {
-    public ArrayList<User> userActiveParty;
+    public ArrayList<String> userActiveParty;
 //    public ArrayList<Gift> giftsBrought;
     public OnInteractWithTaskListener listener;
 
-    public CurrentPartyUserAdapter(ArrayList<User> userActiveParty, OnInteractWithTaskListener listener) {
+    public CurrentPartyUserAdapter(ArrayList<String> userActiveParty, OnInteractWithTaskListener listener) {
         this.userActiveParty = userActiveParty;
 //        this.giftsBrought = giftsBrought;
         this.listener = listener;
@@ -27,7 +27,7 @@ public class CurrentPartyUserAdapter extends RecyclerView.Adapter<CurrentPartyUs
 
     // view holder deals with the passing of data from java to the fragment (list item)
     public static class AdapterViewHolder extends RecyclerView.ViewHolder {
-        public User user;
+        public String user;
 //        public Gift gift;
         public View itemView;
 
@@ -65,15 +65,15 @@ public class CurrentPartyUserAdapter extends RecyclerView.Adapter<CurrentPartyUs
     public void onBindViewHolder(@NonNull AdapterViewHolder holder, int position) {
         holder.user = userActiveParty.get(position);
         TextView userName = holder.itemView.findViewById(R.id.guestName);
-        TextView gift = holder.itemView.findViewById(R.id.giftRecieved);
+//        TextView gift = holder.itemView.findViewById(R.id.giftRecieved);
 
-        userName.setText((CharSequence) holder.user.getUserName());
-        gift.setText((CharSequence) holder.user.getGifts());
+        userName.setText((CharSequence) holder.user);
+//        gift.setText((CharSequence) holder.user);
     }
 
 
     public static interface OnInteractWithTaskListener {
-        public void taskListener(User party);
+        public void taskListener(String party);
     }
 
 
