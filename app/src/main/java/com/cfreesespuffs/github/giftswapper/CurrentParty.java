@@ -117,6 +117,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         recyclerView = findViewById(R.id.usersRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new CurrentPartyUserAdapter(attendingGuests, (CurrentPartyUserAdapter.OnInteractWithTaskListener) this));
+
     }
 
     private void connectAdapterToRecycler2() {
@@ -130,4 +131,5 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         //user clicks on a gift
         //gift now belongs to that user
     }
+
 }
