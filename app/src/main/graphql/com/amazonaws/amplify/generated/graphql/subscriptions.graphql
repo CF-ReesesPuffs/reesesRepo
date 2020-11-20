@@ -1,0 +1,784 @@
+# this is an auto generated file. This will be overwritten
+subscription OnCreateUser {
+  onCreateUser {
+    id
+    userName
+    email
+    gifts {
+      items {
+        id
+        title
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    parties {
+      items {
+        id
+        inviteStatus
+        invitee
+        invitedUser
+        turnTaken
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateUser {
+  onUpdateUser {
+    id
+    userName
+    email
+    gifts {
+      items {
+        id
+        title
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    parties {
+      items {
+        id
+        inviteStatus
+        invitee
+        invitedUser
+        turnTaken
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteUser {
+  onDeleteUser {
+    id
+    userName
+    email
+    gifts {
+      items {
+        id
+        title
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    parties {
+      items {
+        id
+        inviteStatus
+        invitee
+        invitedUser
+        turnTaken
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnCreateGuestList {
+  onCreateGuestList {
+    id
+    inviteStatus
+    invitee
+    invitedUser
+    turnTaken
+    user {
+      id
+      userName
+      email
+      gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          turnTaken
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      price
+      users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          turnTaken
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateGuestList {
+  onUpdateGuestList {
+    id
+    inviteStatus
+    invitee
+    invitedUser
+    turnTaken
+    user {
+      id
+      userName
+      email
+      gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          turnTaken
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      price
+      users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          turnTaken
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteGuestList {
+  onDeleteGuestList {
+    id
+    inviteStatus
+    invitee
+    invitedUser
+    turnTaken
+    user {
+      id
+      userName
+      email
+      gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          turnTaken
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      price
+      users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          turnTaken
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnCreateGift {
+  onCreateGift {
+    id
+    title
+    user {
+      id
+      userName
+      email
+      gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          turnTaken
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      price
+      users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          turnTaken
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateGift {
+  onUpdateGift {
+    id
+    title
+    user {
+      id
+      userName
+      email
+      gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          turnTaken
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      price
+      users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          turnTaken
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteGift {
+  onDeleteGift {
+    id
+    title
+    user {
+      id
+      userName
+      email
+      gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          turnTaken
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      price
+      users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          turnTaken
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnCreateParty {
+  onCreateParty {
+    id
+    title
+    hostedOn
+    hostedAt
+    price
+    users {
+      items {
+        id
+        inviteStatus
+        invitee
+        invitedUser
+        turnTaken
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    gifts {
+      items {
+        id
+        title
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateParty {
+  onUpdateParty {
+    id
+    title
+    hostedOn
+    hostedAt
+    price
+    users {
+      items {
+        id
+        inviteStatus
+        invitee
+        invitedUser
+        turnTaken
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    gifts {
+      items {
+        id
+        title
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteParty {
+  onDeleteParty {
+    id
+    title
+    hostedOn
+    hostedAt
+    price
+    users {
+      items {
+        id
+        inviteStatus
+        invitee
+        invitedUser
+        turnTaken
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    gifts {
+      items {
+        id
+        title
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
