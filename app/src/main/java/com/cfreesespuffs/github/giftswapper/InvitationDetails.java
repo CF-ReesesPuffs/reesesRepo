@@ -40,8 +40,6 @@ public class InvitationDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invited_party_page);
 
-
-
 //        getIsSignedIn();
 
         intent = getIntent();
@@ -75,7 +73,7 @@ public class InvitationDetails extends AppCompatActivity {
         Intent intent = getIntent();
 
 
-        TextView partyName = InvitationDetails.this.findViewById(R.id.homePartyTitleButton);
+        TextView partyName = InvitationDetails.this.findViewById(R.id.partyName);
         partyName.setText(intent.getExtras().getString("partyName"));
 
        // TextView host = InvitationDetails.this.findViewById(R.id.partyHost);
