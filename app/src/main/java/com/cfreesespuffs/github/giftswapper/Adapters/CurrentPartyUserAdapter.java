@@ -1,5 +1,6 @@
 package com.cfreesespuffs.github.giftswapper.Adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,7 +8,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.AuthUser;
+import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
+import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.R;
@@ -15,20 +21,23 @@ import com.cfreesespuffs.github.giftswapper.R;
 import java.util.ArrayList;
 
 public class CurrentPartyUserAdapter extends RecyclerView.Adapter<CurrentPartyUserAdapter.AdapterViewHolder> {
-    public ArrayList<String> userActiveParty;
-//    public ArrayList<Gift> giftsBrought;
+    public ArrayList<GuestList> userActiveParty;
+    public ArrayList<Gift> giftsBrought;
     public OnInteractWithTaskListener listener;
 
-    public CurrentPartyUserAdapter(ArrayList<String> userActiveParty, OnInteractWithTaskListener listener) {
+    User amplifyUser;
+    Gift giftUpdate;
+
+    public CurrentPartyUserAdapter(ArrayList<GuestList> userActiveParty, OnInteractWithTaskListener listener) {
         this.userActiveParty = userActiveParty;
-//        this.giftsBrought = giftsBrought;
+        this.giftsBrought = giftsBrought;
         this.listener = listener;
     }
 
     // view holder deals with the passing of data from java to the fragment (list item)
     public static class AdapterViewHolder extends RecyclerView.ViewHolder {
-        public String user;
-//        public Gift gift;
+        public GuestList user;
+        public Gift gift;
         public View itemView;
 
 
@@ -54,7 +63,7 @@ public class CurrentPartyUserAdapter extends RecyclerView.Adapter<CurrentPartyUs
             @Override
             public void onClick(View v) {
                 System.out.println(viewHolder.user);
-                listener.taskListener(viewHolder.user);
+                listener.taskListener(viewHolder.user.getUser().getUserName());
             }
         });
 
@@ -64,11 +73,10 @@ public class CurrentPartyUserAdapter extends RecyclerView.Adapter<CurrentPartyUs
     @Override
     public void onBindViewHolder(@NonNull AdapterViewHolder holder, int position) {
         holder.user = userActiveParty.get(position);
-        TextView userName = holder.itemView.findViewById(R.id.guestName);
-//        TextView gift = holder.itemView.findViewById(R.id.giftRecieved);
+        TextView userName = holder.itemView.findViewById(R.id.userName);
+        TextView gift = holder.itemView.findViewById(R.id.giftName);
 
-        userName.setText((CharSequence) holder.user);
-//        gift.setText((CharSequence) holder.user);
+        userName.setText(holder.user.getUser().getUserName());
     }
 
 

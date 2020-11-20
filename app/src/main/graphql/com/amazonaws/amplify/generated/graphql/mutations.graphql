@@ -38,6 +38,7 @@ mutation CreateUser(
         inviteStatus
         invitee
         invitedUser
+        turnTaken
         user {
           id
           userName
@@ -102,6 +103,7 @@ mutation UpdateUser(
         inviteStatus
         invitee
         invitedUser
+        turnTaken
         user {
           id
           userName
@@ -166,6 +168,7 @@ mutation DeleteUser(
         inviteStatus
         invitee
         invitedUser
+        turnTaken
         user {
           id
           userName
@@ -200,6 +203,7 @@ mutation CreateGuestList(
     inviteStatus
     invitee
     invitedUser
+    turnTaken
     user {
       id
       userName
@@ -219,6 +223,7 @@ mutation CreateGuestList(
           inviteStatus
           invitee
           invitedUser
+          turnTaken
           createdAt
           updatedAt
         }
@@ -239,6 +244,7 @@ mutation CreateGuestList(
           inviteStatus
           invitee
           invitedUser
+          turnTaken
           createdAt
           updatedAt
         }
@@ -269,6 +275,7 @@ mutation UpdateGuestList(
     inviteStatus
     invitee
     invitedUser
+    turnTaken
     user {
       id
       userName
@@ -288,6 +295,7 @@ mutation UpdateGuestList(
           inviteStatus
           invitee
           invitedUser
+          turnTaken
           createdAt
           updatedAt
         }
@@ -308,6 +316,7 @@ mutation UpdateGuestList(
           inviteStatus
           invitee
           invitedUser
+          turnTaken
           createdAt
           updatedAt
         }
@@ -338,6 +347,7 @@ mutation DeleteGuestList(
     inviteStatus
     invitee
     invitedUser
+    turnTaken
     user {
       id
       userName
@@ -357,6 +367,7 @@ mutation DeleteGuestList(
           inviteStatus
           invitee
           invitedUser
+          turnTaken
           createdAt
           updatedAt
         }
@@ -377,6 +388,7 @@ mutation DeleteGuestList(
           inviteStatus
           invitee
           invitedUser
+          turnTaken
           createdAt
           updatedAt
         }
@@ -424,6 +436,7 @@ mutation CreateGift(
           inviteStatus
           invitee
           invitedUser
+          turnTaken
           createdAt
           updatedAt
         }
@@ -444,6 +457,7 @@ mutation CreateGift(
           inviteStatus
           invitee
           invitedUser
+          turnTaken
           createdAt
           updatedAt
         }
@@ -491,6 +505,7 @@ mutation UpdateGift(
           inviteStatus
           invitee
           invitedUser
+          turnTaken
           createdAt
           updatedAt
         }
@@ -511,6 +526,7 @@ mutation UpdateGift(
           inviteStatus
           invitee
           invitedUser
+          turnTaken
           createdAt
           updatedAt
         }
@@ -558,6 +574,7 @@ mutation DeleteGift(
           inviteStatus
           invitee
           invitedUser
+          turnTaken
           createdAt
           updatedAt
         }
@@ -578,6 +595,7 @@ mutation DeleteGift(
           inviteStatus
           invitee
           invitedUser
+          turnTaken
           createdAt
           updatedAt
         }
@@ -615,6 +633,7 @@ mutation CreateParty(
         inviteStatus
         invitee
         invitedUser
+        turnTaken
         user {
           id
           userName
@@ -681,6 +700,7 @@ mutation UpdateParty(
         inviteStatus
         invitee
         invitedUser
+        turnTaken
         user {
           id
           userName
@@ -747,6 +767,7 @@ mutation DeleteParty(
         inviteStatus
         invitee
         invitedUser
+        turnTaken
         user {
           id
           userName

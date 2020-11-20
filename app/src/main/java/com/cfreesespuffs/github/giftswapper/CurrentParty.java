@@ -13,9 +13,11 @@ import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.auth.AuthUser;
 import com.amplifyframework.core.Amplify;
@@ -32,8 +34,8 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCommWithGiftsListener, CurrentPartyUserAdapter.OnInteractWithTaskListener{
-    ArrayList<GuestList> guestList;
-    ArrayList<Gift> giftList;
+    ArrayList<GuestList> guestList = new ArrayList<>();
+    ArrayList<Gift> giftList = new ArrayList<>();
     Handler handler;
     Handler handler2;
     RecyclerView recyclerView;
@@ -51,13 +53,12 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 //        TextView partyName = CurrentParty.this.findViewById(R.id.partyName);
 //        partyName.setText(intent.getExtras().getString("partyName"));
 
-
-
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
                     @Override
                     public boolean handleMessage(@NonNull Message msg) {
                         connectAdapterToRecycler();
+                        connectAdapterToRecycler2();
                         recyclerView.getAdapter().notifyDataSetChanged();
                         return false;
                     }
@@ -68,6 +69,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                     @Override
                     public boolean handleMessage(@NonNull Message msg) {
                         connectAdapterToRecycler();
+                        connectAdapterToRecycler2();
                         recyclerView2.getAdapter().notifyDataSetChanged();
                         return false;
                     }
@@ -81,6 +83,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                     for (GuestList user : response.getData().getUsers()) {
                         Log.i("Amplify.test", "stuff to test " + user);
                         attendingGuests.add(user.getInvitedUser());
+                        guestList.add(user);
                     }
                     handler.sendEmptyMessage(1);
                 },
@@ -90,8 +93,9 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
+                    Log.i("Test party.gift", "================================" + response.getData().getGifts());
                     for (Gift giftBrought : response.getData().getGifts()) {
-                        Log.i("Amplify.gifts", "Here is all the gifts from users! ");
+                        Log.i("Amplify.gifts", "Here is all the gifts from users! " + giftBrought);
                         giftList.add(giftBrought);
                         }
                     handler.sendEmptyMessage(1);
@@ -123,14 +127,14 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
     public void guestsTakeTurns(){
         for(int i = 0; i < guestList.size(); i ++){
-            while(guestList.get(i).getUser().getGifts() == null){
+            while(guestList.get(i).getTurnTaken() == false){
                 TextView currentUser = CurrentParty.this.findViewById(R.id.usersTurn);
+                currentUser.setVisibility(View.VISIBLE);
                 currentUser.setText(guestList.get(i).getUser().getUserName());
-                for(int j = 0; i < giftList.size(); j++){
-                    guestList.get(i).getUser().getGifts().add(giftList.get(j));
-//                    TextView giftChosen = CurrentParty.this.findViewById(R.id.)
+
+
+
                 }//TODO: how do we add a single gift to a list of gifts, then show that gift?
-            }
         }
         Intent intent = new Intent(CurrentParty.this, PostParty.class);
         intent.putExtra("partyName", String.valueOf(Party.TITLE));
@@ -140,23 +144,23 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 //        intent.putExtra("users", String.valueOf(Party.));
         }
 
-    private void connectAdapterToRecycler() {
+    public void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.usersRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new CurrentPartyUserAdapter(attendingGuests,  this));
-
+        recyclerView.setAdapter(new CurrentPartyUserAdapter(guestList,  this));
     }
 
-    private void connectAdapterToRecycler2() {
+    public void connectAdapterToRecycler2() {
         recyclerView2 = findViewById(R.id.giftRecycler);
-        recyclerView2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView2.setAdapter(new GiftAdapter(giftList, this));
+        recyclerView2.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView2.setAdapter(new GiftAdapter(giftList, loggedUser, this));
     }
 
     @Override
     public void giftsToDoListener(Gift gift) {
         //user clicks on a gift
         //gift now belongs to that user
+
     }
 
     @Override
