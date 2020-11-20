@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                                             for (GuestList party : response2.getData().getParties()) {
                                                 if(party.getInviteStatus().equals("Accepted")){
                                                     parties.add(party.getParty());
+
                                                 }
                                                 Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
 
