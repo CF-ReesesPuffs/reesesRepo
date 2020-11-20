@@ -63,9 +63,7 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 System.out.println(viewHolder.gifts);
-
                 listener.giftsToDoListener(viewHolder.gifts);
             }
         });
@@ -81,11 +79,11 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
         holder.gifts = giftsList.get(position);
         TextView giftNameTv = holder.giftView.findViewById(R.id.giftNameFrag);
         TextView userOwner = holder.giftView.findViewById(R.id.userName);
-        userOwner.setVisibility(View.INVISIBLE);
+        userOwner.setVisibility(View.VISIBLE);
 
         heldGift = holder.gifts;
         giftNameTv.setText(holder.gifts.getTitle());
-        giftUpdate = giftsList.get(position); //TODO:
+        giftUpdate = giftsList.get(position);
 
         userOwner.setText(giftUpdate.getUser().getUserName());
 

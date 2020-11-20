@@ -63,6 +63,9 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
         Intent intent = getIntent();
 
+        TextView partyName = CurrentParty.this.findViewById(R.id.partyName);
+        partyName.setText(intent.getExtras().getString("thisPartyId"));
+
 
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -143,15 +146,30 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                     Log.i(SUBSCRIBETAG, "Subscription created: " + ((Gift) createdItem.getData()).getTitle()
                     );
                     Gift newItem = (Gift) createdItem.getData();
-                    for (Gift gift : giftList){
-                        if (gift.getTitle().contains(newItem.getTitle())){
-                            giftList.remove(gift);
-                        }
-                    }
-                    if (newItem.getUser().getUserName().contains(authUser.getUsername())) {
-                        giftList.add(newItem);
-                        handler2.sendEmptyMessage(1);
-                    }
+                    Log.i("Gift chosen", giftList.toString());
+                    giftList.clear();
+
+                    Amplify.API.query(
+                            ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+                            response -> {
+                                Log.i("Test party.gift", "================================" + response.getData().getGifts());
+                                for (Gift giftBrought : response.getData().getGifts()) {
+                                    Log.i("Amplify.gifts", "Here is all the gifts from users! " + giftBrought);
+                                    giftList.add(giftBrought);
+                                }
+                                handler.sendEmptyMessage(1);
+                            },
+                            error -> Log.e("Amplify", "Failed to retrieve store")
+                    );
+//                    for (Gift gift : giftList){
+//                        if (gift.getTitle().contains(newItem.getTitle())){
+//                            giftList.remove(gift);
+//                        }
+//                    }
+//                    if (newItem.getUser().getUserName().contains(authUser.getUsername())) {
+//                        giftList.add(newItem);
+//                        handler2.sendEmptyMessage(1);
+//                    }
                 },
                 onFailure -> {
                     Log.i(SUBSCRIBETAG, onFailure.toString());
@@ -164,13 +182,13 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         Intent goToMainIntent = new Intent(CurrentParty.this, MainActivity.class);
         CurrentParty.this.startActivity(goToMainIntent);
     });
-        Button takeStuff = CurrentParty.this.findViewById(R.id.startParty);
-        takeStuff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println(((GiftAdapter) recyclerView2.getAdapter()).giftsList + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-            }
-        });
+//        Button takeStuff = CurrentParty.this.findViewById(R.id.startParty);
+//        takeStuff.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                System.out.println(((GiftAdapter) recyclerView2.getAdapter()).giftsList + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+//            }
+//        });
 
     }
 
@@ -178,9 +196,9 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     public void guestsTakeTurns(){
         for(int i = 0; i < guestList.size(); i ++){
             while(guestList.get(i).getTurnTaken() == false){
-                TextView currentUser = CurrentParty.this.findViewById(R.id.usersTurn);
-                currentUser.setVisibility(View.VISIBLE);
-                currentUser.setText(guestList.get(i).getUser().getUserName());
+//                TextView currentUser = CurrentParty.this.findViewById(R.id.usersTurn);
+//                currentUser.setVisibility(View.VISIBLE);
+//                currentUser.setText(guestList.get(i).getUser().getUserName());
 
 
 
