@@ -9,7 +9,7 @@
     tools:context=".PendingPage">
 
     <TextView
-        android:id="@+id/homePartyTitleButton"
+        android:id="@+id/partyName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
@@ -26,10 +26,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:background="@drawable/et_style"
         android:layout_width="350dp"
         android:layout_height="342dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="84dp"
+        android:background="@drawable/et_style"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
@@ -51,7 +51,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/startDate"
-        app:layout_constraintVertical_bias="0.721" />
+        app:layout_constraintVertical_bias="0.302" />
 
     <TextView
         android:id="@+id/hostUser"
@@ -66,7 +66,7 @@
         app:layout_constraintEnd_toStartOf="@+id/priceLimit"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homePartyTitleButton" />
+        app:layout_constraintTop_toBottomOf="@+id/partyName" />
 
     <TextView
         android:id="@+id/startDate"
@@ -96,7 +96,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/hostUser"
-        app:layout_constraintTop_toBottomOf="@+id/homePartyTitleButton" />
+        app:layout_constraintTop_toBottomOf="@+id/partyName" />
 
     <TextView
         android:id="@+id/startTime"
@@ -123,5 +123,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/home_foreground" />
+
+    <Button
+        android:id="@+id/start_party"
+        android:layout_width="348dp"
+        android:layout_height="51dp"
+        android:text="Go to party!"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

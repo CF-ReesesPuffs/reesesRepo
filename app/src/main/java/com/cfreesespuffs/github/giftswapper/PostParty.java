@@ -15,7 +15,7 @@ public class PostParty extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        TextView partyName = PostParty.this.findViewById(R.id.homePartyTitleButton);
+        TextView partyName = PostParty.this.findViewById(R.id.partyName);
         partyName.setText(intent.getExtras().getString("partyName"));
     }
 }

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +41,9 @@ public class InvitationDetails extends AppCompatActivity {
         setContentView(R.layout.activity_invited_party_page);
 
 
+
+//        getIsSignedIn();
+
         intent = getIntent();
         String partyId = intent.getExtras().getString("partyId");
 
@@ -72,6 +74,7 @@ public class InvitationDetails extends AppCompatActivity {
 //=================================================================================================== Invitation details
         Intent intent = getIntent();
 
+
         TextView partyName = InvitationDetails.this.findViewById(R.id.homePartyTitleButton);
         partyName.setText(intent.getExtras().getString("partyName"));
 
@@ -94,6 +97,7 @@ public class InvitationDetails extends AppCompatActivity {
             public void onClick(View v) {
 
                 //TODO: Set the invite status to false
+
                 List<GuestList> target = party.getUsers();
                 for(GuestList thisGuestList : target){
                     if(thisGuestList.getInvitedUser().contains(loggedUser.getUserName())){
@@ -110,6 +114,7 @@ public class InvitationDetails extends AppCompatActivity {
                 Amplify.API.mutate(
                         ModelMutation.update(guestList),
                         response -> Log.i("DeclinedInvite", "You declined an invite! " + response.getData().toString()),
+
                         error -> Log.e("DeclinedInviteFail", error.toString())
                 );
 
@@ -126,7 +131,9 @@ public class InvitationDetails extends AppCompatActivity {
                 EditText giftChosen = InvitationDetails.this.findViewById(R.id.giftUserBrings);
                 String giftName = giftChosen.getText().toString();
 
+
                 Log.i("Android.gift", "this is the gift " + giftName);
+
 
                 if(giftName.equals("")){
                     handlerCheck(1);
@@ -185,6 +192,7 @@ public class InvitationDetails extends AppCompatActivity {
             Log.i("Amplify.login", "Send true or false pls");
         }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
