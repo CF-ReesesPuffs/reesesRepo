@@ -65,6 +65,8 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         String partyId = intent.getExtras().getString("id");
         String partyTitle = intent.getExtras().getString("partyName");
 
+        System.out.println(intent.getExtras().getString("title"));
+
 
         ImageButton homeDetailButton = PendingPage.this.findViewById(R.id.homePartyDetailButton);
         homeDetailButton.setOnClickListener((view)-> {
@@ -77,7 +79,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
             Intent intent2 = new Intent(PendingPage.this, CurrentParty.class);
             intent2.putExtra("id", partyId);
-            intent2.putExtra("partyName", partyTitle);
+            intent2.putExtra("thisPartyId", intent.getExtras().getString("title"));
             PendingPage.this.startActivity(intent2);
             });
 
