@@ -26,8 +26,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="361dp"
-        android:layout_height="534dp"
+        android:layout_width="331dp"
+        android:layout_height="417dp"
         android:background="@drawable/et_style"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
