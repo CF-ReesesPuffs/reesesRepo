@@ -33,7 +33,6 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
     Handler handleParties;
     User currentUser;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +108,7 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
         intent.putExtra("when", party.getHostedOn());
         intent.putExtra("setTime", party.getHostedAt());
         intent.putExtra("budget", party.getPrice());
+        intent.putExtra("partyId", party.getId());
         this.startActivity(intent);
     }
 }

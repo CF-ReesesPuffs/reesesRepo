@@ -27,7 +27,7 @@ public final class GuestList implements Model {
   public static final QueryField USER = field("guestListUserId");
   public static final QueryField PARTY = field("guestListPartyId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
-  private final @ModelField(targetType="String") String inviteStatus;
+  public @ModelField(targetType="String") String inviteStatus;
   private final @ModelField(targetType="String") String invitee;
   private final @ModelField(targetType="String") String invitedUser;
   private final @ModelField(targetType="User") @BelongsTo(targetName = "guestListUserId", type = User.class) User user;
@@ -56,7 +56,7 @@ public final class GuestList implements Model {
       return party;
   }
   
-  private GuestList(String id, String inviteStatus, String invitee, String invitedUser, User user, Party party) {
+  public GuestList(String id, String inviteStatus, String invitee, String invitedUser, User user, Party party) {
     this.id = id;
     this.inviteStatus = inviteStatus;
     this.invitee = invitee;

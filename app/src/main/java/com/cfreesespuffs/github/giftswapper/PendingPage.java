@@ -108,7 +108,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 //                        error -> Log.e("Amplify.Query", "error, you dun goofed")
 //        );
 
-        Log.i("Here is our id", intent.getExtras().getString("id"));
+//        Log.i("Here is our id", intent.getExtras().getString("id"));
 
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
