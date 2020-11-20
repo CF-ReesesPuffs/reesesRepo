@@ -75,7 +75,7 @@ public class InvitationDetails extends AppCompatActivity {
         Intent intent = getIntent();
 
 
-        TextView partyName = InvitationDetails.this.findViewById(R.id.homePartyTitleButton);
+        TextView partyName = InvitationDetails.this.findViewById(R.id.partyName);
         partyName.setText(intent.getExtras().getString("partyName"));
 
        // TextView host = InvitationDetails.this.findViewById(R.id.partyHost);
@@ -119,6 +119,7 @@ public class InvitationDetails extends AppCompatActivity {
                 );
 
                 Intent gotoMain = new Intent(InvitationDetails.this, MainActivity.class);
+                intent.putExtra("status", guestList.getInviteStatus());
                 InvitationDetails.this.startActivity(gotoMain);
             }
         });
@@ -170,7 +171,7 @@ public class InvitationDetails extends AppCompatActivity {
                         error -> Log.e("AcceptedInviteFail", error.toString())
                 );
 
-                Intent gotoPending = new Intent(InvitationDetails.this, PendingPage.class);
+                Intent gotoPending = new Intent(InvitationDetails.this, MainActivity.class);
                 gotoPending.putExtra("partyName", party.getTitle());
                 InvitationDetails.this.startActivity(gotoPending);
             }

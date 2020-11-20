@@ -31,10 +31,9 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     RecyclerView recyclerView;
     Handler handler;
     Handler handleSingleItem;
-    ArrayList<GuestList> guestList;
+    ArrayList<GuestList> guestList = new ArrayList<>();
     ArrayList<String> attendingGuests = new ArrayList<>();
-    ArrayList<String> statusGuests;
-    Party party;
+//    Party party = new Party();
     GuestList loggedUser;
 
     @Override
@@ -121,10 +120,11 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
+//                    party = response.getData();
                     Log.i("Amplify.test", "====" + response);
                     for (GuestList user : response.getData().getUsers()) {
                         Log.i("Amplify.test", "stuff to test " + user);
-                        attendingGuests.add(user.getInvitedUser());
+                        guestList.add(user);
                     }
                     handler.sendEmptyMessage(1);
                 },
@@ -137,7 +137,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     private void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new ViewAdapter(attendingGuests, this));
+        recyclerView.setAdapter(new ViewAdapter(guestList, this));
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -146,10 +146,9 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         return true;
     }
 
+
     @Override
-    public void taskListener(String inviteStatus) {
+    public void listener(GuestList guestList) {
 
     }
-
-
 }

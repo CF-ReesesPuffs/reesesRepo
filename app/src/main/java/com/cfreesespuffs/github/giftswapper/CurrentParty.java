@@ -74,6 +74,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 });
         connectAdapterToRecycler();
         connectAdapterToRecycler2();
+
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {

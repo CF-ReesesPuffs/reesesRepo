@@ -7,22 +7,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.datastore.generated.model.GuestList;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHolder> {
-    public ArrayList<String> listOfAttendees;
+    public List<GuestList> getTheStatus;
     public OnInteractWithTaskListener listener;
 
-    public ViewAdapter(ArrayList<String> listOfAttendees, OnInteractWithTaskListener listener) {
-        this.listOfAttendees = listOfAttendees;
+    public ViewAdapter(List<GuestList> getTheStatus, OnInteractWithTaskListener listener) {
+        this.getTheStatus = getTheStatus;
         this.listener = listener;
     }
 
-    // view holder deals with the passing of data from java to the fragment (list item)
     public static class AdapterViewHolder extends RecyclerView.ViewHolder {
-        public String inviteStatus;
+        public GuestList guestList;
         public View itemView;
 
 
@@ -34,9 +35,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
 
     @NonNull
     @Override
-    // This gets called when a fragment (list item) pops into existence
     public AdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //choose which fragment (list item) to build
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_pending, parent, false);
 
@@ -44,41 +43,41 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
         final AdapterViewHolder viewHolder = new AdapterViewHolder(view);
 
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println(viewHolder.inviteStatus);
-                listener.taskListener(viewHolder.inviteStatus);
-            }
-        });
+//        view.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                System.out.println(viewHolder.getTheStatus);
+//                listener.taskListener(viewHolder.getTheStatus.getInviteStatus());
+//            }
+//        });
 
         return viewHolder;
     }
 
     public static interface OnInteractWithTaskListener {
-        public void taskListener(String inviteStatus);
+        public void listener(GuestList guestList);
     }
 
 
     @Override
     // This gets called when a fragment(list item) has a java class attached to it
     public void onBindViewHolder(@NonNull AdapterViewHolder holder, int position) {                  // position is the position in the array
-        holder.inviteStatus = listOfAttendees.get(position);
+        holder.guestList = getTheStatus.get(position);
 
         TextView userName = holder.itemView.findViewById(R.id.guestName);
         TextView status = holder.itemView.findViewById(R.id.status);
 
-        userName.setText(holder.inviteStatus);
-        status.setText("pending");
+        userName.setText(holder.guestList.getUser().getUserName());
+        status.setText(holder.guestList.getInviteStatus());
     }
 
     @Override
     // This gets called so it knows how many fragments (list item) to put on the screen at once
     public int getItemCount() {
-        if(listOfAttendees == null){
+        if(getTheStatus == null){
             return 0;
         }
-        return listOfAttendees.size();
+        return getTheStatus.size();
     }
 }
 
