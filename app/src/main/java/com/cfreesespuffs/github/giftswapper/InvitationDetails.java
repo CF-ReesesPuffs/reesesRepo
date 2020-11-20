@@ -35,7 +35,6 @@ public class InvitationDetails extends AppCompatActivity {
     Intent intent;
     Party party;
     GuestList guestList;
-   // Message message = new Message();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +68,6 @@ public class InvitationDetails extends AppCompatActivity {
                     },
             error -> Log.e("Amplify.currentUser", "error"));
         }
-
-
-
 
 //=================================================================================================== Invitation details
         Intent intent = getIntent();
