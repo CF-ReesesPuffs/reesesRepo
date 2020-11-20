@@ -38,17 +38,16 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invitation_list);
 
-        connectAdapterToRecycler();
 
-        handler = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message msg) {
-                        connectAdapterToRecycler();
-                        recyclerView.getAdapter().notifyDataSetChanged();
-                        return false;
-                    }
-                });
+//        handler = new Handler(Looper.getMainLooper(),
+//                new Handler.Callback() {
+//                    @Override
+//                    public boolean handleMessage(@NonNull Message msg) {
+//                        connectAdapterToRecycler();
+//                        recyclerView.getAdapter().notifyDataSetChanged();
+//                        return false;
+//                    }
+//                });
 
         handleParties = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -61,6 +60,7 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
                         return false;
                     }
                 });
+        connectAdapterToRecycler();
 
         AuthUser authUser = Amplify.Auth.getCurrentUser();
         if(Amplify.Auth.getCurrentUser() != null) {

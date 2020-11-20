@@ -72,7 +72,13 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
             PendingPage.this.startActivity(goToMainIntent);
         });
 
-        takeUserToParty();
+        Button startParty = PendingPage.this.findViewById(R.id.start_party);
+        startParty.setOnClickListener((view) -> {
+
+            Intent intent2 = new Intent(PendingPage.this, CurrentParty.class);
+            PendingPage.this.startActivity(intent2);
+            });
+
 
         Intent intent = getIntent();
 
@@ -115,6 +121,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
+                    Log.i("Amplify.test", "====" + response);
                     for (GuestList user : response.getData().getUsers()) {
                         Log.i("Amplify.test", "stuff to test " + user);
                         attendingGuests.add(user.getInvitedUser());
@@ -144,20 +151,5 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
     }
 
-    public void takeUserToParty(){
-            Button startParty = PendingPage.this.findViewById(R.id.start_party);
-            startParty.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PendingPage.this, CurrentParty.class);
-                intent.putExtra("partyName", party.getTitle());
-                intent.putExtra("price", party.getPrice());
-                intent.putExtra("partyId", party.getId());
-                intent.putExtra("date", party.getHostedOn());
-                intent.putExtra("time", party.getHostedAt());
-                PendingPage.this.startActivity(intent);
-            }
-        });
-    }
 }
