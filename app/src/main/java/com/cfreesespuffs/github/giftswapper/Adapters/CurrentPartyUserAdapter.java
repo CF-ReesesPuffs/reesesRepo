@@ -74,7 +74,7 @@ public class CurrentPartyUserAdapter extends RecyclerView.Adapter<CurrentPartyUs
     public void onBindViewHolder(@NonNull AdapterViewHolder holder, int position) {
         holder.user = userActiveParty.get(position);
         TextView userName = holder.itemView.findViewById(R.id.userName);
-        TextView gift = holder.itemView.findViewById(R.id.giftName);
+//        TextView gift = holder.itemView.findViewById(R.id.giftName);
 
         userName.setText(holder.user.getUser().getUserName());
     }
