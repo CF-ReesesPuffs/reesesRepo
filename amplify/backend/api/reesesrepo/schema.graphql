@@ -11,6 +11,7 @@ type GuestList @model {
   inviteStatus: String
   invitee: String
   invitedUser: String
+  turnTaken: Boolean
   user: User @connection(name: "ConUser")
   party: Party @connection(name:"ConParty")
 }

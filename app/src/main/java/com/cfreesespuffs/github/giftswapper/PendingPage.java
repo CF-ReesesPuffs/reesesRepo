@@ -32,9 +32,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     Handler handler;
     Handler handleSingleItem;
     ArrayList<GuestList> guestList = new ArrayList<>();
-    ArrayList<String> attendingGuests = new ArrayList<>();
-//    Party party = new Party();
-    GuestList loggedUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +61,10 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                     }
                 });
         connectAdapterToRecycler();
+        Intent intent = getIntent();
+        String partyId = intent.getExtras().getString("id");
+        String partyTitle = intent.getExtras().getString("partyName");
+
 
         ImageButton homeDetailButton = PendingPage.this.findViewById(R.id.homePartyDetailButton);
         homeDetailButton.setOnClickListener((view)-> {
@@ -75,11 +76,12 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         startParty.setOnClickListener((view) -> {
 
             Intent intent2 = new Intent(PendingPage.this, CurrentParty.class);
+            intent2.putExtra("id", partyId);
+            intent2.putExtra("partyName", partyTitle);
             PendingPage.this.startActivity(intent2);
             });
 
 
-        Intent intent = getIntent();
 
         TextView partyName = PendingPage.this.findViewById(R.id.partyName);
         partyName.setText(intent.getExtras().getString("partyName"));

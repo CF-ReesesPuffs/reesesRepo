@@ -1,30 +1,45 @@
 package com.cfreesespuffs.github.giftswapper.Adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.AuthUser;
+import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
+import com.amplifyframework.datastore.generated.model.GuestList;
+import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
+import java.util.logging.Handler;
 
 public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHolder> {
-
+    public GuestList user;
     public ArrayList<Gift> giftsList;
     public OnCommWithGiftsListener listener;
 
-    public GiftAdapter(ArrayList<Gift> giftsList, OnCommWithGiftsListener listener) {
+    User amplifyUser;
+    Gift giftUpdate;
+
+    public GiftAdapter(ArrayList<Gift> giftsList, GuestList user, OnCommWithGiftsListener listener) {
+        this.user = user;
         this.giftsList = giftsList;
         this.listener = listener;
     }
 
-    public static class GiftsToViewHolder extends RecyclerView.ViewHolder {
+    Handler handler;
 
+    public static class GiftsToViewHolder extends RecyclerView.ViewHolder {
+        public GuestList user;
         public Gift gifts;
         public View giftView;
 
@@ -46,11 +61,38 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AuthUser authUser = Amplify.Auth.getCurrentUser();
+                Amplify.API.query(
+                        ModelQuery.list(User.class),
+                        response ->{
+                            for(User user : response.getData()){
+                                if(user.getUserName().equals(authUser.getUsername())){
+                                    amplifyUser = user;
+                                }
+                            }
+//                            giftUpdate = giftsList.get(position);
+                            giftUpdate.user = amplifyUser;
+
+
+                            Amplify.API.mutate(
+                                    ModelMutation.update(giftUpdate),
+                                    response2 -> Log.i("Mutation", "mutated the gifts user " + giftUpdate),
+                                    error -> Log.e("Mutation", "Failure, you disgrace family " + error)
+                            );
+                        },
+                        error -> Log.e("amplify.user", String.valueOf(error))
+                );
+
+                System.out.println(viewHolder.gifts);
+                System.out.println(giftUpdate + "=================================");
+                System.out.println(amplifyUser + " ------------------------------- ");
+
                 listener.giftsToDoListener(viewHolder.gifts);
             }
         });
         return viewHolder;
     }
+
 
     public static interface OnCommWithGiftsListener {
         public void giftsToDoListener(Gift gift);
@@ -59,12 +101,31 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
     @Override
     public void onBindViewHolder(@NonNull GiftsToViewHolder holder, int position) {
         holder.gifts = giftsList.get(position);
-
         TextView giftNameTv = holder.giftView.findViewById(R.id.giftNameFrag);
         giftNameTv.setText(holder.gifts.getTitle());
+
+        giftUpdate = giftsList.get(position);
+//        giftUpdate.user = user.getUser();
+//
+//        Amplify.API.mutate(
+//                ModelMutation.update(giftUpdate),
+//                response -> Log.i("Mutation", "mutated the gifts user"),
+//                error -> Log.e("Mutation", "Failure, you disgrace family " + error)
+//        );
     }
 
+//    public void handler(int msgCode){
+//        if(msgCode == 1){
+//            Toast.makeText(this, "you chose an item!", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+
     @Override
-    public int getItemCount() { return giftsList.size(); } // MUST be getItemCount
+    public int getItemCount() {
+        if(giftsList == null){
+            return 0;
+        }
+        return giftsList.size();
+    } // MUST be getItemCount
 
 }

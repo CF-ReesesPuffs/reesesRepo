@@ -16,19 +16,19 @@ import java.util.ArrayList;
 
 public class CurrentPartyUserAdapter extends RecyclerView.Adapter<CurrentPartyUserAdapter.AdapterViewHolder> {
     public ArrayList<String> userActiveParty;
-//    public ArrayList<Gift> giftsBrought;
+    public ArrayList<Gift> giftsBrought;
     public OnInteractWithTaskListener listener;
 
     public CurrentPartyUserAdapter(ArrayList<String> userActiveParty, OnInteractWithTaskListener listener) {
         this.userActiveParty = userActiveParty;
-//        this.giftsBrought = giftsBrought;
+        this.giftsBrought = giftsBrought;
         this.listener = listener;
     }
 
     // view holder deals with the passing of data from java to the fragment (list item)
     public static class AdapterViewHolder extends RecyclerView.ViewHolder {
         public String user;
-//        public Gift gift;
+        public Gift gift;
         public View itemView;
 
 
@@ -64,11 +64,11 @@ public class CurrentPartyUserAdapter extends RecyclerView.Adapter<CurrentPartyUs
     @Override
     public void onBindViewHolder(@NonNull AdapterViewHolder holder, int position) {
         holder.user = userActiveParty.get(position);
-        TextView userName = holder.itemView.findViewById(R.id.guestName);
-//        TextView gift = holder.itemView.findViewById(R.id.giftRecieved);
+        TextView userName = holder.itemView.findViewById(R.id.userName);
+//        TextView gift = holder.itemView.findViewById(R.id.giftName);
 
-        userName.setText((CharSequence) holder.user);
-//        gift.setText((CharSequence) holder.user);
+        userName.setText(holder.user);
+//        gift.setText(holder.user);
     }
 
 

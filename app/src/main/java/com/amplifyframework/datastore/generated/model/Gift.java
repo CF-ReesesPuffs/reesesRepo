@@ -26,7 +26,7 @@ public final class Gift implements Model {
   public static final QueryField PARTY = field("giftPartyId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String title;
-  private final @ModelField(targetType="User") @BelongsTo(targetName = "giftUserId", type = User.class) User user;
+  public @ModelField(targetType="User") @BelongsTo(targetName = "giftUserId", type = User.class) User user;
   private final @ModelField(targetType="Party") @BelongsTo(targetName = "giftPartyId", type = Party.class) Party party;
   public String getId() {
       return id;
