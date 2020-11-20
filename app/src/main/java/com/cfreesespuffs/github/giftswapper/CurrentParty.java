@@ -50,8 +50,8 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
         Intent intent = getIntent();
 
-//        TextView partyName = CurrentParty.this.findViewById(R.id.partyName);
-//        partyName.setText(intent.getExtras().getString("partyName"));
+      // TextView partyName = CurrentParty.this.findViewById(R.id.partyName);
+       //partyName.setText(intent.getExtras().getString("partyName"));
 
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
