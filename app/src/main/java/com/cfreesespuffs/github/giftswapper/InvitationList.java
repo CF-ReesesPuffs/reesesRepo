@@ -103,7 +103,7 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
     @Override
     public void listener(Party party) {
         Intent intent = new Intent(InvitationList.this, InvitationDetails.class);
-//        intent.putExtra("host", party.getHost());
+//        intent.putExtra("host", party.get);
         intent.putExtra("partyName", party.getTitle());
         intent.putExtra("when", party.getHostedOn());
         intent.putExtra("setTime", party.getHostedAt());

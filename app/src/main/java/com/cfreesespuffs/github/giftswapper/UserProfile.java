@@ -5,16 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
+import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
 
 import java.util.ArrayList;
 
@@ -28,6 +31,12 @@ public class UserProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+        ImageButton homeDetailButton = UserProfile.this.findViewById(R.id.homePartyDetailButton);
+        homeDetailButton.setOnClickListener((view)-> {
+            Intent goToMainIntent = new Intent(UserProfile.this, MainActivity.class);
+            UserProfile.this.startActivity(goToMainIntent);
+        });
 
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
