@@ -20,9 +20,11 @@ public class fragment_gifts extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "gift";
+    private static final String ARG_PARAM2 = "user";
 
     // TODO: Rename and change types of parameters
     private String mGiftName;
+    private String mUserName;
 
     public fragment_gifts() {} // Required empty public constructor
 
@@ -35,10 +37,11 @@ public class fragment_gifts extends Fragment {
      * @return A new instance of fragment fragment_gifts.
      */
     // TODO: Rename and change types and number of parameters
-    public static fragment_gifts newInstance(String gift) {
+    public static fragment_gifts newInstance(String gift, String user) {
         fragment_gifts fragment = new fragment_gifts();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, gift);
+        args.putString(ARG_PARAM2, user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -48,6 +51,7 @@ public class fragment_gifts extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mGiftName = getArguments().getString(ARG_PARAM1);
+            mUserName = getArguments().getString(ARG_PARAM2);
         }
     }
 

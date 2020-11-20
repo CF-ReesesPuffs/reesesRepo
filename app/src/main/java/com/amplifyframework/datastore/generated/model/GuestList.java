@@ -24,14 +24,16 @@ public final class GuestList implements Model {
   public static final QueryField INVITE_STATUS = field("inviteStatus");
   public static final QueryField INVITEE = field("invitee");
   public static final QueryField INVITED_USER = field("invitedUser");
+  public static final QueryField TURN_TAKEN = field("turnTaken");
   public static final QueryField USER = field("guestListUserId");
   public static final QueryField PARTY = field("guestListPartyId");
-  private final @ModelField(targetType="ID", isRequired = true) String id;
-  public @ModelField(targetType="String") String inviteStatus;
-  private final @ModelField(targetType="String") String invitee;
-  private final @ModelField(targetType="String") String invitedUser;
-  private final @ModelField(targetType="User") @BelongsTo(targetName = "guestListUserId", type = User.class) User user;
-  private final @ModelField(targetType="Party") @BelongsTo(targetName = "guestListPartyId", type = Party.class) Party party;
+    public final @ModelField(targetType="ID", isRequired = true) String id;
+    public @ModelField(targetType="String") String inviteStatus;
+    public final @ModelField(targetType="String") String invitee;
+    public final @ModelField(targetType="String") String invitedUser;
+    public final @ModelField(targetType="Boolean") Boolean turnTaken;
+    public final @ModelField(targetType="User") @BelongsTo(targetName = "guestListUserId", type = User.class) User user;
+    public final @ModelField(targetType="Party") @BelongsTo(targetName = "guestListPartyId", type = Party.class) Party party;
   public String getId() {
       return id;
   }
@@ -48,6 +50,10 @@ public final class GuestList implements Model {
       return invitedUser;
   }
   
+  public Boolean getTurnTaken() {
+      return turnTaken;
+  }
+  
   public User getUser() {
       return user;
   }
@@ -56,11 +62,12 @@ public final class GuestList implements Model {
       return party;
   }
   
-  public GuestList(String id, String inviteStatus, String invitee, String invitedUser, User user, Party party) {
+  private GuestList(String id, String inviteStatus, String invitee, String invitedUser, Boolean turnTaken, User user, Party party) {
     this.id = id;
     this.inviteStatus = inviteStatus;
     this.invitee = invitee;
     this.invitedUser = invitedUser;
+    this.turnTaken = turnTaken;
     this.user = user;
     this.party = party;
   }
@@ -77,6 +84,7 @@ public final class GuestList implements Model {
               ObjectsCompat.equals(getInviteStatus(), guestList.getInviteStatus()) &&
               ObjectsCompat.equals(getInvitee(), guestList.getInvitee()) &&
               ObjectsCompat.equals(getInvitedUser(), guestList.getInvitedUser()) &&
+              ObjectsCompat.equals(getTurnTaken(), guestList.getTurnTaken()) &&
               ObjectsCompat.equals(getUser(), guestList.getUser()) &&
               ObjectsCompat.equals(getParty(), guestList.getParty());
       }
@@ -89,6 +97,7 @@ public final class GuestList implements Model {
       .append(getInviteStatus())
       .append(getInvitee())
       .append(getInvitedUser())
+      .append(getTurnTaken())
       .append(getUser())
       .append(getParty())
       .toString()
@@ -103,6 +112,7 @@ public final class GuestList implements Model {
       .append("inviteStatus=" + String.valueOf(getInviteStatus()) + ", ")
       .append("invitee=" + String.valueOf(getInvitee()) + ", ")
       .append("invitedUser=" + String.valueOf(getInvitedUser()) + ", ")
+      .append("turnTaken=" + String.valueOf(getTurnTaken()) + ", ")
       .append("user=" + String.valueOf(getUser()) + ", ")
       .append("party=" + String.valueOf(getParty()))
       .append("}")
@@ -138,6 +148,7 @@ public final class GuestList implements Model {
       null,
       null,
       null,
+      null,
       null
     );
   }
@@ -147,6 +158,7 @@ public final class GuestList implements Model {
       inviteStatus,
       invitee,
       invitedUser,
+      turnTaken,
       user,
       party);
   }
@@ -156,6 +168,7 @@ public final class GuestList implements Model {
     BuildStep inviteStatus(String inviteStatus);
     BuildStep invitee(String invitee);
     BuildStep invitedUser(String invitedUser);
+    BuildStep turnTaken(Boolean turnTaken);
     BuildStep user(User user);
     BuildStep party(Party party);
   }
@@ -166,6 +179,7 @@ public final class GuestList implements Model {
     private String inviteStatus;
     private String invitee;
     private String invitedUser;
+    private Boolean turnTaken;
     private User user;
     private Party party;
     @Override
@@ -177,6 +191,7 @@ public final class GuestList implements Model {
           inviteStatus,
           invitee,
           invitedUser,
+          turnTaken,
           user,
           party);
     }
@@ -196,6 +211,12 @@ public final class GuestList implements Model {
     @Override
      public BuildStep invitedUser(String invitedUser) {
         this.invitedUser = invitedUser;
+        return this;
+    }
+    
+    @Override
+     public BuildStep turnTaken(Boolean turnTaken) {
+        this.turnTaken = turnTaken;
         return this;
     }
     
@@ -234,11 +255,12 @@ public final class GuestList implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String inviteStatus, String invitee, String invitedUser, User user, Party party) {
+    private CopyOfBuilder(String id, String inviteStatus, String invitee, String invitedUser, Boolean turnTaken, User user, Party party) {
       super.id(id);
       super.inviteStatus(inviteStatus)
         .invitee(invitee)
         .invitedUser(invitedUser)
+        .turnTaken(turnTaken)
         .user(user)
         .party(party);
     }
@@ -256,6 +278,11 @@ public final class GuestList implements Model {
     @Override
      public CopyOfBuilder invitedUser(String invitedUser) {
       return (CopyOfBuilder) super.invitedUser(invitedUser);
+    }
+    
+    @Override
+     public CopyOfBuilder turnTaken(Boolean turnTaken) {
+      return (CopyOfBuilder) super.turnTaken(turnTaken);
     }
     
     @Override

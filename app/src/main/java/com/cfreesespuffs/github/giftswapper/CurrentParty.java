@@ -127,7 +127,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
     public void guestsTakeTurns(){
         for(int i = 0; i < guestList.size(); i ++){
-//            while(guestList.get(i).getUser().getTurnTaken() == false){
+            while(guestList.get(i).getTurnTaken() == false){
                 TextView currentUser = CurrentParty.this.findViewById(R.id.usersTurn);
                 currentUser.setVisibility(View.VISIBLE);
                 currentUser.setText(guestList.get(i).getUser().getUserName());
@@ -135,7 +135,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
 
                 }//TODO: how do we add a single gift to a list of gifts, then show that gift?
-//        }
+        }
         Intent intent = new Intent(CurrentParty.this, PostParty.class);
         intent.putExtra("partyName", String.valueOf(Party.TITLE));
 //        intent.putExtra("host", String.valueOf(Party.));
@@ -144,13 +144,13 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 //        intent.putExtra("users", String.valueOf(Party.));
         }
 
-    private void connectAdapterToRecycler() {
+    public void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.usersRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new CurrentPartyUserAdapter(attendingGuests,  this));
+        recyclerView.setAdapter(new CurrentPartyUserAdapter(guestList,  this));
     }
 
-    private void connectAdapterToRecycler2() {
+    public void connectAdapterToRecycler2() {
         recyclerView2 = findViewById(R.id.giftRecycler);
         recyclerView2.setLayoutManager(new LinearLayoutManager(this));
         recyclerView2.setAdapter(new GiftAdapter(giftList, loggedUser, this));

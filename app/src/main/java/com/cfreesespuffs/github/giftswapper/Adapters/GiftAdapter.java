@@ -70,12 +70,11 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
                                     amplifyUser = user;
                                 }
                             }
-//                            giftUpdate = giftsList.get(position);
                             giftUpdate.user = amplifyUser;
 
 
                             Amplify.API.mutate(
-                                    ModelMutation.update(giftUpdate),
+                                    ModelMutation.create(giftUpdate),
                                     response2 -> Log.i("Mutation", "mutated the gifts user " + giftUpdate),
                                     error -> Log.e("Mutation", "Failure, you disgrace family " + error)
                             );
@@ -84,8 +83,6 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
                 );
 
                 System.out.println(viewHolder.gifts);
-                System.out.println(giftUpdate + "=================================");
-                System.out.println(amplifyUser + " ------------------------------- ");
 
                 listener.giftsToDoListener(viewHolder.gifts);
             }
@@ -102,23 +99,15 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
     public void onBindViewHolder(@NonNull GiftsToViewHolder holder, int position) {
         holder.gifts = giftsList.get(position);
         TextView giftNameTv = holder.giftView.findViewById(R.id.giftNameFrag);
-        giftNameTv.setText(holder.gifts.getTitle());
+        TextView userOwner = holder.giftView.findViewById(R.id.userName);
+        userOwner.setVisibility(View.VISIBLE);
 
+        giftNameTv.setText(holder.gifts.getTitle());
         giftUpdate = giftsList.get(position);
-//        giftUpdate.user = user.getUser();
-//
-//        Amplify.API.mutate(
-//                ModelMutation.update(giftUpdate),
-//                response -> Log.i("Mutation", "mutated the gifts user"),
-//                error -> Log.e("Mutation", "Failure, you disgrace family " + error)
-//        );
+        userOwner.setText(giftUpdate.getUser().getUserName());
+
     }
 
-//    public void handler(int msgCode){
-//        if(msgCode == 1){
-//            Toast.makeText(this, "you chose an item!", Toast.LENGTH_SHORT).show();
-//        }
-//    }
 
     @Override
     public int getItemCount() {
