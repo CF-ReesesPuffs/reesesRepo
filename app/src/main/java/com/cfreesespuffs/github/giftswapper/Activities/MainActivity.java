@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 });
 
         connectRecycler();
+
         Log.i("Amplify.authUser", "This is the current user, " + Amplify.Auth.getCurrentUser());
         AuthUser authUser = Amplify.Auth.getCurrentUser();
         if(Amplify.Auth.getCurrentUser() != null) {
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                                         ModelQuery.get(User.class, currentUser.getId()),
                                         response2 -> {
                                             for (GuestList party : response2.getData().getParties()) {
-                                                if(party.getInviteStatus() == "Accepted"){
+                                                if(party.getInviteStatus().equals("Accepted")){
                                                     parties.add(party.getParty());
                                                 }
                                                 Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
@@ -203,12 +204,12 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
     @Override
     public void listener(Party party) {
-        Intent goToPartyDetailInent = new Intent(MainActivity.this, PendingPage.class);//we don't have an activity for a single party do we? sent it to invited party for now
-        goToPartyDetailInent.putExtra("title",party.getTitle());
-        goToPartyDetailInent.putExtra("price",party.getPrice());
-//        goToPartyDetailIntent.putExtra("partyId",party.getId());
-        goToPartyDetailInent.putExtra("date",party.getHostedOn());
-        goToPartyDetailInent.putExtra("time",party.getHostedAt());
-        this.startActivity(goToPartyDetailInent);
+        Intent goToPartyDetailIntent = new Intent(MainActivity.this, PendingPage.class);//we don't have an activity for a single party do we? sent it to invited party for now
+        goToPartyDetailIntent.putExtra("title",party.getTitle());
+        goToPartyDetailIntent.putExtra("price",party.getPrice());
+        goToPartyDetailIntent.putExtra("id",party.getId());
+        goToPartyDetailIntent.putExtra("date",party.getHostedOn());
+        goToPartyDetailIntent.putExtra("time",party.getHostedAt());
+        this.startActivity(goToPartyDetailIntent);
     }
 }

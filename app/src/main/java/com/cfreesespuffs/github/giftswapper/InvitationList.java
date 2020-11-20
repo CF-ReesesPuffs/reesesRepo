@@ -20,6 +20,7 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
+import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
 import com.cfreesespuffs.github.giftswapper.Adapters.InvitationAdapter;
 import com.cfreesespuffs.github.giftswapper.Adapters.PartyAdapter;
 
@@ -33,23 +34,21 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
     Handler handleParties;
     User currentUser;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invitation_list);
 
-        connectAdapterToRecycler();
 
-        handler = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message msg) {
-                        connectAdapterToRecycler();
-                        recyclerView.getAdapter().notifyDataSetChanged();
-                        return false;
-                    }
-                });
+//        handler = new Handler(Looper.getMainLooper(),
+//                new Handler.Callback() {
+//                    @Override
+//                    public boolean handleMessage(@NonNull Message msg) {
+//                        connectAdapterToRecycler();
+//                        recyclerView.getAdapter().notifyDataSetChanged();
+//                        return false;
+//                    }
+//                });
 
         handleParties = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -62,6 +61,7 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
                         return false;
                     }
                 });
+        connectAdapterToRecycler();
 
         AuthUser authUser = Amplify.Auth.getCurrentUser();
         if(Amplify.Auth.getCurrentUser() != null) {
@@ -109,6 +109,7 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
         intent.putExtra("when", party.getHostedOn());
         intent.putExtra("setTime", party.getHostedAt());
         intent.putExtra("budget", party.getPrice());
+        intent.putExtra("partyId", party.getId());
         this.startActivity(intent);
     }
 }
