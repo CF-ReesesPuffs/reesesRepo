@@ -27,8 +27,9 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
     public ArrayList<Gift> giftsList;
     public OnCommWithGiftsListener listener;
 
-    User amplifyUser;
-    Gift giftUpdate;
+    public User amplifyUser;
+    public Gift giftUpdate;
+    public Gift heldGift;
 
     public GiftAdapter(ArrayList<Gift> giftsList, GuestList user, OnCommWithGiftsListener listener) {
         this.user = user;
@@ -61,26 +62,25 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AuthUser authUser = Amplify.Auth.getCurrentUser();
-                Amplify.API.query(
-                        ModelQuery.list(User.class),
-                        response ->{
-                            for(User user : response.getData()){
-                                if(user.getUserName().equals(authUser.getUsername())){
-                                    amplifyUser = user;
-                                }
-                            }
-                            giftUpdate.user = amplifyUser;
-
-
-                            Amplify.API.mutate(
-                                    ModelMutation.update(giftUpdate),
-                                    response2 -> Log.i("Mutation", "mutated the gifts user " + giftUpdate),
-                                    error -> Log.e("Mutation", "Failure, you disgrace family " + error)
-                            );
-                        },
-                        error -> Log.e("amplify.user", String.valueOf(error))
-                );
+//                AuthUser authUser = Amplify.Auth.getCurrentUser();
+//                Amplify.API.query(
+//                        ModelQuery.list(User.class),
+//                        response ->{
+//                            for(User user : response.getData()){
+//                                if(user.getUserName().equals(authUser.getUsername())){
+//                                    amplifyUser = user;
+//                                }
+//                            }
+//                            giftUpdate.user = amplifyUser;
+//
+//                            Amplify.API.mutate(
+//                                    ModelMutation.update(giftUpdate),
+//                                    response2 -> Log.i("Mutation", "mutated the gifts user " + giftUpdate),
+//                                    error -> Log.e("Mutation", "Failure, you disgrace family " + error)
+//                            );
+//                        },
+//                        error -> Log.e("amplify.user", String.valueOf(error))
+//                );
 
                 System.out.println(viewHolder.gifts);
 
@@ -101,8 +101,9 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
         TextView userOwner = holder.giftView.findViewById(R.id.userName);
         userOwner.setVisibility(View.VISIBLE);
 
+        heldGift = holder.gifts;
         giftNameTv.setText(holder.gifts.getTitle());
-        giftUpdate = giftsList.get(position);
+        giftUpdate = giftsList.get(position); //TODO:
 
         userOwner.setText(giftUpdate.getUser().getUserName());
 

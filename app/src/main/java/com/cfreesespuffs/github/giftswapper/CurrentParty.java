@@ -14,6 +14,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -42,6 +43,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     RecyclerView recyclerView2;
     ArrayList<String> attendingGuests = new ArrayList<>();
     GuestList loggedUser;
+    Gift giftSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +85,8 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                     for (GuestList user : response.getData().getUsers()) {
                         Log.i("Amplify.test", "stuff to test " + user);
                         if(user.getInviteStatus().equals("Accepted")){
-                        attendingGuests.add(user.getInvitedUser());
-                        guestList.add(user);
-
+                            attendingGuests.add(user.getInvitedUser());
+                            guestList.add(user);
                         }
                     }
                     handler.sendEmptyMessage(1);
@@ -114,7 +115,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                             if (host.getInvitee().contains(authUser.getUsername())) {
                                 guestsTakeTurns();
                                 loggedUser = host;
-                                Log.i("Amplify.currentUser", "This is the current host, he just gave perms to start the game " + loggedUser);
+                                Log.i("Amplify.currentUser", "This is the current host, he just gave perms to start the game ");
                             }
                         }
                     },
@@ -125,6 +126,14 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         Intent goToMainIntent = new Intent(CurrentParty.this, MainActivity.class);
         CurrentParty.this.startActivity(goToMainIntent);
     });
+        Button takeStuff = CurrentParty.this.findViewById(R.id.startParty);
+        takeStuff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println(((GiftAdapter) recyclerView2.getAdapter()).giftsList + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            }
+        });
+
     }
 
 
@@ -161,8 +170,12 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
     @Override
     public void giftsToDoListener(Gift gift) {
-        //user clicks on a gift
-        //gift now belongs to that user
+        System.out.println(gift.getUser().getUserName());
+        System.out.println(gift.getTitle());
+        gift.getUser().getUserName();
+        //TODO: We can view what gift is selected + properties of the gift
+        //When a user selects a gift, set them to be the owner.
+
 
     }
 

@@ -81,8 +81,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
             PendingPage.this.startActivity(intent2);
             });
 
-
-
         TextView partyName = PendingPage.this.findViewById(R.id.partyName);
         partyName.setText(intent.getExtras().getString("title"));
 
@@ -91,13 +89,13 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 //        host.setText(intent.getExtras().getString("host"));
 
         TextView when = PendingPage.this.findViewById(R.id.startDate);
-        when.setText(intent.getExtras().getString("date"));
+        when.setText(intent.getExtras().getString("when"));
 
         TextView setTime = PendingPage.this.findViewById(R.id.startTime);
-        setTime.setText(intent.getExtras().getString("time"));
+        setTime.setText(intent.getExtras().getString("setTime"));
 
         TextView budget = PendingPage.this.findViewById(R.id.priceLimit);
-        budget.setText(intent.getExtras().getString("price"));
+        budget.setText(intent.getExtras().getString("budget"));
 
         //TODO: Query api to get users who's preference equals "accepted"/"RSVP"?
 
