@@ -49,7 +49,6 @@ public class UserProfile extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.allTheGifts);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setAdapter(new ); // Build the adapter.
 
         String username = Amplify.Auth.getCurrentUser().getUsername();
         TextView usernameTv = findViewById(R.id.userNameProfileTv);

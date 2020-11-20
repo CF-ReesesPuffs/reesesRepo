@@ -172,6 +172,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 intent.putExtra("date", party2.getHostedOn());
                 intent.putExtra("time", party2.getHostedAt());
                 intent.putExtra("price", party2.getPrice());
+
                 intent.putExtra("id", party2.getId());
                 HostParty.this.startActivity(intent);
                         },

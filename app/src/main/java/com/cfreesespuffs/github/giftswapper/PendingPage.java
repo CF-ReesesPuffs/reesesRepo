@@ -81,11 +81,8 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
             PendingPage.this.startActivity(intent2);
             });
 
-
-
         TextView title = PendingPage.this.findViewById(R.id.partyName);
         title.setText(intent.getExtras().getString("title"));
-
 
 //        TextView host = PendingPage.this.findViewById(R.id.hostUser);
 //        host.setText(intent.getExtras().getString("host"));
