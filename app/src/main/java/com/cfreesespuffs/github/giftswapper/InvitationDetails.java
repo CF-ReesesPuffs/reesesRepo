@@ -40,8 +40,6 @@ public class InvitationDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invited_party_page);
 
-
-
 //        getIsSignedIn();
 
         intent = getIntent();
