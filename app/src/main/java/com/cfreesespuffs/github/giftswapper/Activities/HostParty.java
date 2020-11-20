@@ -183,7 +183,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
     }
 
     public void priceSpinner() {
-        String[] pricePoints = {"0-5", "6-15", "16-25", "25-40"};
+        String[] pricePoints = {"$0- $10", "$11- $20", "$21- $30", "$31- $40"};
         Spinner spinner = (Spinner) findViewById(R.id.price_spinner);
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, pricePoints);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

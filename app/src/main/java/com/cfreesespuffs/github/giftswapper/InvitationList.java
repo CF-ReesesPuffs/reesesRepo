@@ -26,10 +26,10 @@ import com.cfreesespuffs.github.giftswapper.Adapters.PartyAdapter;
 
 import java.util.ArrayList;
 
-public class InvitationList extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener{
+public class InvitationList extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener {
 
     RecyclerView recyclerView;
-    public ArrayList<Party> parties= new ArrayList<>();
+    public ArrayList<Party> parties = new ArrayList<>();
     Handler handler;
     Handler handleParties;
     User currentUser;
@@ -54,7 +54,7 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
                 new Handler.Callback() {
                     @Override
                     public boolean handleMessage(@NonNull Message msg) {
-                        if(msg.arg1 == 1){
+                        if (msg.arg1 == 1) {
                             Log.i("Amplify", "Parties are showing");
                         }
                         recyclerView.getAdapter().notifyItemInserted(parties.size());
@@ -64,7 +64,7 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
         connectAdapterToRecycler();
 
         AuthUser authUser = Amplify.Auth.getCurrentUser();
-        if(Amplify.Auth.getCurrentUser() != null) {
+        if (Amplify.Auth.getCurrentUser() != null) {
             Amplify.API.query(
                     ModelQuery.list(User.class),
                     response -> {
@@ -76,10 +76,10 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
                                         ModelQuery.get(User.class, currentUser.getId()),
                                         response2 -> {
                                             for (GuestList party : response2.getData().getParties()) {
-
-                                                parties.add(party.getParty());
-                                                Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
-
+                                                if (party.getInviteStatus().equals("Pending")){
+                                                    parties.add(party.getParty());
+                                                    Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
+                                                }
                                             }
                                             handleParties.sendEmptyMessage(1);
                                         },
