@@ -14,11 +14,15 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.amplifyframework.api.ApiOperation;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.api.graphql.model.ModelSubscription;
 import com.amplifyframework.auth.AuthUser;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
@@ -42,6 +46,15 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     RecyclerView recyclerView2;
     ArrayList<String> attendingGuests = new ArrayList<>();
     GuestList loggedUser;
+    User amplifyUser;
+
+    //TODO: Fill the database with fake users to view
+
+    //TODO: Create a guest user account, when the party starts ALL gifts go to "unclaimed" user.
+
+    //TODO: Create user turn functionality
+    //TODO: Once each user has chosen a gift, display post party page
+    //TODO: Update recycler on click of a new item
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +63,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
         Intent intent = getIntent();
 
-      // TextView partyName = CurrentParty.this.findViewById(R.id.partyName);
-       //partyName.setText(intent.getExtras().getString("partyName"));
 
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -70,6 +81,10 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                     public boolean handleMessage(@NonNull Message msg) {
                         connectAdapterToRecycler();
                         connectAdapterToRecycler2();
+                        if(msg.arg1 == 1){
+                            connectAdapterToRecycler2();
+                            recyclerView2.getAdapter().notifyDataSetChanged();
+                        }
                         recyclerView2.getAdapter().notifyDataSetChanged();
                         return false;
                     }
@@ -83,9 +98,8 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                     for (GuestList user : response.getData().getUsers()) {
                         Log.i("Amplify.test", "stuff to test " + user);
                         if(user.getInviteStatus().equals("Accepted")){
-                        attendingGuests.add(user.getInvitedUser());
-                        guestList.add(user);
-
+                            attendingGuests.add(user.getInvitedUser());
+                            guestList.add(user);
                         }
                     }
                     handler.sendEmptyMessage(1);
@@ -114,17 +128,50 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                             if (host.getInvitee().contains(authUser.getUsername())) {
                                 guestsTakeTurns();
                                 loggedUser = host;
-                                Log.i("Amplify.currentUser", "This is the current host, he just gave perms to start the game " + loggedUser);
+                                Log.i("Amplify.currentUser", "This is the current host, he just gave perms to start the game ");
                             }
                         }
                     },
                     error -> Log.e("Amplify.currentUser", "error"));
         }
+
+        String SUBSCRIBETAG = "Amplify.subscription";
+        ApiOperation subscription = Amplify.API.subscribe(
+                ModelSubscription.onUpdate(Gift.class),
+                onEstablished -> Log.i("Amplify.subscribe", "Subscription established"),
+                createdItem -> {
+                    Log.i(SUBSCRIBETAG, "Subscription created: " + ((Gift) createdItem.getData()).getTitle()
+                    );
+                    Gift newItem = (Gift) createdItem.getData();
+                    for (Gift gift : giftList){
+                        if (gift.getTitle().contains(newItem.getTitle())){
+                            giftList.remove(gift);
+                        }
+                    }
+                    if (newItem.getUser().getUserName().contains(authUser.getUsername())) {
+                        giftList.add(newItem);
+                        handler2.sendEmptyMessage(1);
+                    }
+                },
+                onFailure -> {
+                    Log.i(SUBSCRIBETAG, onFailure.toString());
+                },
+                () -> Log.i(SUBSCRIBETAG, "Subscription completed")
+        );
+
     ImageButton homeDetailButton = CurrentParty.this.findViewById(R.id.goHome);
     homeDetailButton.setOnClickListener((view)-> {
         Intent goToMainIntent = new Intent(CurrentParty.this, MainActivity.class);
         CurrentParty.this.startActivity(goToMainIntent);
     });
+        Button takeStuff = CurrentParty.this.findViewById(R.id.startParty);
+        takeStuff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println(((GiftAdapter) recyclerView2.getAdapter()).giftsList + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            }
+        });
+
     }
 
 
@@ -140,7 +187,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 }//TODO: how do we add a single gift to a list of gifts, then show that gift?
         }
         Intent intent = new Intent(CurrentParty.this, PostParty.class);
-        intent.putExtra("partyName", String.valueOf(Party.TITLE));
+        intent.putExtra("title", String.valueOf(Party.TITLE));
 //        intent.putExtra("host", String.valueOf(Party.));
         intent.putExtra("when", String.valueOf(Party.HOSTED_ON));
         intent.putExtra("setTime", String.valueOf(Party.HOSTED_AT));
@@ -161,9 +208,36 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
     @Override
     public void giftsToDoListener(Gift gift) {
-        //user clicks on a gift
-        //gift now belongs to that user
+        System.out.println(gift.getUser().getUserName());
+        System.out.println(gift.getTitle());
+        gift.getUser().getUserName();
 
+        //TODO: Notify dataset has changed
+
+        AuthUser authUser = Amplify.Auth.getCurrentUser();
+                Amplify.API.query(
+                        ModelQuery.list(User.class),
+                        response ->{
+                            for(User user : response.getData()){
+                                if(user.getUserName().equals(authUser.getUsername())){
+                                    amplifyUser = user;
+                                }
+                            }
+                            gift.user = amplifyUser;
+
+                            Amplify.API.mutate(
+                                    ModelMutation.update(gift),
+                                    response2 -> Log.i("Mutation", "mutated the gifts user " + gift),
+                                    error -> Log.e("Mutation", "Failure, you disgrace family " + error)
+                            );
+                        },
+                        error -> Log.e("amplify.user", String.valueOf(error))
+                );
+                Toast.makeText(this, "You chose a gift! " + gift.getTitle(), Toast.LENGTH_SHORT).show();
+
+
+
+        //TODO: OR use a subscription
     }
 
     @Override
