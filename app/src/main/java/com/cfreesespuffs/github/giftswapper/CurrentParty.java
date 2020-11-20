@@ -43,7 +43,8 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     RecyclerView recyclerView2;
     ArrayList<String> attendingGuests = new ArrayList<>();
     GuestList loggedUser;
-    Gift giftSelected;
+    User amplifyUser;
+    Gift giftUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,9 +174,26 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         System.out.println(gift.getUser().getUserName());
         System.out.println(gift.getTitle());
         gift.getUser().getUserName();
-        //TODO: We can view what gift is selected + properties of the gift
-        //When a user selects a gift, set them to be the owner.
 
+        AuthUser authUser = Amplify.Auth.getCurrentUser();
+                Amplify.API.query(
+                        ModelQuery.list(User.class),
+                        response ->{
+                            for(User user : response.getData()){
+                                if(user.getUserName().equals(authUser.getUsername())){
+                                    amplifyUser = user;
+                                }
+                            }
+                            gift.user = amplifyUser;
+
+                            Amplify.API.mutate(
+                                    ModelMutation.update(gift),
+                                    response2 -> Log.i("Mutation", "mutated the gifts user " + gift),
+                                    error -> Log.e("Mutation", "Failure, you disgrace family " + error)
+                            );
+                        },
+                        error -> Log.e("amplify.user", String.valueOf(error))
+                );
 
     }
 
