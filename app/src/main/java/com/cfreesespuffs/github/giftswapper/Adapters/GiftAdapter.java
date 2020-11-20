@@ -74,7 +74,7 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
 
 
                             Amplify.API.mutate(
-                                    ModelMutation.create(giftUpdate),
+                                    ModelMutation.update(giftUpdate),
                                     response2 -> Log.i("Mutation", "mutated the gifts user " + giftUpdate),
                                     error -> Log.e("Mutation", "Failure, you disgrace family " + error)
                             );
@@ -90,7 +90,6 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
         return viewHolder;
     }
 
-
     public static interface OnCommWithGiftsListener {
         public void giftsToDoListener(Gift gift);
     }
@@ -104,6 +103,7 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
 
         giftNameTv.setText(holder.gifts.getTitle());
         giftUpdate = giftsList.get(position);
+
         userOwner.setText(giftUpdate.getUser().getUserName());
 
     }

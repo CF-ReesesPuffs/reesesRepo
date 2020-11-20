@@ -82,8 +82,11 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 response -> {
                     for (GuestList user : response.getData().getUsers()) {
                         Log.i("Amplify.test", "stuff to test " + user);
+                        if(user.getInviteStatus().equals("Accepted")){
                         attendingGuests.add(user.getInvitedUser());
                         guestList.add(user);
+
+                        }
                     }
                     handler.sendEmptyMessage(1);
                 },
