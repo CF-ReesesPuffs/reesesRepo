@@ -13,6 +13,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.amplifyframework.api.graphql.model.ModelQuery;
@@ -22,6 +23,7 @@ import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
+import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
 import com.cfreesespuffs.github.giftswapper.Adapters.CurrentPartyUserAdapter;
 import com.cfreesespuffs.github.giftswapper.Adapters.GiftAdapter;
 
@@ -110,8 +112,13 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                     },
                     error -> Log.e("Amplify.currentUser", "error"));
         }
-
+    ImageButton homeDetailButton = CurrentParty.this.findViewById(R.id.goHome);
+    homeDetailButton.setOnClickListener((view)-> {
+        Intent goToMainIntent = new Intent(CurrentParty.this, MainActivity.class);
+        CurrentParty.this.startActivity(goToMainIntent);
+    });
     }
+
 
     public void guestsTakeTurns(){
         for(int i = 0; i < guestList.size(); i ++){

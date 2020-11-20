@@ -4,7 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#AF0000"
     tools:context=".PostParty">
+
+    <ImageButton
+        android:id="@+id/homePartyDetailButton2"
+        android:layout_width="51dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="64dp"
+        android:background="@color/gold_yellow"
+        android:backgroundTint="#99ED8922"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.454"
+        app:srcCompat="@drawable/home_foreground" />
 
     <TextView
         android:id="@+id/partyName"
@@ -14,15 +29,17 @@
         android:text="partyName"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.084"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="398dp"
-        android:layout_height="591dp"
+        android:layout_width="384dp"
+        android:layout_height="388dp"
         android:layout_marginTop="12dp"
+        android:background="@drawable/et_style"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
