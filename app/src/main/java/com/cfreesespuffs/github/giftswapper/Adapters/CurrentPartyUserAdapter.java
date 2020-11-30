@@ -1,6 +1,5 @@
 package com.cfreesespuffs.github.giftswapper.Adapters;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,13 +7,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.amplifyframework.api.graphql.model.ModelMutation;
-import com.amplifyframework.api.graphql.model.ModelQuery;
-import com.amplifyframework.auth.AuthUser;
-import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.GuestList;
-import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.R;
 
@@ -53,7 +47,7 @@ public class CurrentPartyUserAdapter extends RecyclerView.Adapter<CurrentPartyUs
     public AdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //choose which fragment (list item) to build
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_current_partyfrag, parent, false);
+                .inflate(R.layout.fragment_current_party_user, parent, false);
 
 
         final AdapterViewHolder viewHolder = new AdapterViewHolder(view);
@@ -73,10 +67,11 @@ public class CurrentPartyUserAdapter extends RecyclerView.Adapter<CurrentPartyUs
     @Override
     public void onBindViewHolder(@NonNull AdapterViewHolder holder, int position) {
         holder.user = userActiveParty.get(position);
-        TextView userName = holder.itemView.findViewById(R.id.userName);
+        TextView userName = holder.itemView.findViewById(R.id.userNameOnly);
 //        TextView gift = holder.itemView.findViewById(R.id.giftName);
 
         userName.setText(holder.user.getUser().getUserName());
+       // userName.setVisibility(View.INVISIBLE);
     }
 
 

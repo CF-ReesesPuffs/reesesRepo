@@ -59,6 +59,6 @@ public class fragment_gifts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_gifts, container, false);
+        return inflater.inflate(R.layout.fragment_current_party_gifts, container, false);
     }
 }

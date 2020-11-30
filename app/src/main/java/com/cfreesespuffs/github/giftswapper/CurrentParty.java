@@ -161,15 +161,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                             },
                             error -> Log.e("Amplify", "Failed to retrieve store")
                     );
-//                    for (Gift gift : giftList){
-//                        if (gift.getTitle().contains(newItem.getTitle())){
-//                            giftList.remove(gift);
-//                        }
-//                    }
-//                    if (newItem.getUser().getUserName().contains(authUser.getUsername())) {
-//                        giftList.add(newItem);
-//                        handler2.sendEmptyMessage(1);
-//                    }
                 },
                 onFailure -> {
                     Log.i(SUBSCRIBETAG, onFailure.toString());
@@ -182,14 +173,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         Intent goToMainIntent = new Intent(CurrentParty.this, MainActivity.class);
         CurrentParty.this.startActivity(goToMainIntent);
     });
-//        Button takeStuff = CurrentParty.this.findViewById(R.id.startParty);
-//        takeStuff.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                System.out.println(((GiftAdapter) recyclerView2.getAdapter()).giftsList + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-//            }
-//        });
-
     }
 
 
@@ -227,8 +210,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     @Override
     public void giftsToDoListener(Gift gift) {
         System.out.println(gift.getUser().getUserName());
-        System.out.println(gift.getTitle());
-        gift.getUser().getUserName();
 
         //TODO: Notify dataset has changed
 
