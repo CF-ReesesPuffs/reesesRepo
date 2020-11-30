@@ -34,5 +34,23 @@
         "reesesrepo3c12c17a": {}
       }
     }
+  },
+  "giftswap": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-reesesrepo-giftswap-112833-authRole",
+      "UnauthRoleArn": "arn:aws:iam::420971069960:role/amplify-reesesrepo-giftswap-112833-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::420971069960:role/amplify-reesesrepo-giftswap-112833-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-reesesrepo-giftswap-112833-deployment",
+      "UnauthRoleName": "amplify-reesesrepo-giftswap-112833-unauthRole",
+      "StackName": "amplify-reesesrepo-giftswap-112833",
+      "StackId": "arn:aws:cloudformation:us-west-2:420971069960:stack/amplify-reesesrepo-giftswap-112833/3e2bd450-3342-11eb-98ad-0abd6ce809e7",
+      "AmplifyAppId": "d112jn0csgd2f0"
+    },
+    "categories": {
+      "auth": {
+        "reesesrepo3c12c17a": {}
+      }
+    }
   }
 }
