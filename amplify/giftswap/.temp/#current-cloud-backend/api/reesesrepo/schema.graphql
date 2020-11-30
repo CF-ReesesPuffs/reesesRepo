@@ -1,0 +1,34 @@
+type User @model {
+  id: ID!
+  userName: String!
+  email: String
+  gifts: [Gift] @connection(name: "GiftGroup")
+  parties: [GuestList] @connection(name:"ConUser")
+}
+
+type GuestList @model {
+  id: ID!
+  inviteStatus: String
+  invitee: String
+  invitedUser: String
+  turnTaken: Boolean
+  user: User @connection(name: "ConUser")
+  party: Party @connection(name:"ConParty")
+}
+
+type Gift @model {
+  id: ID!
+  title: String!
+  user: User @connection(name: "GiftGroup")
+  party: Party @connection(name: "PartyGifts")
+}
+
+type Party @model {
+  id: ID!
+  title: String!
+  hostedOn: String
+  hostedAt: String
+  price: String
+  users: [GuestList] @connection(name: "ConParty")
+  gifts: [Gift] @connection(name: "PartyGifts")
+}
