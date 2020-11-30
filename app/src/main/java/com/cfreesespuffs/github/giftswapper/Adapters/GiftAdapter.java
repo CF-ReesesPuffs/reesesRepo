@@ -1,22 +1,15 @@
 package com.cfreesespuffs.github.giftswapper.Adapters;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.amplifyframework.api.graphql.model.ModelMutation;
-import com.amplifyframework.api.graphql.model.ModelQuery;
-import com.amplifyframework.auth.AuthUser;
-import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.GuestList;
-import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
@@ -56,7 +49,7 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
     public GiftsToViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_gifts, parent, false);
+                .inflate(R.layout.fragment_current_party_gifts, parent, false);
 
         GiftsToViewHolder viewHolder = new GiftsToViewHolder(view);
 
@@ -78,8 +71,8 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
     public void onBindViewHolder(@NonNull GiftsToViewHolder holder, int position) {
         holder.gifts = giftsList.get(position);
         TextView giftNameTv = holder.giftView.findViewById(R.id.giftNameFrag);
-        TextView userOwner = holder.giftView.findViewById(R.id.userName);
-        userOwner.setVisibility(View.VISIBLE);
+        TextView userOwner = holder.giftView.findViewById(R.id.giftOwner);
+        userOwner.setVisibility(View.INVISIBLE);
 
         heldGift = holder.gifts;
         giftNameTv.setText(holder.gifts.getTitle());

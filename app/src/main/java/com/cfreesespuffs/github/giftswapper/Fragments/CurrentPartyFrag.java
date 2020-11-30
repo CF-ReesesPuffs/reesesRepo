@@ -61,6 +61,6 @@ public class CurrentPartyFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_current_partyfrag, container, false);
+        return inflater.inflate(R.layout.fragment_current_party_user, container, false);
     }
 }

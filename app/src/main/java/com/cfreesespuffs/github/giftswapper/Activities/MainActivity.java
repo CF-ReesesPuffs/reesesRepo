@@ -160,9 +160,8 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
             );
         });
-
-
     }
+
     //=========== RecyclerView=======================
     private void connectRecycler(){
         partyRecyclerView = findViewById(R.id.party_recyclerview);
