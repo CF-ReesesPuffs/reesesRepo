@@ -73,7 +73,6 @@ public class InvitationDetails extends AppCompatActivity {
 //=================================================================================================== Invitation details
         Intent intent = getIntent();
 
-
         TextView partyName = InvitationDetails.this.findViewById(R.id.partyName);
         partyName.setText(intent.getExtras().getString("partyName"));
 
@@ -131,8 +130,6 @@ public class InvitationDetails extends AppCompatActivity {
                 EditText giftChosen = InvitationDetails.this.findViewById(R.id.giftUserBrings);
                 String giftName = giftChosen.getText().toString();
 
-                Log.i("Android.gift", "this is the gift " + giftName);
-
                 if(giftName.equals("")){
                     handlerCheck(1);
                     return;
@@ -142,27 +139,34 @@ public class InvitationDetails extends AppCompatActivity {
                         ModelQuery.list(Gift.class),
                         response -> {
                             for (Gift gift : response.getData()) {
-                                if (gift.getNumber() != null && gift.getParty().equals(intent.getExtras().getString("partyName"))) {
+                                String theParty = intent.getExtras().getString("partyName");
+                                String giftParty = gift.getParty().getTitle();
+                                System.out.println("Here is theParty: " + theParty + ". And here is the giftParty: " + giftParty);
+                                if (gift.getParty().getTitle().equals(theParty)) {
                                     if (gift.getNumber() > highestNum) highestNum = gift.getNumber();
                                 }
                             }
-                            Log.i ("Amplify.Query", "Success");
+
+                            System.out.println("Success, Highest Number now: " + highestNum); // count 1
+
+                            Gift gift = Gift.builder()
+                                    .title(giftName)
+                                    .party(party)
+                                    .user(loggedUser)
+                                    .partyGoer("TBD")
+                                    .number(highestNum + 1) // tried incrementing, was not currently functioning
+                                    .build();
+
+                            Amplify.API.mutate(
+                                    ModelMutation.create(gift),
+                                    response2 -> Log.i("AddGift", "You saved a new gift to bring, " + giftName),
+                                    error -> Log.e("AddGiftFail", error.toString())
+                            );
+
+                            Log.i("Amplify.endModelQuery", "Success of query.");
+
                         },
                         error -> Log.e("Amplify.Query", "something went wrong" + error.toString())
-                );
-
-                Gift gift = Gift.builder()
-                        .title(giftName)
-                        .party(party)
-                        .user(loggedUser)
-                        .partyGoer("TBD")
-                        .number(highestNum + 1) // tried incrementing, was not currently functioning
-                        .build();
-
-                Amplify.API.mutate(
-                        ModelMutation.create(gift),
-                        response -> Log.i("AddGift", "You saved a new gift to bring, " + giftName),
-                        error -> Log.e("AddGiftFail", error.toString())
                 );
 
                 List<GuestList> target = party.getUsers();
