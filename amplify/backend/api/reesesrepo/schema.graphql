@@ -19,6 +19,8 @@ type GuestList @model {
 type Gift @model {
   id: ID!
   title: String!
+  number: Int
+  partyGoer: String
   user: User @connection(name: "GiftGroup")
   party: Party @connection(name: "PartyGifts")
 }

@@ -8,6 +8,8 @@ query GetUser($id: ID!) {
       items {
         id
         title
+        number
+        partyGoer
         user {
           id
           userName
@@ -75,6 +77,8 @@ query ListUsers(
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -113,6 +117,8 @@ query GetGuestList($id: ID!) {
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -155,6 +161,8 @@ query GetGuestList($id: ID!) {
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -217,6 +225,8 @@ query GetGift($id: ID!) {
   getGift(id: $id) {
     id
     title
+    number
+    partyGoer
     user {
       id
       userName
@@ -225,6 +235,8 @@ query GetGift($id: ID!) {
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -267,6 +279,8 @@ query GetGift($id: ID!) {
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -288,6 +302,8 @@ query ListGifts(
     items {
       id
       title
+      number
+      partyGoer
       user {
         id
         userName
@@ -361,6 +377,8 @@ query GetParty($id: ID!) {
       items {
         id
         title
+        number
+        partyGoer
         user {
           id
           userName
@@ -414,6 +432,8 @@ query ListPartys(
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
