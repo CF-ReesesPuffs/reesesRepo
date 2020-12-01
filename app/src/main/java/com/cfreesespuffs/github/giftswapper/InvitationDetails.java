@@ -34,6 +34,7 @@ public class InvitationDetails extends AppCompatActivity {
     Intent intent;
     Party party;
     GuestList guestList;
+    int highestNum = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,19 +131,32 @@ public class InvitationDetails extends AppCompatActivity {
                 EditText giftChosen = InvitationDetails.this.findViewById(R.id.giftUserBrings);
                 String giftName = giftChosen.getText().toString();
 
-
                 Log.i("Android.gift", "this is the gift " + giftName);
-
 
                 if(giftName.equals("")){
                     handlerCheck(1);
                     return;
                 }
 
+                Amplify.API.query(
+                        ModelQuery.list(Gift.class),
+                        response -> {
+                            for (Gift gift : response.getData()) {
+                                if (gift.getNumber() != null && gift.getParty().equals(intent.getExtras().getString("partyName"))) {
+                                    if (gift.getNumber() > highestNum) highestNum = gift.getNumber();
+                                }
+                            }
+                            Log.i ("Amplify.Query", "Success");
+                        },
+                        error -> Log.e("Amplify.Query", "something went wrong" + error.toString())
+                );
+
                 Gift gift = Gift.builder()
                         .title(giftName)
                         .party(party)
                         .user(loggedUser)
+                        .partyGoer("TBD")
+                        .number(highestNum + 1) // tried incrementing, was not currently functioning
                         .build();
 
                 Amplify.API.mutate(

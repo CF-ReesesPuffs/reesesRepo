@@ -11,6 +11,8 @@ mutation CreateUser(
       items {
         id
         title
+        number
+        partyGoer
         user {
           id
           userName
@@ -76,6 +78,8 @@ mutation UpdateUser(
       items {
         id
         title
+        number
+        partyGoer
         user {
           id
           userName
@@ -141,6 +145,8 @@ mutation DeleteUser(
       items {
         id
         title
+        number
+        partyGoer
         user {
           id
           userName
@@ -212,6 +218,8 @@ mutation CreateGuestList(
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -254,6 +262,8 @@ mutation CreateGuestList(
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -284,6 +294,8 @@ mutation UpdateGuestList(
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -326,6 +338,8 @@ mutation UpdateGuestList(
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -356,6 +370,8 @@ mutation DeleteGuestList(
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -398,6 +414,8 @@ mutation DeleteGuestList(
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -417,6 +435,8 @@ mutation CreateGift(
   createGift(input: $input, condition: $condition) {
     id
     title
+    number
+    partyGoer
     user {
       id
       userName
@@ -425,6 +445,8 @@ mutation CreateGift(
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -467,6 +489,8 @@ mutation CreateGift(
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -486,6 +510,8 @@ mutation UpdateGift(
   updateGift(input: $input, condition: $condition) {
     id
     title
+    number
+    partyGoer
     user {
       id
       userName
@@ -494,6 +520,8 @@ mutation UpdateGift(
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -536,6 +564,8 @@ mutation UpdateGift(
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -555,6 +585,8 @@ mutation DeleteGift(
   deleteGift(input: $input, condition: $condition) {
     id
     title
+    number
+    partyGoer
     user {
       id
       userName
@@ -563,6 +595,8 @@ mutation DeleteGift(
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -605,6 +639,8 @@ mutation DeleteGift(
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -659,6 +695,8 @@ mutation CreateParty(
       items {
         id
         title
+        number
+        partyGoer
         user {
           id
           userName
@@ -726,6 +764,8 @@ mutation UpdateParty(
       items {
         id
         title
+        number
+        partyGoer
         user {
           id
           userName
@@ -793,6 +833,8 @@ mutation DeleteParty(
       items {
         id
         title
+        number
+        partyGoer
         user {
           id
           userName

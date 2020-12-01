@@ -8,6 +8,8 @@ subscription OnCreateUser {
       items {
         id
         title
+        number
+        partyGoer
         user {
           id
           userName
@@ -70,6 +72,8 @@ subscription OnUpdateUser {
       items {
         id
         title
+        number
+        partyGoer
         user {
           id
           userName
@@ -132,6 +136,8 @@ subscription OnDeleteUser {
       items {
         id
         title
+        number
+        partyGoer
         user {
           id
           userName
@@ -200,6 +206,8 @@ subscription OnCreateGuestList {
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -242,6 +250,8 @@ subscription OnCreateGuestList {
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -269,6 +279,8 @@ subscription OnUpdateGuestList {
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -311,6 +323,8 @@ subscription OnUpdateGuestList {
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -338,6 +352,8 @@ subscription OnDeleteGuestList {
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -380,6 +396,8 @@ subscription OnDeleteGuestList {
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -396,6 +414,8 @@ subscription OnCreateGift {
   onCreateGift {
     id
     title
+    number
+    partyGoer
     user {
       id
       userName
@@ -404,6 +424,8 @@ subscription OnCreateGift {
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -446,6 +468,8 @@ subscription OnCreateGift {
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -462,6 +486,8 @@ subscription OnUpdateGift {
   onUpdateGift {
     id
     title
+    number
+    partyGoer
     user {
       id
       userName
@@ -470,6 +496,8 @@ subscription OnUpdateGift {
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -512,6 +540,8 @@ subscription OnUpdateGift {
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -528,6 +558,8 @@ subscription OnDeleteGift {
   onDeleteGift {
     id
     title
+    number
+    partyGoer
     user {
       id
       userName
@@ -536,6 +568,8 @@ subscription OnDeleteGift {
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -578,6 +612,8 @@ subscription OnDeleteGift {
         items {
           id
           title
+          number
+          partyGoer
           createdAt
           updatedAt
         }
@@ -629,6 +665,8 @@ subscription OnCreateParty {
       items {
         id
         title
+        number
+        partyGoer
         user {
           id
           userName
@@ -693,6 +731,8 @@ subscription OnUpdateParty {
       items {
         id
         title
+        number
+        partyGoer
         user {
           id
           userName
@@ -757,6 +797,8 @@ subscription OnDeleteParty {
       items {
         id
         title
+        number
+        partyGoer
         user {
           id
           userName
