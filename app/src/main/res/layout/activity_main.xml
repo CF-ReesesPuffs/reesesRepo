@@ -11,44 +11,31 @@
         android:id="@+id/notification_button"
         android:layout_width="32dp"
         android:layout_height="32dp"
+        android:layout_marginStart="135dp"
         android:layout_marginEnd="12dp"
         android:background="@color/gold_yellow"
         android:backgroundTint="#99ED8922"
         android:contentDescription="TODO"
-        app:layout_constraintBottom_toBottomOf="@+id/profile_button"
+        app:layout_constraintBottom_toBottomOf="@+id/main_header"
         app:layout_constraintEnd_toStartOf="@+id/nav_button"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/main_header"
+        app:layout_constraintTop_toTopOf="@+id/main_header"
         app:srcCompat="@drawable/ic_notification_foreground" />
 
     <TextView
         android:id="@+id/main_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:fontFamily="@font/autour_one"
         android:text="@string/gift_swapper"
         android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/parties_textview"
-        app:layout_constraintEnd_toStartOf="@+id/profile_button"
-        app:layout_constraintHorizontal_bias="0.734"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.194" />
-
-    <ImageButton
-        android:id="@+id/profile_button"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginEnd="12dp"
-        android:background="@color/gold_yellow"
-        android:backgroundTint="#99ED8922"
-        android:contentDescription="@string/todo"
-        app:layout_constraintBottom_toTopOf="@+id/party_recyclerview"
-        app:layout_constraintEnd_toStartOf="@+id/notification_button"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.155"
-        app:srcCompat="@drawable/ic_profile_foreground" />
+        app:layout_constraintVertical_bias="0.196" />
 
     <ImageButton
         android:id="@+id/nav_button"
@@ -99,7 +86,7 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/party_recyclerview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.207"
+        app:layout_constraintHorizontal_bias="0.067"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
@@ -108,25 +95,11 @@
         android:layout_height="32dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
         android:background="@color/gold_yellow"
         android:backgroundTint="#99ED8922"
         android:paddingLeft="4sp"
-        app:layout_constraintBottom_toTopOf="@+id/logout_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nav_button"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_login_foreground" />
 
-    <ImageButton
-        android:id="@+id/logout_button"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/gold_yellow"
-        android:backgroundTint="#99ED8922"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_button"
-        app:srcCompat="@drawable/ic_logout_foreground" />
 </androidx.constraintlayout.widget.ConstraintLayout>

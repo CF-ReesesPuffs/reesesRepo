@@ -53,21 +53,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     }
 
     @Override
-    public boolean onOptionsItemSelected (MenuItem item) {
-        if (item.getItemId() == R.id.setting_logout) {
-            Amplify.Auth.signOut(
-                    AuthSignOutOptions.builder().globalSignOut(true).build(),
-                    () -> {
-                        Log.i("Auth.logout", "Signed out via Settings menu");
-                        handlecheckLoggedIn.sendEmptyMessage(5); // setting up a message, I was running into issues. sendEmptyMessage worked like a charm.
-                    },
-                    error -> Log.e("Auth.logout", "The error: ", error)
-            );
-        }
-        return true;
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -77,20 +62,18 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
 //============================================================================== handler check logged
         handlecheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
-            if (message.arg1 == 0) {
-                Log.i("Amplify.login", "They weren't logged in");
-                ImageButton profile = MainActivity.this.findViewById(R.id.profile_button);
-                profile.setVisibility(View.INVISIBLE);
-            } else if (message.arg1 == 1) {
+            if (message.arg1 == 1) {
                 if (Amplify.Auth.getCurrentUser() != null) {
                     Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
                 }
-            } else if (message.arg1 == 5 ) {
+            }
+
+            if (message.arg1 == 5 ) {
                 parties.clear();
                 System.out.println("ln66 here's the # of parties" + parties.size());
                 partyRecyclerView.setVisibility(View.INVISIBLE); // VERY BLUNT. Effective, but blunt.
                 Toast.makeText(this, "You are now signed out", Toast.LENGTH_LONG).show();
-                Log.i("Auth.logout", "Logged out via Settings");
+                Log.i("Auth.arg1-5", "Logged out via Settings");
             } else {
                 Log.i("Amplify.login", "Send true or false pls");
             }
@@ -147,11 +130,11 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             );
         }
 //===================== Buttons =====================================
-        ImageButton profileButton = MainActivity.this.findViewById(R.id.profile_button);
-        profileButton.setOnClickListener((view)-> {
-            Intent goToProfileIntent = new Intent(MainActivity.this, UserProfile.class);
-            MainActivity.this.startActivity(goToProfileIntent);
-        });
+//        ImageButton profileButton = MainActivity.this.findViewById(R.id.profile_button);
+//        profileButton.setOnClickListener((view)-> {
+//            Intent goToProfileIntent = new Intent(MainActivity.this, UserProfile.class);
+//            MainActivity.this.startActivity(goToProfileIntent);
+//        });
 //================= invites
         ImageButton notificationButton = MainActivity.this.findViewById(R.id.notification_button);
         notificationButton.setOnClickListener((view)-> {
@@ -178,16 +161,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             MainActivity.this.startActivity(goToLoginIntent);
         });
 
-        ImageButton logoutButton= MainActivity.this.findViewById(R.id.logout_button);
-        logoutButton.setOnClickListener((view)-> {
-            logoutButton.setVisibility(View.INVISIBLE);
-
-            Amplify.Auth.signOut(
-                    AuthSignOutOptions.builder().globalSignOut(true).build(),
-                    () -> Log.i("AuthQuickstart", "Signed out globally"),
-                    error -> Log.e("AuthQuickstart", error.toString())
-            );
-        });
     }
 
     //=========== RecyclerView=======================
@@ -239,5 +212,22 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         goToPartyDetailIntent.putExtra("date",party.getHostedOn());
         goToPartyDetailIntent.putExtra("time",party.getHostedAt());
         this.startActivity(goToPartyDetailIntent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item) {
+        if (item.getItemId() == R.id.setting_logout) {
+            Amplify.Auth.signOut(
+                    AuthSignOutOptions.builder().globalSignOut(true).build(),
+                    () -> {
+                        Log.i("Auth.logout", "Signed out via Settings menu");
+                        Message optionMessage = new Message();
+                        optionMessage.arg1 = 5;
+                        handlecheckLoggedIn.sendMessage(optionMessage); // setting up a message, I was running into issues. sendEmptyMessage worked like a charm.
+                    },
+                    error -> Log.e("Auth.logout", "The error: ", error)
+            );
+        }
+        return true;
     }
 }
