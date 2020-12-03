@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     Handler handleParties;
     RecyclerView partyRecyclerView;
     User currentUser;
-    AWSCognitoAuthPlugin auth;
+    ImageButton loginButton;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 System.out.println("ln66 here's the # of parties" + parties.size());
                 partyRecyclerView.setVisibility(View.INVISIBLE); // VERY BLUNT. Effective, but blunt.
                 Toast.makeText(this, "You are now signed out", Toast.LENGTH_LONG).show();
+                loginButton.setVisibility(View.VISIBLE);
                 Log.i("Auth.arg1-5", "Logged out via Settings");
             } else {
                 Log.i("Amplify.login", "Send true or false pls");
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             return false;
         });
 
-//=====================Popluate recyclerView===========================================
+//=====================Populate recyclerView===========================================
 
         handleParties = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -130,12 +131,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                     }
             );
         }
-//===================== Buttons =====================================
-//        ImageButton profileButton = MainActivity.this.findViewById(R.id.profile_button);
-//        profileButton.setOnClickListener((view)-> {
-//            Intent goToProfileIntent = new Intent(MainActivity.this, UserProfile.class);
-//            MainActivity.this.startActivity(goToProfileIntent);
-//        });
 //================= invites
         ImageButton notificationButton = MainActivity.this.findViewById(R.id.notification_button);
         notificationButton.setOnClickListener((view)-> {
@@ -156,30 +151,31 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             MainActivity.this.startActivity(goToHostPartyIntent);
         });
 
-        ImageButton loginButton = MainActivity.this.findViewById(R.id.login_button);
-        loginButton.setOnClickListener((view)-> {//maybe make this button invisible when clicked
+        loginButton = MainActivity.this.findViewById(R.id.login_button);
+        if (Amplify.Auth.getCurrentUser() != null) loginButton.setVisibility(View.INVISIBLE);
+        loginButton.setOnClickListener((view)-> {
             Intent goToLoginIntent = new Intent(MainActivity.this, Login.class);
             MainActivity.this.startActivity(goToLoginIntent);
         });
 
     }
 
-    //=========== RecyclerView=======================
+//=========== RecyclerView=======================
+
     private void connectRecycler(){
         partyRecyclerView = findViewById(R.id.party_recyclerview);
         partyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         partyRecyclerView.setAdapter(new PartyAdapter(parties, this));
     }
 
-    // =======================================================================
+// =======================================================================
 //========================================================= user -sign-in
     public boolean getIsSignedIn() {
         boolean[] isSignedIn = {false};
         Amplify.Auth.fetchAuthSession(
                 result -> {
-//                    Log.i("Amplify.login", result.toString());
                     Message message = new Message();
-                    if(result.isSignedIn()) {
+                    if (result.isSignedIn()) {
                         message.arg1 = 1;
                         handlecheckLoggedIn.sendMessage(message);
                     } else {
