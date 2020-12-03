@@ -72,14 +72,15 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
         holder.gifts = giftsList.get(position);
         TextView giftNameTv = holder.giftView.findViewById(R.id.giftNameFrag);
         TextView userOwner = holder.giftView.findViewById(R.id.giftOwner);
-        userOwner.setVisibility(View.INVISIBLE);
+        userOwner.setVisibility(View.VISIBLE);
 
         heldGift = holder.gifts;
-        giftNameTv.setText(holder.gifts.getTitle());
+       // giftNameTv.setText(holder.gifts.getTitle());
         giftUpdate = giftsList.get(position);
 
         userOwner.setText(giftUpdate.getUser().getUserName());
 
+        giftNameTv.setText(giftUpdate.getNumber().toString());
     }
 
 

@@ -64,16 +64,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                     }
                 });
 
-//        guestList.add(User.builder().userName("paul").build());
-//        guestList.add(User.builder().userName("claudio").build());
-//        guestList.add(User.builder().userName("meghan").build());
-//        guestList.add(User.builder().userName("1").build());
-//        guestList.add(User.builder().userName("2").build());
-//        guestList.add(User.builder().userName("3").build());
-//        guestList.add(User.builder().userName("4").build());
-//        guestList.add(User.builder().userName("5").build());
-//        guestList.add(User.builder().userName("6").build());
-//        guestList.add(User.builder().userName("7").build());
         handler.sendEmptyMessage(1);
 
         Button findGuestButton = findViewById(R.id.findGuest_button);
@@ -157,6 +147,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                             .user(guest)
                             .invitee("Host")
                             .invitedUser(guest.getUserName())
+                            .takenTurn(false)
                             .party(party2)
                             .build();
 

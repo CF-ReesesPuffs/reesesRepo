@@ -47,10 +47,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     ArrayList<String> attendingGuests = new ArrayList<>();
     GuestList loggedUser;
     User amplifyUser;
-
-    //TODO: Fill the database with fake users to view
-
-    //TODO: Create a guest user account, when the party starts ALL gifts go to "unclaimed" user.
+    Intent intent;
 
     //TODO: Create user turn functionality
     //TODO: Once each user has chosen a gift, display post party page
@@ -61,11 +58,10 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_party);
 
-        Intent intent = getIntent();
+        intent = getIntent();
 
         TextView partyName = CurrentParty.this.findViewById(R.id.partyName);
         partyName.setText(intent.getExtras().getString("thisPartyId"));
-
 
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -92,8 +88,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                         return false;
                     }
                 });
-        connectAdapterToRecycler();
-        connectAdapterToRecycler2();
 
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
@@ -177,7 +171,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
     public void guestsTakeTurns(){
         for(int i = 0; i < guestList.size(); i ++){
-            while(guestList.get(i).getTurnTaken() == false){
+            while(guestList.get(i).getTakenTurn() == false){
 //                TextView currentUser = CurrentParty.this.findViewById(R.id.usersTurn);
 //                currentUser.setVisibility(View.VISIBLE);
 //                currentUser.setText(guestList.get(i).getUser().getUserName());
@@ -208,8 +202,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     public void giftsToDoListener(Gift gift) {
         System.out.println(gift.getUser().getUserName());
 
-        //TODO: Notify dataset has changed
-
         AuthUser authUser = Amplify.Auth.getCurrentUser();
                 Amplify.API.query(
                         ModelQuery.list(User.class),
@@ -229,8 +221,27 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                         },
                         error -> Log.e("amplify.user", String.valueOf(error))
                 );
-                Toast.makeText(this, "You chose a gift! " + gift.getTitle(), Toast.LENGTH_SHORT).show();
 
+        Amplify.API.query(
+                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+                response -> {
+                    for (GuestList user : response.getData().getUsers()) {
+                        Log.i("Amplify.guestList", "users turn " + user);
+                        if(user.getInvitedUser().contains(amplifyUser.getUserName())){
+                            user.takenTurn = true;
+
+                            Amplify.API.query(
+                                    ModelMutation.update(user),
+                                    response3 -> Log.i("Mutation.user", "users turn taken "),
+                                    error -> Log.e("Mutation.uesr", "fail")
+                            );
+                        }
+                    }
+                },
+                error -> Log.e("Amplify", "Failed to retrieve store")
+        );
+
+        Toast.makeText(this, "You chose a gift! " + gift.getTitle(), Toast.LENGTH_SHORT).show();
 
 
         //TODO: OR use a subscription
