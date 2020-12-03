@@ -37,7 +37,7 @@ query GetUser($id: ID!) {
         inviteStatus
         invitee
         invitedUser
-        turnTaken
+        takenTurn
         user {
           id
           userName
@@ -90,7 +90,7 @@ query ListUsers(
           inviteStatus
           invitee
           invitedUser
-          turnTaken
+          takenTurn
           createdAt
           updatedAt
         }
@@ -108,7 +108,7 @@ query GetGuestList($id: ID!) {
     inviteStatus
     invitee
     invitedUser
-    turnTaken
+    takenTurn
     user {
       id
       userName
@@ -130,7 +130,7 @@ query GetGuestList($id: ID!) {
           inviteStatus
           invitee
           invitedUser
-          turnTaken
+          takenTurn
           createdAt
           updatedAt
         }
@@ -151,7 +151,7 @@ query GetGuestList($id: ID!) {
           inviteStatus
           invitee
           invitedUser
-          turnTaken
+          takenTurn
           createdAt
           updatedAt
         }
@@ -186,7 +186,7 @@ query ListGuestLists(
       inviteStatus
       invitee
       invitedUser
-      turnTaken
+      takenTurn
       user {
         id
         userName
@@ -248,7 +248,7 @@ query GetGift($id: ID!) {
           inviteStatus
           invitee
           invitedUser
-          turnTaken
+          takenTurn
           createdAt
           updatedAt
         }
@@ -269,7 +269,7 @@ query GetGift($id: ID!) {
           inviteStatus
           invitee
           invitedUser
-          turnTaken
+          takenTurn
           createdAt
           updatedAt
         }
@@ -351,7 +351,7 @@ query GetParty($id: ID!) {
         inviteStatus
         invitee
         invitedUser
-        turnTaken
+        takenTurn
         user {
           id
           userName
@@ -422,7 +422,7 @@ query ListPartys(
           inviteStatus
           invitee
           invitedUser
-          turnTaken
+          takenTurn
           createdAt
           updatedAt
         }
