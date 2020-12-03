@@ -160,14 +160,15 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
     }
 
-    //=========== RecyclerView=======================
+//=========== RecyclerView=======================
+
     private void connectRecycler(){
         partyRecyclerView = findViewById(R.id.party_recyclerview);
         partyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         partyRecyclerView.setAdapter(new PartyAdapter(parties, this));
     }
 
-    // =======================================================================
+// =======================================================================
 //========================================================= user -sign-in
     public boolean getIsSignedIn() {
         boolean[] isSignedIn = {false};

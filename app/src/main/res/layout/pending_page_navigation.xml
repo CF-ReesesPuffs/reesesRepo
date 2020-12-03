@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".PendingPage"
+    android:id="@+id/pending_page_drawer">
+
+    <include
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        layout = "@layout/pending_page_menu_toolbar"/>
+
+    <include
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        layout="@layout/activity_pending_page"/>
+
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/pending_page_navigation_view"
+        app:menu="@menu/menu_pending_party"
+        app:headerLayout="@layout/pending_party_menu_header"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"/>
+
+</androidx.drawerlayout.widget.DrawerLayout>
+
+<!-- https://www.youtube.com/watch?v=USenYOBJw9Y is what I'm following -->
