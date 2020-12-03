@@ -113,7 +113,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
-                    Log.i("Test party.gift", "================================" + response.getData().getGifts());
+                    Log.i("Test party.gift", "===" + response.getData().getGifts());
                     for (Gift giftBrought : response.getData().getGifts()) {
                         Log.i("Amplify.gifts", "Here is all the gifts from users! " + giftBrought);
                         giftList.add(giftBrought);
