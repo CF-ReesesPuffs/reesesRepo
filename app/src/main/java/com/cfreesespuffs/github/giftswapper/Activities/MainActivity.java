@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             return false;
         });
 
-//=====================Popluate recyclerView===========================================
+//=====================Populate recyclerView===========================================
 
         handleParties = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -131,8 +131,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                     }
             );
         }
-//===================== Buttons =====================================
-
 //================= invites
         ImageButton notificationButton = MainActivity.this.findViewById(R.id.notification_button);
         notificationButton.setOnClickListener((view)-> {
@@ -155,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
         loginButton = MainActivity.this.findViewById(R.id.login_button);
         if (Amplify.Auth.getCurrentUser() != null) loginButton.setVisibility(View.INVISIBLE);
-        loginButton.setOnClickListener((view)-> {//maybe make this button invisible when clicked
+        loginButton.setOnClickListener((view)-> {
             Intent goToLoginIntent = new Intent(MainActivity.this, Login.class);
             MainActivity.this.startActivity(goToLoginIntent);
         });
@@ -175,9 +173,8 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         boolean[] isSignedIn = {false};
         Amplify.Auth.fetchAuthSession(
                 result -> {
-//                    Log.i("Amplify.login", result.toString());
                     Message message = new Message();
-                    if(result.isSignedIn()) {
+                    if (result.isSignedIn()) {
                         message.arg1 = 1;
                         handlecheckLoggedIn.sendMessage(message);
                     } else {
