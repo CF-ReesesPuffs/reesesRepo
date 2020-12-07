@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:title="First Nest"
+        android:visible="true">
+
+        <menu>
+
+            <item
+                android:id="@+id/onePotential"
+                android:icon="@drawable/ic_baseline_card_giftcard_24"
+                android:title="1: Potential" />
+
+            <item
+                android:id="@+id/twoPotential"
+                android:icon="@drawable/ic_profile_foreground"
+                android:title="2: Potential" />
+
+        </menu>
+
+    </item>
 </menu>

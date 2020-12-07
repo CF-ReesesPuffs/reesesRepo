@@ -5,27 +5,31 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".PendingPage"
-    android:id="@+id/pending_page_drawer">
+    android:id="@+id/pending_page_drawer"
+    >
 
-    <include
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/pending_page_navigation_view"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_width="wrap_content"
-        layout = "@layout/pending_page_menu_toolbar"/>
+        android:layout_gravity="left"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/pending_party_menu_header"
+        app:menu="@menu/menu_pending_party" />
 
     <include
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
         layout="@layout/activity_pending_page"/>
 
-    <com.google.android.material.navigation.NavigationView
-        android:layout_width="match_parent"
+    <include
         android:layout_height="match_parent"
-        android:id="@+id/pending_page_navigation_view"
-        app:menu="@menu/menu_pending_party"
-        app:headerLayout="@layout/pending_party_menu_header"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"/>
+        android:layout_width="wrap_content"
+        layout = "@layout/pending_page_menu_toolbar"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
 
 <!-- https://www.youtube.com/watch?v=USenYOBJw9Y is what I'm following -->
+
+<!--https://stackoverflow.com/questions/27350136/android-drawerlayout-no-drawer-view-found-with-gravity work around to show drawer on right side of the screen-->
+<!--the ltr does work, but also kicks the toolbar title to the right, which is not desired. :\ Todo: get toolbar title align to left-->
