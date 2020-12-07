@@ -1,7 +1,10 @@
 package com.cfreesespuffs.github.giftswapper;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,7 +15,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -23,11 +25,16 @@ import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
 import com.cfreesespuffs.github.giftswapper.Adapters.ViewAdapter;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
 public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskListener {
 
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle actionBarDrawerToggle;
+    Toolbar toolbar;
+    NavigationView navigationView;
     RecyclerView recyclerView;
     Handler handler;
     Handler handleSingleItem;
@@ -36,8 +43,21 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pending_page);
+        setContentView(R.layout.pending_page_navigation);
 
+        toolbar = findViewById(R.id.pending_page_menu_toolbar);
+        setSupportActionBar(toolbar);
+
+        drawerLayout = findViewById(R.id.pending_page_drawer);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close); // https://developer.android.com/reference/androidx/appcompat/app/ActionBarDrawerToggle for dev docs
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        actionBarDrawerToggle.getDrawerArrowDrawable().setColor(getColor(R.color.black)); // because setting the drawer arrow drawable in the theme makes it disappear.
+        actionBarDrawerToggle.getDrawerArrowDrawable().setTint(getColor(R.color.black)); // and this finally gets rid of the weak gray/lightening tent. Uncertain if attempting to change this in the theme also makes the arrow disappear.
+
+        navigationView = findViewById(R.id.pending_page_navigation_view);
+        actionBarDrawerToggle.syncState();
 
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -60,13 +80,13 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                         return false;
                     }
                 });
+
         connectAdapterToRecycler();
         Intent intent = getIntent();
         String partyId = intent.getExtras().getString("id");
         String partyTitle = intent.getExtras().getString("partyName");
 
         System.out.println(intent.getExtras().getString("title"));
-
 
         ImageButton homeDetailButton = PendingPage.this.findViewById(R.id.homePartyDetailButton);
         homeDetailButton.setOnClickListener((view)-> {
@@ -86,14 +106,27 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         TextView title = PendingPage.this.findViewById(R.id.partyName);
         title.setText(intent.getExtras().getString("title"));
 
-//        TextView host = PendingPage.this.findViewById(R.id.hostUser);
-//        host.setText(intent.getExtras().getString("host"));
+        TextView host = PendingPage.this.findViewById(R.id.price);
+        host.setText(intent.getExtras().getString("host"));
+
+        Button homeButton = findViewById(R.id.customHomeButton);
+        homeButton.setOnClickListener((view) -> {
+            Log.i("Activity.homeButton", "It was clicked.");
+            Intent intent1 = new Intent(this, MainActivity.class);
+            startActivity(intent1);
+        });
+
 
         TextView date = PendingPage.this.findViewById(R.id.startDate);
         date.setText(intent.getExtras().getString("date"));
 
         TextView time = PendingPage.this.findViewById(R.id.startTime);
         time.setText(intent.getExtras().getString("time"));
+
+        // Has to be included, otherwise doesn't show up via layout xml \
+        TextView priceDef = PendingPage.this.findViewById(R.id.price);//|
+        priceDef.setText("Price");                                    //|
+        // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
 
         TextView price = PendingPage.this.findViewById(R.id.priceLimit);
         price.setText(intent.getExtras().getString("price"));
@@ -140,6 +173,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new ViewAdapter(guestList, this));
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = new Intent(PendingPage.this, MainActivity.class);
@@ -147,9 +181,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         return true;
     }
 
-
     @Override
-    public void listener(GuestList guestList) {
-
-    }
+    public void listener(GuestList guestList) { }
 }

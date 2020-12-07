@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/pending_page_toolbar"
+        android:id="@+id/pending_page_menu_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/gold_yellow" />
+        android:layout_height="wrap_content"
+        android:background="@color/gold_yellow"
+        android:minHeight="?attr/actionBarSize"
+        app:title=" " />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/menu_toolBar_Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Party Details"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_anchor="@+id/pending_page_menu_toolbar"
+        app:layout_anchorGravity="center" />
+
+    <Button
+        android:id="@+id/customHomeButton"
+        android:layout_width="53dp"
+        android:layout_height="56dp"
+        android:layout_gravity="right"
+        android:background="#00FFFFFF"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:textColor="#0022FD"
+        app:icon="@drawable/home_foreground"
+        app:iconGravity="textEnd"
+        app:iconPadding="4dp"
+        app:iconSize="60dp"
+        app:iconTint="#000000" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
