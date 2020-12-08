@@ -29,7 +29,7 @@ public final class Gift implements Model {
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String title;
   private final @ModelField(targetType="Int") Integer number;
-  private final @ModelField(targetType="String") String partyGoer;
+  public @ModelField(targetType="String") String partyGoer;
   public @ModelField(targetType="User") @BelongsTo(targetName = "giftUserId", type = User.class) User user;
   private final @ModelField(targetType="Party") @BelongsTo(targetName = "giftPartyId", type = Party.class) Party party;
   public String getId() {

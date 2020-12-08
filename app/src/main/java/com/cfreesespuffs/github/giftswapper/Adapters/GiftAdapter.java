@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.logging.Handler;
 
 public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHolder> {
-    public GuestList user;
     public ArrayList<Gift> giftsList;
     public OnCommWithGiftsListener listener;
 
@@ -24,14 +23,10 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
     public Gift heldGift;
     public TextView userOwner;
 
-
-    public GiftAdapter(ArrayList<Gift> giftsList, GuestList user, OnCommWithGiftsListener listener) {
-        this.user = user;
+    public GiftAdapter(ArrayList<Gift> giftsList, OnCommWithGiftsListener listener) {
         this.giftsList = giftsList;
         this.listener = listener;
     }
-
-    Handler handler;
 
     public static class GiftsToViewHolder extends RecyclerView.ViewHolder {
         public GuestList user;
@@ -56,7 +51,6 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println(viewHolder.gifts);
                 listener.giftsToDoListener(viewHolder.gifts);
             }
         });
@@ -78,8 +72,12 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
        // giftNameTv.setText(holder.gifts.getTitle());
         giftUpdate = giftsList.get(position);
 
-        userOwner.setText(giftUpdate.getUser().getUserName());
+        if (giftUpdate.getTitle().contains("chocolate")) { // This works!
+            System.out.println("howdy maybe to invisibility?");
+            userOwner.setVisibility(View.INVISIBLE);
+        }
 
+        userOwner.setText(giftUpdate.getPartyGoer()); // to change name that shows up. b
         giftNameTv.setText(giftUpdate.getNumber().toString());
     }
 
