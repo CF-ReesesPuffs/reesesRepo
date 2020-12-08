@@ -69,7 +69,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
                         AuthUser authUser = Amplify.Auth.getCurrentUser();
 
-                        System.out.println("here is adapter auth: " + authUser);
+                        System.out.println("here is adapter auth: " + amplifyUser);
 
                         connectAdapterToRecycler();
                         connectAdapterToRecycler2();
@@ -169,7 +169,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     public void connectAdapterToRecycler2() {
         recyclerView2 = findViewById(R.id.giftRecycler);
         recyclerView2.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView2.setAdapter(new GiftAdapter(giftList, this));
+        recyclerView2.setAdapter(new GiftAdapter(giftList, amplifyUser, this));
     }
 
     @Override
