@@ -41,7 +41,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     ArrayList<GuestList> guestList = new ArrayList<>();
     ArrayList<Gift> giftList = new ArrayList<>();
     Handler handler;
-    Handler handler2;
     RecyclerView recyclerView;
     RecyclerView recyclerView2;
     ArrayList<String> attendingGuests = new ArrayList<>();
@@ -75,21 +74,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                         connectAdapterToRecycler();
                         connectAdapterToRecycler2();
                         recyclerView.getAdapter().notifyDataSetChanged();
-                        return false;
-                    }
-                });
-
-        handler2 = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message msg) {
-                        connectAdapterToRecycler();
-                        connectAdapterToRecycler2();
-                        if(msg.arg1 == 1){
-                            connectAdapterToRecycler2();
-                            recyclerView2.getAdapter().notifyDataSetChanged();
-                        }
-                        recyclerView2.getAdapter().notifyDataSetChanged();
                         return false;
                     }
                 });
