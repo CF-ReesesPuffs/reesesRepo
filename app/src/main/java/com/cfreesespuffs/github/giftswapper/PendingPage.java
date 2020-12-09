@@ -88,11 +88,11 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
         System.out.println(intent.getExtras().getString("title"));
 
-        ImageButton homeDetailButton = PendingPage.this.findViewById(R.id.homePartyDetailButton);
-        homeDetailButton.setOnClickListener((view)-> {
-            Intent goToMainIntent = new Intent(PendingPage.this, MainActivity.class);
-            PendingPage.this.startActivity(goToMainIntent);
-        });
+//        ImageButton homeDetailButton = PendingPage.this.findViewById(R.id.homePartyDetailButton);
+//        homeDetailButton.setOnClickListener((view)-> {
+//            Intent goToMainIntent = new Intent(PendingPage.this, MainActivity.class);
+//            PendingPage.this.startActivity(goToMainIntent);
+//        });
 
         Button startParty = PendingPage.this.findViewById(R.id.start_party);
         startParty.setOnClickListener((view) -> {
@@ -106,8 +106,8 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         TextView title = PendingPage.this.findViewById(R.id.partyName);
         title.setText(intent.getExtras().getString("title"));
 
-        TextView host = PendingPage.this.findViewById(R.id.price);
-        host.setText(intent.getExtras().getString("host"));
+//        TextView host = PendingPage.this.findViewById(R.id.price);
+//        host.setText(intent.getExtras().getString("host"));
 
         Button homeButton = findViewById(R.id.customHomeButton);
         homeButton.setOnClickListener((view) -> {

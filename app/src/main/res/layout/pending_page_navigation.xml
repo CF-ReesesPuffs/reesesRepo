@@ -14,8 +14,10 @@
         android:layout_height="match_parent"
         android:layout_gravity="left"
         android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.titleColor"
         app:headerLayout="@layout/pending_party_menu_header"
         app:menu="@menu/menu_pending_party" />
+<!--    https://stackoverflow.com/questions/38216457/navigation-drawer-menu-item-title-color-in-android to change menu title color -->
 
     <include
         android:layout_height="match_parent"
