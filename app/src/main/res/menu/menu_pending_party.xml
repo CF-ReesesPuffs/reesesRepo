@@ -6,7 +6,6 @@
         android:visible="true">
 
         <menu>
-
             <item
                 android:id="@+id/partyDeleteMenuItem"
                 android:icon="@drawable/ic_baseline_card_giftcard_24"
@@ -16,7 +15,6 @@
                 android:id="@+id/twoPotential"
                 android:icon="@drawable/ic_profile_foreground"
                 android:title="Potential" />
-
         </menu>
 
     </item>
