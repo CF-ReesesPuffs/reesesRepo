@@ -86,12 +86,16 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
 
         if (giftUpdate.getUser().getUserName().contains(authUser.getUsername())) { // This works! TODO: test with parties after pulling from PR.
             System.out.println("howdy maybe to invisibility?");
-//            userOwner.setVisibility(View.INVISIBLE);
             userOwner.setText("you brought this gift!");
+        } else {
+            userOwner.setText(giftUpdate.getPartyGoer()); // to change name that shows up. b
         }
 
-        userOwner.setText(giftUpdate.getPartyGoer()); // to change name that shows up. b
-        giftNameTv.setText(giftUpdate.getNumber().toString());
+        if (giftUpdate.partyGoer.contains("TBD")) {
+            giftNameTv.setText(giftUpdate.getNumber().toString());
+        } else {
+            giftNameTv.setText(giftUpdate.getTitle());
+        }
     }
 
 

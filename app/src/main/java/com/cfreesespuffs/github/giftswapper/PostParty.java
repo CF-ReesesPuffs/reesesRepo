@@ -23,8 +23,7 @@ public class PostParty extends AppCompatActivity {
 //        });
 
         Intent intent = getIntent();
-
         TextView partyName = PostParty.this.findViewById(R.id.partyName);
-        partyName.setText(intent.getExtras().getString("partyName"));
+        partyName.setText(intent.getExtras().getString("title"));
     }
 }
