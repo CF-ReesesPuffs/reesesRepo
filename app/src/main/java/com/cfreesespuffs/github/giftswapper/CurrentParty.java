@@ -48,6 +48,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     User amplifyUser;
     Intent intent;
 
+
     //TODO: Create user turn functionality
     //TODO: Once each user has chosen a gift, display post party page
     //TODO: Update recycler on click of a new item
@@ -125,6 +126,23 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                     Log.i("Amplify.gifts", "Here is all the gifts from users! " + giftBrought);
                                     giftList.add(giftBrought);
                                 }
+
+                                boolean allTaken = true;
+                                for (Gift gift : giftList) {
+                                    System.out.println("Alltaken Sanity!!!");
+                                    if (gift.getPartyGoer().contains("TBD")) allTaken = false;
+                                }
+
+                                if (allTaken = true) {
+                                    Intent headToPostParty = new Intent(CurrentParty.this, PostParty.class);
+
+                                    headToPostParty.putExtra("title", intent.getExtras().getString("thisPartyId"));
+                                    headToPostParty.putExtra("when", String.valueOf(Party.HOSTED_ON));
+                                    headToPostParty.putExtra("setTime", String.valueOf(Party.HOSTED_AT));
+
+                                    startActivity(headToPostParty);
+                                }
+
                                 handler.sendEmptyMessage(1);
                             },
                             error -> Log.e("Amplify", "Failed to retrieve store")
@@ -136,14 +154,28 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 () -> Log.i(SUBSCRIBETAG, "Subscription completed")
         );
 
-    ImageButton homeDetailButton = CurrentParty.this.findViewById(R.id.goHome);
-    homeDetailButton.setOnClickListener((view)-> {
-        Intent goToMainIntent = new Intent(CurrentParty.this, MainActivity.class);
-        CurrentParty.this.startActivity(goToMainIntent);
-    });
+        ImageButton homeDetailButton = CurrentParty.this.findViewById(R.id.goHome);
+        homeDetailButton.setOnClickListener((view)-> {
+            Intent goToMainIntent = new Intent(CurrentParty.this, MainActivity.class);
+            CurrentParty.this.startActivity(goToMainIntent);
+        });
+
+//        Amplify.API.query(  // TODO: turn off a user's ability to click a gift, or turn off a gift's ability to be clicked.
+//                ModelQuery.list(User.class),
+//                response -> {
+//                    AuthUser authUser = Amplify.Auth.getCurrentUser();
+//                    for (User user : response.getData()) {
+//                        if (user.getUserName().equals(authUser.getUsername())) {
+//                            amplifyUser = user;
+//                        }
+//
+//                        if (guestList.)
+//                    }
+//                },
+//                error -> Log.e("Amplify.userRetrieval", "didn't get'em")
+//        );
+
     }
-
-
 
     public void guestsTakeTurns(){
         for(int i = 0; i < guestList.size(); i ++){
@@ -155,10 +187,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 }//TODO: how do we add a single gift to a list of gifts, then show that gift?
         }
         Intent intent = new Intent(CurrentParty.this, PostParty.class);
-        intent.putExtra("title", String.valueOf(Party.TITLE));
-//        intent.putExtra("host", String.valueOf(Party.));
-        intent.putExtra("when", String.valueOf(Party.HOSTED_ON));
-        intent.putExtra("setTime", String.valueOf(Party.HOSTED_AT));
+
 //        intent.putExtra("users", String.valueOf(Party.));
         }
 
