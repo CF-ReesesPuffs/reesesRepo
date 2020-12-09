@@ -16,11 +16,11 @@ public class PostParty extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_party);
 
-        ImageButton homeDetailButton = PostParty.this.findViewById(R.id.homePartyDetailButton);
-        homeDetailButton.setOnClickListener((view)-> {
-            Intent goToMainIntent = new Intent(PostParty.this, MainActivity.class);
-            PostParty.this.startActivity(goToMainIntent);
-        });
+//        ImageButton homeDetailButton = PostParty.this.findViewById(R.id.homePartyDetailButton);
+//        homeDetailButton.setOnClickListener((view)-> {
+//            Intent goToMainIntent = new Intent(PostParty.this, MainActivity.class);
+//            PostParty.this.startActivity(goToMainIntent);
+//        });
 
         Intent intent = getIntent();
 

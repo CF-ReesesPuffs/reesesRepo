@@ -2,21 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:title="First Nest"
+        android:title="Party Controls"
         android:visible="true">
 
         <menu>
-
             <item
-                android:id="@+id/onePotential"
+                android:id="@+id/partyDeleteMenuItem"
                 android:icon="@drawable/ic_baseline_card_giftcard_24"
-                android:title="1: Potential" />
-
+                android:title="Delete Party" />
+                    <!-- For the above title, I originally had a dummy "1: " in the title. It would seem that might gunk something up because it was showing up even after I had set the title programmatically. ga ke itse. -->
             <item
                 android:id="@+id/twoPotential"
                 android:icon="@drawable/ic_profile_foreground"
-                android:title="2: Potential" />
-
+                android:title="Potential" />
         </menu>
 
     </item>

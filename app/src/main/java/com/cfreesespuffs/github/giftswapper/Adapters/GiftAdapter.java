@@ -1,5 +1,6 @@
 package com.cfreesespuffs.github.giftswapper.Adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,30 +9,31 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.auth.AuthUser;
+import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.GuestList;
+import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
 import java.util.logging.Handler;
 
 public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHolder> {
-    public GuestList user;
     public ArrayList<Gift> giftsList;
     public OnCommWithGiftsListener listener;
+    public User user;
+    public AuthUser authUser;
 
     public Gift giftUpdate;
     public Gift heldGift;
     public TextView userOwner;
 
-
-    public GiftAdapter(ArrayList<Gift> giftsList, GuestList user, OnCommWithGiftsListener listener) {
-        this.user = user;
+    public GiftAdapter(ArrayList<Gift> giftsList, User user, OnCommWithGiftsListener listener) {
         this.giftsList = giftsList;
         this.listener = listener;
+        this.user = user;
     }
-
-    Handler handler;
 
     public static class GiftsToViewHolder extends RecyclerView.ViewHolder {
         public GuestList user;
@@ -56,7 +58,6 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println(viewHolder.gifts);
                 listener.giftsToDoListener(viewHolder.gifts);
             }
         });
@@ -78,8 +79,18 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
        // giftNameTv.setText(holder.gifts.getTitle());
         giftUpdate = giftsList.get(position);
 
-        userOwner.setText(giftUpdate.getUser().getUserName());
+        authUser = Amplify.Auth.getCurrentUser();
 
+        Log.i("System.viewholder", "The authuser: " + authUser);
+        Log.i("System.viewholder", "From the giftUpdate: " + giftUpdate.getUser().getUserName());
+
+        if (giftUpdate.getUser().getUserName().contains(authUser.getUsername())) { // This works! TODO: test with parties after pulling from PR.
+            System.out.println("howdy maybe to invisibility?");
+//            userOwner.setVisibility(View.INVISIBLE);
+            userOwner.setText("you brought this gift!");
+        }
+
+        userOwner.setText(giftUpdate.getPartyGoer()); // to change name that shows up. b
         giftNameTv.setText(giftUpdate.getNumber().toString());
     }
 

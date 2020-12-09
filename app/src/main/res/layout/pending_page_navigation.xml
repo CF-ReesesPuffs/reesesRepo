@@ -8,19 +8,22 @@
     android:id="@+id/pending_page_drawer"
     >
 
+    <include
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        layout="@layout/activity_pending_page"/>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/pending_page_navigation_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="left"
         android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.titleColor"
         app:headerLayout="@layout/pending_party_menu_header"
         app:menu="@menu/menu_pending_party" />
+<!--    https://stackoverflow.com/questions/38216457/navigation-drawer-menu-item-title-color-in-android to change menu title color -->
 
-    <include
-        android:layout_height="match_parent"
-        android:layout_width="wrap_content"
-        layout="@layout/activity_pending_page"/>
 
     <include
         android:layout_height="match_parent"

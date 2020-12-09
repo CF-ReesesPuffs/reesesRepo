@@ -41,7 +41,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     ArrayList<GuestList> guestList = new ArrayList<>();
     ArrayList<Gift> giftList = new ArrayList<>();
     Handler handler;
-    Handler handler2;
     RecyclerView recyclerView;
     RecyclerView recyclerView2;
     ArrayList<String> attendingGuests = new ArrayList<>();
@@ -67,24 +66,14 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 new Handler.Callback() {
                     @Override
                     public boolean handleMessage(@NonNull Message msg) {
+
+                        AuthUser authUser = Amplify.Auth.getCurrentUser();
+
+                        System.out.println("here is adapter auth: " + amplifyUser);
+
                         connectAdapterToRecycler();
                         connectAdapterToRecycler2();
                         recyclerView.getAdapter().notifyDataSetChanged();
-                        return false;
-                    }
-                });
-
-        handler2 = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message msg) {
-                        connectAdapterToRecycler();
-                        connectAdapterToRecycler2();
-                        if(msg.arg1 == 1){
-                            connectAdapterToRecycler2();
-                            recyclerView2.getAdapter().notifyDataSetChanged();
-                        }
-                        recyclerView2.getAdapter().notifyDataSetChanged();
                         return false;
                     }
                 });
@@ -116,21 +105,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 },
                 error -> Log.e("Amplify", "Failed to retrieve store")
         );
-        AuthUser authUser = Amplify.Auth.getCurrentUser();
-        if(Amplify.Auth.getCurrentUser() != null) {
-            Amplify.API.query(
-                    ModelQuery.list(GuestList.class),
-                    response -> {
-                        for (GuestList host : response.getData()) {
-                            if (host.getInvitee().contains(authUser.getUsername())) {
-                                guestsTakeTurns();
-                                loggedUser = host;
-                                Log.i("Amplify.currentUser", "This is the current host, he just gave perms to start the game ");
-                            }
-                        }
-                    },
-                    error -> Log.e("Amplify.currentUser", "error"));
-        }
 
         String SUBSCRIBETAG = "Amplify.subscription";
         ApiOperation subscription = Amplify.API.subscribe(
@@ -195,7 +169,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     public void connectAdapterToRecycler2() {
         recyclerView2 = findViewById(R.id.giftRecycler);
         recyclerView2.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView2.setAdapter(new GiftAdapter(giftList, loggedUser, this));
+        recyclerView2.setAdapter(new GiftAdapter(giftList, amplifyUser, this));
     }
 
     @Override
@@ -211,35 +185,40 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                     amplifyUser = user;
                                 }
                             }
-                            gift.user = amplifyUser;
+
+                            Amplify.API.query(
+                                    ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+                                    response3 -> {
+                                        for (GuestList user : response3.getData().getUsers()) {
+                                            Log.i("Amplify.guestList", "users turn " + user);
+                                            if(user.getInvitedUser().contains(amplifyUser.getUserName())){
+                                                user.takenTurn = true;
+
+                                                Amplify.API.query(
+                                                        ModelMutation.update(user),
+                                                        response4 -> Log.i("Mutation.user", "users turn taken "),
+                                                        error -> Log.e("Mutation.uesr", "fail")
+                                                );
+                                            }
+                                        }
+                                    },
+                                    error -> Log.e("Amplify", "Failed to retrieve store")
+                            );
+
+                            gift.partyGoer = amplifyUser.getUserName(); // changes the "in party" owner
+//                            gift.partyGoer = "TBD"; // changes the "in party" owner
+//                            gift.user = amplifyUser; // changes the "real" owner
 
                             Amplify.API.mutate(
                                     ModelMutation.update(gift),
                                     response2 -> Log.i("Mutation", "mutated the gifts user " + gift),
                                     error -> Log.e("Mutation", "Failure, you disgrace family " + error)
                             );
+
                         },
                         error -> Log.e("amplify.user", String.valueOf(error))
                 );
 
-        Amplify.API.query(
-                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
-                response -> {
-                    for (GuestList user : response.getData().getUsers()) {
-                        Log.i("Amplify.guestList", "users turn " + user);
-                        if(user.getInvitedUser().contains(amplifyUser.getUserName())){
-                            user.takenTurn = true;
-
-                            Amplify.API.query(
-                                    ModelMutation.update(user),
-                                    response3 -> Log.i("Mutation.user", "users turn taken "),
-                                    error -> Log.e("Mutation.uesr", "fail")
-                            );
-                        }
-                    }
-                },
-                error -> Log.e("Amplify", "Failed to retrieve store")
-        );
 
         Toast.makeText(this, "You chose a gift! " + gift.getTitle(), Toast.LENGTH_SHORT).show();
 
