@@ -2,22 +2,29 @@ package com.cfreesespuffs.github.giftswapper;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
@@ -29,35 +36,41 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskListener {
+public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskListener, NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
-    Toolbar toolbar;
     NavigationView navigationView;
     RecyclerView recyclerView;
     Handler handler;
     Handler handleSingleItem;
     ArrayList<GuestList> guestList = new ArrayList<>();
+    MenuItem partyDeleter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pending_page_navigation);
-
-        toolbar = findViewById(R.id.pending_page_menu_toolbar);
+        Toolbar toolbar = findViewById(R.id.pending_page_menu_toolbar);
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.pending_page_drawer);
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        navigationView = findViewById(R.id.pending_page_navigation_view);
+        navigationView.bringToFront(); // ESSENTIAL. Perhaps because where it is the layout, but this line makes it so that it is not only visible but clickable (why they would make it any other way by default, ga ke itse. https://stackoverflow.com/questions/39424310/onnavigationitemselected-not-working-in-navigationview for the deets
+        navigationView.setNavigationItemSelectedListener(this);
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close); // https://developer.android.com/reference/androidx/appcompat/app/ActionBarDrawerToggle for dev docs
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        actionBarDrawerToggle.syncState();
+
         actionBarDrawerToggle.getDrawerArrowDrawable().setColor(getColor(R.color.black)); // because setting the drawer arrow drawable in the theme makes it disappear.
         actionBarDrawerToggle.getDrawerArrowDrawable().setTint(getColor(R.color.black)); // and this finally gets rid of the weak gray/lightening tent. Uncertain if attempting to change this in the theme also makes the arrow disappear.
 
-        navigationView = findViewById(R.id.pending_page_navigation_view);
-        actionBarDrawerToggle.syncState();
+        Menu menu = navigationView.getMenu(); // https://stackoverflow.com/questions/31265530/how-can-i-get-menu-item-in-navigationview because every method of drawing on the screen, means there are that many ways to have to target. I am really interested knowing why targeting the same menu requires at least 3 different methods depending.
+        partyDeleter = menu.findItem(R.id.partyDeleteMenuItem);
+        Log.i("Android.menu", "Here is the partyDeleter: " + partyDeleter.getTitle().toString());
+        partyDeleter.setTitle("WHAT???");
 
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -84,7 +97,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         connectAdapterToRecycler();
         Intent intent = getIntent();
         String partyId = intent.getExtras().getString("id");
-        String partyTitle = intent.getExtras().getString("partyName");
 
         System.out.println(intent.getExtras().getString("title"));
 
@@ -115,7 +127,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
             Intent intent1 = new Intent(this, MainActivity.class);
             startActivity(intent1);
         });
-
 
         TextView date = PendingPage.this.findViewById(R.id.startDate);
         date.setText(intent.getExtras().getString("date"));
@@ -165,7 +176,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 error -> Log.e("Amplify", "Failed to retrieve store")
         );
         //TODO: How do we keep track of the gifts?
-
     }
 
     private void connectAdapterToRecycler() {
@@ -175,12 +185,32 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(PendingPage.this, MainActivity.class);
-        PendingPage.this.startActivity(intent);
-        return true;
-    }
+    public void listener(GuestList guestList) { }
 
     @Override
-    public void listener(GuestList guestList) { }
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        drawerLayout.closeDrawer(GravityCompat.START); // Cannot be included in the if statement.
+        System.out.println("A menu item has been clicked!");
+        if  (item.getItemId() == R.id.partyDeleteMenuItem) { // https://stackoverflow.com/questions/36747369/how-to-show-a-pop-up-in-android-studio-to-confirm-an-order
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setCancelable(true)
+                    .setTitle("Party Delete")
+                    .setMessage("You looking to delete?")
+                    .setPositiveButton("Confirm",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+//            Toast.makeText(this,"here tis", Toast.LENGTH_LONG).show();
+        }
+        return true;
+    }
 }

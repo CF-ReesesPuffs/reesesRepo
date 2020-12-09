@@ -32,12 +32,6 @@ public class UserProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-//        ImageButton homeDetailButton = UserProfile.this.findViewById(R.id.homePartyDetailButton);
-//        homeDetailButton.setOnClickListener((view)-> {
-//            Intent goToMainIntent = new Intent(UserProfile.this, MainActivity.class);
-//            UserProfile.this.startActivity(goToMainIntent);
-//        });
-
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
                     @Override
