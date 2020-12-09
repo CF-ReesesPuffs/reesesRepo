@@ -143,6 +143,8 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     });
     }
 
+
+
     public void guestsTakeTurns(){
         for(int i = 0; i < guestList.size(); i ++){
             while(guestList.get(i).getTakenTurn() == false){
@@ -197,7 +199,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                                 Amplify.API.query(
                                                         ModelMutation.update(user),
                                                         response4 -> Log.i("Mutation.user", "users turn taken "),
-                                                        error -> Log.e("Mutation.uesr", "fail")
+                                                        error -> Log.e("Mutation.user", "fail")
                                                 );
                                             }
                                         }
@@ -222,8 +224,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
         Toast.makeText(this, "You chose a gift! " + gift.getTitle(), Toast.LENGTH_SHORT).show();
 
-
-        //TODO: OR use a subscription
     }
 
     @Override
