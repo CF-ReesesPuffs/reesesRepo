@@ -1,5 +1,6 @@
 package com.cfreesespuffs.github.giftswapper.Adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,10 +44,12 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.PartyViewHol
         TextView timeView = holder.itemView.findViewById(R.id.party_time);
 //        TextView priceView = holder.itemView.findViewById(R.id.party_price);
 
-        titleView.setText(holder.party.getTitle());
-        dateView.setText(holder.party.getHostedOn());
-        timeView.setText(holder.party.getHostedAt());
-//        priceView.setText(holder.party.getPrice());
+        Log.e("PartyAdapter.List", "Here be the list: " + parties);
+
+        titleView.setText(holder.party.getTitle()); // Todo: turn back on after finding why party/parties is offended.
+        dateView.setText(holder.party.getHostedOn()); // Todo: turn back on after finding why party/parties is offended.
+        timeView.setText(holder.party.getHostedAt()); // Todo: turn back on after finding why party/parties is offended.
+//        priceView.setText(holder.party.getPrice()); // Todo: turn back on after finding why party/parties is offended.
 
     }
 

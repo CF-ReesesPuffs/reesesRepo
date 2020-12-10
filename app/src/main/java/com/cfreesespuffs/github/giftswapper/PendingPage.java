@@ -26,8 +26,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amplifyframework.api.graphql.GraphQLResponse;
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
@@ -46,6 +49,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     Handler handleSingleItem;
     ArrayList<GuestList> guestList = new ArrayList<>();
     MenuItem partyDeleter;
+    String partyId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +73,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
         Menu menu = navigationView.getMenu(); // https://stackoverflow.com/questions/31265530/how-can-i-get-menu-item-in-navigationview because every method of drawing on the screen, means there are that many ways to have to target. I am really interested knowing why targeting the same menu requires at least 3 different methods depending.
         partyDeleter = menu.findItem(R.id.partyDeleteMenuItem);
-        Log.i("Android.menu", "Here is the partyDeleter: " + partyDeleter.getTitle().toString());
-        partyDeleter.setTitle("WHAT???");
+//        partyDeleter.setTitle("Delete Party");
 
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -96,7 +99,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
         connectAdapterToRecycler();
         Intent intent = getIntent();
-        String partyId = intent.getExtras().getString("id");
+        partyId = intent.getExtras().getString("id");
 
         System.out.println(intent.getExtras().getString("title"));
 
@@ -175,7 +178,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 },
                 error -> Log.e("Amplify", "Failed to retrieve store")
         );
-        //TODO: How do we keep track of the gifts?
     }
 
     private void connectAdapterToRecycler() {
@@ -200,11 +202,13 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    deleteParty();
                                 }
                             });
             builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    // Todo: add analytics here
                 }
             });
             AlertDialog dialog = builder.create();
@@ -213,4 +217,55 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         }
         return true;
     }
-}
+
+    public void deleteParty () {
+
+        Amplify.API.query(
+                ModelQuery.get(Party.class, partyId),
+                partyAllToDelete -> {
+
+                    Amplify.API.query(
+                            ModelQuery.list(GuestList.class),
+                            thePartyGoers -> {
+                                for (GuestList guestList : thePartyGoers.getData()) {
+                                    if (guestList.getParty().getId().contains(partyAllToDelete.getData().getId())) {
+
+                                        Amplify.API.mutate(
+                                                ModelMutation.delete(guestList),
+                                                response4 -> Log.i("Amp.del.user", "You're outta there, " + guestList + "!"),
+                                                error -> Log.e("Amp.del.user", "Error: " + error));
+                                    }
+                                }
+                            },
+                            error -> Log.e("Amp.del.user", "Failure: " + error));
+
+                    Amplify.API.query(
+                            ModelQuery.list(Gift.class),
+                            allTheGifts -> {
+                                for (Gift gift : allTheGifts.getData()) {
+                                    if (gift.getParty().getId().contains(partyAllToDelete.getData().getId())) {
+
+                                        Amplify.API.mutate(
+                                                ModelMutation.delete(gift),
+                                                response4 -> {
+
+                                                    Amplify.API.mutate(
+                                                            ModelMutation.delete(partyAllToDelete.getData()), // as before, it's not enough to have a party, you've got to get it's data too. why?
+                                                            theParty -> Log.i("Amplify.delete", "Gone"),
+                                                            error2 -> Log.e("Amplify.delete", "Where you at? Error: " + error2)
+                                                    );
+
+                                                    Log.i("Amp.del.user", "You're outta there, " + gift + "!");
+                                                },
+                                                error -> Log.e("Amp.del.user", "Error: " + error));
+                                    }
+                                    Intent intent = new Intent(this, MainActivity.class);
+                                    startActivity(intent);
+                                }
+                            },
+                            error -> Log.e("Amp.del.user", "Failure: " + error));
+
+                },
+                error -> Log.e("Amp.del.party", "FAIL: " + error));
+        };
+    }
