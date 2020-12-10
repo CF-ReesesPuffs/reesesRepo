@@ -48,7 +48,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     User amplifyUser;
     Intent intent;
 
-
     //TODO: Create user turn functionality
     //TODO: Once each user has chosen a gift, display post party page
     //TODO: Update recycler on click of a new item
@@ -121,19 +120,22 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                     Amplify.API.query(
                             ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                             response -> {
-                                Log.i("Test party.gift", "================================" + response.getData().getGifts());
+                                Log.i("Test party.gift", "========" + response.getData().getGifts());
                                 for (Gift giftBrought : response.getData().getGifts()) {
                                     Log.i("Amplify.gifts", "Here is all the gifts from users! " + giftBrought);
                                     giftList.add(giftBrought);
                                 }
 
-                                boolean allTaken = true;
+                                Boolean allTaken = true;
+
                                 for (Gift gift : giftList) {
-                                    System.out.println("Alltaken Sanity!!!");
-                                    if (gift.getPartyGoer().contains("TBD")) allTaken = false;
+                                    if (gift.getPartyGoer().equals("TBD")) allTaken = false;
+                                    System.out.println("Alltaken: " + allTaken);
                                 }
 
-                                if (allTaken = true) {
+                                System.out.println("Alltaken after loop: " + allTaken);
+
+                                if (allTaken) {
                                     Intent headToPostParty = new Intent(CurrentParty.this, PostParty.class);
 
                                     headToPostParty.putExtra("title", intent.getExtras().getString("thisPartyId"));
