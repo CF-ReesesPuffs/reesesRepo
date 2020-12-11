@@ -158,7 +158,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                     );
                 }
 
-                Intent intent = new Intent(HostParty.this, PendingPage.class);
+                Intent intent = new Intent(HostParty.this, MainActivity.class);
                 intent.putExtra("title", party2.getTitle());
                 intent.putExtra("date", party2.getHostedOn());
                 intent.putExtra("time", party2.getHostedAt());
