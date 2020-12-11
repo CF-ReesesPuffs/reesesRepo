@@ -67,9 +67,9 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                     @Override
                     public boolean handleMessage(@NonNull Message msg) {
 
-                        AuthUser authUser = Amplify.Auth.getCurrentUser();
+//                        AuthUser authUser = Amplify.Auth.getCurrentUser();
 
-                        System.out.println("here is adapter auth: " + amplifyUser);
+//                        System.out.println("here is adapter auth: " + amplifyUser);
 
                         connectAdapterToRecycler();
                         connectAdapterToRecycler2();
@@ -120,6 +120,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                     Amplify.API.query(
                             ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                             response -> {
+                                Party completedParty = response.getData();
                                 Log.i("Test party.gift", "========" + response.getData().getGifts());
                                 for (Gift giftBrought : response.getData().getGifts()) {
                                     Log.i("Amplify.gifts", "Here is all the gifts from users! " + giftBrought);
@@ -135,12 +136,12 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
                                 System.out.println("Alltaken after loop: " + allTaken);
 
-                                if (allTaken) {
+                                if (allTaken) { // Todo: break this out into a function to allow for a check to happen at beginning of activity to go straight to post party page. Or could be a "flag"/field check if "party complete".
                                     Intent headToPostParty = new Intent(CurrentParty.this, PostParty.class);
 
-                                    headToPostParty.putExtra("title", intent.getExtras().getString("thisPartyId"));
-                                    headToPostParty.putExtra("when", String.valueOf(Party.HOSTED_ON));
-                                    headToPostParty.putExtra("setTime", String.valueOf(Party.HOSTED_AT));
+                                    headToPostParty.putExtra("title", completedParty.getTitle());
+                                    headToPostParty.putExtra("when", String.valueOf(completedParty.HOSTED_ON)); // TODO: check this works. It's... "query-able" via SQL. Is that beneficial here, or just different?
+                                    headToPostParty.putExtra("setTime", String.valueOf(completedParty.HOSTED_AT)); // see above.
 
                                     startActivity(headToPostParty);
                                 }

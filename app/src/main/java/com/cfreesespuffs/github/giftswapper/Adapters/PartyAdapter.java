@@ -44,7 +44,7 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.PartyViewHol
         TextView timeView = holder.itemView.findViewById(R.id.party_time);
 //        TextView priceView = holder.itemView.findViewById(R.id.party_price);
 
-        Log.e("PartyAdapter.List", "Here be the list: " + parties);
+        Log.i("PartyAdapter.List", "Here be the list: " + parties);
 
         titleView.setText(holder.party.getTitle()); // Todo: turn back on after finding why party/parties is offended.
         dateView.setText(holder.party.getHostedOn()); // Todo: turn back on after finding why party/parties is offended.
@@ -55,9 +55,7 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.PartyViewHol
 
     @Override
     public int getItemCount() {
-        if(parties == null){
-            return 0;
-        }
+        if (parties == null) return 0;
         return parties.size();
     }
 
