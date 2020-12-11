@@ -26,9 +26,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amplifyframework.api.ApiOperation;
 import com.amplifyframework.api.graphql.GraphQLResponse;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.api.graphql.model.ModelSubscription;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.GuestList;
@@ -154,7 +156,24 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 },
                 error -> Log.e("Amplify", "Failed to retrieve store")
         );
+
+//        ApiOperation subscription = Amplify.API.subscribe( // Todo: Turn on
+//                ModelSubscription.onUpdate(Party.class),
+//                onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
+//                newGuests -> {
+//                    guestList.clear();
+//                    Log.i("Amp.Subscribe.details", "This is the content: " + newGuests.getData());
+//
+//                    for (GuestList user : newGuests.getData().getUsers()) {
+//                        guestList.add(user);
+//                    }
+//                },
+//                error -> Log.e("Amp.Sub.Fail", "Failure: " + error),
+//                () -> Log.i("Amp.Subscribe.details", "Subscription Complete.")
+//        );
     }
+
+
 
     private void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.recyclerView);

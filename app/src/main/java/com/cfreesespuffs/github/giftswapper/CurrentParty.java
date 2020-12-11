@@ -109,11 +109,10 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         String SUBSCRIBETAG = "Amplify.subscription";
         ApiOperation subscription = Amplify.API.subscribe(
                 ModelSubscription.onUpdate(Gift.class),
-                onEstablished -> Log.i("Amplify.subscribe", "Subscription established"),
+                onEstablished -> Log.i(SUBSCRIBETAG, "Subscription established"),
                 createdItem -> {
-                    Log.i(SUBSCRIBETAG, "Subscription created: " + ((Gift) createdItem.getData()).getTitle()
-                    );
-                    Gift newItem = (Gift) createdItem.getData();
+                    Log.i(SUBSCRIBETAG, "Subscription created: " + ((Gift) createdItem.getData()).getTitle());
+                    Gift newItem = createdItem.getData();
                     Log.i("Gift chosen", giftList.toString());
                     giftList.clear();
 
