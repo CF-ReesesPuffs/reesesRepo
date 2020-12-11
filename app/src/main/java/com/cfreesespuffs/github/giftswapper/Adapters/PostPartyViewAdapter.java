@@ -26,7 +26,6 @@ public class PostPartyViewAdapter extends RecyclerView.Adapter<PostPartyViewAdap
         public Party party;
         public View itemView;
 
-
         public AdapterViewHolder(@NonNull View itemView) {
             super(itemView);
             this.itemView = itemView;
@@ -41,9 +40,7 @@ public class PostPartyViewAdapter extends RecyclerView.Adapter<PostPartyViewAdap
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_party, parent, false);
 
-
         final AdapterViewHolder viewHolder = new AdapterViewHolder(view);
-
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +49,6 @@ public class PostPartyViewAdapter extends RecyclerView.Adapter<PostPartyViewAdap
                 listener.taskListener(viewHolder.party);
             }
         });
-
         return viewHolder;
     }
 
