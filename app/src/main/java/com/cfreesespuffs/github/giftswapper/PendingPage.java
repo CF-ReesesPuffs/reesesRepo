@@ -17,20 +17,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.amplifyframework.api.ApiOperation;
-import com.amplifyframework.api.graphql.GraphQLResponse;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
-import com.amplifyframework.api.graphql.model.ModelSubscription;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.GuestList;
@@ -176,7 +169,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
 
     private void connectAdapterToRecycler() {
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.postPartyRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new ViewAdapter(guestList, this));
     }

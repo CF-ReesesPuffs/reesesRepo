@@ -26,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/postPartyRV"
         android:layout_width="331dp"
         android:layout_height="417dp"
         android:background="@drawable/et_style"

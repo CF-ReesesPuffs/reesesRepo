@@ -66,11 +66,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 new Handler.Callback() {
                     @Override
                     public boolean handleMessage(@NonNull Message msg) {
-
-//                        AuthUser authUser = Amplify.Auth.getCurrentUser();
-
-//                        System.out.println("here is adapter auth: " + amplifyUser);
-
                         connectAdapterToRecycler();
                         connectAdapterToRecycler2();
                         recyclerView.getAdapter().notifyDataSetChanged();
@@ -129,7 +124,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                 Boolean allTaken = true;
 
                                 for (Gift gift : giftList) {
-                                    if (gift.getPartyGoer().equals("TBD")) allTaken = false;
+                                    if (gift.getPartyGoer().contains("TBD")) allTaken = false;
                                     System.out.println("Alltaken: " + allTaken);
                                 }
 
@@ -139,6 +134,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                     Intent headToPostParty = new Intent(CurrentParty.this, PostParty.class);
 
                                     headToPostParty.putExtra("title", completedParty.getTitle());
+                                    headToPostParty.putExtra("partyId", completedParty.getId());
                                     headToPostParty.putExtra("when", String.valueOf(completedParty.HOSTED_ON)); // TODO: check this works. It's... "query-able" via SQL. Is that beneficial here, or just different?
                                     headToPostParty.putExtra("setTime", String.valueOf(completedParty.HOSTED_AT)); // see above.
 

@@ -6,12 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.amplifyframework.api.graphql.model.ModelQuery;
@@ -20,8 +18,6 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
-import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
-import com.cfreesespuffs.github.giftswapper.Adapters.InvitationAdapter;
 import com.cfreesespuffs.github.giftswapper.Adapters.PartyAdapter;
 
 import java.util.ArrayList;
@@ -96,7 +92,7 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
     }
 
     private void connectAdapterToRecycler() {
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.postPartyRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new PartyAdapter(parties, this));
     }
