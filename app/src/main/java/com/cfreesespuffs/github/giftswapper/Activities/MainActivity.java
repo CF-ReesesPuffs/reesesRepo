@@ -40,7 +40,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener{
     public ArrayList<Party> parties= new ArrayList<>();
-    Handler handlecheckLoggedIn;
+    Handler handleCheckLoggedIn;
     Handler handleParties;
     RecyclerView partyRecyclerView;
     User currentUser;
@@ -61,17 +61,16 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         getIsSignedIn();
 
 //============================================================================== handler check logged
-        handlecheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
+        handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 1) {
                 if (Amplify.Auth.getCurrentUser() != null) {
-                    Log.i("Android.VersionTest", "=== 2 ===");
+                    Log.i("Android.VersionTest", "=== 2a ===");
                     Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
                 }
             }
 
             if (message.arg1 == 5 ) {
                 parties.clear();
-                System.out.println("ln66 here's the # of parties" + parties.size());
                 partyRecyclerView.setVisibility(View.INVISIBLE); // VERY BLUNT. Effective, but blunt.
                 Toast.makeText(this, "You are now signed out", Toast.LENGTH_LONG).show();
                 loginButton.setVisibility(View.VISIBLE);
@@ -178,10 +177,10 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                     Message message = new Message();
                     if (result.isSignedIn()) {
                         message.arg1 = 1;
-                        handlecheckLoggedIn.sendMessage(message);
+                        handleCheckLoggedIn.sendMessage(message);
                     } else {
                         message.arg1 = 0;
-                        handlecheckLoggedIn.sendMessage(message);
+                        handleCheckLoggedIn.sendMessage(message);
                     }
                 },
                 error -> Log.e("Amplify.login", error.toString())
@@ -221,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                         Log.i("Auth.logout", "Signed out via Settings menu");
                         Message optionMessage = new Message();
                         optionMessage.arg1 = 5;
-                        handlecheckLoggedIn.sendMessage(optionMessage); // setting up a message, I was running into issues. sendEmptyMessage worked like a charm.
+                        handleCheckLoggedIn.sendMessage(optionMessage); // setting up a message, I was running into issues. sendEmptyMessage worked like a charm.
                     },
                     error -> Log.e("Auth.logout", "The error: ", error)
             );

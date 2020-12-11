@@ -26,9 +26,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amplifyframework.api.ApiOperation;
 import com.amplifyframework.api.graphql.GraphQLResponse;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.api.graphql.model.ModelSubscription;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.GuestList;
@@ -103,12 +105,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
         System.out.println(intent.getExtras().getString("title"));
 
-//        ImageButton homeDetailButton = PendingPage.this.findViewById(R.id.homePartyDetailButton);
-//        homeDetailButton.setOnClickListener((view)-> {
-//            Intent goToMainIntent = new Intent(PendingPage.this, MainActivity.class);
-//            PendingPage.this.startActivity(goToMainIntent);
-//        });
-
         Button startParty = PendingPage.this.findViewById(R.id.start_party);
         startParty.setOnClickListener((view) -> {
 
@@ -147,24 +143,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
         //TODO: Query api to get users who's preference equals "accepted"/"RSVP"?
 
-//        Amplify.API.query(
-//                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
-//                        response -> {
-//                    for(GuestList guest : response.getData().getUsers()){
-//                        if(party.users.contains(guest)){
-//                            guestList.add(guest);
-//                        }
-//                    }
-//                            Log.i("AmplifyTest", "Checking the intent" + intent.getExtras().getString("partyName"));
-//                            Log.i("Amplify.Query", "You got a party, lets check that out " + response.getData());
-//                            party = response.getData();
-//                            handleSingleItem.sendEmptyMessage(1);
-//                        },
-//                        error -> Log.e("Amplify.Query", "error, you dun goofed")
-//        );
-
-//        Log.i("Here is our id", intent.getExtras().getString("id"));
-
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
@@ -178,7 +156,24 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 },
                 error -> Log.e("Amplify", "Failed to retrieve store")
         );
+
+//        ApiOperation subscription = Amplify.API.subscribe( // Todo: Turn on
+//                ModelSubscription.onUpdate(Party.class),
+//                onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
+//                newGuests -> {
+//                    guestList.clear();
+//                    Log.i("Amp.Subscribe.details", "This is the content: " + newGuests.getData());
+//
+//                    for (GuestList user : newGuests.getData().getUsers()) {
+//                        guestList.add(user);
+//                    }
+//                },
+//                error -> Log.e("Amp.Sub.Fail", "Failure: " + error),
+//                () -> Log.i("Amp.Subscribe.details", "Subscription Complete.")
+//        );
     }
+
+
 
     private void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.recyclerView);
