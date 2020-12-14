@@ -4,12 +4,40 @@ query GetUser($id: ID!) {
     id
     userName
     email
+    hosting {
+      items {
+        id
+        title
+        hostedOn
+        hostedAt
+        price
+        isReady
+        isFinished
+        theHost {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        users {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
     gifts {
       items {
         id
         title
         number
         partyGoer
+        timesStolen
         user {
           id
           userName
@@ -23,6 +51,8 @@ query GetUser($id: ID!) {
           hostedOn
           hostedAt
           price
+          isReady
+          isFinished
           createdAt
           updatedAt
         }
@@ -51,6 +81,8 @@ query GetUser($id: ID!) {
           hostedOn
           hostedAt
           price
+          isReady
+          isFinished
           createdAt
           updatedAt
         }
@@ -73,12 +105,27 @@ query ListUsers(
       id
       userName
       email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          isReady
+          isFinished
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       gifts {
         items {
           id
           title
           number
           partyGoer
+          timesStolen
           createdAt
           updatedAt
         }
@@ -113,12 +160,27 @@ query GetGuestList($id: ID!) {
       id
       userName
       email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          isReady
+          isFinished
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       gifts {
         items {
           id
           title
           number
           partyGoer
+          timesStolen
           createdAt
           updatedAt
         }
@@ -145,6 +207,24 @@ query GetGuestList($id: ID!) {
       hostedOn
       hostedAt
       price
+      isReady
+      isFinished
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       users {
         items {
           id
@@ -163,6 +243,7 @@ query GetGuestList($id: ID!) {
           title
           number
           partyGoer
+          timesStolen
           createdAt
           updatedAt
         }
@@ -191,6 +272,9 @@ query ListGuestLists(
         id
         userName
         email
+        hosting {
+          nextToken
+        }
         gifts {
           nextToken
         }
@@ -206,6 +290,15 @@ query ListGuestLists(
         hostedOn
         hostedAt
         price
+        isReady
+        isFinished
+        theHost {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
         users {
           nextToken
         }
@@ -227,16 +320,32 @@ query GetGift($id: ID!) {
     title
     number
     partyGoer
+    timesStolen
     user {
       id
       userName
       email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          isReady
+          isFinished
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       gifts {
         items {
           id
           title
           number
           partyGoer
+          timesStolen
           createdAt
           updatedAt
         }
@@ -263,6 +372,24 @@ query GetGift($id: ID!) {
       hostedOn
       hostedAt
       price
+      isReady
+      isFinished
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       users {
         items {
           id
@@ -281,6 +408,7 @@ query GetGift($id: ID!) {
           title
           number
           partyGoer
+          timesStolen
           createdAt
           updatedAt
         }
@@ -304,10 +432,14 @@ query ListGifts(
       title
       number
       partyGoer
+      timesStolen
       user {
         id
         userName
         email
+        hosting {
+          nextToken
+        }
         gifts {
           nextToken
         }
@@ -323,6 +455,15 @@ query ListGifts(
         hostedOn
         hostedAt
         price
+        isReady
+        isFinished
+        theHost {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
         users {
           nextToken
         }
@@ -345,6 +486,53 @@ query GetParty($id: ID!) {
     hostedOn
     hostedAt
     price
+    isReady
+    isFinished
+    theHost {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          isReady
+          isFinished
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
     users {
       items {
         id
@@ -365,6 +553,8 @@ query GetParty($id: ID!) {
           hostedOn
           hostedAt
           price
+          isReady
+          isFinished
           createdAt
           updatedAt
         }
@@ -379,6 +569,7 @@ query GetParty($id: ID!) {
         title
         number
         partyGoer
+        timesStolen
         user {
           id
           userName
@@ -392,6 +583,8 @@ query GetParty($id: ID!) {
           hostedOn
           hostedAt
           price
+          isReady
+          isFinished
           createdAt
           updatedAt
         }
@@ -416,6 +609,24 @@ query ListPartys(
       hostedOn
       hostedAt
       price
+      isReady
+      isFinished
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       users {
         items {
           id
@@ -434,6 +645,7 @@ query ListPartys(
           title
           number
           partyGoer
+          timesStolen
           createdAt
           updatedAt
         }

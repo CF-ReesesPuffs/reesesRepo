@@ -4,12 +4,40 @@ subscription OnCreateUser {
     id
     userName
     email
+    hosting {
+      items {
+        id
+        title
+        hostedOn
+        hostedAt
+        price
+        isReady
+        isFinished
+        theHost {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        users {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
     gifts {
       items {
         id
         title
         number
         partyGoer
+        timesStolen
         user {
           id
           userName
@@ -23,6 +51,8 @@ subscription OnCreateUser {
           hostedOn
           hostedAt
           price
+          isReady
+          isFinished
           createdAt
           updatedAt
         }
@@ -51,6 +81,8 @@ subscription OnCreateUser {
           hostedOn
           hostedAt
           price
+          isReady
+          isFinished
           createdAt
           updatedAt
         }
@@ -68,12 +100,40 @@ subscription OnUpdateUser {
     id
     userName
     email
+    hosting {
+      items {
+        id
+        title
+        hostedOn
+        hostedAt
+        price
+        isReady
+        isFinished
+        theHost {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        users {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
     gifts {
       items {
         id
         title
         number
         partyGoer
+        timesStolen
         user {
           id
           userName
@@ -87,6 +147,8 @@ subscription OnUpdateUser {
           hostedOn
           hostedAt
           price
+          isReady
+          isFinished
           createdAt
           updatedAt
         }
@@ -115,6 +177,8 @@ subscription OnUpdateUser {
           hostedOn
           hostedAt
           price
+          isReady
+          isFinished
           createdAt
           updatedAt
         }
@@ -132,12 +196,40 @@ subscription OnDeleteUser {
     id
     userName
     email
+    hosting {
+      items {
+        id
+        title
+        hostedOn
+        hostedAt
+        price
+        isReady
+        isFinished
+        theHost {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        users {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
     gifts {
       items {
         id
         title
         number
         partyGoer
+        timesStolen
         user {
           id
           userName
@@ -151,6 +243,8 @@ subscription OnDeleteUser {
           hostedOn
           hostedAt
           price
+          isReady
+          isFinished
           createdAt
           updatedAt
         }
@@ -179,6 +273,8 @@ subscription OnDeleteUser {
           hostedOn
           hostedAt
           price
+          isReady
+          isFinished
           createdAt
           updatedAt
         }
@@ -202,12 +298,27 @@ subscription OnCreateGuestList {
       id
       userName
       email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          isReady
+          isFinished
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       gifts {
         items {
           id
           title
           number
           partyGoer
+          timesStolen
           createdAt
           updatedAt
         }
@@ -234,6 +345,24 @@ subscription OnCreateGuestList {
       hostedOn
       hostedAt
       price
+      isReady
+      isFinished
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       users {
         items {
           id
@@ -252,6 +381,7 @@ subscription OnCreateGuestList {
           title
           number
           partyGoer
+          timesStolen
           createdAt
           updatedAt
         }
@@ -275,12 +405,27 @@ subscription OnUpdateGuestList {
       id
       userName
       email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          isReady
+          isFinished
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       gifts {
         items {
           id
           title
           number
           partyGoer
+          timesStolen
           createdAt
           updatedAt
         }
@@ -307,6 +452,24 @@ subscription OnUpdateGuestList {
       hostedOn
       hostedAt
       price
+      isReady
+      isFinished
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       users {
         items {
           id
@@ -325,6 +488,7 @@ subscription OnUpdateGuestList {
           title
           number
           partyGoer
+          timesStolen
           createdAt
           updatedAt
         }
@@ -348,12 +512,27 @@ subscription OnDeleteGuestList {
       id
       userName
       email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          isReady
+          isFinished
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       gifts {
         items {
           id
           title
           number
           partyGoer
+          timesStolen
           createdAt
           updatedAt
         }
@@ -380,6 +559,24 @@ subscription OnDeleteGuestList {
       hostedOn
       hostedAt
       price
+      isReady
+      isFinished
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       users {
         items {
           id
@@ -398,6 +595,7 @@ subscription OnDeleteGuestList {
           title
           number
           partyGoer
+          timesStolen
           createdAt
           updatedAt
         }
@@ -416,16 +614,32 @@ subscription OnCreateGift {
     title
     number
     partyGoer
+    timesStolen
     user {
       id
       userName
       email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          isReady
+          isFinished
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       gifts {
         items {
           id
           title
           number
           partyGoer
+          timesStolen
           createdAt
           updatedAt
         }
@@ -452,6 +666,24 @@ subscription OnCreateGift {
       hostedOn
       hostedAt
       price
+      isReady
+      isFinished
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       users {
         items {
           id
@@ -470,6 +702,7 @@ subscription OnCreateGift {
           title
           number
           partyGoer
+          timesStolen
           createdAt
           updatedAt
         }
@@ -488,16 +721,32 @@ subscription OnUpdateGift {
     title
     number
     partyGoer
+    timesStolen
     user {
       id
       userName
       email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          isReady
+          isFinished
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       gifts {
         items {
           id
           title
           number
           partyGoer
+          timesStolen
           createdAt
           updatedAt
         }
@@ -524,6 +773,24 @@ subscription OnUpdateGift {
       hostedOn
       hostedAt
       price
+      isReady
+      isFinished
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       users {
         items {
           id
@@ -542,6 +809,7 @@ subscription OnUpdateGift {
           title
           number
           partyGoer
+          timesStolen
           createdAt
           updatedAt
         }
@@ -560,16 +828,32 @@ subscription OnDeleteGift {
     title
     number
     partyGoer
+    timesStolen
     user {
       id
       userName
       email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          isReady
+          isFinished
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       gifts {
         items {
           id
           title
           number
           partyGoer
+          timesStolen
           createdAt
           updatedAt
         }
@@ -596,6 +880,24 @@ subscription OnDeleteGift {
       hostedOn
       hostedAt
       price
+      isReady
+      isFinished
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       users {
         items {
           id
@@ -614,6 +916,7 @@ subscription OnDeleteGift {
           title
           number
           partyGoer
+          timesStolen
           createdAt
           updatedAt
         }
@@ -633,6 +936,53 @@ subscription OnCreateParty {
     hostedOn
     hostedAt
     price
+    isReady
+    isFinished
+    theHost {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          isReady
+          isFinished
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
     users {
       items {
         id
@@ -653,6 +1003,8 @@ subscription OnCreateParty {
           hostedOn
           hostedAt
           price
+          isReady
+          isFinished
           createdAt
           updatedAt
         }
@@ -667,6 +1019,7 @@ subscription OnCreateParty {
         title
         number
         partyGoer
+        timesStolen
         user {
           id
           userName
@@ -680,6 +1033,8 @@ subscription OnCreateParty {
           hostedOn
           hostedAt
           price
+          isReady
+          isFinished
           createdAt
           updatedAt
         }
@@ -699,6 +1054,53 @@ subscription OnUpdateParty {
     hostedOn
     hostedAt
     price
+    isReady
+    isFinished
+    theHost {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          isReady
+          isFinished
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
     users {
       items {
         id
@@ -719,6 +1121,8 @@ subscription OnUpdateParty {
           hostedOn
           hostedAt
           price
+          isReady
+          isFinished
           createdAt
           updatedAt
         }
@@ -733,6 +1137,7 @@ subscription OnUpdateParty {
         title
         number
         partyGoer
+        timesStolen
         user {
           id
           userName
@@ -746,6 +1151,8 @@ subscription OnUpdateParty {
           hostedOn
           hostedAt
           price
+          isReady
+          isFinished
           createdAt
           updatedAt
         }
@@ -765,6 +1172,53 @@ subscription OnDeleteParty {
     hostedOn
     hostedAt
     price
+    isReady
+    isFinished
+    theHost {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          price
+          isReady
+          isFinished
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
     users {
       items {
         id
@@ -785,6 +1239,8 @@ subscription OnDeleteParty {
           hostedOn
           hostedAt
           price
+          isReady
+          isFinished
           createdAt
           updatedAt
         }
@@ -799,6 +1255,7 @@ subscription OnDeleteParty {
         title
         number
         partyGoer
+        timesStolen
         user {
           id
           userName
@@ -812,6 +1269,8 @@ subscription OnDeleteParty {
           hostedOn
           hostedAt
           price
+          isReady
+          isFinished
           createdAt
           updatedAt
         }
