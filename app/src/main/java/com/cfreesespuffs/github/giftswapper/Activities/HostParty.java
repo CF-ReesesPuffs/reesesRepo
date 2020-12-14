@@ -57,6 +57,20 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
         priceSpinner();
 
+        AuthUser authUser = Amplify.Auth.getCurrentUser();
+        Amplify.API.query(
+                ModelQuery.list(User.class),
+                response -> {
+                    for(User user : response.getData()) {
+                        if(user.getUserName().contains(authUser.getUsername())){
+                            currentUser = user;
+                            System.out.println("This is our current user/host" + currentUser);
+                        }
+                    }
+                },
+                error -> Log.e("Amplify.user", "error: " + error)
+        );
+
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
                     @Override
@@ -118,19 +132,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 String timeOfParty = partyTime.getText().toString();
                 String priceOfParty = selectedPriceSpinner.getSelectedItem().toString();
 
-                AuthUser authUser = Amplify.Auth.getCurrentUser();
-                Amplify.API.query(
-                        ModelQuery.list(User.class),
-                        response -> {
-                            for(User user : response.getData()) {
-                                if(user.getUserName().contains(authUser.getUsername())){
-                                    currentUser = user;
-                                }
-                            }
-                        },
-                        error -> Log.e("Amplify.user", "error: " + error)
-                );
-
                 Party party;
                 party = Party.builder()
                         .title(nameOfParty)
@@ -138,6 +139,8 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                         .hostedOn(dateOfParty)
                         .price(priceOfParty)
                         .theHost(currentUser)
+                        .isReady(false)
+                        .isFinished(false)
                         .build();
 
                 Amplify.API.mutate(
