@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.AuthUser;
 import com.amplifyframework.core.Amplify;
 
 import com.amplifyframework.datastore.generated.model.GuestList;
@@ -47,6 +48,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
     Handler handler;
     RecyclerView recyclerView;
     HashMap<String, User> uniqueGuestList = new HashMap<>();
+    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,12 +118,26 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 String timeOfParty = partyTime.getText().toString();
                 String priceOfParty = selectedPriceSpinner.getSelectedItem().toString();
 
+                AuthUser authUser = Amplify.Auth.getCurrentUser();
+                Amplify.API.query(
+                        ModelQuery.list(User.class),
+                        response -> {
+                            for(User user : response.getData()) {
+                                if(user.getUserName().contains(authUser.getUsername())){
+                                    currentUser = user;
+                                }
+                            }
+                        },
+                        error -> Log.e("Amplify.user", "error: " + error)
+                );
+
                 Party party;
                 party = Party.builder()
                         .title(nameOfParty)
                         .hostedAt(timeOfParty)
                         .hostedOn(dateOfParty)
                         .price(priceOfParty)
+                        .theHost(currentUser)
                         .build();
 
                 Amplify.API.mutate(

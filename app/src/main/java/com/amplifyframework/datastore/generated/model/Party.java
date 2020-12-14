@@ -1,5 +1,6 @@
 package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.annotations.BelongsTo;
 import com.amplifyframework.core.model.annotations.HasMany;
 
 import java.util.List;
@@ -25,11 +26,17 @@ public final class Party implements Model {
   public static final QueryField HOSTED_ON = field("hostedOn");
   public static final QueryField HOSTED_AT = field("hostedAt");
   public static final QueryField PRICE = field("price");
+  public static final QueryField IS_READY = field("isReady");
+  public static final QueryField IS_FINISHED = field("isFinished");
+  public static final QueryField THE_HOST = field("partyTheHostId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String title;
   private final @ModelField(targetType="String") String hostedOn;
   private final @ModelField(targetType="String") String hostedAt;
   private final @ModelField(targetType="String") String price;
+  private final @ModelField(targetType="Boolean") Boolean isReady;
+  private final @ModelField(targetType="Boolean") Boolean isFinished;
+  private final @ModelField(targetType="User") @BelongsTo(targetName = "partyTheHostId", type = User.class) User theHost;
   private final @ModelField(targetType="GuestList") @HasMany(associatedWith = "party", type = GuestList.class) List<GuestList> users = null;
   private final @ModelField(targetType="Gift") @HasMany(associatedWith = "party", type = Gift.class) List<Gift> gifts = null;
   public String getId() {
@@ -52,6 +59,18 @@ public final class Party implements Model {
       return price;
   }
   
+  public Boolean getIsReady() {
+      return isReady;
+  }
+  
+  public Boolean getIsFinished() {
+      return isFinished;
+  }
+  
+  public User getTheHost() {
+      return theHost;
+  }
+  
   public List<GuestList> getUsers() {
       return users;
   }
@@ -60,12 +79,15 @@ public final class Party implements Model {
       return gifts;
   }
   
-  private Party(String id, String title, String hostedOn, String hostedAt, String price) {
+  private Party(String id, String title, String hostedOn, String hostedAt, String price, Boolean isReady, Boolean isFinished, User theHost) {
     this.id = id;
     this.title = title;
     this.hostedOn = hostedOn;
     this.hostedAt = hostedAt;
     this.price = price;
+    this.isReady = isReady;
+    this.isFinished = isFinished;
+    this.theHost = theHost;
   }
   
   @Override
@@ -80,7 +102,10 @@ public final class Party implements Model {
               ObjectsCompat.equals(getTitle(), party.getTitle()) &&
               ObjectsCompat.equals(getHostedOn(), party.getHostedOn()) &&
               ObjectsCompat.equals(getHostedAt(), party.getHostedAt()) &&
-              ObjectsCompat.equals(getPrice(), party.getPrice());
+              ObjectsCompat.equals(getPrice(), party.getPrice()) &&
+              ObjectsCompat.equals(getIsReady(), party.getIsReady()) &&
+              ObjectsCompat.equals(getIsFinished(), party.getIsFinished()) &&
+              ObjectsCompat.equals(getTheHost(), party.getTheHost());
       }
   }
   
@@ -92,6 +117,9 @@ public final class Party implements Model {
       .append(getHostedOn())
       .append(getHostedAt())
       .append(getPrice())
+      .append(getIsReady())
+      .append(getIsFinished())
+      .append(getTheHost())
       .toString()
       .hashCode();
   }
@@ -104,7 +132,10 @@ public final class Party implements Model {
       .append("title=" + String.valueOf(getTitle()) + ", ")
       .append("hostedOn=" + String.valueOf(getHostedOn()) + ", ")
       .append("hostedAt=" + String.valueOf(getHostedAt()) + ", ")
-      .append("price=" + String.valueOf(getPrice()))
+      .append("price=" + String.valueOf(getPrice()) + ", ")
+      .append("isReady=" + String.valueOf(getIsReady()) + ", ")
+      .append("isFinished=" + String.valueOf(getIsFinished()) + ", ")
+      .append("theHost=" + String.valueOf(getTheHost()))
       .append("}")
       .toString();
   }
@@ -137,6 +168,9 @@ public final class Party implements Model {
       null,
       null,
       null,
+      null,
+      null,
+      null,
       null
     );
   }
@@ -146,7 +180,10 @@ public final class Party implements Model {
       title,
       hostedOn,
       hostedAt,
-      price);
+      price,
+      isReady,
+      isFinished,
+      theHost);
   }
   public interface TitleStep {
     BuildStep title(String title);
@@ -159,6 +196,9 @@ public final class Party implements Model {
     BuildStep hostedOn(String hostedOn);
     BuildStep hostedAt(String hostedAt);
     BuildStep price(String price);
+    BuildStep isReady(Boolean isReady);
+    BuildStep isFinished(Boolean isFinished);
+    BuildStep theHost(User theHost);
   }
   
 
@@ -168,6 +208,9 @@ public final class Party implements Model {
     private String hostedOn;
     private String hostedAt;
     private String price;
+    private Boolean isReady;
+    private Boolean isFinished;
+    private User theHost;
     @Override
      public Party build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -177,7 +220,10 @@ public final class Party implements Model {
           title,
           hostedOn,
           hostedAt,
-          price);
+          price,
+          isReady,
+          isFinished,
+          theHost);
     }
     
     @Override
@@ -205,6 +251,24 @@ public final class Party implements Model {
         return this;
     }
     
+    @Override
+     public BuildStep isReady(Boolean isReady) {
+        this.isReady = isReady;
+        return this;
+    }
+    
+    @Override
+     public BuildStep isFinished(Boolean isFinished) {
+        this.isFinished = isFinished;
+        return this;
+    }
+    
+    @Override
+     public BuildStep theHost(User theHost) {
+        this.theHost = theHost;
+        return this;
+    }
+    
     /** 
      * WARNING: Do not set ID when creating a new object. Leave this blank and one will be auto generated for you.
      * This should only be set when referring to an already existing object.
@@ -228,12 +292,15 @@ public final class Party implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, String hostedOn, String hostedAt, String price) {
+    private CopyOfBuilder(String id, String title, String hostedOn, String hostedAt, String price, Boolean isReady, Boolean isFinished, User theHost) {
       super.id(id);
       super.title(title)
         .hostedOn(hostedOn)
         .hostedAt(hostedAt)
-        .price(price);
+        .price(price)
+        .isReady(isReady)
+        .isFinished(isFinished)
+        .theHost(theHost);
     }
     
     @Override
@@ -254,6 +321,21 @@ public final class Party implements Model {
     @Override
      public CopyOfBuilder price(String price) {
       return (CopyOfBuilder) super.price(price);
+    }
+    
+    @Override
+     public CopyOfBuilder isReady(Boolean isReady) {
+      return (CopyOfBuilder) super.isReady(isReady);
+    }
+    
+    @Override
+     public CopyOfBuilder isFinished(Boolean isFinished) {
+      return (CopyOfBuilder) super.isFinished(isFinished);
+    }
+    
+    @Override
+     public CopyOfBuilder theHost(User theHost) {
+      return (CopyOfBuilder) super.theHost(theHost);
     }
   }
   

@@ -2,6 +2,7 @@ type User @model {
   id: ID!
   userName: String!
   email: String
+  hosting: [Party] @connection(name: "hostList")
   gifts: [Gift] @connection(name: "GiftGroup")
   parties: [GuestList] @connection(name:"ConUser")
 }
@@ -21,6 +22,7 @@ type Gift @model {
   title: String!
   number: Int
   partyGoer: String
+  timesStolen: Int
   user: User @connection(name: "GiftGroup")
   party: Party @connection(name: "PartyGifts")
 }
@@ -31,6 +33,9 @@ type Party @model {
   hostedOn: String
   hostedAt: String
   price: String
+  isReady: Boolean
+  isFinished: Boolean
+  theHost: User @connection(name: "hostList")
   users: [GuestList] @connection(name: "ConParty")
   gifts: [Gift] @connection(name: "PartyGifts")
 }
