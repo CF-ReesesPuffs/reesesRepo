@@ -106,22 +106,28 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         startParty.setOnClickListener((view) -> {
 
             // Todo: check for logic to ensure *only* acceptedInvite guestlist/users get a turn order.
-            // Inc
-//
-//            Amplify.API.query(
-//                    ModelQuery.list(GuestList)
-//            )
+
+            int counter = 1;
 
             for (int i = 0; i < guestList.size(); i++) {
-                int counter = 1;
-                if (guestList.get(i).getInviteStatus() == "Accepted") {
+                if (guestList.get(i).getInviteStatus().contains("Accepted")) {
                     guestList.get(i).turnOrder = counter;
                     counter++;
+
+                    Amplify.API.mutate(
+                            ModelMutation.update(guestList.get(i)),
+                            response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
+                            error -> Log.e("Amplify.turnOrder", "Error: " + error)
+                    );
                 }
             }
+            // Todo: make system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
 
-            // Todo: mutate all the new guestlist objects
-
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
 
             Intent intent2 = new Intent(PendingPage.this, CurrentParty.class);
             intent2.putExtra("id", partyId);
