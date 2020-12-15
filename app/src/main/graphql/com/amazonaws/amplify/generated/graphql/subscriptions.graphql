@@ -68,6 +68,7 @@ subscription OnCreateUser {
         invitee
         invitedUser
         takenTurn
+        turnOrder
         user {
           id
           userName
@@ -164,6 +165,7 @@ subscription OnUpdateUser {
         invitee
         invitedUser
         takenTurn
+        turnOrder
         user {
           id
           userName
@@ -260,6 +262,7 @@ subscription OnDeleteUser {
         invitee
         invitedUser
         takenTurn
+        turnOrder
         user {
           id
           userName
@@ -294,6 +297,7 @@ subscription OnCreateGuestList {
     invitee
     invitedUser
     takenTurn
+    turnOrder
     user {
       id
       userName
@@ -331,6 +335,7 @@ subscription OnCreateGuestList {
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -370,6 +375,7 @@ subscription OnCreateGuestList {
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -401,6 +407,7 @@ subscription OnUpdateGuestList {
     invitee
     invitedUser
     takenTurn
+    turnOrder
     user {
       id
       userName
@@ -438,6 +445,7 @@ subscription OnUpdateGuestList {
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -477,6 +485,7 @@ subscription OnUpdateGuestList {
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -508,6 +517,7 @@ subscription OnDeleteGuestList {
     invitee
     invitedUser
     takenTurn
+    turnOrder
     user {
       id
       userName
@@ -545,6 +555,7 @@ subscription OnDeleteGuestList {
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -584,6 +595,7 @@ subscription OnDeleteGuestList {
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -652,6 +664,7 @@ subscription OnCreateGift {
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -691,6 +704,7 @@ subscription OnCreateGift {
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -759,6 +773,7 @@ subscription OnUpdateGift {
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -798,6 +813,7 @@ subscription OnUpdateGift {
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -866,6 +882,7 @@ subscription OnDeleteGift {
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -905,6 +922,7 @@ subscription OnDeleteGift {
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -975,6 +993,7 @@ subscription OnCreateParty {
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -990,6 +1009,7 @@ subscription OnCreateParty {
         invitee
         invitedUser
         takenTurn
+        turnOrder
         user {
           id
           userName
@@ -1093,6 +1113,7 @@ subscription OnUpdateParty {
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -1108,6 +1129,7 @@ subscription OnUpdateParty {
         invitee
         invitedUser
         takenTurn
+        turnOrder
         user {
           id
           userName
@@ -1211,6 +1233,7 @@ subscription OnDeleteParty {
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -1226,6 +1249,7 @@ subscription OnDeleteParty {
         invitee
         invitedUser
         takenTurn
+        turnOrder
         user {
           id
           userName

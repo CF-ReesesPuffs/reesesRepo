@@ -25,6 +25,7 @@ public final class GuestList implements Model {
   public static final QueryField INVITEE = field("invitee");
   public static final QueryField INVITED_USER = field("invitedUser");
   public static final QueryField TAKEN_TURN = field("takenTurn");
+  public static final QueryField TURN_ORDER = field("turnOrder");
   public static final QueryField USER = field("guestListUserId");
   public static final QueryField PARTY = field("guestListPartyId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
@@ -32,6 +33,7 @@ public final class GuestList implements Model {
   private final @ModelField(targetType="String") String invitee;
   private final @ModelField(targetType="String") String invitedUser;
   public @ModelField(targetType="Boolean") Boolean takenTurn;
+  public @ModelField(targetType="Int") Integer turnOrder;
   private final @ModelField(targetType="User") @BelongsTo(targetName = "guestListUserId", type = User.class) User user;
   private final @ModelField(targetType="Party") @BelongsTo(targetName = "guestListPartyId", type = Party.class) Party party;
   public String getId() {
@@ -54,6 +56,10 @@ public final class GuestList implements Model {
       return takenTurn;
   }
   
+  public Integer getTurnOrder() {
+      return turnOrder;
+  }
+  
   public User getUser() {
       return user;
   }
@@ -62,12 +68,13 @@ public final class GuestList implements Model {
       return party;
   }
   
-  private GuestList(String id, String inviteStatus, String invitee, String invitedUser, Boolean takenTurn, User user, Party party) {
+  private GuestList(String id, String inviteStatus, String invitee, String invitedUser, Boolean takenTurn, Integer turnOrder, User user, Party party) {
     this.id = id;
     this.inviteStatus = inviteStatus;
     this.invitee = invitee;
     this.invitedUser = invitedUser;
     this.takenTurn = takenTurn;
+    this.turnOrder = turnOrder;
     this.user = user;
     this.party = party;
   }
@@ -85,6 +92,7 @@ public final class GuestList implements Model {
               ObjectsCompat.equals(getInvitee(), guestList.getInvitee()) &&
               ObjectsCompat.equals(getInvitedUser(), guestList.getInvitedUser()) &&
               ObjectsCompat.equals(getTakenTurn(), guestList.getTakenTurn()) &&
+              ObjectsCompat.equals(getTurnOrder(), guestList.getTurnOrder()) &&
               ObjectsCompat.equals(getUser(), guestList.getUser()) &&
               ObjectsCompat.equals(getParty(), guestList.getParty());
       }
@@ -98,6 +106,7 @@ public final class GuestList implements Model {
       .append(getInvitee())
       .append(getInvitedUser())
       .append(getTakenTurn())
+      .append(getTurnOrder())
       .append(getUser())
       .append(getParty())
       .toString()
@@ -113,6 +122,7 @@ public final class GuestList implements Model {
       .append("invitee=" + String.valueOf(getInvitee()) + ", ")
       .append("invitedUser=" + String.valueOf(getInvitedUser()) + ", ")
       .append("takenTurn=" + String.valueOf(getTakenTurn()) + ", ")
+      .append("turnOrder=" + String.valueOf(getTurnOrder()) + ", ")
       .append("user=" + String.valueOf(getUser()) + ", ")
       .append("party=" + String.valueOf(getParty()))
       .append("}")
@@ -149,6 +159,7 @@ public final class GuestList implements Model {
       null,
       null,
       null,
+      null,
       null
     );
   }
@@ -159,6 +170,7 @@ public final class GuestList implements Model {
       invitee,
       invitedUser,
       takenTurn,
+      turnOrder,
       user,
       party);
   }
@@ -169,6 +181,7 @@ public final class GuestList implements Model {
     BuildStep invitee(String invitee);
     BuildStep invitedUser(String invitedUser);
     BuildStep takenTurn(Boolean takenTurn);
+    BuildStep turnOrder(Integer turnOrder);
     BuildStep user(User user);
     BuildStep party(Party party);
   }
@@ -180,6 +193,7 @@ public final class GuestList implements Model {
     private String invitee;
     private String invitedUser;
     private Boolean takenTurn;
+    private Integer turnOrder;
     private User user;
     private Party party;
     @Override
@@ -192,6 +206,7 @@ public final class GuestList implements Model {
           invitee,
           invitedUser,
           takenTurn,
+          turnOrder,
           user,
           party);
     }
@@ -217,6 +232,12 @@ public final class GuestList implements Model {
     @Override
      public BuildStep takenTurn(Boolean takenTurn) {
         this.takenTurn = takenTurn;
+        return this;
+    }
+    
+    @Override
+     public BuildStep turnOrder(Integer turnOrder) {
+        this.turnOrder = turnOrder;
         return this;
     }
     
@@ -255,12 +276,13 @@ public final class GuestList implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String inviteStatus, String invitee, String invitedUser, Boolean takenTurn, User user, Party party) {
+    private CopyOfBuilder(String id, String inviteStatus, String invitee, String invitedUser, Boolean takenTurn, Integer turnOrder, User user, Party party) {
       super.id(id);
       super.inviteStatus(inviteStatus)
         .invitee(invitee)
         .invitedUser(invitedUser)
         .takenTurn(takenTurn)
+        .turnOrder(turnOrder)
         .user(user)
         .party(party);
     }
@@ -283,6 +305,11 @@ public final class GuestList implements Model {
     @Override
      public CopyOfBuilder takenTurn(Boolean takenTurn) {
       return (CopyOfBuilder) super.takenTurn(takenTurn);
+    }
+    
+    @Override
+     public CopyOfBuilder turnOrder(Integer turnOrder) {
+      return (CopyOfBuilder) super.turnOrder(turnOrder);
     }
     
     @Override

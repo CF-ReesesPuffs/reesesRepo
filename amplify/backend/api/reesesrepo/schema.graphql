@@ -13,6 +13,7 @@ type GuestList @model {
   invitee: String
   invitedUser: String
   takenTurn: Boolean
+  turnOrder: Int
   user: User @connection(name: "ConUser")
   party: Party @connection(name:"ConParty")
 }

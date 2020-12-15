@@ -158,6 +158,9 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
             CurrentParty.this.startActivity(goToMainIntent);
         });
 
+        // Turn order logic: lowest number that doesn't have a gift.
+
+
 //        Amplify.API.query(  // TODO: turn off a user's ability to click a gift, or turn off a gift's ability to be clicked.
 //                ModelQuery.list(User.class),
 //                response -> {
