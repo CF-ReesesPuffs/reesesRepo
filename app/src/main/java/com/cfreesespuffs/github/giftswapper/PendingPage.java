@@ -22,8 +22,10 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.amplifyframework.api.ApiOperation;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.api.graphql.model.ModelSubscription;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.GuestList;
@@ -45,6 +47,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     ArrayList<GuestList> guestList = new ArrayList<>();
     MenuItem partyDeleter;
     String partyId;
+    Party pendingParty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +71,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
         Menu menu = navigationView.getMenu(); // https://stackoverflow.com/questions/31265530/how-can-i-get-menu-item-in-navigationview because every method of drawing on the screen, means there are that many ways to have to target. I am really interested knowing why targeting the same menu requires at least 3 different methods depending.
         partyDeleter = menu.findItem(R.id.partyDeleteMenuItem);
-//        partyDeleter.setTitle("Delete Party");
 
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -84,9 +86,11 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 new Handler.Callback() {
                     @Override
                     public boolean handleMessage(@NonNull Message msg) {
-                        if (msg.arg1 == 1) {
-                            Log.i("Amplify", "It worked!");
-                        }
+                        System.out.println("This is the msg arg: " + msg.arg1);
+
+                        if (msg.arg1 == 1) Log.i("Amplify", "It worked!");
+                        if (msg.arg1 == 2) partyDeleter.setVisible(true);
+
                         recyclerView.getAdapter().notifyItemInserted(guestList.size());
                         return false;
                     }
@@ -110,8 +114,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         TextView title = PendingPage.this.findViewById(R.id.partyName);
         title.setText(intent.getExtras().getString("title"));
 
-//        TextView host = PendingPage.this.findViewById(R.id.price);
-//        host.setText(intent.getExtras().getString("host"));
 
         Button homeButton = findViewById(R.id.customHomeButton);
         homeButton.setOnClickListener((view) -> {
@@ -139,34 +141,47 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
-//                    party = response.getData();
-                    Log.i("Amplify.test", "====" + response);
                     for (GuestList user : response.getData().getUsers()) {
                         Log.i("Amplify.test", "stuff to test " + user);
                         guestList.add(user);
                     }
-                    handler.sendEmptyMessage(1);
+                    handleSingleItem.sendEmptyMessage(1);
                 },
                 error -> Log.e("Amplify", "Failed to retrieve store")
         );
 
-//        ApiOperation subscription = Amplify.API.subscribe( // Todo: Turn on
-//                ModelSubscription.onUpdate(Party.class),
-//                onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
-//                newGuests -> {
-//                    guestList.clear();
-//                    Log.i("Amp.Subscribe.details", "This is the content: " + newGuests.getData());
-//
-//                    for (GuestList user : newGuests.getData().getUsers()) {
-//                        guestList.add(user);
-//                    }
-//                },
-//                error -> Log.e("Amp.Sub.Fail", "Failure: " + error),
-//                () -> Log.i("Amp.Subscribe.details", "Subscription Complete.")
-//        );
+        ApiOperation subscription = Amplify.API.subscribe( // Todo: Turn on
+                ModelSubscription.onUpdate(Party.class),
+                onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
+                newGuests -> {
+                    guestList.clear();
+                    Log.i("Amp.Subscribe.details", "This is the content: " + newGuests.getData());
+
+                    for (GuestList user : newGuests.getData().getUsers()) {
+                        guestList.add(user);
+                    }
+                },
+                error -> Log.e("Amp.Sub.Fail", "Failure: " + error),
+                () -> Log.i("Amp.Subscribe.details", "Subscription Complete.")
+        );
+
+        Amplify.API.query(
+                ModelQuery.get(Party.class, partyId),
+                response -> {
+                    Log.i("Amp.Partyhere", "Party has been getten.");
+                    pendingParty = response.getData();
+                    Log.i("Amp.Partyhere", "pendingParty's host: " + pendingParty.getTheHost().getUserName());
+                    Log.i("Amp.Partyhere", "Auth username: " + Amplify.Auth.getCurrentUser().getUsername() );
+                    if (pendingParty.getTheHost().getUserName().equals(Amplify.Auth.getCurrentUser().getUsername())) {
+                        Message message = new Message();
+                        message.arg1 = 2;
+                        handleSingleItem.sendMessage(message);
+                    }
+                },
+                error -> Log.e("Amp.Partyhere", "Error down: " + error)
+        );
+
     }
-
-
 
     private void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.postPartyRV);
@@ -201,7 +216,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
             });
             AlertDialog dialog = builder.create();
             dialog.show();
-//            Toast.makeText(this,"here tis", Toast.LENGTH_LONG).show();
         }
         return true;
     }
