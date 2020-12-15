@@ -168,6 +168,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                             .invitedUser(guest.getUserName())
                             .takenTurn(false)
                             .party(party2)
+                            .turnOrder(0)
                             .build();
 
                     Amplify.API.mutate(

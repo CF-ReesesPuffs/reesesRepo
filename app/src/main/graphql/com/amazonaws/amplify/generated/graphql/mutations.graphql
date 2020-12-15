@@ -71,6 +71,7 @@ mutation CreateUser(
         invitee
         invitedUser
         takenTurn
+        turnOrder
         user {
           id
           userName
@@ -170,6 +171,7 @@ mutation UpdateUser(
         invitee
         invitedUser
         takenTurn
+        turnOrder
         user {
           id
           userName
@@ -269,6 +271,7 @@ mutation DeleteUser(
         invitee
         invitedUser
         takenTurn
+        turnOrder
         user {
           id
           userName
@@ -306,6 +309,7 @@ mutation CreateGuestList(
     invitee
     invitedUser
     takenTurn
+    turnOrder
     user {
       id
       userName
@@ -343,6 +347,7 @@ mutation CreateGuestList(
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -382,6 +387,7 @@ mutation CreateGuestList(
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -416,6 +422,7 @@ mutation UpdateGuestList(
     invitee
     invitedUser
     takenTurn
+    turnOrder
     user {
       id
       userName
@@ -453,6 +460,7 @@ mutation UpdateGuestList(
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -492,6 +500,7 @@ mutation UpdateGuestList(
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -526,6 +535,7 @@ mutation DeleteGuestList(
     invitee
     invitedUser
     takenTurn
+    turnOrder
     user {
       id
       userName
@@ -563,6 +573,7 @@ mutation DeleteGuestList(
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -602,6 +613,7 @@ mutation DeleteGuestList(
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -673,6 +685,7 @@ mutation CreateGift(
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -712,6 +725,7 @@ mutation CreateGift(
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -783,6 +797,7 @@ mutation UpdateGift(
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -822,6 +837,7 @@ mutation UpdateGift(
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -893,6 +909,7 @@ mutation DeleteGift(
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -932,6 +949,7 @@ mutation DeleteGift(
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -1005,6 +1023,7 @@ mutation CreateParty(
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -1020,6 +1039,7 @@ mutation CreateParty(
         invitee
         invitedUser
         takenTurn
+        turnOrder
         user {
           id
           userName
@@ -1126,6 +1146,7 @@ mutation UpdateParty(
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -1141,6 +1162,7 @@ mutation UpdateParty(
         invitee
         invitedUser
         takenTurn
+        turnOrder
         user {
           id
           userName
@@ -1247,6 +1269,7 @@ mutation DeleteParty(
           invitee
           invitedUser
           takenTurn
+          turnOrder
           createdAt
           updatedAt
         }
@@ -1262,6 +1285,7 @@ mutation DeleteParty(
         invitee
         invitedUser
         takenTurn
+        turnOrder
         user {
           id
           userName

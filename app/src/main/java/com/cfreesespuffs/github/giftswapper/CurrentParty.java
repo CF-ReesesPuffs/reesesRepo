@@ -36,17 +36,19 @@ import com.cfreesespuffs.github.giftswapper.Adapters.GiftAdapter;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCommWithGiftsListener, CurrentPartyUserAdapter.OnInteractWithTaskListener{
     ArrayList<GuestList> guestList = new ArrayList<>();
+    HashMap<Integer, GuestList> gLHashMap = new HashMap<>();
     ArrayList<Gift> giftList = new ArrayList<>();
     Handler handler;
     RecyclerView recyclerView;
     RecyclerView recyclerView2;
     ArrayList<String> attendingGuests = new ArrayList<>();
-    GuestList loggedUser;
     User amplifyUser;
     Intent intent;
+    int currentTurn = 100;
 
     //TODO: Create user turn functionality
     //TODO: Once each user has chosen a gift, display post party page
@@ -77,12 +79,18 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
                     for (GuestList user : response.getData().getUsers()) {
-                        Log.i("Amplify.test", "stuff to test " + user);
                         if(user.getInviteStatus().equals("Accepted")){
                             attendingGuests.add(user.getInvitedUser());
                             guestList.add(user);
+//                            for (int i = 0; i < guestList.size(); i++) {
+                            gLHashMap.put(user.getTurnOrder(), user); // Todo: could break here for turn order logic...
+                            if (!user.getTakenTurn() && user.getTurnOrder() < currentTurn) currentTurn = user.getTurnOrder(); // Todo: current solution *should* work. but is not elegant.
+//                            }
                         }
+                        Log.i("Amplify.test", "glHashMap: " + gLHashMap.toString());
+                        Log.i("Amplify.test", "Turn Order: " + currentTurn);
                     }
+
                     handler.sendEmptyMessage(1);
                 },
                 error -> Log.e("Amplify", "Failed to retrieve store")
@@ -158,6 +166,10 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
             CurrentParty.this.startActivity(goToMainIntent);
         });
 
+        // Turn order logic: lowest number that hasn't taken.
+
+
+
 //        Amplify.API.query(  // TODO: turn off a user's ability to click a gift, or turn off a gift's ability to be clicked.
 //                ModelQuery.list(User.class),
 //                response -> {
@@ -204,6 +216,15 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     @Override
     public void giftsToDoListener(Gift gift) {
         System.out.println(gift.getUser().getUserName());
+        System.out.println("This is whose turn it should be: " + gLHashMap.get(currentTurn).getUser().getUserName());
+        System.out.println("This is whose phone this is: " + Amplify.Auth.getCurrentUser().getUsername());
+
+        if (!gLHashMap.get(currentTurn).getUser().getUserName().contains(Amplify.Auth.getCurrentUser().getUsername())) { // Todo: could break here for turn order logic...
+
+            Toast.makeText(this, "It is not your turn!", Toast.LENGTH_SHORT).show();
+
+            return;
+        }
 
         AuthUser authUser = Amplify.Auth.getCurrentUser();
                 Amplify.API.query(

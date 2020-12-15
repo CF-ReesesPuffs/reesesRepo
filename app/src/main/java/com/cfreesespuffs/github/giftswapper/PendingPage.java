@@ -105,9 +105,37 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         Button startParty = PendingPage.this.findViewById(R.id.start_party);
         startParty.setOnClickListener((view) -> {
 
+            // Todo: check for logic to ensure *only* acceptedInvite guestlist/users get a turn order.
+
+            int counter = 1;
+
+            for (int i = 0; i < guestList.size(); i++) {
+                if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).turnOrder == 0) {
+                    guestList.get(i).turnOrder = counter;
+                    counter++;
+
+                    Amplify.API.mutate(
+                            ModelMutation.update(guestList.get(i)),
+                            response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
+                            error -> Log.e("Amplify.turnOrder", "Error: " + error)
+                    );
+
+                }
+            }
+            // Todo: make system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             Intent intent2 = new Intent(PendingPage.this, CurrentParty.class);
             intent2.putExtra("id", partyId);
             intent2.putExtra("thisPartyId", intent.getExtras().getString("title"));
+
+
+
             PendingPage.this.startActivity(intent2);
             });
 
@@ -150,15 +178,15 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 error -> Log.e("Amplify", "Failed to retrieve store")
         );
 
-        ApiOperation subscription = Amplify.API.subscribe( // Todo: Turn on
-                ModelSubscription.onUpdate(Party.class),
+        ApiOperation subscription = Amplify.API.subscribe( // is working. but checking the wrong thing. :\
+                ModelSubscription.onUpdate(Party.class), // Todo: should be checking the Guestlist. :P not party.
                 onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
                 newGuests -> {
                     guestList.clear();
                     Log.i("Amp.Subscribe.details", "This is the content: " + newGuests.getData());
 
                     for (GuestList user : newGuests.getData().getUsers()) {
-                        guestList.add(user);
+                        guestList.add(user); // Todo: add logic that only guests of this specific partyId are added to the list.
                     }
                 },
                 error -> Log.e("Amp.Sub.Fail", "Failure: " + error),
