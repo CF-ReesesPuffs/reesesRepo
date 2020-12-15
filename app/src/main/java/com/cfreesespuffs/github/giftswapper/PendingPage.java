@@ -110,7 +110,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
             int counter = 1;
 
             for (int i = 0; i < guestList.size(); i++) {
-                if (guestList.get(i).getInviteStatus().contains("Accepted")) {
+                if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).turnOrder == 0) {
                     guestList.get(i).turnOrder = counter;
                     counter++;
 
@@ -119,19 +119,23 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                             response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
                             error -> Log.e("Amplify.turnOrder", "Error: " + error)
                     );
+
                 }
             }
             // Todo: make system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
 
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             Intent intent2 = new Intent(PendingPage.this, CurrentParty.class);
             intent2.putExtra("id", partyId);
             intent2.putExtra("thisPartyId", intent.getExtras().getString("title"));
+
+
+
             PendingPage.this.startActivity(intent2);
             });
 
