@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 1) {
                 if (Amplify.Auth.getCurrentUser() != null) {
-                    Log.i("Android.VersionTest", "=== 3 ===");
+                    Log.i("Android.VersionTest", "=== 1 ===");
                     Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
                 }
             }
@@ -103,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             Amplify.API.query(
                     ModelQuery.list(User.class),
                     response -> {
-                        System.out.println("Amplify step test");
                         Log.i("Amplify.currentUser", "This is the current user, " + authUser);
                         for (User user : response.getData()) {
                             if (user.getUserName().contains(authUser.getUsername())) {
