@@ -22,8 +22,10 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.amplifyframework.api.ApiOperation;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.api.graphql.model.ModelSubscription;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.GuestList;
@@ -69,7 +71,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
         Menu menu = navigationView.getMenu(); // https://stackoverflow.com/questions/31265530/how-can-i-get-menu-item-in-navigationview because every method of drawing on the screen, means there are that many ways to have to target. I am really interested knowing why targeting the same menu requires at least 3 different methods depending.
         partyDeleter = menu.findItem(R.id.partyDeleteMenuItem);
-        partyDeleter.setVisible(false); // this works. TODO: set this by layout after testing via asymmetry.
 
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -149,20 +150,20 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 error -> Log.e("Amplify", "Failed to retrieve store")
         );
 
-//        ApiOperation subscription = Amplify.API.subscribe( // Todo: Turn on
-//                ModelSubscription.onUpdate(Party.class),
-//                onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
-//                newGuests -> {
-//                    guestList.clear();
-//                    Log.i("Amp.Subscribe.details", "This is the content: " + newGuests.getData());
-//
-//                    for (GuestList user : newGuests.getData().getUsers()) {
-//                        guestList.add(user);
-//                    }
-//                },
-//                error -> Log.e("Amp.Sub.Fail", "Failure: " + error),
-//                () -> Log.i("Amp.Subscribe.details", "Subscription Complete.")
-//        );
+        ApiOperation subscription = Amplify.API.subscribe( // Todo: Turn on
+                ModelSubscription.onUpdate(Party.class),
+                onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
+                newGuests -> {
+                    guestList.clear();
+                    Log.i("Amp.Subscribe.details", "This is the content: " + newGuests.getData());
+
+                    for (GuestList user : newGuests.getData().getUsers()) {
+                        guestList.add(user);
+                    }
+                },
+                error -> Log.e("Amp.Sub.Fail", "Failure: " + error),
+                () -> Log.i("Amp.Subscribe.details", "Subscription Complete.")
+        );
 
         Amplify.API.query(
                 ModelQuery.get(Party.class, partyId),
