@@ -1,5 +1,6 @@
 package com.cfreesespuffs.github.giftswapper.Adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,10 +69,14 @@ public class CurrentPartyUserAdapter extends RecyclerView.Adapter<CurrentPartyUs
     public void onBindViewHolder(@NonNull AdapterViewHolder holder, int position) {
         holder.user = userActiveParty.get(position);
         TextView userName = holder.itemView.findViewById(R.id.userNameOnly);
-//        TextView gift = holder.itemView.findViewById(R.id.giftName);
+        TextView turnOrderTv = holder.itemView.findViewById(R.id.turnOrder);
 
+        Log.i("Amp.RvTurnOrder", "is there turn order? : " + holder.user.getTurnOrder());
+
+//        String turn = String.format("%d", holder.user.getTurnOrder()); // Todo: what is "String.format (locale...)" about?
+
+        turnOrderTv.setText(holder.user.getTurnOrder().toString()); // might also be able to parseInt as string?
         userName.setText(holder.user.getUser().getUserName());
-       // userName.setVisibility(View.INVISIBLE);
     }
 
 
