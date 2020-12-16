@@ -122,9 +122,8 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
                 }
             }
-            // Todo: make system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
 
-            try {
+            try { // makes system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();

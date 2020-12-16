@@ -1,12 +1,14 @@
 package com.cfreesespuffs.github.giftswapper;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -33,8 +35,6 @@ import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
 import com.cfreesespuffs.github.giftswapper.Adapters.CurrentPartyUserAdapter;
 import com.cfreesespuffs.github.giftswapper.Adapters.GiftAdapter;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -45,15 +45,16 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     Handler handler;
     RecyclerView recyclerView;
     RecyclerView recyclerView2;
-    ArrayList<String> attendingGuests = new ArrayList<>();
+//    ArrayList<String> attendingGuests = new ArrayList<>();
     User amplifyUser;
     Intent intent;
-    int currentTurn = 100;
+    int currentTurn = 100; // this is not smart :P
 
     //TODO: Create user turn functionality
     //TODO: Once each user has chosen a gift, display post party page
     //TODO: Update recycler on click of a new item
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +81,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 response -> {
                     for (GuestList user : response.getData().getUsers()) {
                         if(user.getInviteStatus().equals("Accepted")){
-                            attendingGuests.add(user.getInvitedUser());
+//                            attendingGuests.add(user.getInvitedUser());
                             guestList.add(user);
 //                            for (int i = 0; i < guestList.size(); i++) {
                             gLHashMap.put(user.getTurnOrder(), user); // Todo: could break here for turn order logic...
@@ -110,8 +111,30 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         );
 
         String SUBSCRIBETAG = "Amplify.subscription";
+
+        ApiOperation guestListSub = Amplify.API.subscribe(
+                ModelSubscription.onUpdate(GuestList.class),
+                onEstablished -> Log.i(SUBSCRIBETAG, "Guestlist Sub established."),
+                createdItem -> {
+                    Log.i(SUBSCRIBETAG, "Updated guestlist object: " + ((GuestList) createdItem.getData()).getUser().getUserName());
+                    GuestList updatedGl = createdItem.getData();
+                    gLHashMap.replace(updatedGl.getTurnOrder(), updatedGl);
+                    Log.i("Amp.hashmapsize", "Hashmap size is: " + gLHashMap.size());
+                    for (int i = 1; i < gLHashMap.size()+1; i++) { // is size zero based, or does it start at 1? // todo: watch for weird turnOrder shenanigans when stealing gifts (guestlist turn order could go funny?)
+                        if (!gLHashMap.get(i).getTakenTurn()) {
+                            currentTurn = i;
+                            Log.i("Amp.NewCurrentTurn", "This is the turn: " + currentTurn);
+                            break;
+                        }
+                    }
+                },
+                onFailure -> Log.i(SUBSCRIBETAG, onFailure.toString()),
+                () -> Log.i(SUBSCRIBETAG, "Subscription completed")
+        );
+
+
         ApiOperation subscription = Amplify.API.subscribe(
-                ModelSubscription.onUpdate(Gift.class),
+                ModelSubscription.onUpdate(Gift.class), // Updates the gift info
                 onEstablished -> Log.i(SUBSCRIBETAG, "Subscription established"),
                 createdItem -> {
                     Log.i(SUBSCRIBETAG, "Subscription created: " + ((Gift) createdItem.getData()).getTitle());
@@ -166,24 +189,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
             CurrentParty.this.startActivity(goToMainIntent);
         });
 
-        // Turn order logic: lowest number that hasn't taken.
-
-
-
-//        Amplify.API.query(  // TODO: turn off a user's ability to click a gift, or turn off a gift's ability to be clicked.
-//                ModelQuery.list(User.class),
-//                response -> {
-//                    AuthUser authUser = Amplify.Auth.getCurrentUser();
-//                    for (User user : response.getData()) {
-//                        if (user.getUserName().equals(authUser.getUsername())) {
-//                            amplifyUser = user;
-//                        }
-//
-//                        if (guestList.)
-//                    }
-//                },
-//                error -> Log.e("Amplify.userRetrieval", "didn't get'em")
-//        );
 
     }
 
@@ -204,7 +209,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     public void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.usersRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new CurrentPartyUserAdapter(guestList,  this));
+        recyclerView.setAdapter(new CurrentPartyUserAdapter(guestList, this));
     }
 
     public void connectAdapterToRecycler2() {

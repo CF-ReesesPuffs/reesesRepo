@@ -5,18 +5,30 @@
     android:id="@+id/frameLayout6"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="3sp"
+    android:paddingBottom="3sp"
     tools:context=".Fragments.CurrentPartyFrag">
 
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
         android:id="@+id/userNameOnly"
-        android:layout_width="163dp"
-        android:layout_height="43dp"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
         android:text="username"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/turnOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="116dp"
+        android:text="turnToTake"
+        app:layout_constraintBottom_toBottomOf="@+id/userNameOnly"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/userNameOnly" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
