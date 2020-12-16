@@ -7,16 +7,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,7 +44,9 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 //    ArrayList<String> attendingGuests = new ArrayList<>();
     User amplifyUser;
     Intent intent;
+    String partyId;
     int currentTurn = 100; // this is not smart :P
+    ApiOperation subscription;
 
     //TODO: Create user turn functionality
     //TODO: Once each user has chosen a gift, display post party page
@@ -61,6 +59,8 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         setContentView(R.layout.activity_current_party);
 
         intent = getIntent();
+        partyId = intent.getExtras().getString("id");
+        Log.e("Amp.partyFromIntent", "Here's that partyID: " + partyId);
 
         TextView partyName = CurrentParty.this.findViewById(R.id.partyName);
         partyName.setText(intent.getExtras().getString("thisPartyId"));
@@ -98,7 +98,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         );
 
         Amplify.API.query(
-                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+                ModelQuery.get(Party.class, partyId),
                 response -> {
                     Log.i("Test party.gift", "===" + response.getData().getGifts());
                     for (Gift giftBrought : response.getData().getGifts()) {
@@ -133,20 +133,26 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         );
 
 
-        ApiOperation subscription = Amplify.API.subscribe(
+        subscription = Amplify.API.subscribe( // TODO: ensure subscription is subscribing to
                 ModelSubscription.onUpdate(Gift.class), // Updates the gift info
                 onEstablished -> Log.i(SUBSCRIBETAG, "Subscription established"),
                 createdItem -> {
                     Log.i(SUBSCRIBETAG, "Subscription created: " + ((Gift) createdItem.getData()).getTitle());
                     Gift newItem = createdItem.getData();
-                    Log.i("Gift chosen", giftList.toString());
-                    giftList.clear();
+//                    Log.i("Gift chosen", giftList.toString());
+
+                    Log.e("Amp.partyIntent", "Here's the intent: " + partyId);
+
+//                    ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+//                    ModelQuery.get(Party.class, intent.getExtras().getString("id")),
 
                     Amplify.API.query(
-                            ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+                            ModelQuery.get(Party.class, partyId),
                             response -> {
+                                Log.i("Amp.PartyQuery", "This is the response, raw: " + response);
                                 Party completedParty = response.getData();
-                                Log.i("Test party.gift", "========" + response.getData().getGifts());
+                                Log.i("Amp.PartyQuery", "This is completedParty: " + completedParty);
+                                giftList.clear();
                                 for (Gift giftBrought : response.getData().getGifts()) {
                                     Log.i("Amplify.gifts", "Here is all the gifts from users! " + giftBrought);
                                     giftList.add(giftBrought);
@@ -155,7 +161,8 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                 Boolean allTaken = true;
 
                                 for (Gift gift : giftList) {
-                                    if (gift.getPartyGoer().contains("TBD")) allTaken = false;
+                                    Log.i("Android.Gift", "Here's the gift being checked: " + gift);
+                                    if (gift.getPartyGoer().equals("TBD")) allTaken = false;
                                     System.out.println("Alltaken: " + allTaken);
                                 }
 
@@ -168,6 +175,8 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                     headToPostParty.putExtra("partyId", completedParty.getId());
                                     headToPostParty.putExtra("when", String.valueOf(completedParty.HOSTED_ON)); // TODO: check this works. It's... "query-able" via SQL. Is that beneficial here, or just different?
                                     headToPostParty.putExtra("setTime", String.valueOf(completedParty.HOSTED_AT)); // see above.
+
+                                    subscription.cancel(); //
 
                                     startActivity(headToPostParty);
                                 }
