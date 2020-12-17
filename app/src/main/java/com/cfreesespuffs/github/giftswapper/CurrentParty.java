@@ -48,9 +48,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     int currentTurn = 100; // this is not smart :P
     ApiOperation subscription;
 
-    //TODO: Create user turn functionality
-    //TODO: Once each user has chosen a gift, display post party page
-    //TODO: Update recycler on click of a new item
+    // TODO: Once each user has chosen a gift, display post party page
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -132,24 +130,16 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 () -> Log.i(SUBSCRIBETAG, "Subscription completed")
         );
 
-
         subscription = Amplify.API.subscribe( // TODO: ensure subscription is subscribing to
                 ModelSubscription.onUpdate(Gift.class), // Updates the gift info
                 onEstablished -> Log.i(SUBSCRIBETAG, "Subscription established"),
                 createdItem -> {
                     Log.i(SUBSCRIBETAG, "Subscription created: " + ((Gift) createdItem.getData()).getTitle());
                     Gift newItem = createdItem.getData();
-//                    Log.i("Gift chosen", giftList.toString());
-
-                    Log.e("Amp.partyIntent", "Here's the intent: " + partyId);
-
-//                    ModelQuery.get(Party.class, intent.getExtras().getString("id")),
-//                    ModelQuery.get(Party.class, intent.getExtras().getString("id")),
 
                     Amplify.API.query(
                             ModelQuery.get(Party.class, partyId),
                             response -> {
-                                Log.i("Amp.PartyQuery", "This is the response, raw: " + response);
                                 Party completedParty = response.getData();
                                 Log.i("Amp.PartyQuery", "This is completedParty: " + completedParty);
                                 giftList.clear();
@@ -176,7 +166,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                     headToPostParty.putExtra("when", String.valueOf(completedParty.HOSTED_ON)); // TODO: check this works. It's... "query-able" via SQL. Is that beneficial here, or just different?
                                     headToPostParty.putExtra("setTime", String.valueOf(completedParty.HOSTED_AT)); // see above.
 
-                                    subscription.cancel(); //
+                                    subscription.cancel(); // KILL THE SUBSCRIPTION. BURN IT DOWN.
 
                                     startActivity(headToPostParty);
                                 }
@@ -198,7 +188,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
             CurrentParty.this.startActivity(goToMainIntent);
         });
 
-
     }
 
     public void guestsTakeTurns(){
@@ -208,7 +197,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 //                currentUser.setVisibility(View.VISIBLE);
 //                currentUser.setText(guestList.get(i).getUser().getUserName());
 
-                }//TODO: how do we add a single gift to a list of gifts, then show that gift?
+                } //TODO: how do we add a single gift to a list of gifts, then show that gift?
         }
         Intent intent = new Intent(CurrentParty.this, PostParty.class);
 
@@ -268,6 +257,27 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                     },
                                     error -> Log.e("Amplify", "Failed to retrieve store")
                             );
+
+                            if (!gift.getPartyGoer().equalsIgnoreCase("TBD")) {
+                                Amplify.API.query(
+                                        ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+                                        response3 -> {
+                                            for (GuestList user : response3.getData().getUsers()) {
+                                                Log.i("Amplify.guestList", "users turn " + user);
+                                                if(user.getInvitedUser().contains(gift.getPartyGoer())){
+                                                    user.takenTurn = false;
+
+                                                    Amplify.API.query(
+                                                            ModelMutation.update(user),
+                                                            response4 -> Log.i("Mutation.user", "users turn taken "),
+                                                            error -> Log.e("Mutation.user", "fail")
+                                                    );
+                                                }
+                                            }
+                                        },
+                                        error -> Log.e("Amplify", "Failed to retrieve store")
+                                );
+                            }
 
                             gift.partyGoer = amplifyUser.getUserName(); // changes the "in party" owner
 //                            gift.partyGoer = "TBD"; // changes the "in party" owner
