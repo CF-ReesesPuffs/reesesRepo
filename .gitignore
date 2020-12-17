@@ -15,6 +15,7 @@
 .cxx
 local.properties
 .idea/*
+
 #amplify
 amplify/\#current-cloud-backend
 amplify/.config/local-*

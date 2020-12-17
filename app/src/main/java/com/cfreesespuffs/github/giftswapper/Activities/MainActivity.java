@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                     response -> {
                         Log.i("Amplify.currentUser", "This is the current user, " + authUser);
                         for (User user : response.getData()) {
-                            if (user.getUserName().contains(authUser.getUsername())) {
+                            if (user.getUserName().equalsIgnoreCase(authUser.getUsername())){
                                 currentUser = user;
                                 Amplify.API.query(
                                         ModelQuery.get(User.class, currentUser.getId()),

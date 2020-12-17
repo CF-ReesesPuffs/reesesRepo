@@ -65,7 +65,7 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
                     ModelQuery.list(User.class),
                     response -> {
                         for (User user : response.getData()) {
-                            if (user.getUserName().contains(authUser.getUsername())) {
+                            if (user.getUserName().equalsIgnoreCase(authUser.getUsername())) {
                                 currentUser = user;
                                 Log.i("Amplify.currentUser", "This is the current user, " + currentUser);
                                 Amplify.API.query(

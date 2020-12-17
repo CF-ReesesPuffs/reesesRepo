@@ -1,5 +1,0 @@
-{
-    "AppSyncApiName": "reesesrepo",
-    "DynamoDBBillingMode": "PAY_PER_REQUEST",
-    "DynamoDBEnableServerSideEncryption": false
-}
