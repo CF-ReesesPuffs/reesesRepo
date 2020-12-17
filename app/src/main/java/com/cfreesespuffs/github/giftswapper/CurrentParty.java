@@ -197,7 +197,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 //                currentUser.setVisibility(View.VISIBLE);
 //                currentUser.setText(guestList.get(i).getUser().getUserName());
 
-                }//TODO: how do we add a single gift to a list of gifts, then show that gift?
+                } //TODO: how do we add a single gift to a list of gifts, then show that gift?
         }
         Intent intent = new Intent(CurrentParty.this, PostParty.class);
 
@@ -257,6 +257,27 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                     },
                                     error -> Log.e("Amplify", "Failed to retrieve store")
                             );
+
+                            if (!gift.getPartyGoer().equalsIgnoreCase("TBD")) {
+                                Amplify.API.query(
+                                        ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+                                        response3 -> {
+                                            for (GuestList user : response3.getData().getUsers()) {
+                                                Log.i("Amplify.guestList", "users turn " + user);
+                                                if(user.getInvitedUser().contains(gift.getPartyGoer())){
+                                                    user.takenTurn = false;
+
+                                                    Amplify.API.query(
+                                                            ModelMutation.update(user),
+                                                            response4 -> Log.i("Mutation.user", "users turn taken "),
+                                                            error -> Log.e("Mutation.user", "fail")
+                                                    );
+                                                }
+                                            }
+                                        },
+                                        error -> Log.e("Amplify", "Failed to retrieve store")
+                                );
+                            }
 
                             gift.partyGoer = amplifyUser.getUserName(); // changes the "in party" owner
 //                            gift.partyGoer = "TBD"; // changes the "in party" owner
