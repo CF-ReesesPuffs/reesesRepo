@@ -201,20 +201,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
     }
 
-    public void guestsTakeTurns(){
-        for(int i = 0; i < guestList.size(); i ++){
-            while(guestList.get(i).getTakenTurn() == false){
-//                TextView currentUser = CurrentParty.this.findViewById(R.id.usersTurn);
-//                currentUser.setVisibility(View.VISIBLE);
-//                currentUser.setText(guestList.get(i).getUser().getUserName());
-
-                }//TODO: how do we add a single gift to a list of gifts, then show that gift?
-        }
-        Intent intent = new Intent(CurrentParty.this, PostParty.class);
-
-//        intent.putExtra("users", String.valueOf(Party.));
-        }
-
     public void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.usersRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
