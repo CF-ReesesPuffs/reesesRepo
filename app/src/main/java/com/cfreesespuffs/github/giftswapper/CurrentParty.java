@@ -62,6 +62,18 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         Log.e("Amp.partyFromIntent", "Here's that partyID: " + partyId);
         authUser = Amplify.Auth.getCurrentUser(); // TODO: didn't test, might break :shrug:
 
+        Amplify.API.query(
+                ModelQuery.list(User.class),
+                response ->{
+                    for(User user : response.getData()){
+                        if(user.getUserName().equals(authUser.getUsername())){
+                            amplifyUser = user;
+                        }
+                    }
+                },
+                error -> Log.e("amplify.user", String.valueOf(error))
+        );
+
         TextView partyName = CurrentParty.this.findViewById(R.id.partyName);
         partyName.setText(intent.getExtras().getString("thisPartyId"));
 
@@ -192,20 +204,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
     }
 
-    public void guestsTakeTurns(){
-        for(int i = 0; i < guestList.size(); i ++){
-            while(guestList.get(i).getTakenTurn() == false){
-//                TextView currentUser = CurrentParty.this.findViewById(R.id.usersTurn);
-//                currentUser.setVisibility(View.VISIBLE);
-//                currentUser.setText(guestList.get(i).getUser().getUserName());
-
-                } //TODO: how do we add a single gift to a list of gifts, then show that gift?
-        }
-        Intent intent = new Intent(CurrentParty.this, PostParty.class);
-
-//        intent.putExtra("users", String.valueOf(Party.));
-        }
-
     public void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.usersRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -220,82 +218,82 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
     @Override
     public void giftsToDoListener(Gift gift) {
+        System.out.println("111111111111111111111111111111111111111" + gift.getPartyGoer());
+        String previousGiftOwner = gift.getPartyGoer();
+
         if (!gLHashMap.get(currentTurn).getUser().getUserName().contains(Amplify.Auth.getCurrentUser().getUsername())) { // Todo: could break here for turn order logic...
             Toast.makeText(this, "It is not your turn!", Toast.LENGTH_SHORT).show();
             return;
         }
 
         Amplify.API.query(
-                ModelQuery.list(User.class),
-                response ->{
-                    for(User user : response.getData()){
-                        if(user.getUserName().equals(authUser.getUsername())){
-                            amplifyUser = user;
+                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+                response3 -> {
+                    Log.e("Amp.TBDcheck", "This is gift to steal partygoer? : " + gift.getPartyGoer());
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++" + gift.getPartyGoer());
+                    for (GuestList user : response3.getData().getUsers()) {
+                        Log.i("Amplify.guestList", "users turn " + user);
+                        System.out.println("//////////////////////////////////////////" + gift.getPartyGoer());
+                        if(user.getInvitedUser().contains(amplifyUser.getUserName())){
+                            user.takenTurn = true;
+                            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + gift.getPartyGoer());
+                            Amplify.API.query(
+                                    ModelMutation.update(user),
+                                    response4 -> Log.i("Mutation.user", "users turn taken "),
+                                    error -> Log.e("Mutation.user", "fail")
+                            );
                         }
+                        System.out.println("4444444444444444444444444444444444444444444444444" + gift.getPartyGoer());
                     }
-
-                    Amplify.API.query(
-                            ModelQuery.get(Party.class, intent.getExtras().getString("id")),
-                            response3 -> {
-                                Log.e("Amp.TBDcheck", "This is gift to steal partygoer? : " + gift.getPartyGoer());
-                                for (GuestList user : response3.getData().getUsers()) {
-                                    Log.i("Amplify.guestList", "users turn " + user);
-                                    if(user.getInvitedUser().contains(amplifyUser.getUserName())){
-                                        user.takenTurn = true;
-
-                                        Amplify.API.query(
-                                                ModelMutation.update(user),
-                                                response4 -> Log.i("Mutation.user", "users turn taken "),
-                                                error -> Log.e("Mutation.user", "fail")
-                                        );
-                                    }
-                                }
-
 //                                try { // makes system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
 //                                    Thread.sleep(1500);
 //                                } catch (InterruptedException e) {
 //                                    e.printStackTrace();
 //                                }  // Todo: THIS CODE BLOCK BREAKS THE HAPPY PATH + ALL PATHS. (if turned on)
 
-//                                if (!gift.getPartyGoer().equalsIgnoreCase("TBD")) { // Todo: THIS CODE ALSO BREAKS THE HAPPY PATH + ALL PATHS. (if turned on)
-//                                    for (GuestList previousUser : response3.getData().getUsers()) {
-//                                        Log.i("Amplify.guestList", "users turn " + previousUser);
-//                                        if(previousUser.getInvitedUser().contains(gift.getPartyGoer())){
-//                                            previousUser.takenTurn = false;
-//
-//                                            Amplify.API.query(
-//                                                    ModelMutation.update(previousUser),
-//                                                    response4 -> Log.i("Mutation.user", "users turn taken "),
-//                                                    error -> Log.e("Mutation.user", "fail")
-//                                            );
-//                                        }
-//                                    }
-//                                }
-                            },
-                            error -> Log.e("Amplify", "Failed to retrieve store")
-                    );
+                    System.out.println("Party goer before if " + gift.getPartyGoer());
 
-                    gift.partyGoer = amplifyUser.getUserName(); // changes the "in party" owner
+                    if (!previousGiftOwner.equalsIgnoreCase("TBD")) { // Todo: THIS CODE ALSO BREAKS THE HAPPY PATH + ALL PATHS. (if turned on)
 
-                    Amplify.API.mutate(
-                            ModelMutation.update(gift),
-                            response2 -> Log.i("Mutation", "mutated the gifts user " + gift),
-                            error -> Log.e("Mutation", "Failure, you disgrace family " + error)
-                    );
+                        for (GuestList previousUser : response3.getData().getUsers()) {
+                            Log.i("Amplify.guestList", "users turn " + previousUser);
 
-                    try { // makes system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                            System.out.println("partygoer " + gift.partyGoer + "user " + previousUser.getInvitedUser());
+
+                            if(gift.getPartyGoer().equalsIgnoreCase(previousUser.getInvitedUser())){
+                                System.out.println("Entered the if");
+                                //  if(previousUser.getInvitedUser().equalsIgnoreCase(gift.getPartyGoer())){
+
+                                previousUser.takenTurn = false;
+
+                                Amplify.API.query(
+                                        ModelMutation.update(previousUser),
+                                        response4 -> Log.i("Mutation.user", "users turn taken "),
+                                        error -> Log.e("Mutation.user", "fail")
+                                );
+                            }
+                        }
                     }
-
                 },
-                error -> Log.e("amplify.user", String.valueOf(error))
+                error -> Log.e("Amplify", "Failed to retrieve store")
+        );
+
+        gift.partyGoer = amplifyUser.getUserName(); // changes the "in party" owner
+
+        Amplify.API.mutate(
+                ModelMutation.update(gift),
+                response2 -> Log.i("Mutation", "mutated the gifts user " + gift),
+                error -> Log.e("Mutation", "Failure, you disgrace family " + error)
         );
 
         Toast.makeText(this, "You chose a gift! " + gift.getTitle(), Toast.LENGTH_SHORT).show();
 
     }
+//                    try { // makes system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
+//                        Thread.sleep(5000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
 
     @Override
     public void taskListener(String party) { }
