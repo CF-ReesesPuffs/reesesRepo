@@ -41,16 +41,12 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     Handler handler;
     RecyclerView recyclerView;
     RecyclerView recyclerView2;
-//    ArrayList<String> attendingGuests = new ArrayList<>();
     User amplifyUser;
     Intent intent;
     String partyId;
     int currentTurn = 100; // this is not smart :P
     ApiOperation subscription;
-
-    //TODO: Create user turn functionality
-    //TODO: Once each user has chosen a gift, display post party page
-    //TODO: Update recycler on click of a new item
+    AuthUser authUser;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -60,7 +56,19 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
         intent = getIntent();
         partyId = intent.getExtras().getString("id");
-        Log.e("Amp.partyFromIntent", "Here's that partyID: " + partyId);
+        authUser = Amplify.Auth.getCurrentUser();
+
+        Amplify.API.query(
+                ModelQuery.list(User.class),
+                response ->{
+                    for(User user : response.getData()){
+                        if(user.getUserName().equals(authUser.getUsername())){
+                            amplifyUser = user;
+                        }
+                    }
+                },
+                error -> Log.e("amplify.user", String.valueOf(error))
+        );
 
         TextView partyName = CurrentParty.this.findViewById(R.id.partyName);
         partyName.setText(intent.getExtras().getString("thisPartyId"));
@@ -81,17 +89,11 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 response -> {
                     for (GuestList user : response.getData().getUsers()) {
                         if(user.getInviteStatus().equals("Accepted")){
-//                            attendingGuests.add(user.getInvitedUser());
                             guestList.add(user);
-//                            for (int i = 0; i < guestList.size(); i++) {
-                            gLHashMap.put(user.getTurnOrder(), user); // Todo: could break here for turn order logic...
-                            if (!user.getTakenTurn() && user.getTurnOrder() < currentTurn) currentTurn = user.getTurnOrder(); // Todo: current solution *should* work. but is not elegant.
-//                            }
+                            gLHashMap.put(user.getTurnOrder(), user);
+                            if (!user.getTakenTurn() && user.getTurnOrder() < currentTurn) currentTurn = user.getTurnOrder();
                         }
-                        Log.i("Amplify.test", "glHashMap: " + gLHashMap.toString());
-                        Log.i("Amplify.test", "Turn Order: " + currentTurn);
                     }
-
                     handler.sendEmptyMessage(1);
                 },
                 error -> Log.e("Amplify", "Failed to retrieve store")
@@ -102,7 +104,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 response -> {
                     Log.i("Test party.gift", "===" + response.getData().getGifts());
                     for (Gift giftBrought : response.getData().getGifts()) {
-                        Log.i("Amplify.gifts", "Here is all the gifts from users! " + giftBrought);
                         giftList.add(giftBrought);
                         }
                     handler.sendEmptyMessage(1);
@@ -116,71 +117,53 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 ModelSubscription.onUpdate(GuestList.class),
                 onEstablished -> Log.i(SUBSCRIBETAG, "Guestlist Sub established."),
                 createdItem -> {
-                    Log.i(SUBSCRIBETAG, "Updated guestlist object: " + ((GuestList) createdItem.getData()).getUser().getUserName());
                     GuestList updatedGl = createdItem.getData();
                     gLHashMap.replace(updatedGl.getTurnOrder(), updatedGl);
-                    Log.i("Amp.hashmapsize", "Hashmap size is: " + gLHashMap.size());
-                    for (int i = 1; i < gLHashMap.size()+1; i++) { // is size zero based, or does it start at 1? // todo: watch for weird turnOrder shenanigans when stealing gifts (guestlist turn order could go funny?)
+                    for (int i = 1; i < gLHashMap.size()+1; i++) {
                         if (!gLHashMap.get(i).getTakenTurn()) {
                             currentTurn = i;
-                            Log.i("Amp.NewCurrentTurn", "This is the turn: " + currentTurn);
                             break;
                         }
                     }
+                    Log.i("Amp.NewCurrentTurn", "This is the turn: " + currentTurn);
                 },
                 onFailure -> Log.i(SUBSCRIBETAG, onFailure.toString()),
                 () -> Log.i(SUBSCRIBETAG, "Subscription completed")
         );
 
-
-        subscription = Amplify.API.subscribe( // TODO: ensure subscription is subscribing to
-                ModelSubscription.onUpdate(Gift.class), // Updates the gift info
+        subscription = Amplify.API.subscribe(
+                ModelSubscription.onUpdate(Gift.class),
                 onEstablished -> Log.i(SUBSCRIBETAG, "Subscription established"),
                 createdItem -> {
                     Log.i(SUBSCRIBETAG, "Subscription created: " + ((Gift) createdItem.getData()).getTitle());
-                    Gift newItem = createdItem.getData();
-//                    Log.i("Gift chosen", giftList.toString());
-
-                    Log.e("Amp.partyIntent", "Here's the intent: " + partyId);
-
-//                    ModelQuery.get(Party.class, intent.getExtras().getString("id")),
-//                    ModelQuery.get(Party.class, intent.getExtras().getString("id")),
 
                     Amplify.API.query(
                             ModelQuery.get(Party.class, partyId),
                             response -> {
-                                Log.i("Amp.PartyQuery", "This is the response, raw: " + response);
                                 Party completedParty = response.getData();
-                                Log.i("Amp.PartyQuery", "This is completedParty: " + completedParty);
                                 giftList.clear();
                                 for (Gift giftBrought : response.getData().getGifts()) {
-                                    Log.i("Amplify.gifts", "Here is all the gifts from users! " + giftBrought);
                                     giftList.add(giftBrought);
                                 }
 
                                 Boolean allTaken = true;
 
                                 for (Gift gift : giftList) {
-                                    Log.i("Android.Gift", "Here's the gift being checked: " + gift);
                                     if (gift.getPartyGoer().equals("TBD")) allTaken = false;
-                                    System.out.println("Alltaken: " + allTaken);
                                 }
 
-                                System.out.println("Alltaken after loop: " + allTaken);
-
-                                if (allTaken) { // Todo: break this out into a function to allow for a check to happen at beginning of activity to go straight to post party page. Or could be a "flag"/field check if "party complete".
+                                if (allTaken) {
                                     Intent headToPostParty = new Intent(CurrentParty.this, PostParty.class);
 
                                     headToPostParty.putExtra("title", completedParty.getTitle());
                                     headToPostParty.putExtra("partyId", completedParty.getId());
-                                    headToPostParty.putExtra("when", String.valueOf(completedParty.HOSTED_ON)); // TODO: check this works. It's... "query-able" via SQL. Is that beneficial here, or just different?
-                                    headToPostParty.putExtra("setTime", String.valueOf(completedParty.HOSTED_AT)); // see above.
+                                    headToPostParty.putExtra("when", String.valueOf(completedParty.HOSTED_ON));
+                                    headToPostParty.putExtra("setTime", String.valueOf(completedParty.HOSTED_AT));
 
-                                    subscription.cancel(); //
+                                    subscription.cancel(); // KILL THE SUBSCRIPTION. BURN IT DOWN.
 
                                     startActivity(headToPostParty);
                                 }
-
                                 handler.sendEmptyMessage(1);
                             },
                             error -> Log.e("Amplify", "Failed to retrieve store")
@@ -197,8 +180,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
             Intent goToMainIntent = new Intent(CurrentParty.this, MainActivity.class);
             CurrentParty.this.startActivity(goToMainIntent);
         });
-
-
     }
 
     public void connectAdapterToRecycler() {
@@ -215,67 +196,55 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
     @Override
     public void giftsToDoListener(Gift gift) {
-        System.out.println(gift.getUser().getUserName());
-        System.out.println("This is whose turn it should be: " + gLHashMap.get(currentTurn).getUser().getUserName());
-        System.out.println("This is whose phone this is: " + Amplify.Auth.getCurrentUser().getUsername());
+        String previousGiftOwner = gift.getPartyGoer();
 
-        if (!gLHashMap.get(currentTurn).getUser().getUserName().contains(Amplify.Auth.getCurrentUser().getUsername())) { // Todo: could break here for turn order logic...
-
+        if (!gLHashMap.get(currentTurn).getUser().getUserName().contains(Amplify.Auth.getCurrentUser().getUsername())) {
             Toast.makeText(this, "It is not your turn!", Toast.LENGTH_SHORT).show();
-
             return;
         }
 
-        AuthUser authUser = Amplify.Auth.getCurrentUser();
-                Amplify.API.query(
-                        ModelQuery.list(User.class),
-                        response ->{
-                            for(User user : response.getData()){
-                                if(user.getUserName().equals(authUser.getUsername())){
-                                    amplifyUser = user;
-                                }
-                            }
-
+        Amplify.API.query(
+                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+                response3 -> {
+                    for (GuestList user : response3.getData().getUsers()) {
+                        if(user.getInvitedUser().contains(amplifyUser.getUserName())){
+                            user.takenTurn = true;
                             Amplify.API.query(
-                                    ModelQuery.get(Party.class, intent.getExtras().getString("id")),
-                                    response3 -> {
-                                        for (GuestList user : response3.getData().getUsers()) {
-                                            Log.i("Amplify.guestList", "users turn " + user);
-                                            if(user.getInvitedUser().contains(amplifyUser.getUserName())){
-                                                user.takenTurn = true;
-
-                                                Amplify.API.query(
-                                                        ModelMutation.update(user),
-                                                        response4 -> Log.i("Mutation.user", "users turn taken "),
-                                                        error -> Log.e("Mutation.user", "fail")
-                                                );
-                                            }
-                                        }
-                                    },
-                                    error -> Log.e("Amplify", "Failed to retrieve store")
+                                    ModelMutation.update(user),
+                                    response4 -> Log.i("Mutation.user", "users turn taken "),
+                                    error -> Log.e("Mutation.user", "fail")
                             );
+                        }
+                    }
 
-                            gift.partyGoer = amplifyUser.getUserName(); // changes the "in party" owner
-//                            gift.partyGoer = "TBD"; // changes the "in party" owner
-//                            gift.user = amplifyUser; // changes the "real" owner
+                    if (!previousGiftOwner.equalsIgnoreCase("TBD")) {
+                        for (GuestList previousUser : response3.getData().getUsers()) {
+                            if(previousGiftOwner.equalsIgnoreCase(previousUser.getInvitedUser())){
+                                previousUser.takenTurn = false;
 
-                            Amplify.API.mutate(
-                                    ModelMutation.update(gift),
-                                    response2 -> Log.i("Mutation", "mutated the gifts user " + gift),
-                                    error -> Log.e("Mutation", "Failure, you disgrace family " + error)
-                            );
+                                Amplify.API.query(
+                                        ModelMutation.update(previousUser),
+                                        response4 -> Log.i("Mutation.user", "users turn taken "),
+                                        error -> Log.e("Mutation.user", "fail")
+                                );
+                            }
+                        }
+                    }
+                },
+                error -> Log.e("Amplify", "Failed to retrieve store")
+        );
 
-                        },
-                        error -> Log.e("amplify.user", String.valueOf(error))
-                );
+        gift.partyGoer = amplifyUser.getUserName(); // changes the "in party" owner
 
+        Amplify.API.mutate(
+                ModelMutation.update(gift),
+                response2 -> Log.i("Mutation", "mutated the gifts user " + gift),
+                error -> Log.e("Mutation", "Failure, you disgrace family " + error)
+        );
 
         Toast.makeText(this, "You chose a gift! " + gift.getTitle(), Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
-    public void taskListener(String party) {
-
-    }
+    public void taskListener(String party) { }
 }
