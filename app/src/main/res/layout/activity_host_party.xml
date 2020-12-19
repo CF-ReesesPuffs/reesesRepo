@@ -75,16 +75,43 @@
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <!--    https://androiddvlpr.com/custom-spinner-android/ to customize spinner further -->
+
     <Spinner
         android:id="@+id/price_spinner"
-        android:layout_width="168dp"
+        android:layout_width="120dp"
         android:layout_height="40dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/et_style"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.539"
+        app:layout_constraintHorizontal_bias="0.24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+        app:layout_constraintTop_toBottomOf="@+id/stealLimitTV" />
+
+    <TextView
+        android:id="@+id/stealLimitTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/autour_one"
+        android:text="Price Range"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.248"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/autour_one"
+        android:text="Steal Limit"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.754"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
 
     <Button
         android:id="@+id/findGuest_button"
@@ -127,19 +154,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewPartyName" />
 
     <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/autour_one"
-        android:text="Price Range"
-        android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.445"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
-
-    <TextView
         android:id="@+id/textView15"
         android:layout_width="56dp"
         android:layout_height="20dp"
@@ -174,4 +188,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_party" />
+
+    <Spinner
+        android:id="@+id/stealLimit_spinner"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="44dp"
+        android:background="@drawable/et_style"
+        app:layout_constraintBottom_toBottomOf="@+id/price_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/price_spinner"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
