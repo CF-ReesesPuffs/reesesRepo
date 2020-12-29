@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
@@ -43,9 +44,9 @@ import java.util.Set;
 public class HostParty extends AppCompatActivity implements HostPartyAdapter.GuestListListener {
 
     public ArrayList<User> guestList = new ArrayList<>();
-//    public ArrayList<String> guestListUserName = new ArrayList<>();
     public HashSet<Integer> invitedGuestList;
     Handler handler;
+    Handler generalHandler;
     RecyclerView recyclerView;
     HashMap<String, User> uniqueGuestList = new HashMap<>();
     User currentUser;
@@ -71,6 +72,13 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 },
                 error -> Log.e("Amplify.user", "error: " + error)
         );
+
+        generalHandler = new Handler(Looper.getMainLooper(), message -> {
+            if (message.arg1 == 1) {
+                Toast.makeText(this, "Add more party goers!", Toast.LENGTH_LONG).show();
+            }
+            return false;
+        });
 
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -128,6 +136,16 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 List<User> guestsToInviteList = new ArrayList();
 
                 guestsToInviteList.addAll(guestsToInvite);
+
+                System.out.println(guestsToInviteList.toString());
+
+                if (guestsToInviteList.size() < 2) { // party can't be created with only one participant (only the host, really)
+                    Message noGuestsMsg = new Message();
+                    noGuestsMsg.arg1 = 1;
+                    generalHandler.sendMessage(noGuestsMsg);
+                    Log.e("guests.list", "this was hit");
+                    return;
+                }
 
                 String nameOfParty = partyName.getText().toString();
                 String dateOfParty = partyDate.getText().toString();
