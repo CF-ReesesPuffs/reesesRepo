@@ -208,7 +208,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
             return;
         } else {
             gift.timesStolen = gift.getTimesStolen() + 1;
-            System.out.println("timesStolen " + gift.getTimesStolen());
+
             Amplify.API.query(
                     ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                     response3 -> {
