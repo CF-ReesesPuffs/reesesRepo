@@ -152,6 +152,7 @@ public class InvitationDetails extends AppCompatActivity {
                             Gift gift = Gift.builder()
                                     .title(giftName)
                                     .party(party)
+                                    .timesStolen(0)
                                     .user(loggedUser)
                                     .partyGoer("TBD")
                                     .number(highestNum + 1) // tried incrementing, was not currently functioning

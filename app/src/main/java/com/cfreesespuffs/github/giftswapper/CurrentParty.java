@@ -203,46 +203,53 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
             return;
         }
 
-        Amplify.API.query(
-                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
-                response3 -> {
-                    for (GuestList user : response3.getData().getUsers()) {
-                        if(user.getInvitedUser().contains(amplifyUser.getUserName())){
-                            user.takenTurn = true;
-                            Amplify.API.query(
-                                    ModelMutation.update(user),
-                                    response4 -> Log.i("Mutation.user", "users turn taken "),
-                                    error -> Log.e("Mutation.user", "fail")
-                            );
-                        }
-                    }
-
-                    if (!previousGiftOwner.equalsIgnoreCase("TBD")) {
-                        for (GuestList previousUser : response3.getData().getUsers()) {
-                            if(previousGiftOwner.equalsIgnoreCase(previousUser.getInvitedUser())){
-                                previousUser.takenTurn = false;
-
+        if (gift.getTimesStolen() >= 2) {
+            Toast.makeText(this, "This gift can not be stolen anymore!", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+            gift.timesStolen = gift.getTimesStolen() + 1;
+            System.out.println("timesStolen " + gift.getTimesStolen());
+            Amplify.API.query(
+                    ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+                    response3 -> {
+                        for (GuestList user : response3.getData().getUsers()) {
+                            if (user.getInvitedUser().contains(amplifyUser.getUserName())) {
+                                user.takenTurn = true;
                                 Amplify.API.query(
-                                        ModelMutation.update(previousUser),
+                                        ModelMutation.update(user),
                                         response4 -> Log.i("Mutation.user", "users turn taken "),
                                         error -> Log.e("Mutation.user", "fail")
                                 );
                             }
                         }
-                    }
-                },
-                error -> Log.e("Amplify", "Failed to retrieve store")
-        );
 
-        gift.partyGoer = amplifyUser.getUserName(); // changes the "in party" owner
+                        if (!previousGiftOwner.equalsIgnoreCase("TBD")) {
+                            for (GuestList previousUser : response3.getData().getUsers()) {
+                                if (previousGiftOwner.equalsIgnoreCase(previousUser.getInvitedUser())) {
+                                    previousUser.takenTurn = false;
 
-        Amplify.API.mutate(
-                ModelMutation.update(gift),
-                response2 -> Log.i("Mutation", "mutated the gifts user " + gift),
-                error -> Log.e("Mutation", "Failure, you disgrace family " + error)
-        );
+                                    Amplify.API.query(
+                                            ModelMutation.update(previousUser),
+                                            response4 -> Log.i("Mutation.user", "users turn taken "),
+                                            error -> Log.e("Mutation.user", "fail")
+                                    );
+                                }
+                            }
+                        }
+                    },
+                    error -> Log.e("Amplify", "Failed to retrieve store")
+            );
 
-        Toast.makeText(this, "You chose a gift! " + gift.getTitle(), Toast.LENGTH_SHORT).show();
+            gift.partyGoer = amplifyUser.getUserName(); // changes the "in party" owner
+
+            Amplify.API.mutate(
+                    ModelMutation.update(gift),
+                    response2 -> Log.i("Mutation", "mutated the gifts user " + gift),
+                    error -> Log.e("Mutation", "Failure, you disgrace family " + error)
+            );
+
+            Toast.makeText(this, "You chose a gift! " + gift.getTitle(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
