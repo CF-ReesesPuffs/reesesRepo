@@ -41,6 +41,7 @@ mutation CreateUser(
         number
         partyGoer
         timesStolen
+        lastPartyGoer
         user {
           id
           userName
@@ -141,6 +142,7 @@ mutation UpdateUser(
         number
         partyGoer
         timesStolen
+        lastPartyGoer
         user {
           id
           userName
@@ -241,6 +243,7 @@ mutation DeleteUser(
         number
         partyGoer
         timesStolen
+        lastPartyGoer
         user {
           id
           userName
@@ -335,6 +338,7 @@ mutation CreateGuestList(
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -400,6 +404,7 @@ mutation CreateGuestList(
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -448,6 +453,7 @@ mutation UpdateGuestList(
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -513,6 +519,7 @@ mutation UpdateGuestList(
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -561,6 +568,7 @@ mutation DeleteGuestList(
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -626,6 +634,7 @@ mutation DeleteGuestList(
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -648,6 +657,7 @@ mutation CreateGift(
     number
     partyGoer
     timesStolen
+    lastPartyGoer
     user {
       id
       userName
@@ -673,6 +683,7 @@ mutation CreateGift(
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -738,6 +749,7 @@ mutation CreateGift(
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -760,6 +772,7 @@ mutation UpdateGift(
     number
     partyGoer
     timesStolen
+    lastPartyGoer
     user {
       id
       userName
@@ -785,6 +798,7 @@ mutation UpdateGift(
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -850,6 +864,7 @@ mutation UpdateGift(
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -872,6 +887,7 @@ mutation DeleteGift(
     number
     partyGoer
     timesStolen
+    lastPartyGoer
     user {
       id
       userName
@@ -897,6 +913,7 @@ mutation DeleteGift(
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -962,6 +979,7 @@ mutation DeleteGift(
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1011,6 +1029,7 @@ mutation CreateParty(
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1070,6 +1089,7 @@ mutation CreateParty(
         number
         partyGoer
         timesStolen
+        lastPartyGoer
         user {
           id
           userName
@@ -1134,6 +1154,7 @@ mutation UpdateParty(
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1193,6 +1214,7 @@ mutation UpdateParty(
         number
         partyGoer
         timesStolen
+        lastPartyGoer
         user {
           id
           userName
@@ -1257,6 +1279,7 @@ mutation DeleteParty(
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1316,6 +1339,7 @@ mutation DeleteParty(
         number
         partyGoer
         timesStolen
+        lastPartyGoer
         user {
           id
           userName

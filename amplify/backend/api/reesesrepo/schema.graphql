@@ -24,6 +24,7 @@ type Gift @model {
   number: Int
   partyGoer: String
   timesStolen: Int
+  lastPartyGoer: String
   user: User @connection(name: "GiftGroup")
   party: Party @connection(name: "PartyGifts")
 }

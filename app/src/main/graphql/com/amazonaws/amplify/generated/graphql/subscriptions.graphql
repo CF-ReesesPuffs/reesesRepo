@@ -38,6 +38,7 @@ subscription OnCreateUser {
         number
         partyGoer
         timesStolen
+        lastPartyGoer
         user {
           id
           userName
@@ -135,6 +136,7 @@ subscription OnUpdateUser {
         number
         partyGoer
         timesStolen
+        lastPartyGoer
         user {
           id
           userName
@@ -232,6 +234,7 @@ subscription OnDeleteUser {
         number
         partyGoer
         timesStolen
+        lastPartyGoer
         user {
           id
           userName
@@ -323,6 +326,7 @@ subscription OnCreateGuestList {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -388,6 +392,7 @@ subscription OnCreateGuestList {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -433,6 +438,7 @@ subscription OnUpdateGuestList {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -498,6 +504,7 @@ subscription OnUpdateGuestList {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -543,6 +550,7 @@ subscription OnDeleteGuestList {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -608,6 +616,7 @@ subscription OnDeleteGuestList {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -627,6 +636,7 @@ subscription OnCreateGift {
     number
     partyGoer
     timesStolen
+    lastPartyGoer
     user {
       id
       userName
@@ -652,6 +662,7 @@ subscription OnCreateGift {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -717,6 +728,7 @@ subscription OnCreateGift {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -736,6 +748,7 @@ subscription OnUpdateGift {
     number
     partyGoer
     timesStolen
+    lastPartyGoer
     user {
       id
       userName
@@ -761,6 +774,7 @@ subscription OnUpdateGift {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -826,6 +840,7 @@ subscription OnUpdateGift {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -845,6 +860,7 @@ subscription OnDeleteGift {
     number
     partyGoer
     timesStolen
+    lastPartyGoer
     user {
       id
       userName
@@ -870,6 +886,7 @@ subscription OnDeleteGift {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -935,6 +952,7 @@ subscription OnDeleteGift {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -981,6 +999,7 @@ subscription OnCreateParty {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1040,6 +1059,7 @@ subscription OnCreateParty {
         number
         partyGoer
         timesStolen
+        lastPartyGoer
         user {
           id
           userName
@@ -1101,6 +1121,7 @@ subscription OnUpdateParty {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1160,6 +1181,7 @@ subscription OnUpdateParty {
         number
         partyGoer
         timesStolen
+        lastPartyGoer
         user {
           id
           userName
@@ -1221,6 +1243,7 @@ subscription OnDeleteParty {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1280,6 +1303,7 @@ subscription OnDeleteParty {
         number
         partyGoer
         timesStolen
+        lastPartyGoer
         user {
           id
           userName
