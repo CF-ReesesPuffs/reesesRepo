@@ -199,7 +199,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                     pendingParty = response.getData();
                     Log.i("Amp.Partyhere", "pendingParty's host: " + pendingParty.getTheHost().getUserName());
                     Log.i("Amp.Partyhere", "Auth username: " + Amplify.Auth.getCurrentUser().getUsername() );
-                    if (pendingParty.getTheHost().getUserName().equals(Amplify.Auth.getCurrentUser().getUsername())) {
+                    if (pendingParty.getTheHost().getUserName().equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
                         Message message = new Message();
                         message.arg1 = 2;
                         handleSingleItem.sendMessage(message);
