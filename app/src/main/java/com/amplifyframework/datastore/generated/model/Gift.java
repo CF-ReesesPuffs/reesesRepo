@@ -31,7 +31,7 @@ public final class Gift implements Model {
   private final @ModelField(targetType="String", isRequired = true) String title;
   private final @ModelField(targetType="Int") Integer number;
   public @ModelField(targetType="String") String partyGoer;
-  private final @ModelField(targetType="Int") Integer timesStolen;
+  public @ModelField(targetType="Int") Integer timesStolen;
   private final @ModelField(targetType="User") @BelongsTo(targetName = "giftUserId", type = User.class) User user;
   private final @ModelField(targetType="Party") @BelongsTo(targetName = "giftPartyId", type = Party.class) Party party;
   public String getId() {
