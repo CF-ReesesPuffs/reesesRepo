@@ -9,8 +9,6 @@
     android:paddingBottom="3sp"
     tools:context=".Fragments.CurrentPartyFrag">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <TextView
         android:id="@+id/userNameOnly"
         android:layout_width="160dp"

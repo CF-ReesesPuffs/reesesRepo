@@ -155,7 +155,7 @@ public class InvitationDetails extends AppCompatActivity {
                                     .timesStolen(0)
                                     .user(loggedUser)
                                     .partyGoer("TBD")
-                                    .lastPartyGoer(authUser.getUsername()) // Todo: find consensus: can you take your own gift on the first go?
+                                    .lastPartyGoer(authUser.getUsername())
                                     .number(highestNum + 1) // tried incrementing, was not currently functioning
                                     .build();
 

@@ -17,12 +17,10 @@ import com.cfreesespuffs.github.giftswapper.R;
  */
 public class PostPartyFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "guestName";
     private static final String ARG_PARAM2 = "gift";
 
-    // TODO: Rename and change types of parameters
     private String mGuestName;
     private String mGift;
 
@@ -38,7 +36,6 @@ public class PostPartyFragment extends Fragment {
      * @param gift Parameter 2.
      * @return A new instance of fragment PostPartyFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static PostPartyFragment newInstance(String guestName, String gift) {
         PostPartyFragment fragment = new PostPartyFragment();
         Bundle args = new Bundle();

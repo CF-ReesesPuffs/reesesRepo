@@ -32,8 +32,6 @@ public class SignUp extends AppCompatActivity {
             EditText password = findViewById(R.id.passwordOneEt);
             EditText passwordTwo = findViewById((R.id.passwordTwoEt));
 
-           //TODO: passwords never match
-
             if (password.getText().toString().length() < 8) { // https://stackoverflow.com/questions/2506876/how-to-change-position-of-toast-in-android
                 Toast toast = Toast.makeText(getApplicationContext(),
                 "Password must be at least 8 characters.", Toast.LENGTH_LONG);

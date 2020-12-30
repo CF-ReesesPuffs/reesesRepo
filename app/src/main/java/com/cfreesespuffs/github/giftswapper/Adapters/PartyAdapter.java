@@ -46,10 +46,10 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.PartyViewHol
 
         Log.i("PartyAdapter.List", "Here be the list: " + parties);
 
-        titleView.setText(holder.party.getTitle()); // Todo: turn back on after finding why party/parties is offended.
-        dateView.setText(holder.party.getHostedOn()); // Todo: turn back on after finding why party/parties is offended.
-        timeView.setText(holder.party.getHostedAt()); // Todo: turn back on after finding why party/parties is offended.
-//        priceView.setText(holder.party.getPrice()); // Todo: turn back on after finding why party/parties is offended.
+        titleView.setText(holder.party.getTitle());
+        dateView.setText(holder.party.getHostedOn());
+        timeView.setText(holder.party.getHostedAt());
+//        priceView.setText(holder.party.getPrice());
 
     }
 

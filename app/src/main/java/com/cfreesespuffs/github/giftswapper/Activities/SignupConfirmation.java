@@ -33,7 +33,7 @@ public class SignupConfirmation extends AppCompatActivity {
                     confirmCode.getText().toString(),
                     result -> {
                         Log.i("Amplify.confirm", result.isSignUpComplete() ? "Signup: Successful" : "Signup: FAIL"); // TODO: something better needs to happen here?
-                        message.arg1 = 123; // Todo: might need to create handler here.
+                        message.arg1 = 123;
                         signUpHandler.sendEmptyMessage(message.arg1);
                         User newUser = User.builder()
                                 .userName(username)
