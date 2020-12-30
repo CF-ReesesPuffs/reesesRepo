@@ -44,6 +44,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     User amplifyUser;
     Intent intent;
     String partyId;
+    Party party;
     int currentTurn = 100; // this is not smart :P
     ApiOperation subscription;
     AuthUser authUser;
@@ -94,6 +95,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
+                    party = response.getData();
                     for (GuestList user : response.getData().getUsers()) {
                         if(user.getInviteStatus().equals("Accepted")){
                             guestList.add(user);
@@ -110,6 +112,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 ModelQuery.get(Party.class, partyId),
                 response -> {
                     Log.i("Test party.gift", "===" + response.getData().getGifts());
+
                     for (Gift giftBrought : response.getData().getGifts()) {
                         giftList.add(giftBrought);
                         }
@@ -173,6 +176,14 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                     headToPostParty.putExtra("setTime", String.valueOf(completedParty.HOSTED_AT));
 
                                     subscription.cancel(); // KILL THE SUBSCRIPTION. BURN IT DOWN.
+
+                                    party.isFinished = true;
+
+                                    Amplify.API.query(
+                                            ModelMutation.update(party), // TODO: not certain if party will update as global variable. But will find out.
+                                            response2 -> Log.i("Mutation.thisParty", "Party: Complete!"),
+                                            error -> Log.e("Mutation.thisParty", "Party mutate: FAIL")
+                                    );
 
                                     startActivity(headToPostParty);
                                 }

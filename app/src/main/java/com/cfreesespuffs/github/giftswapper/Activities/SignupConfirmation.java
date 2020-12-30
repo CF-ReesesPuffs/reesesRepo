@@ -37,10 +37,10 @@ public class SignupConfirmation extends AppCompatActivity {
                         signUpHandler.sendEmptyMessage(message.arg1);
                         User newUser = User.builder()
                                 .userName(username)
+                                // TODO: add in email here.
                                 .build();
                         Amplify.API.mutate(
                                 ModelMutation.create(newUser),
-                                // TODO: add in email here.
                                 response -> Log.i("Amplify.API", "success"),
                                 error -> Log.e("Amplify.API", "newUser not created: " + error)
                         );
