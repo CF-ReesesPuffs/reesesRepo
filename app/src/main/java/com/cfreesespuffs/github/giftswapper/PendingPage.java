@@ -30,6 +30,7 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
+import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
 import com.cfreesespuffs.github.giftswapper.Adapters.ViewAdapter;
 import com.google.android.material.navigation.NavigationView;
@@ -131,10 +132,8 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
             intent2.putExtra("id", partyId);
             intent2.putExtra("thisPartyId", intent.getExtras().getString("title"));
 
-
-
             PendingPage.this.startActivity(intent2);
-            });
+        });
 
         TextView title = PendingPage.this.findViewById(R.id.partyName);
         title.setText(intent.getExtras().getString("title"));
@@ -175,16 +174,24 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 error -> Log.e("Amplify", "Failed to retrieve store")
         );
 
-        ApiOperation subscription = Amplify.API.subscribe( // is working. but checking the wrong thing. :\
-                ModelSubscription.onUpdate(GuestList.class), // Todo: should be checking the Guestlist. :P not party.
+        ApiOperation subscription = Amplify.API.subscribe( // TODO: how to focus/narrow subscription so it doesn't get the firehose of ALL EVERYTHING ALWAYS BEING CHANGED.
+                ModelSubscription.onUpdate(GuestList.class),
                 onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
                 newGuests -> {
-                    guestList.clear();
                     Log.i("Amp.Subscribe.details", "This is the content: " + newGuests.getData());
 
-                    for (GuestList user : newGuests.getData().getParty().getUsers()) {
-                        guestList.add(user); // Todo: add logic that only guests of this specific partyId are added to the list.
-                    }
+                    Amplify.API.query(
+                            ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+                            response -> {
+                                guestList.clear();
+                                for (GuestList user : response.getData().getUsers()) {
+                                    Log.i("Amplify.test", "stuff to test " + user);
+                                    guestList.add(user);
+                                }
+                                handleSingleItem.sendEmptyMessage(1);
+                            },
+                            error -> Log.e("Amplify", "Failed to retrieve store")
+                    );
                 },
                 error -> Log.e("Amp.Sub.Fail", "Failure: " + error),
                 () -> Log.i("Amp.Subscribe.details", "Subscription Complete.")
@@ -196,7 +203,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                     Log.i("Amp.Partyhere", "Party has been getten.");
                     pendingParty = response.getData();
                     Log.i("Amp.Partyhere", "pendingParty's host: " + pendingParty.getTheHost().getUserName());
-                    Log.i("Amp.Partyhere", "Auth username: " + Amplify.Auth.getCurrentUser().getUsername() );
+                    Log.i("Amp.Partyhere", "Auth username: " + Amplify.Auth.getCurrentUser().getUsername());
                     if (pendingParty.getTheHost().getUserName().equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
                         Message message = new Message();
                         message.arg1 = 2;
@@ -215,13 +222,14 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     }
 
     @Override
-    public void listener(GuestList guestList) { }
+    public void listener(GuestList guestList) {
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         drawerLayout.closeDrawer(GravityCompat.START); // Cannot be included in the if statement.
         System.out.println("A menu item has been clicked!");
-        if  (item.getItemId() == R.id.partyDeleteMenuItem) { // https://stackoverflow.com/questions/36747369/how-to-show-a-pop-up-in-android-studio-to-confirm-an-order
+        if (item.getItemId() == R.id.partyDeleteMenuItem) { // https://stackoverflow.com/questions/36747369/how-to-show-a-pop-up-in-android-studio-to-confirm-an-order
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(true)
                     .setTitle("Party Delete")
@@ -245,7 +253,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         return true;
     }
 
-    public void deleteParty () {
+    public void deleteParty() {
 
         Amplify.API.query(
                 ModelQuery.get(Party.class, partyId),
@@ -301,5 +309,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
                 },
                 error -> Log.e("Amp.del.party", "FAIL: " + error));
-        };
     }
+
+    ;
+}
