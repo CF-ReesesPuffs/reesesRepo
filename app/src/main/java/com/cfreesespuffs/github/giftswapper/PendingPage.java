@@ -177,15 +177,15 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 error -> Log.e("Amplify", "Failed to retrieve store")
         );
 
-        ApiOperation subscription = Amplify.API.subscribe( // is working. but checking the wrong thing. :\
-                ModelSubscription.onUpdate(Party.class), // Todo: should be checking the Guestlist. :P not party.
+        ApiOperation subscription = Amplify.API.subscribe( // is turned on. but checking the wrong thing?
+                ModelSubscription.onUpdate(Party.class),
                 onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
-                newGuests -> {
+                newGuests -> { // is this firing?
                     guestList.clear();
                     Log.i("Amp.Subscribe.details", "This is the content: " + newGuests.getData());
 
                     for (GuestList user : newGuests.getData().getUsers()) {
-                        guestList.add(user); // Todo: add logic that only guests of this specific partyId are added to the list.
+                        guestList.add(user);
                     }
                 },
                 error -> Log.e("Amp.Sub.Fail", "Failure: " + error),

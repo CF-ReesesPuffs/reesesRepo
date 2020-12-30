@@ -39,6 +39,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     HashMap<Integer, GuestList> gLHashMap = new HashMap<>();
     ArrayList<Gift> giftList = new ArrayList<>();
     Handler handler;
+    Handler turnAlertHandler;
     RecyclerView recyclerView;
     RecyclerView recyclerView2;
     User amplifyUser;
@@ -84,6 +85,13 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                     }
                 });
 
+        turnAlertHandler = new Handler(Looper.getMainLooper(), message -> { // TODO: check that it works.
+            if (message.arg1 == 1) {
+                Toast.makeText(this,"It's your turn!", Toast.LENGTH_LONG).show();
+            }
+            return true;
+        });
+
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
@@ -119,9 +127,14 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 createdItem -> {
                     GuestList updatedGl = createdItem.getData();
                     gLHashMap.replace(updatedGl.getTurnOrder(), updatedGl);
-                    for (int i = 1; i < gLHashMap.size()+1; i++) {
+                    for (int i = 1; i < gLHashMap.size()+1; i++) { // TODO: check that it works.
                         if (!gLHashMap.get(i).getTakenTurn()) {
                             currentTurn = i;
+                            if (gLHashMap.get(i).getUser().getUserName().equalsIgnoreCase(amplifyUser.getUserName())) {
+                                Message turnAlertMsg = new Message();
+                                turnAlertMsg.arg1 = 1;
+                                turnAlertHandler.sendMessage(turnAlertMsg);
+                            }
                             break;
                         }
                     }

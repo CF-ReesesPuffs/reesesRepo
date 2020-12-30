@@ -100,10 +100,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                         for (User user : response.getData()) {
                             TextView foundGuest = findViewById(R.id.userFindGuestSearch);
                             String foundGuestString = foundGuest.getText().toString();
-                            //  Log.i("Amplify.string", "this is what we are looking for: " + foundGuestString);
                             if (user.getUserName().toLowerCase().contains(foundGuestString.toLowerCase())) {
-                                //TODO limit to first letters STRETCH
-                                // Log.i("Amplify.string", "this is the user we are looking for: " + user);
                                 if (!uniqueGuestList.containsKey(user.getUserName())) {
                                     uniqueGuestList.put(user.getUserName(), user);
                                     guestList.add(user);
