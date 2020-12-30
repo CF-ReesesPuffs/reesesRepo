@@ -42,7 +42,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
     RecyclerView recyclerView;
-    Handler handler;
+    Handler whereHandler;
     Handler handleSingleItem;
     ArrayList<GuestList> guestList = new ArrayList<>();
     MenuItem partyDeleter;
@@ -72,7 +72,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         Menu menu = navigationView.getMenu(); // https://stackoverflow.com/questions/31265530/how-can-i-get-menu-item-in-navigationview because every method of drawing on the screen, means there are that many ways to have to target. I am really interested knowing why targeting the same menu requires at least 3 different methods depending.
         partyDeleter = menu.findItem(R.id.partyDeleteMenuItem);
 
-        handler = new Handler(Looper.getMainLooper(),
+        whereHandler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
                     @Override
                     public boolean handleMessage(@NonNull Message msg) {
@@ -185,7 +185,8 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                     Log.i("Amp.Subscribe.details", "This is the content: " + newGuests.getData());
 
                     for (GuestList user : newGuests.getData().getUsers()) {
-                        guestList.add(user); // Todo: add logic that only guests of this specific partyId are added to the list.
+                        guestList.add(user);
+                        whereHandler.sendEmptyMessage(1); // Todo: Now does this work, being passed to a handler now?
                     }
                 },
                 error -> Log.e("Amp.Sub.Fail", "Failure: " + error),
