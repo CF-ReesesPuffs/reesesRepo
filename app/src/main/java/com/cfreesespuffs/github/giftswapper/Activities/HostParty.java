@@ -136,6 +136,12 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
                 System.out.println(guestsToInviteList.toString());
 
+                boolean flag = false;
+                for(User guest : guestsToInviteList){
+                    if(guest.getUserName().equalsIgnoreCase(authUser.getUsername())) flag = true;
+                }
+                if(!flag) guestsToInviteList.add(currentUser);
+
                 if (guestsToInviteList.size() < 2) { // party can't be created with only one participant (only the host, really)
                     Message noGuestsMsg = new Message();
                     noGuestsMsg.arg1 = 1;
@@ -165,12 +171,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                         response -> {
                             Log.i("Amplify.API", "success party started");
                             Party party2 = response.getData();
-
-                boolean flag = false;
-                for(User guest : guestsToInviteList){
-                    if(guest.getUserName().equalsIgnoreCase(authUser.getUsername())) flag = true;
-                }
-                if(!flag) guestsToInviteList.add(currentUser);
 
                 for(User guest : guestsToInviteList){
                     GuestList inviteStatus = GuestList.builder()
