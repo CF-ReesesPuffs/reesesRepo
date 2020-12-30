@@ -38,6 +38,7 @@ query GetUser($id: ID!) {
         number
         partyGoer
         timesStolen
+        lastPartyGoer
         user {
           id
           userName
@@ -127,6 +128,7 @@ query ListUsers(
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -184,6 +186,7 @@ query GetGuestList($id: ID!) {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -249,6 +252,7 @@ query GetGuestList($id: ID!) {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -327,6 +331,7 @@ query GetGift($id: ID!) {
     number
     partyGoer
     timesStolen
+    lastPartyGoer
     user {
       id
       userName
@@ -352,6 +357,7 @@ query GetGift($id: ID!) {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -417,6 +423,7 @@ query GetGift($id: ID!) {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -441,6 +448,7 @@ query ListGifts(
       number
       partyGoer
       timesStolen
+      lastPartyGoer
       user {
         id
         userName
@@ -521,6 +529,7 @@ query GetParty($id: ID!) {
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -580,6 +589,7 @@ query GetParty($id: ID!) {
         number
         partyGoer
         timesStolen
+        lastPartyGoer
         user {
           id
           userName
@@ -657,6 +667,7 @@ query ListPartys(
           number
           partyGoer
           timesStolen
+          lastPartyGoer
           createdAt
           updatedAt
         }
