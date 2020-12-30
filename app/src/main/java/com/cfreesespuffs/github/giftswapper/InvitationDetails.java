@@ -61,7 +61,7 @@ public class InvitationDetails extends AppCompatActivity {
                     ModelQuery.list(User.class),
                     response -> {
                         for (User user : response.getData()) {
-                            if (user.getUserName().contains(authUser.getUsername())) {
+                            if (user.getUserName().equalsIgnoreCase(authUser.getUsername())){
                                 loggedUser = user;
                                 Log.i("Amplify.currentUser", "This is the current user, " + loggedUser);
                             }
@@ -98,7 +98,7 @@ public class InvitationDetails extends AppCompatActivity {
 
                 List<GuestList> target = party.getUsers();
                 for(GuestList thisGuestList : target){
-                    if(thisGuestList.getInvitedUser().contains(loggedUser.getUserName())){
+                    if(thisGuestList.getInvitedUser().equalsIgnoreCase(authUser.getUsername())){
                         guestList = thisGuestList;
                     }
                 }
@@ -152,6 +152,7 @@ public class InvitationDetails extends AppCompatActivity {
                             Gift gift = Gift.builder()
                                     .title(giftName)
                                     .party(party)
+
                                     .user(loggedUser)
                                     .partyGoer("TBD")
                                     .number(highestNum + 1) // tried incrementing, was not currently functioning
@@ -171,7 +172,7 @@ public class InvitationDetails extends AppCompatActivity {
 
                 List<GuestList> target = party.getUsers();
                 for(GuestList thisGuestList : target){
-                    if(thisGuestList.getInvitedUser().contains(loggedUser.getUserName())){
+                    if(thisGuestList.getInvitedUser().equalsIgnoreCase(authUser.getUsername())){
                         guestList = thisGuestList;
                     }
                 }

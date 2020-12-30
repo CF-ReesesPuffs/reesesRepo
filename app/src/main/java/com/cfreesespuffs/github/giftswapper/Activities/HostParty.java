@@ -44,7 +44,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
     public ArrayList<User> guestList = new ArrayList<>();
 //    public ArrayList<String> guestListUserName = new ArrayList<>();
-    public HashSet<Integer> invitedGuestList;
+//    public HashSet<Integer> invitedGuestList;
     Handler handler;
     RecyclerView recyclerView;
     HashMap<String, User> uniqueGuestList = new HashMap<>();
@@ -62,7 +62,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 ModelQuery.list(User.class),
                 response -> {
                     for(User user : response.getData()) {
-                        if(user.getUserName().contains(authUser.getUsername())){
+                        if(user.getUserName().equalsIgnoreCase(authUser.getUsername())){
                             currentUser = user;
                             System.out.println("This is our current user/host" + currentUser);
                         }
@@ -91,10 +91,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                         for (User user : response.getData()) {
                             TextView foundGuest = findViewById(R.id.userFindGuestSearch);
                             String foundGuestString = foundGuest.getText().toString();
-                            //  Log.i("Amplify.string", "this is what we are looking for: " + foundGuestString);
                             if (user.getUserName().toLowerCase().contains(foundGuestString.toLowerCase())) {
-                                //TODO limit to first letters STRETCH
-                                // Log.i("Amplify.string", "this is the user we are looking for: " + user);
                                 if (!uniqueGuestList.containsKey(user.getUserName())) {
                                     uniqueGuestList.put(user.getUserName(), user);
                                     guestList.add(user);
@@ -160,11 +157,18 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 //                            error -> Log.e("Amplify/API", "Message failed " + error)
 //                    );
 //                }
+
+                boolean flag = false;
+                for(User guest : guestsToInviteList){
+                    if(guest.getUserName().equalsIgnoreCase(authUser.getUsername())) flag = true;
+                }
+                if(!flag) guestsToInviteList.add(currentUser);
+
                 for(User guest : guestsToInviteList){
                     GuestList inviteStatus = GuestList.builder()
                             .inviteStatus("Pending")
                             .user(guest)
-                            .invitee("Host")
+                            .invitee(currentUser.getUserName())
                             .invitedUser(guest.getUserName())
                             .takenTurn(false)
                             .party(party2)
@@ -176,6 +180,8 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                             response2 -> Log.i("Amplify.API", "Users are now pending!!!"),
                             error -> Log.e("Amplify/API", "Message failed " + error)
                     );
+
+
                 }
 
                 Intent intent = new Intent(HostParty.this, MainActivity.class);
