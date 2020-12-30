@@ -17,12 +17,10 @@ import com.cfreesespuffs.github.giftswapper.R;
  */
 public class GuestListFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "paramUsername";
     //private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mUsername;
     //private String mParam2;
 
@@ -38,7 +36,6 @@ public class GuestListFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment GuestList.
      */
-    // TODO: Rename and change types and number of parameters
     public static GuestListFragment newInstance(String paramUsername) {
         GuestListFragment fragment = new GuestListFragment();
         Bundle args = new Bundle();

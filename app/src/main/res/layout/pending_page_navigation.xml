@@ -35,4 +35,4 @@
 <!-- https://www.youtube.com/watch?v=USenYOBJw9Y is what I'm following -->
 
 <!--https://stackoverflow.com/questions/27350136/android-drawerlayout-no-drawer-view-found-with-gravity work around to show drawer on right side of the screen-->
-<!--the ltr does work, but also kicks the toolbar title to the right, which is not desired. :\ Todo: get toolbar title align to left-->
+<!--the ltr does work, but also kicks the toolbar title to the right, which is not desired. :\ -->

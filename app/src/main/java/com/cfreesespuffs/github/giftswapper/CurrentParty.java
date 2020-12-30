@@ -38,12 +38,13 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     ArrayList<GuestList> guestList = new ArrayList<>();
     HashMap<Integer, GuestList> gLHashMap = new HashMap<>();
     ArrayList<Gift> giftList = new ArrayList<>();
-    Handler handler;
+    Handler handler, handlerGeneral;
     RecyclerView recyclerView;
     RecyclerView recyclerView2;
     User amplifyUser;
     Intent intent;
     String partyId;
+    Party party;
     int currentTurn = 100; // this is not smart :P
     ApiOperation subscription;
     AuthUser authUser;
@@ -84,9 +85,17 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                     }
                 });
 
+        handlerGeneral = new Handler(Looper.getMainLooper(), message -> { // Todo: confirm working.
+            if (message.arg1 == 1) {
+                Toast.makeText(this, "It is your turn, pick a gift!", Toast.LENGTH_LONG).show();
+            }
+            return false;
+        });
+
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
+                    party = response.getData();
                     for (GuestList user : response.getData().getUsers()) {
                         if(user.getInviteStatus().equals("Accepted")){
                             guestList.add(user);
@@ -103,6 +112,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 ModelQuery.get(Party.class, partyId),
                 response -> {
                     Log.i("Test party.gift", "===" + response.getData().getGifts());
+
                     for (Gift giftBrought : response.getData().getGifts()) {
                         giftList.add(giftBrought);
                         }
@@ -122,6 +132,11 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                     for (int i = 1; i < gLHashMap.size()+1; i++) {
                         if (!gLHashMap.get(i).getTakenTurn()) {
                             currentTurn = i;
+                            if (gLHashMap.get(i).getUser().getUserName().equalsIgnoreCase(amplifyUser.getUserName())) { // Todo: check that this works.
+                                Message turnAlertmsg = new Message();
+                                turnAlertmsg.arg1 = 1;
+                                handlerGeneral.sendMessage(turnAlertmsg);
+                            }
                             break;
                         }
                     }
@@ -161,6 +176,14 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                     headToPostParty.putExtra("setTime", String.valueOf(completedParty.HOSTED_AT));
 
                                     subscription.cancel(); // KILL THE SUBSCRIPTION. BURN IT DOWN.
+
+                                    party.isFinished = true;
+
+                                    Amplify.API.query(
+                                            ModelMutation.update(party), // TODO: not certain if party will update as global variable. But will find out.
+                                            response2 -> Log.i("Mutation.thisParty", "Party: Complete!"),
+                                            error -> Log.e("Mutation.thisParty", "Party mutate: FAIL")
+                                    );
 
                                     startActivity(headToPostParty);
                                 }

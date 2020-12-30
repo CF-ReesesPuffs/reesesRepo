@@ -48,7 +48,7 @@ public class HostPartyAdapter extends RecyclerView.Adapter<HostPartyAdapter.Gues
         TextView usernameView = holder.itemView.findViewById(R.id.usernameFragment);
         usernameView.setText(holder.user.getUserName());
         holder.checkBox.setOnCheckedChangeListener(null);
-        holder.checkBox.setSelected(holder.usernameView.isSelected()); //TODO once in the schema this might need updated
+        holder.checkBox.setSelected(holder.usernameView.isSelected());
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

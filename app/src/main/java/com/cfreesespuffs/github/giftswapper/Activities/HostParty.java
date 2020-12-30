@@ -216,7 +216,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
     public void stealLimitSpinner() {
         Integer[] stealLimitOptions = {1, 2, 3, 4, 5, 6};
-        Spinner spinner = (Spinner) findViewById(R.id.stealLimit_spinner); // TODO Bring over the layout detail.
+        Spinner spinner = (Spinner) findViewById(R.id.stealLimit_spinner);
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, stealLimitOptions);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);

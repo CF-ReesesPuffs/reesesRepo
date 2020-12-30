@@ -105,8 +105,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         Button startParty = PendingPage.this.findViewById(R.id.start_party);
         startParty.setOnClickListener((view) -> {
 
-            // Todo: check for logic to ensure *only* acceptedInvite guestlist/users get a turn order.
-
             int counter = 1;
 
             for (int i = 0; i < guestList.size(); i++) {
