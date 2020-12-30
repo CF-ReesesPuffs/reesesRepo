@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
@@ -43,9 +44,9 @@ import java.util.Set;
 public class HostParty extends AppCompatActivity implements HostPartyAdapter.GuestListListener {
 
     public ArrayList<User> guestList = new ArrayList<>();
-//    public ArrayList<String> guestListUserName = new ArrayList<>();
     public HashSet<Integer> invitedGuestList;
     Handler handler;
+    Handler generalHandler;
     RecyclerView recyclerView;
     HashMap<String, User> uniqueGuestList = new HashMap<>();
     User currentUser;
@@ -56,13 +57,14 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         setContentView(R.layout.activity_host_party);
 
         priceSpinner();
+        stealLimitSpinner();
 
         AuthUser authUser = Amplify.Auth.getCurrentUser();
         Amplify.API.query(
                 ModelQuery.list(User.class),
                 response -> {
                     for(User user : response.getData()) {
-                        if(user.getUserName().contains(authUser.getUsername())){
+                        if(user.getUserName().equalsIgnoreCase(authUser.getUsername())){
                             currentUser = user;
                             System.out.println("This is our current user/host" + currentUser);
                         }
@@ -70,6 +72,13 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 },
                 error -> Log.e("Amplify.user", "error: " + error)
         );
+
+        generalHandler = new Handler(Looper.getMainLooper(), message -> {
+            if (message.arg1 == 1) {
+                Toast.makeText(this, "Add more party goers!", Toast.LENGTH_LONG).show();
+            }
+            return false;
+        });
 
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -91,10 +100,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                         for (User user : response.getData()) {
                             TextView foundGuest = findViewById(R.id.userFindGuestSearch);
                             String foundGuestString = foundGuest.getText().toString();
-                            //  Log.i("Amplify.string", "this is what we are looking for: " + foundGuestString);
                             if (user.getUserName().toLowerCase().contains(foundGuestString.toLowerCase())) {
-                                //TODO limit to first letters STRETCH
-                                // Log.i("Amplify.string", "this is the user we are looking for: " + user);
                                 if (!uniqueGuestList.containsKey(user.getUserName())) {
                                     uniqueGuestList.put(user.getUserName(), user);
                                     guestList.add(user);
@@ -123,9 +129,20 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 Log.i("Android.usersToAdd", ((HostPartyAdapter) recyclerView.getAdapter()).usersToAdd.toString());
 
                 Set guestsToInvite = ((HostPartyAdapter) recyclerView.getAdapter()).usersToAdd;
+
                 List<User> guestsToInviteList = new ArrayList();
 
                 guestsToInviteList.addAll(guestsToInvite);
+
+                System.out.println(guestsToInviteList.toString());
+
+                if (guestsToInviteList.size() < 2) { // party can't be created with only one participant (only the host, really)
+                    Message noGuestsMsg = new Message();
+                    noGuestsMsg.arg1 = 1;
+                    generalHandler.sendMessage(noGuestsMsg);
+                    Log.e("guests.list", "this was hit");
+                    return;
+                }
 
                 String nameOfParty = partyName.getText().toString();
                 String dateOfParty = partyDate.getText().toString();
@@ -148,23 +165,18 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                         response -> {
                             Log.i("Amplify.API", "success party started");
                             Party party2 = response.getData();
-//                for (User thisGuest : guestsToInviteList) {
-//                    GuestList guestListFinal = GuestList.builder()
-//                            .party(party)
-//                            .user(thisGuest)
-//                            .build();
-//
-//                    Amplify.API.mutate(
-//                            ModelMutation.create(guestListFinal),
-//                            response -> Log.i("Amplify.API", "success users added"),
-//                            error -> Log.e("Amplify/API", "Message failed " + error)
-//                    );
-//                }
+
+                boolean flag = false;
+                for(User guest : guestsToInviteList){
+                    if(guest.getUserName().equalsIgnoreCase(authUser.getUsername())) flag = true;
+                }
+                if(!flag) guestsToInviteList.add(currentUser);
+
                 for(User guest : guestsToInviteList){
                     GuestList inviteStatus = GuestList.builder()
                             .inviteStatus("Pending")
                             .user(guest)
-                            .invitee("Host")
+                            .invitee(currentUser.getUserName())
                             .invitedUser(guest.getUserName())
                             .takenTurn(false)
                             .party(party2)
@@ -198,6 +210,14 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         String[] pricePoints = {"$0- $10", "$11- $20", "$21- $30", "$31- $40"};
         Spinner spinner = (Spinner) findViewById(R.id.price_spinner);
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, pricePoints);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
+
+    public void stealLimitSpinner() {
+        Integer[] stealLimitOptions = {1, 2, 3, 4, 5, 6};
+        Spinner spinner = (Spinner) findViewById(R.id.stealLimit_spinner); // TODO Bring over the layout detail.
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, stealLimitOptions);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }

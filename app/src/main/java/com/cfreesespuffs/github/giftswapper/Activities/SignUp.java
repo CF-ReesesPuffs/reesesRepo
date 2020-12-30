@@ -62,6 +62,7 @@ public class SignUp extends AppCompatActivity {
 
             Intent intent = new Intent(this, SignupConfirmation.class);
             intent.putExtra("username", userName.getText().toString());
+
             intent.putExtra("password", password.getText().toString());
 
             this.startActivity(intent);

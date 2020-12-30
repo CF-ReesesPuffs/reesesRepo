@@ -178,13 +178,13 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         );
 
         ApiOperation subscription = Amplify.API.subscribe( // is working. but checking the wrong thing. :\
-                ModelSubscription.onUpdate(Party.class), // Todo: should be checking the Guestlist. :P not party.
+                ModelSubscription.onUpdate(GuestList.class), // Todo: should be checking the Guestlist. :P not party.
                 onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
                 newGuests -> {
                     guestList.clear();
                     Log.i("Amp.Subscribe.details", "This is the content: " + newGuests.getData());
 
-                    for (GuestList user : newGuests.getData().getUsers()) {
+                    for (GuestList user : newGuests.getData().getParty().getUsers()) {
                         guestList.add(user); // Todo: add logic that only guests of this specific partyId are added to the list.
                     }
                 },
@@ -199,7 +199,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                     pendingParty = response.getData();
                     Log.i("Amp.Partyhere", "pendingParty's host: " + pendingParty.getTheHost().getUserName());
                     Log.i("Amp.Partyhere", "Auth username: " + Amplify.Auth.getCurrentUser().getUsername() );
-                    if (pendingParty.getTheHost().getUserName().equals(Amplify.Auth.getCurrentUser().getUsername())) {
+                    if (pendingParty.getTheHost().getUserName().equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
                         Message message = new Message();
                         message.arg1 = 2;
                         handleSingleItem.sendMessage(message);
@@ -288,6 +288,13 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                                                 },
                                                 error -> Log.e("Amp.del.user", "Error: " + error));
                                     }
+
+                                    try { // makes system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
+                                        Thread.sleep(1000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+
                                     Intent intent = new Intent(this, MainActivity.class);
                                     startActivity(intent);
                                 }

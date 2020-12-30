@@ -52,7 +52,7 @@ public class UserProfile extends AppCompatActivity {
                 ModelQuery.list(Gift.class),
                 response -> {
                     for (Gift gift : response.getData().getItems()) {
-                        if (gift.getUser().getUserName().contains(username)) {
+                        if (gift.getUser().getUserName().equalsIgnoreCase(username)) {
                             giftsOfUser.add(gift);
                         }
                     }

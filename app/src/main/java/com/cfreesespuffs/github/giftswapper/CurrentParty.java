@@ -62,7 +62,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 ModelQuery.list(User.class),
                 response ->{
                     for(User user : response.getData()){
-                        if(user.getUserName().equals(authUser.getUsername())){
+                        if(user.getUserName().equalsIgnoreCase(authUser.getUsername())){
                             amplifyUser = user;
                         }
                     }
@@ -198,7 +198,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     public void giftsToDoListener(Gift gift) {
         String previousGiftOwner = gift.getPartyGoer();
 
-        if (!gLHashMap.get(currentTurn).getUser().getUserName().contains(Amplify.Auth.getCurrentUser().getUsername())) {
+        if (!gLHashMap.get(currentTurn).getUser().getUserName().equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
             Toast.makeText(this, "It is not your turn!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -213,7 +213,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                     ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                     response3 -> {
                         for (GuestList user : response3.getData().getUsers()) {
-                            if (user.getInvitedUser().contains(amplifyUser.getUserName())) {
+                            if (user.getInvitedUser().equalsIgnoreCase(amplifyUser.getUserName())) {
                                 user.takenTurn = true;
                                 Amplify.API.query(
                                         ModelMutation.update(user),
