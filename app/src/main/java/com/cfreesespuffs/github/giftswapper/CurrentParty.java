@@ -123,7 +123,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
         String SUBSCRIBETAG = "Amplify.subscription";
 
-        ApiOperation guestListSub = Amplify.API.subscribe(
+        ApiOperation guestListSub = Amplify.API.subscribe( // Todo: this might be awful code if more than one party is ongoing.
                 ModelSubscription.onUpdate(GuestList.class),
                 onEstablished -> Log.i(SUBSCRIBETAG, "Guestlist Sub established."),
                 createdItem -> {
@@ -162,7 +162,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                 }
 
                                 Boolean allTaken = true;
-
                                 for (Gift gift : giftList) {
                                     if (gift.getPartyGoer().equals("TBD")) allTaken = false;
                                 }

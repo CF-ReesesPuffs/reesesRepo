@@ -35,17 +35,6 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invitation_list);
 
-
-//        handler = new Handler(Looper.getMainLooper(),
-//                new Handler.Callback() {
-//                    @Override
-//                    public boolean handleMessage(@NonNull Message msg) {
-//                        connectAdapterToRecycler();
-//                        recyclerView.getAdapter().notifyDataSetChanged();
-//                        return false;
-//                    }
-//                });
-
         handleParties = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
                     @Override
@@ -100,7 +89,6 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
     @Override
     public void listener(Party party) {
         Intent intent = new Intent(InvitationList.this, InvitationDetails.class);
-//        intent.putExtra("host", party.get);
         intent.putExtra("partyName", party.getTitle());
         intent.putExtra("when", party.getHostedOn());
         intent.putExtra("setTime", party.getHostedAt());
