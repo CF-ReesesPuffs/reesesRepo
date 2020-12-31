@@ -45,6 +45,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     RecyclerView recyclerView;
     Handler handler;
     Handler handleSingleItem;
+    ApiOperation subscription;
     ArrayList<GuestList> guestList = new ArrayList<>();
     MenuItem partyDeleter;
     String partyId;
@@ -73,23 +74,18 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         Menu menu = navigationView.getMenu(); // https://stackoverflow.com/questions/31265530/how-can-i-get-menu-item-in-navigationview because every method of drawing on the screen, means there are that many ways to have to target. I am really interested knowing why targeting the same menu requires at least 3 different methods depending.
         partyDeleter = menu.findItem(R.id.partyDeleteMenuItem);
 
-        handler = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message msg) {
-                        connectAdapterToRecycler();
-                        recyclerView.getAdapter().notifyDataSetChanged();
-                        return false;
-                    }
-                });
-
         handleSingleItem = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
                     @Override
                     public boolean handleMessage(@NonNull Message msg) {
                         System.out.println("This is the msg arg: " + msg.arg1);
 
-                        if (msg.arg1 == 1) Log.i("Amplify", "It worked!");
+                        if (msg.arg1 == 1) {
+                            connectAdapterToRecycler();
+                            recyclerView.getAdapter().notifyDataSetChanged();
+                            Log.i("Amplify", "It worked!");
+                        }
+
                         if (msg.arg1 == 2) partyDeleter.setVisible(true);
 
                         recyclerView.getAdapter().notifyItemInserted(guestList.size());
@@ -118,7 +114,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                             response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
                             error -> Log.e("Amplify.turnOrder", "Error: " + error)
                     );
-
                 }
             }
 
@@ -141,6 +136,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
         Button homeButton = findViewById(R.id.customHomeButton);
         homeButton.setOnClickListener((view) -> {
+            subscription.cancel(); // not functioning as expected (aka not working at all).
             Log.i("Activity.homeButton", "It was clicked.");
             Intent intent1 = new Intent(this, MainActivity.class);
             startActivity(intent1);
@@ -174,7 +170,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 error -> Log.e("Amplify", "Failed to retrieve store")
         );
 
-        ApiOperation subscription = Amplify.API.subscribe( // TODO: how to focus/narrow subscription so it doesn't get the firehose of ALL EVERYTHING ALWAYS BEING CHANGED.
+        subscription = Amplify.API.subscribe( // TODO: how to focus/narrow subscription so it doesn't get the firehose of ALL EVERYTHING ALWAYS BEING CHANGED.
                 ModelSubscription.onUpdate(GuestList.class),
                 onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
                 newGuests -> {
@@ -183,12 +179,19 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                     Amplify.API.query(
                             ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                             response -> {
+
                                 guestList.clear();
-                                for (GuestList user : response.getData().getUsers()) {
-                                    Log.i("Amplify.test", "stuff to test " + user);
-                                    guestList.add(user);
+
+                                if (response.getData().getUsers() != null) {
+                                    for (GuestList user : response.getData().getUsers()) {
+                                        Log.i("Amplify.test", "Within the Subscription: " + user);
+                                        guestList.add(user);
+                                    }
                                 }
-                                handleSingleItem.sendEmptyMessage(1);
+
+                                Message message = new Message();
+                                message.arg1 = 1;
+                                handleSingleItem.sendMessage(message);
                             },
                             error -> Log.e("Amplify", "Failed to retrieve store")
                     );
@@ -196,6 +199,8 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 error -> Log.e("Amp.Sub.Fail", "Failure: " + error),
                 () -> Log.i("Amp.Subscribe.details", "Subscription Complete.")
         );
+
+        subscription.start();
 
         Amplify.API.query(
                 ModelQuery.get(Party.class, partyId),
@@ -212,7 +217,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 },
                 error -> Log.e("Amp.Partyhere", "Error down: " + error)
         );
-
     }
 
     private void connectAdapterToRecycler() {
@@ -306,10 +310,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                                 }
                             },
                             error -> Log.e("Amp.del.user", "Failure: " + error));
-
                 },
                 error -> Log.e("Amp.del.party", "FAIL: " + error));
     }
-
-    ;
 }
