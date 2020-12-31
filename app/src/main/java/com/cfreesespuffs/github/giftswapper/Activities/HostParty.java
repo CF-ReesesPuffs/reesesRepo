@@ -13,7 +13,9 @@ import android.os.Looper;
 import android.os.Message;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -94,6 +96,8 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         Button findGuestButton = findViewById(R.id.findGuest_button);
         findGuestButton.setOnClickListener((view) -> {
 
+            //        https://stackoverflow.com/questions/9596010/android-use-done-button-on-keyboard-to-click-button
+
             Amplify.API.query(
                     ModelQuery.list(User.class),
                     response -> {
@@ -105,12 +109,44 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                                     uniqueGuestList.put(user.getUserName(), user);
                                     guestList.add(user);
                                 }
+                                System.out.println("guestList Update from button");
+                                handler.sendEmptyMessage(1);
                             }
                         }
                     },
                     error -> Log.e("Amplify", "failed to find user")
             );
 
+        });
+
+        TextView foundGuest = findViewById(R.id.userFindGuestSearch);
+        foundGuest.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    Log.e("Android.KeyPress", "ENTER/DONE been HIT");
+
+                    Amplify.API.query(
+                            ModelQuery.list(User.class),
+                            response -> {
+                                for (User user : response.getData()) {
+                                    TextView foundGuest = findViewById(R.id.userFindGuestSearch);
+                                    String foundGuestString = foundGuest.getText().toString();
+                                    if (user.getUserName().toLowerCase().contains(foundGuestString.toLowerCase())) {
+                                        if (!uniqueGuestList.containsKey(user.getUserName())) {
+                                            uniqueGuestList.put(user.getUserName(), user);
+                                            guestList.add(user);
+                                        }
+                                    }
+                                    System.out.println("guestList Update from keyboard");
+                                    handler.sendEmptyMessage(1);
+                                }
+                            },
+                            error -> Log.e("Amplify", "failed to find user")
+                    );
+                }
+                return false; // false hides keyboard. true leaves it up.
+            }
         });
 
         recyclerView = findViewById(R.id.guestSearchRecycler);

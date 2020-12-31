@@ -173,6 +173,7 @@
         android:elegantTextHeight="true"
         android:ems="10"
         android:inputType="textPersonName"
+        android:imeOptions="actionDone"
         app:layout_constraintEnd_toStartOf="@+id/findGuest_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
