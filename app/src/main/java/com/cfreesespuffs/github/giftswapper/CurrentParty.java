@@ -133,9 +133,9 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                         if (!gLHashMap.get(i).getTakenTurn()) {
                             currentTurn = i;
                             if (gLHashMap.get(i).getUser().getUserName().equalsIgnoreCase(amplifyUser.getUserName())) { // Todo: check that this works.
-                                Message turnAlertmsg = new Message();
-                                turnAlertmsg.arg1 = 1;
-                                handlerGeneral.sendMessage(turnAlertmsg);
+                                Message turnAlertMsg = new Message();
+                                turnAlertMsg.arg1 = 1;
+                                handlerGeneral.sendMessage(turnAlertMsg);
                             }
                             break;
                         }
