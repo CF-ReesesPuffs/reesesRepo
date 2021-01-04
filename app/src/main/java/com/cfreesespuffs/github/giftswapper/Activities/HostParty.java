@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -113,6 +114,10 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                                 handler.sendEmptyMessage(1);
                             }
                         }
+
+                        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(),0);
+
                     },
                     error -> Log.e("Amplify", "failed to find user")
             );

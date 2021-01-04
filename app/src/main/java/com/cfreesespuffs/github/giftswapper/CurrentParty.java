@@ -86,6 +86,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 });
 
         handlerGeneral = new Handler(Looper.getMainLooper(), message -> { // Todo: confirm working.
+            Log.e ("Amp.TurnNotice", "Hit the turnNotice");
             if (message.arg1 == 1) {
                 Toast.makeText(this, "It is your turn, pick a gift!", Toast.LENGTH_LONG).show();
             }

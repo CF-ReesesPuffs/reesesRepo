@@ -123,6 +123,8 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 e.printStackTrace();
             }
 
+            subscription.cancel();
+
             Intent intent2 = new Intent(PendingPage.this, CurrentParty.class);
             intent2.putExtra("id", partyId);
             intent2.putExtra("thisPartyId", intent.getExtras().getString("title"));
@@ -182,7 +184,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
                                 guestList.clear();
 
-                                if (response.getData().getUsers() != null) {
+                                if (response.getData() != null) { // subscriptions can return a completely empty/null response. ???
                                     for (GuestList user : response.getData().getUsers()) {
                                         Log.i("Amplify.test", "Within the Subscription: " + user);
                                         guestList.add(user);
@@ -304,6 +306,8 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
+
+                                    subscription.cancel();
 
                                     Intent intent = new Intent(this, MainActivity.class);
                                     startActivity(intent);
