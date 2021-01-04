@@ -47,34 +47,20 @@
         app:layout_constraintTop_toBottomOf="@+id/guestSearchRecycler"
         app:layout_constraintVertical_bias="0.0" />
 
+    <!--    https://androiddvlpr.com/custom-spinner-android/ to customize spinner further -->
+
     <EditText
         android:id="@+id/editTextDate"
-        android:layout_width="120dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="260dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/et_style"
         android:elegantTextHeight="true"
         android:ems="10"
         android:inputType="date"
-        app:layout_constraintEnd_toStartOf="@+id/editTextTime"
-        app:layout_constraintHorizontal_bias="0.551"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
-
-    <EditText
-        android:id="@+id/editTextTime"
-        android:layout_width="120dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="44dp"
-        android:background="@drawable/et_style"
-        android:elegantTextHeight="true"
-        android:ems="10"
-        android:inputType="time"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
-
-    <!--    https://androiddvlpr.com/custom-spinner-android/ to customize spinner further -->
 
     <Spinner
         android:id="@+id/price_spinner"
@@ -144,25 +130,12 @@
         android:layout_width="46dp"
         android:layout_height="20dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="116dp"
         android:fontFamily="@font/autour_one"
         android:text="Date"
         android:textColor="#000000"
-        app:layout_constraintEnd_toStartOf="@+id/textView15"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPartyName" />
-
-    <TextView
-        android:id="@+id/textView15"
-        android:layout_width="56dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="112dp"
-        android:fontFamily="@font/autour_one"
-        android:text="Time"
-        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.371"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewPartyName" />
 
     <EditText
@@ -200,4 +173,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/price_spinner"
         app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/dateSelect"
+        android:layout_width="88dp"
+        android:layout_height="59dp"
+        android:text="selectDate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.029"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.155" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--        android:onClick="showDatePickerDialog"-->
