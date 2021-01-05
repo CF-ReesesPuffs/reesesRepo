@@ -1,11 +1,13 @@
 package com.cfreesespuffs.github.giftswapper;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,12 +17,19 @@ import android.util.Log;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.auth.AuthUser;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.Adapters.PartyAdapter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class InvitationList extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener {
 
@@ -86,9 +95,25 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
         recyclerView.setAdapter(new PartyAdapter(parties, this));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void listener(Party party) {
         Intent intent = new Intent(InvitationList.this, InvitationDetails.class);
+
+        Date partyToFormat = java.util.Date.from(Instant.parse(party.getPartyDate()));
+        System.out.println("*************party format************** " + partyToFormat.toString());
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+       // format.setTimeZone(TimeZone.getTimeZone(Calendar.getInstance().getTimeZone().getDisplayName()));
+        format.setTimeZone(TimeZone.getTimeZone("PST"));
+
+        String testDateString = format.format(partyToFormat);
+//        Date inptdate = null;
+//        try {
+//            inptdate = format.parse(inpt);
+//        } catch (ParseException e) {e.printStackTrace();}
+        System.out.println("********Input date********* " + testDateString);
+
         intent.putExtra("partyName", party.getTitle());
         intent.putExtra("when", party.getHostedOn());
         intent.putExtra("setTime", party.getHostedAt());

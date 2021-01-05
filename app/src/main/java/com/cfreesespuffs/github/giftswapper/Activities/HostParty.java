@@ -236,7 +236,8 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                //David's find https://github.com/aws-amplify/amplify-android/issues/590
 
                 Date dateFormat = date.getTime(); // https://www.candidjava.com/tutorial/java-program-to-convert-calendar-to-date-and-date-to-calendar/#:~:text=Calendar%20object%20to%20Date%20object%2C%20Using%20Calendar.getInstance%20%28%29,object%20to%20Calendar%20object%2C%20Date%20d%3Dnew%20Date%20%281515660075000l%29%3B
-               // Instant dateInstant = dateFormat.toInstant();
+
+                // Instant dateInstant = dateFormat.toInstant();
               //  Temporal.Date awsDate = DateFormat. dateFormat;
 
                 SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm a");
@@ -249,6 +250,9 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
                 sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
                 String text = sdf.format(dateFormat);
+
+//                String dateString = partyDate.toString();
+//                dateString = dateString.substring(0, dateString.indexOf("T"));
 
                 Party party;
                 party = Party.builder()
