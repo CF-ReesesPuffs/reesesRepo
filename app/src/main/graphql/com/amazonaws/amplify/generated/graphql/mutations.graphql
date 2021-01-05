@@ -13,9 +13,12 @@ mutation CreateUser(
         title
         hostedOn
         hostedAt
+        partyDateAWS
+        partyDate
         price
         isReady
         isFinished
+        stealLimit
         theHost {
           id
           userName
@@ -54,9 +57,12 @@ mutation CreateUser(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -85,9 +91,12 @@ mutation CreateUser(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -114,9 +123,12 @@ mutation UpdateUser(
         title
         hostedOn
         hostedAt
+        partyDateAWS
+        partyDate
         price
         isReady
         isFinished
+        stealLimit
         theHost {
           id
           userName
@@ -155,9 +167,12 @@ mutation UpdateUser(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -186,9 +201,12 @@ mutation UpdateUser(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -215,9 +233,12 @@ mutation DeleteUser(
         title
         hostedOn
         hostedAt
+        partyDateAWS
+        partyDate
         price
         isReady
         isFinished
+        stealLimit
         theHost {
           id
           userName
@@ -256,9 +277,12 @@ mutation DeleteUser(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -287,9 +311,12 @@ mutation DeleteUser(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -323,9 +350,12 @@ mutation CreateGuestList(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -365,9 +395,12 @@ mutation CreateGuestList(
       title
       hostedOn
       hostedAt
+      partyDateAWS
+      partyDate
       price
       isReady
       isFinished
+      stealLimit
       theHost {
         id
         userName
@@ -438,9 +471,12 @@ mutation UpdateGuestList(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -480,9 +516,12 @@ mutation UpdateGuestList(
       title
       hostedOn
       hostedAt
+      partyDateAWS
+      partyDate
       price
       isReady
       isFinished
+      stealLimit
       theHost {
         id
         userName
@@ -553,9 +592,12 @@ mutation DeleteGuestList(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -595,9 +637,12 @@ mutation DeleteGuestList(
       title
       hostedOn
       hostedAt
+      partyDateAWS
+      partyDate
       price
       isReady
       isFinished
+      stealLimit
       theHost {
         id
         userName
@@ -668,9 +713,12 @@ mutation CreateGift(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -710,9 +758,12 @@ mutation CreateGift(
       title
       hostedOn
       hostedAt
+      partyDateAWS
+      partyDate
       price
       isReady
       isFinished
+      stealLimit
       theHost {
         id
         userName
@@ -783,9 +834,12 @@ mutation UpdateGift(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -825,9 +879,12 @@ mutation UpdateGift(
       title
       hostedOn
       hostedAt
+      partyDateAWS
+      partyDate
       price
       isReady
       isFinished
+      stealLimit
       theHost {
         id
         userName
@@ -898,9 +955,12 @@ mutation DeleteGift(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -940,9 +1000,12 @@ mutation DeleteGift(
       title
       hostedOn
       hostedAt
+      partyDateAWS
+      partyDate
       price
       isReady
       isFinished
+      stealLimit
       theHost {
         id
         userName
@@ -1001,9 +1064,12 @@ mutation CreateParty(
     title
     hostedOn
     hostedAt
+    partyDateAWS
+    partyDate
     price
     isReady
     isFinished
+    stealLimit
     theHost {
       id
       userName
@@ -1014,9 +1080,12 @@ mutation CreateParty(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -1071,9 +1140,12 @@ mutation CreateParty(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -1102,9 +1174,12 @@ mutation CreateParty(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -1126,9 +1201,12 @@ mutation UpdateParty(
     title
     hostedOn
     hostedAt
+    partyDateAWS
+    partyDate
     price
     isReady
     isFinished
+    stealLimit
     theHost {
       id
       userName
@@ -1139,9 +1217,12 @@ mutation UpdateParty(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -1196,9 +1277,12 @@ mutation UpdateParty(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -1227,9 +1311,12 @@ mutation UpdateParty(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -1251,9 +1338,12 @@ mutation DeleteParty(
     title
     hostedOn
     hostedAt
+    partyDateAWS
+    partyDate
     price
     isReady
     isFinished
+    stealLimit
     theHost {
       id
       userName
@@ -1264,9 +1354,12 @@ mutation DeleteParty(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -1321,9 +1414,12 @@ mutation DeleteParty(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -1352,9 +1448,12 @@ mutation DeleteParty(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }

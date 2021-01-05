@@ -35,6 +35,7 @@ import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.auth.AuthUser;
 import com.amplifyframework.core.Amplify;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.datastore.generated.model.GuestList;
 
 import com.amplifyframework.datastore.generated.model.Party;
@@ -44,7 +45,9 @@ import com.cfreesespuffs.github.giftswapper.Adapters.HostPartyAdapter;
 import com.cfreesespuffs.github.giftswapper.PendingPage;
 import com.cfreesespuffs.github.giftswapper.R;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -151,14 +154,11 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                                 handler.sendEmptyMessage(1);
                             }
                         }
-
                         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                         inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
-
                     },
                     error -> Log.e("Amplify", "failed to find user")
             );
-
         });
 
         TextView foundGuest = findViewById(R.id.userFindGuestSearch);
@@ -233,7 +233,12 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
               //  String timeOfParty = partyTime.getText().toString();
                 String priceOfParty = selectedPriceSpinner.getSelectedItem().toString();
 
+               //David's find https://github.com/aws-amplify/amplify-android/issues/590
+
                 Date dateFormat = date.getTime(); // https://www.candidjava.com/tutorial/java-program-to-convert-calendar-to-date-and-date-to-calendar/#:~:text=Calendar%20object%20to%20Date%20object%2C%20Using%20Calendar.getInstance%20%28%29,object%20to%20Calendar%20object%2C%20Date%20d%3Dnew%20Date%20%281515660075000l%29%3B
+
+                // Instant dateInstant = dateFormat.toInstant();
+              //  Temporal.Date awsDate = DateFormat. dateFormat;
 
                 SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm a");
                 String prettyTime = formatTime.format(dateFormat);
@@ -241,11 +246,20 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 SimpleDateFormat formatDate = new SimpleDateFormat("MMMM dd, yyyy");
                 String prettyDate = formatDate.format(dateFormat);
 
+                SimpleDateFormat sdf;
+                sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+                sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+                String text = sdf.format(dateFormat);
+
+//                String dateString = partyDate.toString();
+//                dateString = dateString.substring(0, dateString.indexOf("T"));
+
                 Party party;
                 party = Party.builder()
                         .title(nameOfParty)
                         .hostedAt(prettyTime)
                         .hostedOn(prettyDate)
+                        .partyDate(text)
                         .price(priceOfParty)
                         .theHost(currentUser)
                         .isReady(false)

@@ -105,7 +105,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
             int counter = 1;
 
             for (int i = 0; i < guestList.size(); i++) {
-                if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).turnOrder == 0) {
+                if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).getTurnOrder() == 0) {
                     guestList.get(i).turnOrder = counter;
                     counter++;
 
