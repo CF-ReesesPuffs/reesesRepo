@@ -229,15 +229,23 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 }
 
                 String nameOfParty = partyName.getText().toString();
-                String dateOfParty = partyDate.getText().toString();
-                String timeOfParty = partyTime.getText().toString();
+               // String dateOfParty = partyDate.getText().toString();
+              //  String timeOfParty = partyTime.getText().toString();
                 String priceOfParty = selectedPriceSpinner.getSelectedItem().toString();
+
+                Date dateFormat = date.getTime(); // https://www.candidjava.com/tutorial/java-program-to-convert-calendar-to-date-and-date-to-calendar/#:~:text=Calendar%20object%20to%20Date%20object%2C%20Using%20Calendar.getInstance%20%28%29,object%20to%20Calendar%20object%2C%20Date%20d%3Dnew%20Date%20%281515660075000l%29%3B
+
+                SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm a");
+                String prettyTime = formatTime.format(dateFormat);
+
+                SimpleDateFormat formatDate = new SimpleDateFormat("MMMM dd, yyyy");
+                String prettyDate = formatDate.format(dateFormat);
 
                 Party party;
                 party = Party.builder()
                         .title(nameOfParty)
-                        .hostedAt(timeOfParty) //TODO: Fix this with format of Date change
-                        .hostedOn(dateOfParty) //TODO: Fix this because of new date field
+                        .hostedAt(prettyTime)
+                        .hostedOn(prettyDate)
                         .price(priceOfParty)
                         .theHost(currentUser)
                         .isReady(false)
