@@ -66,8 +66,8 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         Amplify.API.query(
                 ModelQuery.list(User.class),
                 response -> {
-                    for(User user : response.getData()) {
-                        if(user.getUserName().equalsIgnoreCase(authUser.getUsername())){
+                    for (User user : response.getData()) {
+                        if (user.getUserName().equalsIgnoreCase(authUser.getUsername())) {
                             currentUser = user;
                             System.out.println("This is our current user/host" + currentUser);
                         }
@@ -96,7 +96,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
         Button findGuestButton = findViewById(R.id.findGuest_button);
         findGuestButton.setOnClickListener((view) -> {
-//        https://stackoverflow.com/questions/9596010/android-use-done-button-on-keyboard-to-click-button
 
             Amplify.API.query(
                     ModelQuery.list(User.class),
@@ -114,8 +113,8 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                             }
                         }
 
-                        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-                        inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(),0);
+                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE); // https://stackoverflow.com/questions/9596010/android-use-done-button-on-keyboard-to-click-button
+                        inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
 
                     },
                     error -> Log.e("Amplify", "failed to find user")
@@ -166,6 +165,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 TextView partyDate = findViewById(R.id.editTextDate);
                 TextView partyTime = findViewById(R.id.editTextTime);
                 Spinner selectedPriceSpinner = findViewById(R.id.price_spinner);
+                Spinner stealNumber = findViewById(R.id.stealLimit_spinner);
                 Log.i("Android.usersToAdd", ((HostPartyAdapter) recyclerView.getAdapter()).usersToAdd.toString());
 
                 Set guestsToInvite = ((HostPartyAdapter) recyclerView.getAdapter()).usersToAdd;
@@ -177,10 +177,10 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 System.out.println(guestsToInviteList.toString());
 
                 boolean flag = false;
-                for(User guest : guestsToInviteList){
-                    if(guest.getUserName().equalsIgnoreCase(authUser.getUsername())) flag = true;
+                for (User guest : guestsToInviteList) {
+                    if (guest.getUserName().equalsIgnoreCase(authUser.getUsername())) flag = true;
                 }
-                if(!flag) guestsToInviteList.add(currentUser);
+                if (!flag) guestsToInviteList.add(currentUser);
 
                 if (guestsToInviteList.size() < 2) { // party can't be created with only one participant (only the host, really)
                     Message noGuestsMsg = new Message();
@@ -194,6 +194,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 String dateOfParty = partyDate.getText().toString();
                 String timeOfParty = partyTime.getText().toString();
                 String priceOfParty = selectedPriceSpinner.getSelectedItem().toString();
+//                Integer numberToSteal = (Integer) stealNumber.getSelectedItem(); // TODO: unknown if this will work, esp the (cast).
 
                 Party party;
                 party = Party.builder()
@@ -202,6 +203,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                         .hostedOn(dateOfParty)
                         .price(priceOfParty)
                         .theHost(currentUser)
+//                        .stealLimit(numberToSteal)
                         .isReady(false)
                         .isFinished(false)
                         .build();
@@ -212,31 +214,31 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                             Log.i("Amplify.API", "success party started");
                             Party party2 = response.getData();
 
-                for(User guest : guestsToInviteList){
-                    GuestList inviteStatus = GuestList.builder()
-                            .inviteStatus("Pending")
-                            .user(guest)
-                            .invitee(currentUser.getUserName())
-                            .invitedUser(guest.getUserName())
-                            .takenTurn(false)
-                            .party(party2)
-                            .turnOrder(0)
-                            .build();
+                            for (User guest : guestsToInviteList) {
+                                GuestList inviteStatus = GuestList.builder()
+                                        .inviteStatus("Pending")
+                                        .user(guest)
+                                        .invitee(currentUser.getUserName())
+                                        .invitedUser(guest.getUserName())
+                                        .takenTurn(false)
+                                        .party(party2)
+                                        .turnOrder(0)
+                                        .build();
 
-                    Amplify.API.mutate(
-                            ModelMutation.create(inviteStatus),
-                            response2 -> Log.i("Amplify.API", "Users are now pending!!!"),
-                            error -> Log.e("Amplify/API", "Message failed " + error)
-                    );
-                }
+                                Amplify.API.mutate(
+                                        ModelMutation.create(inviteStatus),
+                                        response2 -> Log.i("Amplify.API", "Users are now pending!!!"),
+                                        error -> Log.e("Amplify/API", "Message failed " + error)
+                                );
+                            }
 
-                Intent intent = new Intent(HostParty.this, MainActivity.class);
-                intent.putExtra("title", party2.getTitle());
-                intent.putExtra("date", party2.getHostedOn());
-                intent.putExtra("time", party2.getHostedAt());
-                intent.putExtra("price", party2.getPrice());
-                intent.putExtra("id", party2.getId());
-                HostParty.this.startActivity(intent);
+                            Intent intent = new Intent(HostParty.this, MainActivity.class);
+                            intent.putExtra("title", party2.getTitle());
+                            intent.putExtra("date", party2.getHostedOn());
+                            intent.putExtra("time", party2.getHostedAt());
+                            intent.putExtra("price", party2.getPrice());
+                            intent.putExtra("id", party2.getId());
+                            HostParty.this.startActivity(intent);
                         },
                         error -> Log.e("Amplify/API", "Message failed " + error)
                 );
@@ -259,7 +261,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
-
 
     @Override
     public void listener(User user) { }

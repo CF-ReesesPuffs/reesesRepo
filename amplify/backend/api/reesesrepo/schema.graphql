@@ -37,6 +37,7 @@ type Party @model {
   price: String
   isReady: Boolean
   isFinished: Boolean
+#  stealLimit: Int
   theHost: User @connection(name: "hostList")
   users: [GuestList] @connection(name: "ConParty")
   gifts: [Gift] @connection(name: "PartyGifts")
