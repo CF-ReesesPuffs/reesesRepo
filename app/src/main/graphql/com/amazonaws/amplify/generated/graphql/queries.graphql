@@ -10,9 +10,12 @@ query GetUser($id: ID!) {
         title
         hostedOn
         hostedAt
+        partyDateAWS
+        partyDate
         price
         isReady
         isFinished
+        stealLimit
         theHost {
           id
           userName
@@ -51,9 +54,12 @@ query GetUser($id: ID!) {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -82,9 +88,12 @@ query GetUser($id: ID!) {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -113,9 +122,12 @@ query ListUsers(
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -171,9 +183,12 @@ query GetGuestList($id: ID!) {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -213,9 +228,12 @@ query GetGuestList($id: ID!) {
       title
       hostedOn
       hostedAt
+      partyDateAWS
+      partyDate
       price
       isReady
       isFinished
+      stealLimit
       theHost {
         id
         userName
@@ -299,9 +317,12 @@ query ListGuestLists(
         title
         hostedOn
         hostedAt
+        partyDateAWS
+        partyDate
         price
         isReady
         isFinished
+        stealLimit
         theHost {
           id
           userName
@@ -342,9 +363,12 @@ query GetGift($id: ID!) {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -384,9 +408,12 @@ query GetGift($id: ID!) {
       title
       hostedOn
       hostedAt
+      partyDateAWS
+      partyDate
       price
       isReady
       isFinished
+      stealLimit
       theHost {
         id
         userName
@@ -470,9 +497,12 @@ query ListGifts(
         title
         hostedOn
         hostedAt
+        partyDateAWS
+        partyDate
         price
         isReady
         isFinished
+        stealLimit
         theHost {
           id
           userName
@@ -501,9 +531,12 @@ query GetParty($id: ID!) {
     title
     hostedOn
     hostedAt
+    partyDateAWS
+    partyDate
     price
     isReady
     isFinished
+    stealLimit
     theHost {
       id
       userName
@@ -514,9 +547,12 @@ query GetParty($id: ID!) {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -571,9 +607,12 @@ query GetParty($id: ID!) {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -602,9 +641,12 @@ query GetParty($id: ID!) {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -628,9 +670,12 @@ query ListPartys(
       title
       hostedOn
       hostedAt
+      partyDateAWS
+      partyDate
       price
       isReady
       isFinished
+      stealLimit
       theHost {
         id
         userName

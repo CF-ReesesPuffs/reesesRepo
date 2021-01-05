@@ -1,5 +1,6 @@
 package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.core.model.annotations.BelongsTo;
 import com.amplifyframework.core.model.annotations.HasMany;
 
@@ -25,17 +26,23 @@ public final class Party implements Model {
   public static final QueryField TITLE = field("title");
   public static final QueryField HOSTED_ON = field("hostedOn");
   public static final QueryField HOSTED_AT = field("hostedAt");
+  public static final QueryField PARTY_DATE_AWS = field("partyDateAWS");
+  public static final QueryField PARTY_DATE = field("partyDate");
   public static final QueryField PRICE = field("price");
   public static final QueryField IS_READY = field("isReady");
   public static final QueryField IS_FINISHED = field("isFinished");
+  public static final QueryField STEAL_LIMIT = field("stealLimit");
   public static final QueryField THE_HOST = field("partyTheHostId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String title;
   private final @ModelField(targetType="String") String hostedOn;
   private final @ModelField(targetType="String") String hostedAt;
+  private final @ModelField(targetType="AWSDate") Temporal.Date partyDateAWS;
+  private final @ModelField(targetType="String") String partyDate;
   private final @ModelField(targetType="String") String price;
   private final @ModelField(targetType="Boolean") Boolean isReady;
-  public @ModelField(targetType="Boolean") Boolean isFinished;
+  public  @ModelField(targetType="Boolean") Boolean isFinished;
+  private final @ModelField(targetType="Int") Integer stealLimit;
   private final @ModelField(targetType="User") @BelongsTo(targetName = "partyTheHostId", type = User.class) User theHost;
   private final @ModelField(targetType="GuestList") @HasMany(associatedWith = "party", type = GuestList.class) List<GuestList> users = null;
   private final @ModelField(targetType="Gift") @HasMany(associatedWith = "party", type = Gift.class) List<Gift> gifts = null;
@@ -55,6 +62,14 @@ public final class Party implements Model {
       return hostedAt;
   }
   
+  public Temporal.Date getPartyDateAws() {
+      return partyDateAWS;
+  }
+  
+  public String getPartyDate() {
+      return partyDate;
+  }
+  
   public String getPrice() {
       return price;
   }
@@ -65,6 +80,10 @@ public final class Party implements Model {
   
   public Boolean getIsFinished() {
       return isFinished;
+  }
+  
+  public Integer getStealLimit() {
+      return stealLimit;
   }
   
   public User getTheHost() {
@@ -79,14 +98,17 @@ public final class Party implements Model {
       return gifts;
   }
   
-  private Party(String id, String title, String hostedOn, String hostedAt, String price, Boolean isReady, Boolean isFinished, User theHost) {
+  private Party(String id, String title, String hostedOn, String hostedAt, Temporal.Date partyDateAWS, String partyDate, String price, Boolean isReady, Boolean isFinished, Integer stealLimit, User theHost) {
     this.id = id;
     this.title = title;
     this.hostedOn = hostedOn;
     this.hostedAt = hostedAt;
+    this.partyDateAWS = partyDateAWS;
+    this.partyDate = partyDate;
     this.price = price;
     this.isReady = isReady;
     this.isFinished = isFinished;
+    this.stealLimit = stealLimit;
     this.theHost = theHost;
   }
   
@@ -102,9 +124,12 @@ public final class Party implements Model {
               ObjectsCompat.equals(getTitle(), party.getTitle()) &&
               ObjectsCompat.equals(getHostedOn(), party.getHostedOn()) &&
               ObjectsCompat.equals(getHostedAt(), party.getHostedAt()) &&
+              ObjectsCompat.equals(getPartyDateAws(), party.getPartyDateAws()) &&
+              ObjectsCompat.equals(getPartyDate(), party.getPartyDate()) &&
               ObjectsCompat.equals(getPrice(), party.getPrice()) &&
               ObjectsCompat.equals(getIsReady(), party.getIsReady()) &&
               ObjectsCompat.equals(getIsFinished(), party.getIsFinished()) &&
+              ObjectsCompat.equals(getStealLimit(), party.getStealLimit()) &&
               ObjectsCompat.equals(getTheHost(), party.getTheHost());
       }
   }
@@ -116,9 +141,12 @@ public final class Party implements Model {
       .append(getTitle())
       .append(getHostedOn())
       .append(getHostedAt())
+      .append(getPartyDateAws())
+      .append(getPartyDate())
       .append(getPrice())
       .append(getIsReady())
       .append(getIsFinished())
+      .append(getStealLimit())
       .append(getTheHost())
       .toString()
       .hashCode();
@@ -132,9 +160,12 @@ public final class Party implements Model {
       .append("title=" + String.valueOf(getTitle()) + ", ")
       .append("hostedOn=" + String.valueOf(getHostedOn()) + ", ")
       .append("hostedAt=" + String.valueOf(getHostedAt()) + ", ")
+      .append("partyDateAWS=" + String.valueOf(getPartyDateAws()) + ", ")
+      .append("partyDate=" + String.valueOf(getPartyDate()) + ", ")
       .append("price=" + String.valueOf(getPrice()) + ", ")
       .append("isReady=" + String.valueOf(getIsReady()) + ", ")
       .append("isFinished=" + String.valueOf(getIsFinished()) + ", ")
+      .append("stealLimit=" + String.valueOf(getStealLimit()) + ", ")
       .append("theHost=" + String.valueOf(getTheHost()))
       .append("}")
       .toString();
@@ -171,6 +202,9 @@ public final class Party implements Model {
       null,
       null,
       null,
+      null,
+      null,
+      null,
       null
     );
   }
@@ -180,9 +214,12 @@ public final class Party implements Model {
       title,
       hostedOn,
       hostedAt,
+      partyDateAWS,
+      partyDate,
       price,
       isReady,
       isFinished,
+      stealLimit,
       theHost);
   }
   public interface TitleStep {
@@ -195,9 +232,12 @@ public final class Party implements Model {
     BuildStep id(String id) throws IllegalArgumentException;
     BuildStep hostedOn(String hostedOn);
     BuildStep hostedAt(String hostedAt);
+    BuildStep partyDateAws(Temporal.Date partyDateAws);
+    BuildStep partyDate(String partyDate);
     BuildStep price(String price);
     BuildStep isReady(Boolean isReady);
     BuildStep isFinished(Boolean isFinished);
+    BuildStep stealLimit(Integer stealLimit);
     BuildStep theHost(User theHost);
   }
   
@@ -207,9 +247,12 @@ public final class Party implements Model {
     private String title;
     private String hostedOn;
     private String hostedAt;
+    private Temporal.Date partyDateAWS;
+    private String partyDate;
     private String price;
     private Boolean isReady;
     private Boolean isFinished;
+    private Integer stealLimit;
     private User theHost;
     @Override
      public Party build() {
@@ -220,9 +263,12 @@ public final class Party implements Model {
           title,
           hostedOn,
           hostedAt,
+          partyDateAWS,
+          partyDate,
           price,
           isReady,
           isFinished,
+          stealLimit,
           theHost);
     }
     
@@ -246,6 +292,18 @@ public final class Party implements Model {
     }
     
     @Override
+     public BuildStep partyDateAws(Temporal.Date partyDateAws) {
+        this.partyDateAWS = partyDateAws;
+        return this;
+    }
+    
+    @Override
+     public BuildStep partyDate(String partyDate) {
+        this.partyDate = partyDate;
+        return this;
+    }
+    
+    @Override
      public BuildStep price(String price) {
         this.price = price;
         return this;
@@ -260,6 +318,12 @@ public final class Party implements Model {
     @Override
      public BuildStep isFinished(Boolean isFinished) {
         this.isFinished = isFinished;
+        return this;
+    }
+    
+    @Override
+     public BuildStep stealLimit(Integer stealLimit) {
+        this.stealLimit = stealLimit;
         return this;
     }
     
@@ -292,14 +356,17 @@ public final class Party implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, String hostedOn, String hostedAt, String price, Boolean isReady, Boolean isFinished, User theHost) {
+    private CopyOfBuilder(String id, String title, String hostedOn, String hostedAt, Temporal.Date partyDateAws, String partyDate, String price, Boolean isReady, Boolean isFinished, Integer stealLimit, User theHost) {
       super.id(id);
       super.title(title)
         .hostedOn(hostedOn)
         .hostedAt(hostedAt)
+        .partyDateAws(partyDateAws)
+        .partyDate(partyDate)
         .price(price)
         .isReady(isReady)
         .isFinished(isFinished)
+        .stealLimit(stealLimit)
         .theHost(theHost);
     }
     
@@ -319,6 +386,16 @@ public final class Party implements Model {
     }
     
     @Override
+     public CopyOfBuilder partyDateAws(Temporal.Date partyDateAws) {
+      return (CopyOfBuilder) super.partyDateAws(partyDateAws);
+    }
+    
+    @Override
+     public CopyOfBuilder partyDate(String partyDate) {
+      return (CopyOfBuilder) super.partyDate(partyDate);
+    }
+    
+    @Override
      public CopyOfBuilder price(String price) {
       return (CopyOfBuilder) super.price(price);
     }
@@ -331,6 +408,11 @@ public final class Party implements Model {
     @Override
      public CopyOfBuilder isFinished(Boolean isFinished) {
       return (CopyOfBuilder) super.isFinished(isFinished);
+    }
+    
+    @Override
+     public CopyOfBuilder stealLimit(Integer stealLimit) {
+      return (CopyOfBuilder) super.stealLimit(stealLimit);
     }
     
     @Override
