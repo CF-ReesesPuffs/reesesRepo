@@ -38,8 +38,8 @@ import com.cfreesespuffs.github.giftswapper.UserProfile;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener{
-    public ArrayList<Party> parties= new ArrayList<>();
+public class MainActivity extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener {
+    public ArrayList<Party> parties = new ArrayList<>();
     Handler handleCheckLoggedIn;
     Handler handleParties;
     RecyclerView partyRecyclerView;
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 }
             }
 
-            if (message.arg1 == 5 ) {
+            if (message.arg1 == 5) {
                 parties.clear();
                 partyRecyclerView.setVisibility(View.INVISIBLE); // VERY BLUNT. Effective, but blunt.
                 Toast.makeText(this, "You are now signed out", Toast.LENGTH_LONG).show();
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 new Handler.Callback() {
                     @Override
                     public boolean handleMessage(@NonNull Message msg) {
-                        if(msg.arg1 == 1){
+                        if (msg.arg1 == 1) {
                             Log.i("Amplify", "Parties are showing");
                         }
                         partyRecyclerView.getAdapter().notifyItemInserted(parties.size());
@@ -99,24 +99,23 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
         Log.i("Amplify.authUser", "This is the current user, " + Amplify.Auth.getCurrentUser());
         AuthUser authUser = Amplify.Auth.getCurrentUser();
-        if(Amplify.Auth.getCurrentUser() != null) {
+        if (Amplify.Auth.getCurrentUser() != null) {
             Amplify.API.query(
                     ModelQuery.list(User.class),
                     response -> {
                         Log.i("Amplify.currentUser", "This is the current user, " + authUser);
                         for (User user : response.getData()) {
-                            if (user.getUserName().equalsIgnoreCase(authUser.getUsername())){
+                            if (user.getUserName().equalsIgnoreCase(authUser.getUsername())) {
                                 currentUser = user;
                                 Amplify.API.query(
                                         ModelQuery.get(User.class, currentUser.getId()),
                                         response2 -> {
                                             for (GuestList party : response2.getData().getParties()) {
-                                                if(party.getInviteStatus().equals("Accepted")){
+                                                if (party.getInviteStatus().equals("Accepted")) {
                                                     parties.add(party.getParty());
 
                                                 }
                                                 Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
-
                                             }
                                             handleParties.sendEmptyMessage(1);
                                         },
@@ -132,42 +131,40 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         }
 //================= invites
         ImageButton notificationButton = MainActivity.this.findViewById(R.id.notification_button);
-        notificationButton.setOnClickListener((view)-> {
+        notificationButton.setOnClickListener((view) -> {
             Intent goToNotificationsIntent = new Intent(MainActivity.this, InvitationList.class);//Is this were we want to send them?
             MainActivity.this.startActivity(goToNotificationsIntent);
         });
 
 //================= sign up
-        ImageButton navButton= MainActivity.this.findViewById(R.id.nav_button);
-        navButton.setOnClickListener((view)-> {
+        ImageButton navButton = MainActivity.this.findViewById(R.id.nav_button);
+        navButton.setOnClickListener((view) -> {
             Intent goToNavIntent = new Intent(MainActivity.this, SignUp.class);//Maybe this shouldn't be a button, possibly a spinner?
             MainActivity.this.startActivity(goToNavIntent);
         });
 
-        Button hostPartyButton= MainActivity.this.findViewById(R.id.host_party_button);
-        hostPartyButton.setOnClickListener((view)-> {
+        Button hostPartyButton = MainActivity.this.findViewById(R.id.host_party_button);
+        hostPartyButton.setOnClickListener((view) -> {
             Intent goToHostPartyIntent = new Intent(MainActivity.this, HostParty.class);
             MainActivity.this.startActivity(goToHostPartyIntent);
         });
 
         loginButton = MainActivity.this.findViewById(R.id.login_button);
         if (Amplify.Auth.getCurrentUser() != null) loginButton.setVisibility(View.INVISIBLE);
-        loginButton.setOnClickListener((view)-> {
+        loginButton.setOnClickListener((view) -> {
             Intent goToLoginIntent = new Intent(MainActivity.this, Login.class);
             MainActivity.this.startActivity(goToLoginIntent);
         });
-
     }
 
 //=========== RecyclerView=======================
 
-    private void connectRecycler(){
+    private void connectRecycler() {
         partyRecyclerView = findViewById(R.id.party_recyclerview);
         partyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         partyRecyclerView.setAdapter(new PartyAdapter(parties, this));
     }
 
-// =======================================================================
 //========================================================= user -sign-in
     public boolean getIsSignedIn() {
         boolean[] isSignedIn = {false};
@@ -187,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         return isSignedIn[0];
     }
 
-//========================================================================== aws
+    //========================================================================== aws
     private void configureAws() {
         try {
             Amplify.addPlugin(new AWSApiPlugin());
@@ -202,16 +199,16 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     @Override
     public void listener(Party party) {
         Intent goToPartyDetailIntent = new Intent(MainActivity.this, PendingPage.class);//we don't have an activity for a single party do we? sent it to invited party for now
-        goToPartyDetailIntent.putExtra("title",party.getTitle());
-        goToPartyDetailIntent.putExtra("price",party.getPrice());
-        goToPartyDetailIntent.putExtra("id",party.getId());
-        goToPartyDetailIntent.putExtra("date",party.getHostedOn());
-        goToPartyDetailIntent.putExtra("time",party.getHostedAt());
+        goToPartyDetailIntent.putExtra("title", party.getTitle());
+        goToPartyDetailIntent.putExtra("price", party.getPrice());
+        goToPartyDetailIntent.putExtra("id", party.getId());
+        goToPartyDetailIntent.putExtra("date", party.getHostedOn());
+        goToPartyDetailIntent.putExtra("time", party.getHostedAt());
         this.startActivity(goToPartyDetailIntent);
     }
 
     @Override
-    public boolean onOptionsItemSelected (MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.setting_logout) {
             Amplify.Auth.signOut(
                     AuthSignOutOptions.builder().globalSignOut(true).build(),

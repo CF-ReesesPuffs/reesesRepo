@@ -71,6 +71,7 @@
         android:elegantTextHeight="true"
         android:ems="10"
         android:inputType="time"
+        android:nextFocusForward="@+id/price_spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
@@ -82,6 +83,9 @@
         android:layout_height="40dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/et_style"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:nextFocusForward="@+id/stealLimit_spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.24"
         app:layout_constraintStart_toStartOf="parent"
@@ -196,6 +200,8 @@
         android:layout_height="40dp"
         android:layout_marginEnd="44dp"
         android:background="@drawable/et_style"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         app:layout_constraintBottom_toBottomOf="@+id/price_spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/price_spinner"
