@@ -125,6 +125,30 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
             subscription.cancel();
 
+            if (counter == 2) {
+                AlertDialog.Builder twoPlayerSwapAlert = new AlertDialog.Builder(this);
+                twoPlayerSwapAlert.setCancelable(true)
+                        .setTitle("Two Party Giftswapping")
+                        .setMessage("There are only two participants. Would you like to automatically swap gifts?")
+                        .setPositiveButton("Yes",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+//                                        autoSwap(); // todo make autoSwap() function
+                                        Log.i("Counter.Two", "bumpBump");
+                                    }
+                                });
+                twoPlayerSwapAlert.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Todo: make a method to go to the party.
+                        Log.i("Counter.TwoCancel", "move to Party!");
+                    }
+                });
+                AlertDialog dialog = twoPlayerSwapAlert.create();
+                dialog.show();
+            }
+
             Intent intent2 = new Intent(PendingPage.this, CurrentParty.class);
             intent2.putExtra("id", partyId);
             intent2.putExtra("thisPartyId", intent.getExtras().getString("title"));
@@ -228,8 +252,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     }
 
     @Override
-    public void listener(GuestList guestList) {
-    }
+    public void listener(GuestList guestList) { }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
