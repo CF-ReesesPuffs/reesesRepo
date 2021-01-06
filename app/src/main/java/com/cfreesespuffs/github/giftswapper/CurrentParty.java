@@ -122,11 +122,11 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 error -> Log.e("Amplify", "Failed to retrieve store")
         );
 
-        String SUBSCRIBETAG = "Amplify.subscription";
+        String SUBSCRIBETAG = "Amplify.subscription"; // TODO: used a lot. swap to AmplifyTags?
 
         ApiOperation guestListSub = Amplify.API.subscribe( // Todo: this might be awful code if more than one party is ongoing.
                 ModelSubscription.onUpdate(GuestList.class),
-                onEstablished -> Log.i(SUBSCRIBETAG, "Guestlist Sub established."),
+                onEstablished -> Log.i(AmplifyTags.SUBSCRIBETAG, "Guestlist Sub established."),
                 createdItem -> {
                     GuestList updatedGl = createdItem.getData();
                     gLHashMap.replace(updatedGl.getTurnOrder(), updatedGl);

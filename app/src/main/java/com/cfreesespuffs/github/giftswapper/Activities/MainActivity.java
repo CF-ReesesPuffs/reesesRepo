@@ -29,6 +29,7 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
+import com.cfreesespuffs.github.giftswapper.AmplifyTags;
 import com.cfreesespuffs.github.giftswapper.InvitationDetails;
 import com.cfreesespuffs.github.giftswapper.Adapters.PartyAdapter;
 import com.cfreesespuffs.github.giftswapper.InvitationList;
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 1) {
                 if (Amplify.Auth.getCurrentUser() != null) {
-                    Log.i("Android.VersionTest", "=== 3 ===");
+                    Log.i("Android.VersionTest", "=== 1 ===");
                     Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
                 }
             }

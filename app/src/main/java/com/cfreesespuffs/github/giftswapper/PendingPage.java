@@ -43,14 +43,14 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
     RecyclerView recyclerView;
-    Handler handler;
-    Handler handleSingleItem;
+    Handler handler, handleSingleItem;
     ApiOperation subscription;
     ArrayList<GuestList> guestList = new ArrayList<>();
     ArrayList<GuestList> attendeesGuestList = new ArrayList<>();
     MenuItem partyDeleter;
     String partyId;
     Party pendingParty;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +95,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 });
 
         connectAdapterToRecycler();
-        Intent intent = getIntent();
+        intent = getIntent();
         partyId = intent.getExtras().getString("id");
 
         System.out.println(intent.getExtras().getString("title"));
@@ -127,7 +127,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
             subscription.cancel();
 
-            if (counter == 2) {
+            if (counter == 3) {
                 AlertDialog.Builder twoPlayerSwapAlert = new AlertDialog.Builder(this);
                 twoPlayerSwapAlert.setCancelable(true)
                         .setTitle("Two Party Giftswapping")
@@ -136,31 +136,26 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-//                                        autoSwap(); // todo make autoSwap() function
+                                        autoSwap(); // also goes to the PostParty activity, and set Party.isFinished() to true.
                                         Log.i("Counter.Two", "bumpBump");
                                     }
                                 });
-                twoPlayerSwapAlert.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                twoPlayerSwapAlert.setNegativeButton("Continue to Party", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // Todo: make a method to go to the party.
+                        goToParty();
                         Log.i("Counter.TwoCancel", "move to Party!");
                     }
                 });
                 AlertDialog dialog = twoPlayerSwapAlert.create();
                 dialog.show();
+            } else {
+                goToParty();
             }
-
-            Intent intent2 = new Intent(PendingPage.this, CurrentParty.class);
-            intent2.putExtra("id", partyId);
-            intent2.putExtra("thisPartyId", intent.getExtras().getString("title"));
-
-            PendingPage.this.startActivity(intent2);
         });
 
         TextView title = PendingPage.this.findViewById(R.id.partyName);
         title.setText(intent.getExtras().getString("title"));
-
 
         Button homeButton = findViewById(R.id.customHomeButton);
         homeButton.setOnClickListener((view) -> {
@@ -355,12 +350,32 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                             ModelMutation.update(gift),
                             response -> Log.i("Amp.2GSwapUpdate", "Gift swap Success"),
                             error -> Log.e("Amp.2GSwapUpdate", "Fail here")
+                            // could make it so that people took turns and mutate it into database
                     );
                 }
             }
         }
 
-        // Todo: Head to the end party page straightaway
+        pendingParty.isFinished = true;
 
+        Amplify.API.query(
+                ModelMutation.update(pendingParty),
+                response2 -> {
+                    Intent headToPostParty = new Intent(PendingPage.this, PostParty.class);
+                    headToPostParty.putExtra("title", pendingParty.getTitle());
+                    headToPostParty.putExtra("partyId", pendingParty.getId());
+                    startActivity(headToPostParty);
+                    Log.i("Mutation.thisParty", "Party: Complete!");
+                },
+                error -> Log.e("Mutation.thisParty", "Party mutate: FAIL")
+        );
+    }
+
+    public void goToParty(){
+        Intent intent2 = new Intent(PendingPage.this, CurrentParty.class);
+        intent2.putExtra("id", partyId);
+        intent2.putExtra("thisPartyId", intent.getExtras().getString("title"));
+
+        PendingPage.this.startActivity(intent2);
     }
 }
