@@ -47,6 +47,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     Handler handleSingleItem;
     ApiOperation subscription;
     ArrayList<GuestList> guestList = new ArrayList<>();
+    ArrayList<GuestList> attendeesGuestList = new ArrayList<>();
     MenuItem partyDeleter;
     String partyId;
     Party pendingParty;
@@ -107,6 +108,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
             for (int i = 0; i < guestList.size(); i++) {
                 if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).getTurnOrder() == 0) {
                     guestList.get(i).turnOrder = counter;
+                    attendeesGuestList.add(guestList.get(i));
                     counter++;
 
                     Amplify.API.mutate(
@@ -339,5 +341,26 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                             error -> Log.e("Amp.del.user", "Failure: " + error));
                 },
                 error -> Log.e("Amp.del.party", "FAIL: " + error));
+    }
+
+    public void autoSwap(){
+        for (Gift gift : pendingParty.getGifts()) {
+            for (GuestList attendee : attendeesGuestList) {
+                if (!gift.getPartyGoer().equalsIgnoreCase(attendee.getInvitedUser())) {
+                    Log.i("2GiftSwapping.pre", "gift first owned by: " + gift.partyGoer);
+                    gift.partyGoer = attendee.getInvitedUser();
+                    Log.i("2GiftSwapping.pre", "gift now owned by: " + gift.partyGoer);
+
+                    Amplify.API.mutate(
+                            ModelMutation.update(gift),
+                            response -> Log.i("Amp.2GSwapUpdate", "Gift swap Success"),
+                            error -> Log.e("Amp.2GSwapUpdate", "Fail here")
+                    );
+                }
+            }
+        }
+
+        // Todo: Head to the end party page straightaway
+
     }
 }
