@@ -52,24 +52,24 @@
     <EditText
         android:id="@+id/editTextDate"
         android:layout_width="260dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="116dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="12dp"
         android:background="@drawable/et_style"
         android:elegantTextHeight="true"
         android:ems="10"
         android:inputType="date"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.105"
+        app:layout_constraintStart_toEndOf="@+id/dateSelect"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
     <Spinner
         android:id="@+id/price_spinner"
         android:layout_width="120dp"
         android:layout_height="40dp"
-        android:layout_marginTop="4dp"
         android:background="@drawable/et_style"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.24"
+        app:layout_constraintHorizontal_bias="0.263"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stealLimitTV" />
 
@@ -77,7 +77,7 @@
         android:id="@+id/stealLimitTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/autour_one"
         android:text="Price Range"
         android:textColor="#000000"
@@ -90,12 +90,12 @@
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/autour_one"
         android:text="Steal Limit"
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.754"
+        app:layout_constraintHorizontal_bias="0.758"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
 
@@ -128,13 +128,13 @@
     <TextView
         android:id="@+id/textView12"
         android:layout_width="46dp"
-        android:layout_height="20dp"
+        android:layout_height="18dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/autour_one"
-        android:text="Date"
+        android:text="When"
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.371"
+        app:layout_constraintHorizontal_bias="0.334"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewPartyName" />
 
@@ -176,15 +176,14 @@
 
     <Button
         android:id="@+id/dateSelect"
-        android:layout_width="88dp"
-        android:layout_height="59dp"
-        android:text="selectDate"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.029"
+        android:layout_width="82dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="20dp"
+        android:text="date/time"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextDate"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.155" />
+        app:layout_constraintTop_toTopOf="@+id/editTextDate"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
