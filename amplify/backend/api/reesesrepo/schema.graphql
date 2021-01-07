@@ -34,9 +34,12 @@ type Party @model {
   title: String!
   hostedOn: String
   hostedAt: String
+  partyDateAWS: AWSDate
+  partyDate: String
   price: String
   isReady: Boolean
   isFinished: Boolean
+  stealLimit: Int
   theHost: User @connection(name: "hostList")
   users: [GuestList] @connection(name: "ConParty")
   gifts: [Gift] @connection(name: "PartyGifts")

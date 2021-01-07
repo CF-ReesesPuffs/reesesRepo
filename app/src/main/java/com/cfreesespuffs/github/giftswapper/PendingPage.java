@@ -36,6 +36,7 @@ import com.cfreesespuffs.github.giftswapper.Adapters.ViewAdapter;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskListener, NavigationView.OnNavigationItemSelectedListener {
 
@@ -47,9 +48,11 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     Handler handleSingleItem;
     ApiOperation subscription;
     ArrayList<GuestList> guestList = new ArrayList<>();
+    ArrayList<GuestList> attendeesGuestList = new ArrayList<>();
     MenuItem partyDeleter;
     String partyId;
     Party pendingParty;
+    int counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,12 +105,11 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         Button startParty = PendingPage.this.findViewById(R.id.start_party);
         startParty.setOnClickListener((view) -> {
 
-            int counter = 1;
-
             for (int i = 0; i < guestList.size(); i++) {
-                if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).turnOrder == 0) {
-                    guestList.get(i).turnOrder = counter;
+                if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).getTurnOrder() == 0) {
                     counter++;
+                    guestList.get(i).turnOrder = counter;
+                    attendeesGuestList.add(guestList.get(i));
 
                     Amplify.API.mutate(
                             ModelMutation.update(guestList.get(i)),
@@ -123,13 +125,32 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 e.printStackTrace();
             }
 
-            subscription.cancel();
+            if (counter == 2) {
+                AlertDialog.Builder twoPlayerSwapAlert = new AlertDialog.Builder(this);
+                twoPlayerSwapAlert.setCancelable(true)
+                        .setTitle("Two Party Giftswapping")
+                        .setMessage("There are only two participants. Would you like to automatically swap gifts?")
+                        .setPositiveButton("Yes",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        autoSwap(); // also goes to the PostParty activity, and set Party.isFinished() to true.
+                                        Log.i("Counter.Two", "bumpBump");
+                                    }
+                                });
+                twoPlayerSwapAlert.setNegativeButton("No", null);
+                AlertDialog dialog = twoPlayerSwapAlert.create();
+                dialog.show();
+            } else {
 
-            Intent intent2 = new Intent(PendingPage.this, CurrentParty.class);
-            intent2.putExtra("id", partyId);
-            intent2.putExtra("thisPartyId", intent.getExtras().getString("title"));
+                subscription.cancel();
 
-            PendingPage.this.startActivity(intent2);
+                Intent intent2 = new Intent(PendingPage.this, CurrentParty.class);
+                intent2.putExtra("id", partyId);
+                intent2.putExtra("thisPartyId", intent.getExtras().getString("title"));
+
+                PendingPage.this.startActivity(intent2);
+            }
         });
 
         TextView title = PendingPage.this.findViewById(R.id.partyName);
@@ -317,4 +338,40 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 },
                 error -> Log.e("Amp.del.party", "FAIL: " + error));
     }
+
+    public void autoSwap(){
+
+        List<Gift> giftList = pendingParty.getGifts();
+
+        User tempGiftUser = giftList.get(0).getUser();
+
+        giftList.get(0).partyGoer = giftList.get(1).getUser().getUserName();
+        giftList.get(0).user = giftList.get(1).getUser();
+        giftList.get(1).partyGoer = tempGiftUser.getUserName();
+        giftList.get(1).user = tempGiftUser;
+
+        for (Gift gift : giftList) {
+            Amplify.API.mutate(
+                    ModelMutation.update(gift),
+                    response -> Log.i("Amp.2GSwapUpdate", "Gift swap Success"),
+                    error -> Log.e("Amp.2GSwapUpdate", "Fail here")
+            );
+        }
+
+        pendingParty.isFinished = true;
+
+        Amplify.API.query(
+                ModelMutation.update(pendingParty),
+                response2 -> {
+                    subscription.cancel();
+                    Intent headToPostParty = new Intent(PendingPage.this, PostParty.class);
+                    headToPostParty.putExtra("title", pendingParty.getTitle());
+                    headToPostParty.putExtra("partyId", pendingParty.getId());
+                    startActivity(headToPostParty);
+                    Log.i("Mutation.thisParty", "Party: Complete!");
+                },
+                error -> Log.e("Mutation.thisParty", "Party mutate: FAIL")
+        );
+    }
+
 }

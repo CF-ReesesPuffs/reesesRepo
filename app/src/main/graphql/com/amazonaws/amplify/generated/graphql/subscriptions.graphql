@@ -10,9 +10,12 @@ subscription OnCreateUser {
         title
         hostedOn
         hostedAt
+        partyDateAWS
+        partyDate
         price
         isReady
         isFinished
+        stealLimit
         theHost {
           id
           userName
@@ -51,9 +54,12 @@ subscription OnCreateUser {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -82,9 +88,12 @@ subscription OnCreateUser {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -108,9 +117,12 @@ subscription OnUpdateUser {
         title
         hostedOn
         hostedAt
+        partyDateAWS
+        partyDate
         price
         isReady
         isFinished
+        stealLimit
         theHost {
           id
           userName
@@ -149,9 +161,12 @@ subscription OnUpdateUser {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -180,9 +195,12 @@ subscription OnUpdateUser {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -206,9 +224,12 @@ subscription OnDeleteUser {
         title
         hostedOn
         hostedAt
+        partyDateAWS
+        partyDate
         price
         isReady
         isFinished
+        stealLimit
         theHost {
           id
           userName
@@ -247,9 +268,12 @@ subscription OnDeleteUser {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -278,9 +302,12 @@ subscription OnDeleteUser {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -311,9 +338,12 @@ subscription OnCreateGuestList {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -353,9 +383,12 @@ subscription OnCreateGuestList {
       title
       hostedOn
       hostedAt
+      partyDateAWS
+      partyDate
       price
       isReady
       isFinished
+      stealLimit
       theHost {
         id
         userName
@@ -423,9 +456,12 @@ subscription OnUpdateGuestList {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -465,9 +501,12 @@ subscription OnUpdateGuestList {
       title
       hostedOn
       hostedAt
+      partyDateAWS
+      partyDate
       price
       isReady
       isFinished
+      stealLimit
       theHost {
         id
         userName
@@ -535,9 +574,12 @@ subscription OnDeleteGuestList {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -577,9 +619,12 @@ subscription OnDeleteGuestList {
       title
       hostedOn
       hostedAt
+      partyDateAWS
+      partyDate
       price
       isReady
       isFinished
+      stealLimit
       theHost {
         id
         userName
@@ -647,9 +692,12 @@ subscription OnCreateGift {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -689,9 +737,12 @@ subscription OnCreateGift {
       title
       hostedOn
       hostedAt
+      partyDateAWS
+      partyDate
       price
       isReady
       isFinished
+      stealLimit
       theHost {
         id
         userName
@@ -759,9 +810,12 @@ subscription OnUpdateGift {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -801,9 +855,12 @@ subscription OnUpdateGift {
       title
       hostedOn
       hostedAt
+      partyDateAWS
+      partyDate
       price
       isReady
       isFinished
+      stealLimit
       theHost {
         id
         userName
@@ -871,9 +928,12 @@ subscription OnDeleteGift {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -913,9 +973,12 @@ subscription OnDeleteGift {
       title
       hostedOn
       hostedAt
+      partyDateAWS
+      partyDate
       price
       isReady
       isFinished
+      stealLimit
       theHost {
         id
         userName
@@ -971,9 +1034,12 @@ subscription OnCreateParty {
     title
     hostedOn
     hostedAt
+    partyDateAWS
+    partyDate
     price
     isReady
     isFinished
+    stealLimit
     theHost {
       id
       userName
@@ -984,9 +1050,12 @@ subscription OnCreateParty {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -1041,9 +1110,12 @@ subscription OnCreateParty {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -1072,9 +1144,12 @@ subscription OnCreateParty {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -1093,9 +1168,12 @@ subscription OnUpdateParty {
     title
     hostedOn
     hostedAt
+    partyDateAWS
+    partyDate
     price
     isReady
     isFinished
+    stealLimit
     theHost {
       id
       userName
@@ -1106,9 +1184,12 @@ subscription OnUpdateParty {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -1163,9 +1244,12 @@ subscription OnUpdateParty {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -1194,9 +1278,12 @@ subscription OnUpdateParty {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -1215,9 +1302,12 @@ subscription OnDeleteParty {
     title
     hostedOn
     hostedAt
+    partyDateAWS
+    partyDate
     price
     isReady
     isFinished
+    stealLimit
     theHost {
       id
       userName
@@ -1228,9 +1318,12 @@ subscription OnDeleteParty {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -1285,9 +1378,12 @@ subscription OnDeleteParty {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
@@ -1316,9 +1412,12 @@ subscription OnDeleteParty {
           title
           hostedOn
           hostedAt
+          partyDateAWS
+          partyDate
           price
           isReady
           isFinished
+          stealLimit
           createdAt
           updatedAt
         }
