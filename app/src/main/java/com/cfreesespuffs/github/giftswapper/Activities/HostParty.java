@@ -136,8 +136,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
         Button findGuestButton = findViewById(R.id.findGuest_button);
         findGuestButton.setOnClickListener((view) -> {
-
-            //        https://stackoverflow.com/questions/9596010/android-use-done-button-on-keyboard-to-click-button
+//        https://stackoverflow.com/questions/9596010/android-use-done-button-on-keyboard-to-click-button
 
             Amplify.API.query(
                     ModelQuery.list(User.class),
@@ -159,6 +158,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                     },
                     error -> Log.e("Amplify", "failed to find user")
             );
+
         });
 
         TextView foundGuest = findViewById(R.id.userFindGuestSearch);
@@ -301,7 +301,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                         },
                         error -> Log.e("Amplify/API", "Message failed " + error)
                 );
-
             }
         });
     }

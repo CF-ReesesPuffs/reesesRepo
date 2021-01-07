@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,19 +32,18 @@ import java.util.List;
 
 public class InvitationDetails extends AppCompatActivity {
 
-    Handler handlecheckLoggedIn;
     User loggedUser;
     Intent intent;
     Party party;
     GuestList guestList;
     int highestNum = 0;
+    EditText giftChosen;
+    Button acceptInvite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invited_party_page);
-
-//        getIsSignedIn();
 
         intent = getIntent();
         String partyId = intent.getExtras().getString("partyId");
@@ -75,9 +77,6 @@ public class InvitationDetails extends AppCompatActivity {
 
         TextView partyName = InvitationDetails.this.findViewById(R.id.partyName);
         partyName.setText(intent.getExtras().getString("partyName"));
-
-       // TextView host = InvitationDetails.this.findViewById(R.id.partyHost);
-       // host.setText(intent.getExtras().getString("host"));
 
         TextView when = InvitationDetails.this.findViewById(R.id.dateOfParty);
         when.setText(intent.getExtras().getString("when"));
@@ -122,12 +121,27 @@ public class InvitationDetails extends AppCompatActivity {
             }
         });
 
+        acceptInvite = InvitationDetails.this.findViewById(R.id.acceptInvite);
+
+        giftChosen = InvitationDetails.this.findViewById(R.id.giftUserBrings);
+        giftChosen.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) | (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    acceptInvite.requestFocus();
+
+                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE); // finds the keyboard
+                    imm.hideSoftInputFromWindow(v.getWindowToken(),0); // hides the keyboard away in most other cases.
+                }
+                return false; // puts the keyboard away in most other cases.
+            }
+        });
+
+
 //=================================================================================================== Accept invite
-        Button acceptInvite = InvitationDetails.this.findViewById(R.id.acceptInvite);
         acceptInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText giftChosen = InvitationDetails.this.findViewById(R.id.giftUserBrings);
                 String giftName = giftChosen.getText().toString();
 
                 if(giftName.equals("")){
@@ -211,7 +225,6 @@ public class InvitationDetails extends AppCompatActivity {
             Log.i("Amplify.login", "Send true or false pls");
         }
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
