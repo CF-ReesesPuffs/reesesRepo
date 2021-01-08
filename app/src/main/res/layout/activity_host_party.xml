@@ -23,9 +23,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/guestSearchRecycler"
-        android:layout_width="321dp"
+        android:layout_width="318dp"
         android:layout_height="171dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/et_style"
         android:paddingTop="6dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -100,14 +100,14 @@
 
     <Button
         android:id="@+id/findGuest_button"
-        android:layout_width="124dp"
-        android:layout_height="50dp"
+        android:layout_width="80dp"
+        android:layout_height="47dp"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="72dp"
         android:fontFamily="sans-serif"
-        android:text="Find Guest"
+        android:text="Search"
         android:textColor="#FFFFFF"
-        android:textSize="12sp"
+        android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/price_spinner" />
 
@@ -139,7 +139,7 @@
 
     <EditText
         android:id="@+id/userFindGuestSearch"
-        android:layout_width="184dp"
+        android:layout_width="194dp"
         android:layout_height="36dp"
         android:background="@drawable/et_style"
         android:elegantTextHeight="true"
