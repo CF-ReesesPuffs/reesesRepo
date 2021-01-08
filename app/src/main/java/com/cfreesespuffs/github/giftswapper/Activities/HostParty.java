@@ -245,8 +245,8 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
                 String text = sdf.format(dateFormat);
 
-//                String dateString = partyDate.toString();
-//                dateString = dateString.substring(0, dateString.indexOf("T"));
+                Spinner stealLimitSpinner = findViewById(R.id.stealLimit_spinner);
+                int stealLimitNumber = (int)stealLimitSpinner.getSelectedItem();
 
                 Party party;
                 party = Party.builder()
@@ -258,6 +258,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                         .theHost(currentUser)
                         .isReady(false)
                         .isFinished(false)
+                        .stealLimit(stealLimitNumber)
                         .build();
 
                 Amplify.API.mutate(
