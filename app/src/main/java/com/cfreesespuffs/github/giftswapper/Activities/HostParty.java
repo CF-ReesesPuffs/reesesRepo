@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -101,16 +102,10 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 Toast.makeText(this, "Add more party goers!", Toast.LENGTH_LONG).show();
             }
             if (message.arg1 == 2) {
-//                TimeZone tz = date.getTimeZone();
-//                ZoneId zoneId = tz.toZoneId();
-//                LocalDateTime localDateTime = LocalDateTime.ofInstant(date.toInstant(), zoneId);
-//                String dateStr = Integer.toString(date.get(Calendar.DATE));
                 Date dateFormat = date.getTime(); // https://www.candidjava.com/tutorial/java-program-to-convert-calendar-to-date-and-date-to-calendar/#:~:text=Calendar%20object%20to%20Date%20object%2C%20Using%20Calendar.getInstance%20%28%29,object%20to%20Calendar%20object%2C%20Date%20d%3Dnew%20Date%20%281515660075000l%29%3B
                 SimpleDateFormat format = new SimpleDateFormat("MMMM dd, yyyy  hh:mm a");
                 String prettyDate = format.format(dateFormat);
                 partyDate.setText(prettyDate);
-                //partyDate.setText(date.get(Calendar.MONTH) + "/" + dateStr + "/" + date.get(Calendar.YEAR));
-              //  partyTime.setText(date.get(Calendar.HOUR) + ":" + date.get(Calendar.MINUTE));
             }
             return false;
         });
@@ -127,12 +122,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         handler.sendEmptyMessage(1);
 
         partyDate = findViewById(R.id.editTextDate);
-       // partyTime = findViewById(R.id.editTextTime);
-
-        Button dateSelector = findViewById(R.id.dateSelect);
-        dateSelector.setOnClickListener((view) -> {
-            showDateTimePicker();
-        });
 
         Button findGuestButton = findViewById(R.id.findGuest_button);
         findGuestButton.setOnClickListener((view) -> {
@@ -159,6 +148,11 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                     error -> Log.e("Amplify", "failed to find user")
             );
 
+        });
+
+        EditText dateTimeText = findViewById(R.id.editTextDate);
+        dateTimeText.setOnClickListener((view) -> {
+            showDateTimePicker();
         });
 
         TextView foundGuest = findViewById(R.id.userFindGuestSearch);
