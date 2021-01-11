@@ -105,42 +105,93 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         Button startParty = PendingPage.this.findViewById(R.id.start_party);
         startParty.setOnClickListener((view) -> {
 
-            for (int i = 0; i < guestList.size(); i++) {
-                if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).getTurnOrder() == 0) {
-                    counter++;
-                    guestList.get(i).turnOrder = counter;
-                    attendeesGuestList.add(guestList.get(i));
+            if (!pendingParty.getIsReady()) {
 
-                    Amplify.API.mutate(
-                            ModelMutation.update(guestList.get(i)),
-                            response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
-                            error -> Log.e("Amplify.turnOrder", "Error: " + error)
-                    );
+                partyPrep(); // TODO: there are smarter ways to do this. Mostly, don't mutate the guestList until the final set.
+
+ /*               for (int i = 0; i < guestList.size(); i++) { // this IS partyPrep(). Left in place currently to ensure the method works.
+                    if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).getTurnOrder() == 0) {
+                        counter++;
+                        guestList.get(i).turnOrder = counter;
+                        attendeesGuestList.add(guestList.get(i));
+
+                        Amplify.API.mutate(
+                                ModelMutation.update(guestList.get(i)),
+                                response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
+                                error -> Log.e("Amplify.turnOrder", "Error: " + error)
+                        );
+                    }
                 }
-            }
+*/
 
-            try { // makes system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+                try { // makes system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-            if (counter == 2) {
-                AlertDialog.Builder twoPlayerSwapAlert = new AlertDialog.Builder(this);
-                twoPlayerSwapAlert.setCancelable(true)
-                        .setTitle("Two Party Giftswapping")
-                        .setMessage("There are only two participants. Would you like to automatically swap gifts?")
-                        .setPositiveButton("Yes",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        autoSwap(); // also goes to the PostParty activity, and set Party.isFinished() to true.
-                                        Log.i("Counter.Two", "bumpBump");
-                                    }
-                                });
-                twoPlayerSwapAlert.setNegativeButton("No", null);
-                AlertDialog dialog = twoPlayerSwapAlert.create();
-                dialog.show();
+                if (counter == 2) {
+                    AlertDialog.Builder twoPlayerSwapAlert = new AlertDialog.Builder(this);
+                    twoPlayerSwapAlert.setCancelable(true)
+                            .setTitle("Two Party Giftswapping")
+                            .setMessage("There are only two participants. Would you like to automatically swap gifts?")
+                            .setPositiveButton("Yes",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            autoSwap(); // also goes to the PostParty activity, and set Party.isFinished() to true.
+                                            Log.i("Counter.Two", "bumpBump");
+                                        }
+                                    });
+                    twoPlayerSwapAlert.setNegativeButton("No", null);
+                    AlertDialog dialog = twoPlayerSwapAlert.create();
+                    dialog.show();
+                }
+
+                if (counter > 2) {
+                    AlertDialog.Builder fullPartyIsGo = new AlertDialog.Builder(this);
+                    fullPartyIsGo.setCancelable(true)
+                            .setTitle("Begin the Party!")
+                            .setMessage("Are you ready to start the part? Everyone's RVSPed?")
+                            .setPositiveButton("Yes",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            pendingParty.isReady = true;
+
+                                            Amplify.API.query(
+                                                    ModelMutation.update(pendingParty),
+                                                    response -> {
+                                                        Log.i("Amp.Party3Plus", "Off we go to the realdeal party!");
+                                                        subscription.cancel();
+                                                        goToPartyActivity();
+                                                    },
+                                                    error -> Log.e("Amp.Party3Plus", "Something went wrong. No real party happening.")
+                                            );
+                                        }
+                                    });
+                    fullPartyIsGo.setNegativeButton("Not Yet.", null);
+                    AlertDialog dialog = fullPartyIsGo.create();
+                    dialog.show();
+                }
+
+/*
+                pendingParty.isReady = true;
+
+                Amplify.API.query(
+                        ModelMutation.update(pendingParty),
+                        response2 -> {
+                            subscription.cancel();
+                            Intent headToPostParty = new Intent(PendingPage.this, PostParty.class);
+                            headToPostParty.putExtra("title", pendingParty.getTitle());
+                            headToPostParty.putExtra("partyId", pendingParty.getId());
+                            startActivity(headToPostParty);
+                            Log.i("Mutation.thisParty", "Party: Complete!");
+                        },
+                        error -> Log.e("Mutation.thisParty", "Party mutate: FAIL")
+                );
+                */
+
             } else {
 
                 subscription.cancel();
@@ -268,7 +319,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                                     deleteParty();
                                 }
                             });
-            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() { // https://suragch.medium.com/making-an-alertdialog-in-android-2045381e2edb
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     // Todo: add analytics here
@@ -339,7 +390,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 error -> Log.e("Amp.del.party", "FAIL: " + error));
     }
 
-    public void autoSwap(){
+    public void autoSwap() {
 
         List<Gift> giftList = pendingParty.getGifts();
 
@@ -359,6 +410,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         }
 
         pendingParty.isFinished = true;
+        pendingParty.isReady = true;
 
         Amplify.API.query(
                 ModelMutation.update(pendingParty),
@@ -374,4 +426,32 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         );
     }
 
+    public void partyPrep() {
+
+        for (int i = 0; i < guestList.size(); i++) {
+            if (guestList.get(i).getTurnOrder() > counter) counter = guestList.get(i).getTurnOrder();
+        }
+
+        for (int i = 0; i < guestList.size(); i++) {
+            if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).getTurnOrder() == 0) {
+                counter++;
+                guestList.get(i).turnOrder = counter;
+                attendeesGuestList.add(guestList.get(i));
+
+                Amplify.API.mutate(
+                        ModelMutation.update(guestList.get(i)),
+                        response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
+                        error -> Log.e("Amplify.turnOrder", "Error: " + error)
+                );
+            }
+        }
+    }
+
+    public void goToPartyActivity(){
+        Intent headToPostParty = new Intent(PendingPage.this, PostParty.class);
+        headToPostParty.putExtra("title", pendingParty.getTitle());
+        headToPostParty.putExtra("partyId", pendingParty.getId());
+        startActivity(headToPostParty);
+        Log.i("Mutation.thisParty", "Party: Complete!");
+    }
 }
