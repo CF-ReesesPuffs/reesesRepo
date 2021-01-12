@@ -212,6 +212,15 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                                     }
                                 }
 
+                                Amplify.API.query(
+                                        ModelQuery.get(Party.class, partyId),
+                                        responseParty -> {
+                                            Log.i("Amp.Partyhere", "Party has been getten.");
+                                            pendingParty = responseParty.getData();
+                                        },
+                                        error -> Log.e("Amp.Partyhere", "Error down: " + error)
+                                );
+
                                 Message message = new Message();
                                 message.arg1 = 1;
                                 handleSingleItem.sendMessage(message);
