@@ -159,28 +159,41 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
             }
 
             if (!pendingParty.isReady && counter > 2) {
-                for (GuestList guest : attendeesGuestList) {
-                    Amplify.API.mutate( // don't run this code until we are going to the party
-                            ModelMutation.update(guest),
-                            response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
-                            error -> Log.e("Amplify.turnOrder", "Error: " + error)
+                counter = 0;
+                for (int i = 0; i < guestList.size(); i++) {
+                    if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).getTurnOrder() == 0) { // might not need && guestlist
+                        counter++;
+                        guestList.get(i).turnOrder = counter;
+                        //attendeesGuestList.add(guestList.get(i));
+
+                        Amplify.API.mutate( // don't run this code until we are going to the party
+                                ModelMutation.update(guestList.get(i)),
+                                response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
+                                error -> Log.e("Amplify.turnOrder", "Error: " + error)
+                        );
+                    }
+                    try { // makes system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    pendingParty.isReady = true;
+                    Amplify.API.mutate(
+                            ModelMutation.update(pendingParty),
+                            response -> Log.i("Amp.partyReady", "all set to go"),
+                            error -> Log.e("Amp.partyReady", "it did not go")
                     );
+                    goToParty();
                 }
 
-                try { // makes system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                pendingParty.isReady = true;
-                Amplify.API.mutate(
-                        ModelMutation.update(pendingParty),
-                        response -> Log.i("Amp.partyReady", "all set to go"),
-                        error -> Log.e("Amp.partyReady", "it did not go")
-                );
-
-                goToParty();
+//                for (GuestList guest : attendeesGuestList) {
+//                    Amplify.API.mutate( // don't run this code until we are going to the party
+//                            ModelMutation.update(guest),
+//                            response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
+//                            error -> Log.e("Amplify.turnOrder", "Error: " + error)
+//                    );
+//                }
+                
 //                    subscription.cancel();
 //
 //                    Intent intent2 = new Intent(PendingPage.this, CurrentParty.class);
