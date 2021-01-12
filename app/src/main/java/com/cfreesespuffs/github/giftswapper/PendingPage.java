@@ -107,7 +107,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
             if (!pendingParty.getIsReady()) {
 
-                partyPrep(); // TODO: there are smarter ways to do this. Mostly, don't mutate the guestList until the final set.
+                partyPrep(); // TODO: there are smarter ways to do this. Mostly, don't mutate the guestList until the final check.
 
  /*               for (int i = 0; i < guestList.size(); i++) { // this IS partyPrep(). Left in place currently to ensure the method works.
                     if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).getTurnOrder() == 0) {
@@ -192,7 +192,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 );
                 */
 
-            } else {
+            } else if (pendingParty.getIsReady()) {
 
                 subscription.cancel();
 
@@ -201,6 +201,22 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 intent2.putExtra("thisPartyId", intent.getExtras().getString("title"));
 
                 PendingPage.this.startActivity(intent2);
+            } else {
+                AlertDialog.Builder twoPlayerSwapAlert = new AlertDialog.Builder(this);
+                twoPlayerSwapAlert.setCancelable(true)
+                        .setTitle("Party of one? :(")
+                        .setMessage("You're the only partgoer. Let's wait for more guests to accept.")
+                        .setPositiveButton("ok",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        autoSwap(); // also goes to the PostParty activity, and set Party.isFinished() to true.
+                                        Log.i("Counter.One", "only 1, no go");
+                                    }
+                                });
+                twoPlayerSwapAlert.setNegativeButton("No", null);
+                AlertDialog dialog = twoPlayerSwapAlert.create();
+                dialog.show();
             }
         });
 
@@ -283,7 +299,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                     pendingParty = response.getData();
                     Log.i("Amp.Partyhere", "pendingParty's host: " + pendingParty.getTheHost().getUserName());
                     Log.i("Amp.Partyhere", "Auth username: " + Amplify.Auth.getCurrentUser().getUsername());
-                    if (pendingParty.getTheHost().getUserName().equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
+                    if (pendingParty.getTheHost().getUserName().equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) { // this is the line that checks if user is host (and then can do things0
                         Message message = new Message();
                         message.arg1 = 2;
                         handleSingleItem.sendMessage(message);
@@ -429,7 +445,8 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     public void partyPrep() {
 
         for (int i = 0; i < guestList.size(); i++) {
-            if (guestList.get(i).getTurnOrder() > counter) counter = guestList.get(i).getTurnOrder();
+            if (guestList.get(i).getTurnOrder() > counter)
+                counter = guestList.get(i).getTurnOrder();
         }
 
         for (int i = 0; i < guestList.size(); i++) {
@@ -447,7 +464,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         }
     }
 
-    public void goToPartyActivity(){
+    public void goToPartyActivity() {
         Intent headToPostParty = new Intent(PendingPage.this, PostParty.class);
         headToPostParty.putExtra("title", pendingParty.getTitle());
         headToPostParty.putExtra("partyId", pendingParty.getId());
