@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amplifyframework.api.ApiOperation;
 import com.amplifyframework.api.graphql.model.ModelMutation;
@@ -81,16 +82,12 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 new Handler.Callback() {
                     @Override
                     public boolean handleMessage(@NonNull Message msg) {
-                        System.out.println("This is the msg arg: " + msg.arg1);
-
                         if (msg.arg1 == 1) {
                             connectAdapterToRecycler();
                             recyclerView.getAdapter().notifyDataSetChanged();
                             Log.i("Amplify", "It worked!");
                         }
-
                         if (msg.arg1 == 2) partyDeleter.setVisible(true);
-
                         recyclerView.getAdapter().notifyItemInserted(guestList.size());
                         return false;
                     }
@@ -105,24 +102,17 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         Button startParty = PendingPage.this.findViewById(R.id.start_party);
         startParty.setOnClickListener((view) -> {
 
+            counter = 0;
             for (int i = 0; i < guestList.size(); i++) {
-                if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).getTurnOrder() == 0) {
+                if (guestList.get(i).getInviteStatus().contains("Accepted")) {
                     counter++;
-                    guestList.get(i).turnOrder = counter;
                     attendeesGuestList.add(guestList.get(i));
-
-                    Amplify.API.mutate(
-                            ModelMutation.update(guestList.get(i)),
-                            response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
-                            error -> Log.e("Amplify.turnOrder", "Error: " + error)
-                    );
                 }
             }
 
-            try { // makes system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if (counter == 1) {
+                Toast.makeText(this, "need more guests to accept", Toast.LENGTH_LONG).show();
+                return;
             }
 
             if (counter == 2) {
@@ -134,28 +124,71 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+                                        for (GuestList guest : attendeesGuestList) {
+                                            Amplify.API.mutate( // don't run this code until we are going to the party
+                                                    ModelMutation.update(guest),
+                                                    response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
+                                                    error -> Log.e("Amplify.turnOrder", "Error: " + error)
+                                            );
+                                        }
+
+                                        try { // makes system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
+                                            Thread.sleep(1000);
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
                                         autoSwap(); // also goes to the PostParty activity, and set Party.isFinished() to true.
                                         Log.i("Counter.Two", "bumpBump");
                                     }
                                 });
-                twoPlayerSwapAlert.setNegativeButton("No", null);
+                twoPlayerSwapAlert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        return;
+                    }
+                });
                 AlertDialog dialog = twoPlayerSwapAlert.create();
                 dialog.show();
-            } else {
+            }
 
-                subscription.cancel();
+            if (!pendingParty.isReady && counter > 2) {
+                counter = 0;
+                for (int i = 0; i < guestList.size(); i++) {
+                    if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).getTurnOrder() == 0) { // might not need && guestlist
+                        counter++;
+                        guestList.get(i).turnOrder = counter;
 
-                Intent intent2 = new Intent(PendingPage.this, CurrentParty.class);
-                intent2.putExtra("id", partyId);
-                intent2.putExtra("thisPartyId", intent.getExtras().getString("title"));
-
-                PendingPage.this.startActivity(intent2);
+                        Amplify.API.mutate( // don't run this code until we are going to the party
+                                ModelMutation.update(guestList.get(i)),
+                                response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
+                                error -> Log.e("Amplify.turnOrder", "Error: " + error)
+                        );
+                    }
+                }
+                AlertDialog.Builder finalPartyAlert = new AlertDialog.Builder(this); // this is to slow down the process and allow guest mutation
+                finalPartyAlert.setCancelable(false)
+                        .setTitle("let the party begin!")
+                        .setMessage("the confetti is launched")
+                        .setPositiveButton("huzzah",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        pendingParty.isReady = true;
+                                        Amplify.API.mutate(
+                                                ModelMutation.update(pendingParty),
+                                                response -> Log.i("Amp.partyReady", "all set to go"),
+                                                error -> Log.e("Amp.partyReady", "it did not go")
+                                        );
+                                        goToParty();
+                                    }
+                                });
+                AlertDialog dialog = finalPartyAlert.create();
+                dialog.show();
             }
         });
 
         TextView title = PendingPage.this.findViewById(R.id.partyName);
         title.setText(intent.getExtras().getString("title"));
-
 
         Button homeButton = findViewById(R.id.customHomeButton);
         homeButton.setOnClickListener((view) -> {
@@ -179,8 +212,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         TextView price = PendingPage.this.findViewById(R.id.priceLimit);
         price.setText(intent.getExtras().getString("price"));
 
-        //TODO: Query api to get users who's preference equals "accepted"/"RSVP"?
-
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
@@ -202,9 +233,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                     Amplify.API.query(
                             ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                             response -> {
-
                                 guestList.clear();
-
                                 if (response.getData() != null) { // subscriptions can return a completely empty/null response. ???
                                     for (GuestList user : response.getData().getUsers()) {
                                         Log.i("Amplify.test", "Within the Subscription: " + user);
@@ -294,7 +323,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         Amplify.API.query(
                 ModelQuery.get(Party.class, partyId),
                 partyAllToDelete -> {
-
                     Amplify.API.query(
                             ModelQuery.list(GuestList.class),
                             thePartyGoers -> {
@@ -348,12 +376,9 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 error -> Log.e("Amp.del.party", "FAIL: " + error));
     }
 
-    public void autoSwap(){
-
+    public void autoSwap() {
         List<Gift> giftList = pendingParty.getGifts();
-
         User tempGiftUser = giftList.get(0).getUser();
-
         giftList.get(0).partyGoer = giftList.get(1).getUser().getUserName();
         giftList.get(0).user = giftList.get(1).getUser();
         giftList.get(1).partyGoer = tempGiftUser.getUserName();
@@ -383,4 +408,11 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         );
     }
 
+    public void goToParty() {
+        subscription.cancel();
+        Intent intent2 = new Intent(PendingPage.this, CurrentParty.class);
+        intent2.putExtra("id", partyId);
+        intent2.putExtra("thisPartyId", getIntent().getExtras().getString("title"));
+        PendingPage.this.startActivity(intent2);
+    }
 }
