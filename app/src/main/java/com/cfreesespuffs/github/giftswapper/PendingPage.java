@@ -105,60 +105,72 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         Button startParty = PendingPage.this.findViewById(R.id.start_party);
         startParty.setOnClickListener((view) -> {
 
-            for (int i = 0; i < guestList.size(); i++) {
-                if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).getTurnOrder() == 0) {
-                    counter++;
-                    guestList.get(i).turnOrder = counter;
-                    attendeesGuestList.add(guestList.get(i));
+            if (!pendingParty.isReady) {
+                for (int i = 0; i < guestList.size(); i++) {
+                    if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).getTurnOrder() == 0) {
+                        counter++;
+                        guestList.get(i).turnOrder = counter;
+                        attendeesGuestList.add(guestList.get(i));
 
-                    Amplify.API.mutate(
-                            ModelMutation.update(guestList.get(i)),
-                            response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
-                            error -> Log.e("Amplify.turnOrder", "Error: " + error)
-                    );
+                        Amplify.API.mutate(
+                                ModelMutation.update(guestList.get(i)),
+                                response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
+                                error -> Log.e("Amplify.turnOrder", "Error: " + error)
+                        );
+                    }
                 }
-            }
 
-            try { // makes system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+                try { // makes system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-            if (counter == 2) {
-                AlertDialog.Builder twoPlayerSwapAlert = new AlertDialog.Builder(this);
-                twoPlayerSwapAlert.setCancelable(true)
-                        .setTitle("Two Party Giftswapping")
-                        .setMessage("There are only two participants. Would you like to automatically swap gifts?")
-                        .setPositiveButton("Yes",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        autoSwap(); // also goes to the PostParty activity, and set Party.isFinished() to true.
-                                        Log.i("Counter.Two", "bumpBump");
-                                    }
-                                });
-                twoPlayerSwapAlert.setNegativeButton("No", null);
-                AlertDialog dialog = twoPlayerSwapAlert.create();
-                dialog.show();
-            } else {
+                if (counter == 2) {
+                    AlertDialog.Builder twoPlayerSwapAlert = new AlertDialog.Builder(this);
+                    twoPlayerSwapAlert.setCancelable(true)
+                            .setTitle("Two Party Giftswapping")
+                            .setMessage("There are only two participants. Would you like to automatically swap gifts?")
+                            .setPositiveButton("Yes",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            autoSwap(); // also goes to the PostParty activity, and set Party.isFinished() to true.
+                                            Log.i("Counter.Two", "bumpBump");
+                                        }
+                                    });
+                    twoPlayerSwapAlert.setNegativeButton("No", null);
+                    AlertDialog dialog = twoPlayerSwapAlert.create();
+                    dialog.show();
+                } else {
 
-                subscription.cancel();
+                    pendingParty.isReady = true;
+                    Amplify.API.mutate(
+                            ModelMutation.update(pendingParty),
+                            response -> Log.i("Amp.partyReady", "all set to go"),
+                            error -> Log.e("Amp.partyReady", "it did not go")
+                    );
+                    subscription.cancel();
 
-                Intent intent2 = new Intent(PendingPage.this, CurrentParty.class);
-                intent2.putExtra("id", partyId);
-                intent2.putExtra("thisPartyId", intent.getExtras().getString("title"));
+                    Intent intent2 = new Intent(PendingPage.this, CurrentParty.class);
+                    intent2.putExtra("id", partyId);
+                    intent2.putExtra("thisPartyId", intent.getExtras().getString("title"));
 
-                PendingPage.this.startActivity(intent2);
+                    PendingPage.this.startActivity(intent2);
+                }
             }
         });
 
         TextView title = PendingPage.this.findViewById(R.id.partyName);
-        title.setText(intent.getExtras().getString("title"));
+        title.setText(intent.getExtras().
+
+                getString("title"));
 
 
         Button homeButton = findViewById(R.id.customHomeButton);
-        homeButton.setOnClickListener((view) -> {
+        homeButton.setOnClickListener((view) ->
+
+        {
             subscription.cancel(); // not functioning as expected (aka not working at all).
             Log.i("Activity.homeButton", "It was clicked.");
             Intent intent1 = new Intent(this, MainActivity.class);
@@ -166,10 +178,14 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         });
 
         TextView date = PendingPage.this.findViewById(R.id.startDate);
-        date.setText(intent.getExtras().getString("date"));
+        date.setText(intent.getExtras().
+
+                getString("date"));
 
         TextView time = PendingPage.this.findViewById(R.id.startTime);
-        time.setText(intent.getExtras().getString("time"));
+        time.setText(intent.getExtras().
+
+                getString("time"));
 
         // Has to be included, otherwise doesn't show up via layout xml \
         TextView priceDef = PendingPage.this.findViewById(R.id.price);//|
@@ -177,13 +193,19 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
 
         TextView price = PendingPage.this.findViewById(R.id.priceLimit);
-        price.setText(intent.getExtras().getString("price"));
+        price.setText(intent.getExtras().
+
+                getString("price"));
 
         //TODO: Query api to get users who's preference equals "accepted"/"RSVP"?
 
         Amplify.API.query(
-                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
-                response -> {
+                ModelQuery.get(Party.class, intent.getExtras().
+
+                        getString("id")),
+                response ->
+
+                {
                     for (GuestList user : response.getData().getUsers()) {
                         Log.i("Amplify.test", "stuff to test " + user);
                         guestList.add(user);
@@ -196,7 +218,9 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         subscription = Amplify.API.subscribe( // TODO: how to focus/narrow subscription so it doesn't get the firehose of ALL EVERYTHING ALWAYS BEING CHANGED.
                 ModelSubscription.onUpdate(GuestList.class),
                 onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
-                newGuests -> {
+                newGuests ->
+
+                {
                     Log.i("Amp.Subscribe.details", "This is the content: " + newGuests.getData());
 
                     Amplify.API.query(
@@ -236,7 +260,9 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
         Amplify.API.query(
                 ModelQuery.get(Party.class, partyId),
-                response -> {
+                response ->
+
+                {
                     Log.i("Amp.Partyhere", "Party has been getten.");
                     pendingParty = response.getData();
                     Log.i("Amp.Partyhere", "pendingParty's host: " + pendingParty.getTheHost().getUserName());
@@ -348,7 +374,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 error -> Log.e("Amp.del.party", "FAIL: " + error));
     }
 
-    public void autoSwap(){
+    public void autoSwap() {
 
         List<Gift> giftList = pendingParty.getGifts();
 
