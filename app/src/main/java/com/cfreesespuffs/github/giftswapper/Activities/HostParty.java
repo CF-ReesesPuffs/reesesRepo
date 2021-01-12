@@ -82,6 +82,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         stealLimitSpinner();
 
         AuthUser authUser = Amplify.Auth.getCurrentUser();
+        // dev is weird
         Amplify.API.query(
                 ModelQuery.list(User.class),
                 response -> {
