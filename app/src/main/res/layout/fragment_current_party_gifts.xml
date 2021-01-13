@@ -14,6 +14,7 @@
         android:layout_width="134dp"
         android:layout_height="26dp"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
         android:text="giftName"
         app:layout_constraintEnd_toStartOf="@+id/giftOwner"
         app:layout_constraintStart_toStartOf="parent"
