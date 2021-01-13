@@ -19,6 +19,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     String partyId;
     Party pendingParty;
     int counter = 0;
+    Button startParty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,10 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         Menu menu = navigationView.getMenu(); // https://stackoverflow.com/questions/31265530/how-can-i-get-menu-item-in-navigationview because every method of drawing on the screen, means there are that many ways to have to target. I am really interested knowing why targeting the same menu requires at least 3 different methods depending.
         partyDeleter = menu.findItem(R.id.partyDeleteMenuItem);
 
+        startParty = PendingPage.this.findViewById(R.id.start_party);
+
+        startParty.setEnabled(false);
+
         handleSingleItem = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
                     @Override
@@ -87,11 +93,20 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                             recyclerView.getAdapter().notifyDataSetChanged();
                             Log.i("Amplify", "It worked!");
                         }
-                        if (msg.arg1 == 2) partyDeleter.setVisible(true);
+                        if (msg.arg1 == 2) {
+                            startParty.setText("Go to party!");
+                            startParty.setEnabled(true);
+                            partyDeleter.setVisible(true);
+                        }
+                        if(msg.arg1 == 3){
+                            startParty.setEnabled(true);
+                            startParty.setText("Go to party!");
+                        }
                         recyclerView.getAdapter().notifyItemInserted(guestList.size());
                         return false;
                     }
                 });
+
 
         connectAdapterToRecycler();
         Intent intent = getIntent();
@@ -99,8 +114,32 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
         System.out.println(intent.getExtras().getString("title"));
 
-        Button startParty = PendingPage.this.findViewById(R.id.start_party);
+        Amplify.API.query(
+                ModelQuery.get(Party.class, partyId),
+                response -> {
+                    Log.i("Amp.Partyhere", "Party has been gotten.");
+                    pendingParty = response.getData();
+                    Log.i("Amp.Partyhere", "pendingParty's host: " + pendingParty.getTheHost().getUserName());
+                    Log.i("Amp.Partyhere", "Auth username: " + Amplify.Auth.getCurrentUser().getUsername());
+                    if (pendingParty.getTheHost().getUserName().equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
+                        Message message = new Message();
+                        message.arg1 = 2;
+                        handleSingleItem.sendMessage(message);
+                    }
+                    if(pendingParty.isReady){
+                        Message message = new Message();
+                        message.arg1 = 3;
+                        handleSingleItem.sendMessage(message);
+                    }
+                },
+                error -> Log.e("Amp.Partyhere", "Error down: " + error)
+        );
+
         startParty.setOnClickListener((view) -> {
+
+            if(pendingParty.isReady){
+                goToParty();
+            }
 
             counter = 0;
             for (int i = 0; i < guestList.size(); i++) {
@@ -263,21 +302,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
         subscription.start();
 
-        Amplify.API.query(
-                ModelQuery.get(Party.class, partyId),
-                response -> {
-                    Log.i("Amp.Partyhere", "Party has been getten.");
-                    pendingParty = response.getData();
-                    Log.i("Amp.Partyhere", "pendingParty's host: " + pendingParty.getTheHost().getUserName());
-                    Log.i("Amp.Partyhere", "Auth username: " + Amplify.Auth.getCurrentUser().getUsername());
-                    if (pendingParty.getTheHost().getUserName().equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
-                        Message message = new Message();
-                        message.arg1 = 2;
-                        handleSingleItem.sendMessage(message);
-                    }
-                },
-                error -> Log.e("Amp.Partyhere", "Error down: " + error)
-        );
     }
 
     private void connectAdapterToRecycler() {

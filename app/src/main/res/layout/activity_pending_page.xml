@@ -42,9 +42,9 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/tv_style"
         android:elegantTextHeight="true"
+        android:gravity="center"
         android:padding="3sp"
         android:text="Invited Guests"
-        android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -58,9 +58,9 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/tv_style"
+        android:gravity="center"
         android:padding="3sp"
         android:text="Price"
-        android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/partyName" />
@@ -72,9 +72,9 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/tv_style"
+        android:gravity="center"
         android:padding="3sp"
         android:text="startDate"
-        android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toStartOf="@+id/startTime"
         app:layout_constraintHorizontal_bias="0.0"
@@ -88,9 +88,9 @@
         android:layout_marginTop="36dp"
         android:layout_marginEnd="76dp"
         android:background="@drawable/tv_style"
+        android:gravity="center"
         android:padding="3sp"
         android:text="priceLimit"
-        android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="@+id/price"
         app:layout_constraintEnd_toEndOf="parent"
@@ -104,8 +104,8 @@
         android:layout_width="125dp"
         android:layout_height="62dp"
         android:layout_marginEnd="76dp"
-        android:gravity="center"
         android:background="@drawable/tv_style"
+        android:gravity="center"
         android:padding="3sp"
         android:text="startTime"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -114,27 +114,27 @@
         app:layout_constraintTop_toTopOf="@+id/startDate"
         app:layout_constraintVertical_bias="0.0" />
 
-<!--    <ImageButton-->
-<!--        android:id="@+id/homePartyDetailButton"-->
-<!--        android:layout_width="51dp"-->
-<!--        android:layout_height="44dp"-->
-<!--        android:layout_marginTop="28dp"-->
-<!--        android:layout_marginEnd="16dp"-->
-<!--        android:background="@color/gold_yellow"-->
-<!--        android:backgroundTint="#99ED8922"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/partyName"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="1.0"-->
-<!--        app:srcCompat="@drawable/home_foreground" />-->
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/homePartyDetailButton"-->
+    <!--        android:layout_width="51dp"-->
+    <!--        android:layout_height="44dp"-->
+    <!--        android:layout_marginTop="28dp"-->
+    <!--        android:layout_marginEnd="16dp"-->
+    <!--        android:background="@color/gold_yellow"-->
+    <!--        android:backgroundTint="#99ED8922"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/partyName"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="1.0"-->
+    <!--        app:srcCompat="@drawable/home_foreground" />-->
 
     <Button
         android:id="@+id/start_party"
         android:layout_width="348dp"
         android:layout_height="51dp"
-        android:fontFamily="@font/architects_daughter"
 
-        android:text="Go to party!"
+        android:fontFamily="@font/architects_daughter"
+        android:text="Wait for host to start party!"
         android:textColor="#FFFFFF"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -144,13 +144,13 @@
         app:layout_constraintTop_toBottomOf="@+id/postPartyRV"
         app:layout_constraintVertical_bias="0.248" />
 
-<!-- If you care to turn on an example header bar. But! It hides the menu hamburger icon :\ -->
-<!--    <androidx.appcompat.widget.Toolbar-->
-<!--        android:id="@+id/pending_page_menu_toolbar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@color/gold_yellow"-->
-<!--        android:minHeight="?attr/actionBarSize"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <!-- If you care to turn on an example header bar. But! It hides the menu hamburger icon :\ -->
+    <!--    <androidx.appcompat.widget.Toolbar-->
+    <!--        android:id="@+id/pending_page_menu_toolbar"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="@color/gold_yellow"-->
+    <!--        android:minHeight="?attr/actionBarSize"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
