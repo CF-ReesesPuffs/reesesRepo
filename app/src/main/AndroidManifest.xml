@@ -18,12 +18,13 @@
             android:theme="@style/Theme.AllNoActionBarNone"
             />
         <activity android:name=".CurrentParty" />
+        <activity android:name=".EndedPartyCheck"/>
         <activity
             android:theme="@style/Theme.AllNoActionBarNone"
             android:name=".PendingPage"/>
         <activity android:name=".InvitationDetails" />
         <activity android:name=".Activities.HostParty" />
-        <activity android:name=".UserProfile" />
+        <activity android:name=".Activities.UserProfile" />
         <activity android:name=".Activities.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
