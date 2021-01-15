@@ -36,6 +36,8 @@ import com.cfreesespuffs.github.giftswapper.PendingPage;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener {
     public ArrayList<Party> parties = new ArrayList<>();
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 1) {
                 if (Amplify.Auth.getCurrentUser() != null) {
-                    Log.i("Android.VersionTest", "=== 2 ===");
+                    Log.i("Android.VersionTest", "=== 3 ===");
                     Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
                 }
             }
@@ -118,11 +120,20 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                                             for (GuestList party : response2.getData().getParties()) {
                                                 if (party.getInviteStatus().equals("Accepted")) {
                                                     parties.add(party.getParty());
-
                                                 }
-                                                Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
-
                                             }
+
+                                            System.out.println("Presort: " + parties);
+
+                                            Collections.sort(parties, new Comparator<Party>() {
+                                                @Override
+                                                public int compare(Party party1, Party party2) {
+                                                    return party1.getPartyDate().compareTo(party2.getPartyDate());
+                                                }
+                                            });
+
+                                            System.out.println("Postsort: " + parties);
+
                                             handleParties.sendEmptyMessage(1);
                                         },
                                         error -> Log.e("Amplify", "Failed to retrieve store")
