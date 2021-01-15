@@ -13,7 +13,7 @@ import com.cfreesespuffs.github.giftswapper.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHolder> {
+public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHolder> { // Todo: here for the checkbox/delete partygoer on pending page.
     public List<GuestList> getTheStatus;
     public OnInteractWithTaskListener listener;
 
@@ -39,17 +39,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_pending, parent, false);
 
-
         final AdapterViewHolder viewHolder = new AdapterViewHolder(view);
-
-
-//        view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                System.out.println(viewHolder.getTheStatus);
-//                listener.taskListener(viewHolder.getTheStatus.getInviteStatus());
-//            }
-//        });
 
         return viewHolder;
     }

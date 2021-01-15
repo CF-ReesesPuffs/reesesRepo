@@ -12,6 +12,14 @@
                 android:title="Delete Party"
                 android:visible="false"
                 />
+
+            <item
+                android:id="@+id/partyRemoveGoer"
+                android:icon="@drawable/ic_baseline_card_giftcard_24"
+                android:title="Remove Guest"
+                android:visible="false"
+                />
+
                     <!-- For the above title, I originally had a dummy "1: " in the title. It would seem that might gunk something up because it was showing up even after I had set the title programmatically. ga ke itse. -->
             <item
                 android:id="@+id/twoPotential"

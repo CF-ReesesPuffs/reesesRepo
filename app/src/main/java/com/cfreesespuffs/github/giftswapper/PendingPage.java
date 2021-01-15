@@ -52,6 +52,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     ArrayList<GuestList> guestList = new ArrayList<>();
     ArrayList<GuestList> attendeesGuestList = new ArrayList<>();
     MenuItem partyDeleter;
+    MenuItem guestRemover;
     String partyId;
     Party pendingParty;
     int counter = 0;
@@ -79,9 +80,9 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
         Menu menu = navigationView.getMenu(); // https://stackoverflow.com/questions/31265530/how-can-i-get-menu-item-in-navigationview because every method of drawing on the screen, means there are that many ways to have to target. I am really interested knowing why targeting the same menu requires at least 3 different methods depending.
         partyDeleter = menu.findItem(R.id.partyDeleteMenuItem);
+        guestRemover = menu.findItem(R.id.partyRemoveGoer);
 
         startParty = PendingPage.this.findViewById(R.id.start_party);
-
         startParty.setEnabled(false);
 
         handleSingleItem = new Handler(Looper.getMainLooper(),
@@ -97,6 +98,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                             startParty.setText("Go to party!");
                             startParty.setEnabled(true);
                             partyDeleter.setVisible(true);
+                            guestRemover.setVisible(true);
                         }
                         if(msg.arg1 == 3){
                             startParty.setEnabled(true);

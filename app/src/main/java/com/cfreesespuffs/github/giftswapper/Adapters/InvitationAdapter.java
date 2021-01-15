@@ -1,20 +1,25 @@
 package com.cfreesespuffs.github.giftswapper.Adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amplifyframework.datastore.generated.model.Party;
+import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
 
-public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.AdapterViewHolder> {
+public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.AdapterViewHolder> { // Todo: move all commented out code to ViewAdapter.java
     public ArrayList<Party> partyResults;
     public OnInteractWithTaskListener listener;
+//    public ArrayList<User> toRemove;
 
     public InvitationAdapter(ArrayList<Party> partyResults, OnInteractWithTaskListener listener) {
         this.partyResults = partyResults;
@@ -24,12 +29,13 @@ public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.Ad
     // view holder deals with the passing of data from java to the fragment (list item)
     public static class AdapterViewHolder extends RecyclerView.ViewHolder {
         public Party party;
-        public View itemView;
-
+//        public View itemView;
+//        public CheckBox checkBox;
 
         public AdapterViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.itemView = itemView;
+//            this.itemView = itemView;
+//            this.checkBox = (CheckBox) itemView.findViewById(R.id.deletePartycB);
         }
     }
 
@@ -57,16 +63,41 @@ public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.Ad
     public void onBindViewHolder(@NonNull AdapterViewHolder holder, int position) {
         holder.party = partyResults.get(position);
 
-        TextView partyName = holder.itemView.findViewById(R.id.partyName);
-        partyName.setText(holder.party.getTitle());
+        TextView partyGoer = holder.itemView.findViewById(R.id.partyName);
+        partyGoer.setText(holder.party.getTitle());
 
-//        TextView userName = holder.itemView.findViewById(R.id.guestName);
-//        TextView gift = holder.itemView.findViewById(R.id.giftRecieved);
+//        holder.checkBox.setOnCheckedChangeListener(null);
+//        holder.checkBox.setSelected(holder.itemView.isSelected());
 
-//        userName.setText((CharSequence) holder.party.getUsers());
-//        gift.setText((CharSequence) holder.party.getGifts());
+//        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//                    partyGoer.setSelected(true);
+//                    Log.i("Android.invitedAfter", "Selection" + partyResults.get(position) + "add position " + position);
+//                    toRemove.add(partyResults.get(1);
+//                }
+//            }
+//        });
+
 
     }
+
+//        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                if(b){
+//                    usernameView.setSelected(true);
+//                    Log.i("Android.hostAdapter", "This has been selected " + guestList.get(position) + "add position " + position);
+//                    usersToAdd.add(guestList.get(position));
+//                } else {
+//                    usernameView.setSelected(false);
+//                    usersToAdd.remove(guestList.get(position));
+//                }
+//            }
+//        });
+//        holder.checkBox.setChecked(usernameView.isSelected());
+//    }
 
 
     public static interface OnInteractWithTaskListener {
