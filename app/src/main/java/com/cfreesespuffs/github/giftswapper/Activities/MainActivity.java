@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         AuthUser authUser = Amplify.Auth.getCurrentUser();
         if (Amplify.Auth.getCurrentUser() != null) {
             Amplify.API.query(
-                    ModelQuery.list(User.class),
+                    ModelQuery.list(User.class), // we should swap this from .list(.class) to .get(userId) to save cycles & time.
                     response -> {
                         Log.i("Amplify.currentUser", "This is the current user, " + authUser);
                         for (User user : response.getData()) {

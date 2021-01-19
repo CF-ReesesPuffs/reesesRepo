@@ -19,7 +19,6 @@ import java.util.ArrayList;
 public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.AdapterViewHolder> { // Todo: move all commented out code to ViewAdapter.java
     public ArrayList<Party> partyResults;
     public OnInteractWithTaskListener listener;
-//    public ArrayList<User> toRemove;
 
     public InvitationAdapter(ArrayList<Party> partyResults, OnInteractWithTaskListener listener) {
         this.partyResults = partyResults;
@@ -30,12 +29,11 @@ public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.Ad
     public static class AdapterViewHolder extends RecyclerView.ViewHolder {
         public Party party;
 //        public View itemView;
-//        public CheckBox checkBox;
+
 
         public AdapterViewHolder(@NonNull View itemView) {
             super(itemView);
 //            this.itemView = itemView;
-//            this.checkBox = (CheckBox) itemView.findViewById(R.id.deletePartycB);
         }
     }
 
@@ -46,7 +44,6 @@ public class InvitationAdapter extends RecyclerView.Adapter<InvitationAdapter.Ad
                 .inflate(R.layout.fragment_invitation, parent, false);
 
         final AdapterViewHolder viewHolder = new AdapterViewHolder(view);
-
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

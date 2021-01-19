@@ -16,6 +16,7 @@ import java.util.List;
 public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHolder> { // Todo: here for the checkbox/delete partygoer on pending page.
     public List<GuestList> getTheStatus;
     public OnInteractWithTaskListener listener;
+//    public ArrayList<User> toRemove;
 
     public ViewAdapter(List<GuestList> getTheStatus, OnInteractWithTaskListener listener) {
         this.getTheStatus = getTheStatus;
@@ -25,11 +26,12 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
     public static class AdapterViewHolder extends RecyclerView.ViewHolder {
         public GuestList guestList;
         public View itemView;
-
+//        public CheckBox checkBox;
 
         public AdapterViewHolder(@NonNull View itemView) {
             super(itemView);
             this.itemView = itemView;
+//            this.checkBox = (CheckBox) itemView.findViewById(R.id.deletePartycB);
         }
     }
 
@@ -41,16 +43,18 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
 
         final AdapterViewHolder viewHolder = new AdapterViewHolder(view);
 
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println(viewHolder.guestList);
+                listener.listener(viewHolder.guestList);
+            }
+        });
+
         return viewHolder;
     }
 
-    public static interface OnInteractWithTaskListener {
-        public void listener(GuestList guestList);
-    }
-
-
-    @Override
-    // This gets called when a fragment(list item) has a java class attached to it
+    @Override // This gets called when a fragment(list item) has a java class attached to it
     public void onBindViewHolder(@NonNull AdapterViewHolder holder, int position) {                  // position is the position in the array
         holder.guestList = getTheStatus.get(position);
 
@@ -61,13 +65,16 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
         status.setText(holder.guestList.getInviteStatus());
     }
 
-    @Override
-    // This gets called so it knows how many fragments (list item) to put on the screen at once
+    @Override // This gets called so it knows how many fragments (list item) to put on the screen at once
     public int getItemCount() {
         if(getTheStatus == null){
             return 0;
         }
         return getTheStatus.size();
+    }
+
+    public static interface OnInteractWithTaskListener {
+        public void listener(GuestList guestList);
     }
 }
 
