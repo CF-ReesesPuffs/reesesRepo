@@ -55,6 +55,8 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
         TextView userName = holder.itemView.findViewById(R.id.guestName);
         TextView status = holder.itemView.findViewById(R.id.status);
 
+        // TODO: if user == host THEN setCheckbox to invisible.
+
         userName.setText(holder.guestList.getUser().getUserName());
         status.setText(holder.guestList.getInviteStatus());
 

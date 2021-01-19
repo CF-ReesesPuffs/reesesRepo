@@ -86,6 +86,8 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         startParty = PendingPage.this.findViewById(R.id.start_party);
         startParty.setEnabled(false);
 
+        // TODO: set all checkboxes to invisible if NOT host.
+
         handleSingleItem = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
                     @Override
