@@ -30,7 +30,6 @@ import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.Adapters.PartyAdapter;
-import com.cfreesespuffs.github.giftswapper.EndedPartyCheck;
 import com.cfreesespuffs.github.giftswapper.InvitationList;
 import com.cfreesespuffs.github.giftswapper.PendingPage;
 import com.cfreesespuffs.github.giftswapper.R;
@@ -70,12 +69,12 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 }
             }
 
-            if (message.arg1 == 6) {
-                System.out.println("You want to go to your ended parties?");
-                Intent endPartyIntent = new Intent(MainActivity.this, EndedPartyCheck.class);
-                endPartyIntent.putExtra("userId", currentUser.getId());
-                MainActivity.this.startActivity(endPartyIntent);
-            }
+//            if (message.arg1 == 6) {
+//                System.out.println("You want to go to your ended parties?");
+//                Intent endPartyIntent = new Intent(MainActivity.this, EndedPartyCheck.class);
+//                endPartyIntent.putExtra("userId", currentUser.getId());
+//                MainActivity.this.startActivity(endPartyIntent);
+//            }
 
             if (message.arg1 == 5) {
                 parties.clear();
@@ -108,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         AuthUser authUser = Amplify.Auth.getCurrentUser();
         if (Amplify.Auth.getCurrentUser() != null) {
             Amplify.API.query(
-                    ModelQuery.list(User.class),
+                    ModelQuery.list(User.class), // we should swap this from .list(.class) to .get(userId) to save cycles & time.
                     response -> {
                         Log.i("Amplify.currentUser", "This is the current user, " + authUser);
                         for (User user : response.getData()) {
@@ -241,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             );
         }
 
-        if (item.getItemId() == R.id.completed_parties) {
+        if (item.getItemId() == R.id.completed_parties) { // Todo: rebuild endedParty.kt file
             Message goToEndPartyActivity = new Message();
             goToEndPartyActivity.arg1 = 6;
             handleCheckLoggedIn.sendMessage(goToEndPartyActivity);

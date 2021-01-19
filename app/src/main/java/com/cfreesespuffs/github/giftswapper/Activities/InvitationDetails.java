@@ -1,11 +1,9 @@
-package com.cfreesespuffs.github.giftswapper;
+package com.cfreesespuffs.github.giftswapper.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -26,7 +24,7 @@ import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
-import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
+import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.List;
 
