@@ -19,7 +19,6 @@ import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +32,7 @@ import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
+import com.cfreesespuffs.github.giftswapper.Activities.CurrentParty;
 import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
 import com.cfreesespuffs.github.giftswapper.Adapters.ViewAdapter;
 import com.google.android.material.navigation.NavigationView;
@@ -49,6 +49,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     Handler handler;
     Handler handleSingleItem;
     ApiOperation subscription;
+    ApiOperation deleteSubscription;
     ArrayList<GuestList> guestList = new ArrayList<>();
     ArrayList<GuestList> attendeesGuestList = new ArrayList<>();
     MenuItem partyDeleter;
@@ -100,7 +101,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                             partyDeleter.setVisible(true);
                             guestRemover.setVisible(true);
                         }
-                        if(msg.arg1 == 3){
+                        if (msg.arg1 == 3) {
                             startParty.setEnabled(true);
                             startParty.setText("Go to party!");
                         }
@@ -128,7 +129,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                         message.arg1 = 2;
                         handleSingleItem.sendMessage(message);
                     }
-                    if(pendingParty.isReady){
+                    if (pendingParty.isReady) {
                         Message message = new Message();
                         message.arg1 = 3;
                         handleSingleItem.sendMessage(message);
@@ -139,7 +140,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
         startParty.setOnClickListener((view) -> {
 
-            if(pendingParty.isReady){
+            if (pendingParty.isReady) {
                 goToParty();
             }
 
@@ -265,6 +266,34 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 error -> Log.e("Amplify", "Failed to retrieve store")
         );
 
+        deleteSubscription = Amplify.API.subscribe(
+                ModelSubscription.onDelete(GuestList.class),
+                onDeleteFunctioning -> Log.i("Amp.SubOnDelete", "Killer Sub working."),
+                lessGuest -> {
+                    Log.i("Amp.DeleteSub", "Going to be one+ less guests.");
+                    Amplify.API.query(
+                            ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+                            delResponse -> {
+                                guestList.clear();
+                                if (delResponse.getData() != null) {
+                                    for (GuestList user : delResponse.getData().getUsers()) {
+                                        guestList.add(user);
+                                    }
+                                }
+                                Message message = new Message();
+                                message.arg1 = 1;
+                                handleSingleItem.sendMessage(message);
+                            },
+                            errorDel -> Log.e("Amp.SubDelete", "No nothing.")
+                    );
+                },
+                subError -> Log.e("Amp.SubOnDelete", "FAIL"),
+                () -> Log.i("Amp.SubOnDelete", "Delete Sub Complete")
+        );
+
+        deleteSubscription.start();
+
+
         subscription = Amplify.API.subscribe( // TODO: how to focus/narrow subscription so it doesn't get the firehose of ALL EVERYTHING ALWAYS BEING CHANGED.
                 ModelSubscription.onUpdate(GuestList.class),
                 onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
@@ -319,7 +348,29 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         drawerLayout.closeDrawer(GravityCompat.START); // Cannot be included in the if statement.
-        System.out.println("A menu item has been clicked!");
+        System.out.println("A menu item has been clicked.");
+        if (item.getItemId() == R.id.partyRemoveGoer) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setCancelable(true)
+                    .setTitle("Remove Partygoers")
+                    .setMessage("Would you like to remove them?")
+                    .setPositiveButton("Yes",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    removePartyGoers();
+                                }
+                            });
+            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // nothing need be done.
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+
         if (item.getItemId() == R.id.partyDeleteMenuItem) { // https://stackoverflow.com/questions/36747369/how-to-show-a-pop-up-in-android-studio-to-confirm-an-order
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(true)
@@ -342,6 +393,42 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
             dialog.show();
         }
         return true;
+    }
+
+    public void removePartyGoers() {
+
+        ArrayList<GuestList> userToDeleteNow = ((ViewAdapter) recyclerView.getAdapter()).toRemove;
+
+        for (GuestList toDelete : userToDeleteNow) {
+            System.out.println("The toDelete object: " + toDelete);
+
+            Amplify.API.query(
+                    ModelQuery.get(User.class, toDelete.getUser().getId()),
+                    userToGet -> {
+                        User thisUser = userToGet.getData();
+                        Log.i("Amp.user", "users gifts here: " + thisUser.getGifts().toString());
+
+                        for (Gift thisPartysGift : thisUser.getGifts()) {
+                            if (thisPartysGift.getParty().getId().equalsIgnoreCase(pendingParty.getId())) {
+                                Gift giftToRemove = thisPartysGift;
+
+                                Amplify.API.mutate(
+                                        ModelMutation.delete(giftToRemove),
+                                        giftToDelete -> Log.i("Amp.removeGift", "Removed gift"),
+                                        error -> Log.e("Amp.removeGift", "Gift NOT GONE")
+                                );
+                            }
+                        }
+                    },
+                    error -> Log.e("Amp.user", "ERROR: " + error)
+            );
+
+            Amplify.API.mutate(
+                    ModelMutation.delete(toDelete),
+                    partyGoerToDelete -> Log.i("Amp.removeGuest", "Remove partygoer."),
+                    error -> Log.e("Amp.removeGuest", "Error." + error)
+            );
+        }
     }
 
     public void deleteParty() {

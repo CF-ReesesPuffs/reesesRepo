@@ -1,4 +1,4 @@
-package com.cfreesespuffs.github.giftswapper;
+package com.cfreesespuffs.github.giftswapper.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -27,9 +27,10 @@ import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
-import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
 import com.cfreesespuffs.github.giftswapper.Adapters.CurrentPartyUserAdapter;
 import com.cfreesespuffs.github.giftswapper.Adapters.GiftAdapter;
+import com.cfreesespuffs.github.giftswapper.PostParty;
+import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
