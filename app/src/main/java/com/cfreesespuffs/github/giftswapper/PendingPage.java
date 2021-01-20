@@ -19,7 +19,9 @@ import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +60,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     Party pendingParty;
     int counter = 0;
     Button startParty;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,8 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         startParty = PendingPage.this.findViewById(R.id.start_party);
         startParty.setEnabled(false);
 
+        // TODO: set all checkboxes to invisible if NOT host.
+
         handleSingleItem = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
                     @Override
@@ -110,9 +115,8 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                     }
                 });
 
-
         connectAdapterToRecycler();
-        Intent intent = getIntent();
+        intent = getIntent();
         partyId = intent.getExtras().getString("id");
 
         System.out.println(intent.getExtras().getString("title"));
@@ -293,7 +297,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
         deleteSubscription.start();
 
-
         subscription = Amplify.API.subscribe( // TODO: how to focus/narrow subscription so it doesn't get the firehose of ALL EVERYTHING ALWAYS BEING CHANGED.
                 ModelSubscription.onUpdate(GuestList.class),
                 onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
@@ -311,14 +314,15 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                                     }
                                 }
 
-                                Amplify.API.query(
-                                        ModelQuery.get(Party.class, partyId),
-                                        responseParty -> {
-                                            Log.i("Amp.Partyhere", "Party has been getten.");
-                                            pendingParty = responseParty.getData();
-                                        },
-                                        error -> Log.e("Amp.Partyhere", "Error down: " + error)
-                                );
+                                pendingParty = response.getData();
+//                                Amplify.API.query(
+//                                        ModelQuery.get(Party.class, partyId),
+//                                        responseParty -> {
+//                                            Log.i("Amp.Partyhere", "Party has been getten.");
+//                                            pendingParty = responseParty.getData();
+//                                        },
+//                                        error -> Log.e("Amp.Partyhere", "Error down: " + error)
+//                                );
 
                                 Message message = new Message();
                                 message.arg1 = 1;
@@ -338,7 +342,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     private void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.postPartyRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new ViewAdapter(guestList, this));
+        recyclerView.setAdapter(new ViewAdapter(guestList, "TBD#NADDA", this));
     }
 
     @Override

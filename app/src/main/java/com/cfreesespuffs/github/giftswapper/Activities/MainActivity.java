@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 1) {
                 if (Amplify.Auth.getCurrentUser() != null) {
-                    Log.i("Android.VersionTest", "=== 3 ===");
+                    Log.i("Android.VersionTest", "=== 1 ===");
                     Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
                 }
             }
@@ -222,6 +222,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         goToPartyDetailIntent.putExtra("id", party.getId());
         goToPartyDetailIntent.putExtra("date", party.getHostedOn());
         goToPartyDetailIntent.putExtra("time", party.getHostedAt());
+//        goToPartyDetailIntent.putExtra("host", party.getTheHost().getUserName());
         this.startActivity(goToPartyDetailIntent);
     }
 
