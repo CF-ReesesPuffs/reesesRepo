@@ -3,11 +3,15 @@ package com.cfreesespuffs.github.giftswapper.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -52,7 +56,16 @@ public class SignupConfirmation extends AppCompatActivity {
                                 thisError -> Log.e("Auth.Result", "Fail")
                         );
                     },
-                    error -> Log.e("Auth.Result", "failure")
+                    error -> {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "Incorrect Confirmation String. Try Again Please", Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        View toastView = toast.getView();
+                        toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+                        toast.show();
+                        Log.e("Auth.Result", "failure");
+                        return;
+                    }
             );
             Intent lastIntent = new Intent(SignupConfirmation.this, MainActivity.class);
             this.startActivity(lastIntent);

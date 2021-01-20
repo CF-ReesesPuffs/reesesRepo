@@ -19,6 +19,9 @@ import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
 import com.cfreesespuffs.github.giftswapper.R;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class SignUp extends AppCompatActivity {
 
     @Override
@@ -31,6 +34,24 @@ public class SignUp extends AppCompatActivity {
             EditText userName = findViewById(R.id.usernameEt);
             EditText password = findViewById(R.id.passwordOneEt);
             EditText passwordTwo = findViewById((R.id.passwordTwoEt));
+
+            String regex = "^[\\\\w!#$%&'*+/=?`{|}~^-]+(?:\\\\.[\\\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,6}$"; // https://howtodoinjava.com/java/regex/java-regex-validate-email-address/
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(userEmail.getText().toString());
+
+            if (matcher.matches()) {
+                Log.i("Amp.EmailMatcher", "The Email is Good! Clear!");
+            } else {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Please check your email", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                View toastView = toast.getView();
+                toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+                toast.show();
+                Log.e("Amp.EmailMatcher", "Bad email. Bad!");
+                return;
+            }
+
 
             if (userName.getText().toString().contains(" ")) {
                 Toast toast = Toast.makeText(getApplicationContext(),
