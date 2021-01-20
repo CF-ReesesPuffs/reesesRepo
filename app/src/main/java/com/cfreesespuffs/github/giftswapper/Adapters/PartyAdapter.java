@@ -42,15 +42,10 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.PartyViewHol
         TextView titleView = holder.itemView.findViewById(R.id.party_title);
         TextView dateView = holder.itemView.findViewById(R.id.party_date);
         TextView timeView = holder.itemView.findViewById(R.id.party_time);
-//        TextView priceView = holder.itemView.findViewById(R.id.party_price);
-
-        Log.i("PartyAdapter.List", "Here be the list: " + parties);
 
         titleView.setText(holder.party.getTitle());
         dateView.setText(holder.party.getHostedOn());
         timeView.setText(holder.party.getHostedAt());
-//        priceView.setText(holder.party.getPrice());
-
     }
 
     @Override

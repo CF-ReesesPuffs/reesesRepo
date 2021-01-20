@@ -10,7 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.GuestList;
+import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
@@ -20,10 +22,12 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
     public List<GuestList> guestList;
     public OnInteractWithTaskListener listener;
     public ArrayList<GuestList> toRemove = new ArrayList<>();
+    public String host;
 
-    public ViewAdapter(List<GuestList> guestList, OnInteractWithTaskListener listener) {
+    public ViewAdapter(List<GuestList> guestList, String host, OnInteractWithTaskListener listener) {
         this.guestList = guestList;
         this.listener = listener;
+        this.host = host;
     }
 
     @NonNull
@@ -36,29 +40,25 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
         view.setOnClickListener((newView) -> {
             listener.listener(viewHolder.guestList);
         });
-
-//        view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                listener.listener(viewHolder.guestList);
-//            }
-//        });
-
         return viewHolder;
     }
 
     @Override // This gets called when a fragment(list item) has a java class attached to it
-    public void onBindViewHolder(@NonNull AdapterViewHolder holder, int position) { // position is the position in the array
+    public void onBindViewHolder(@NonNull AdapterViewHolder holder,  int position) { // position is the position in the array
         holder.guestList = guestList.get(position);
         System.out.println("this is guestlist: " + guestList);
 
         TextView userName = holder.itemView.findViewById(R.id.guestName);
         TextView status = holder.itemView.findViewById(R.id.status);
 
-        // TODO: if user == host THEN setCheckbox to invisible.
+        // TODO: if user == host THEN setCheckbox to visible.
 
         userName.setText(holder.guestList.getUser().getUserName());
         status.setText(holder.guestList.getInviteStatus());
+
+//        if (host.equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
+//            holder.checkBox.setVisibility(View.VISIBLE);
+//        }
 
         holder.checkBox.setOnCheckedChangeListener(null);
         holder.checkBox.setSelected(holder.checkBox.isSelected()); // this line diverges from HostPartyAdapter template
