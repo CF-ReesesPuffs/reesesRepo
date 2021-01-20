@@ -28,6 +28,7 @@ public class SignupConfirmation extends AppCompatActivity {
             Intent intent = getIntent();
             String username = intent.getExtras().getString("username");
             String password = intent.getExtras().getString("password");
+            String email = intent.getExtras().getString("email");
             Amplify.Auth.confirmSignUp(
                     usernameConfirm.getText().toString().toLowerCase(),
                     confirmCode.getText().toString(),
@@ -37,7 +38,7 @@ public class SignupConfirmation extends AppCompatActivity {
                         signUpHandler.sendEmptyMessage(message.arg1);
                         User newUser = User.builder()
                                 .userName(username)
-                                // TODO: add in email here.
+                                .email(email)
                                 .build();
                         Amplify.API.mutate(
                                 ModelMutation.create(newUser),
