@@ -56,9 +56,9 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
         userName.setText(holder.guestList.getUser().getUserName());
         status.setText(holder.guestList.getInviteStatus());
 
-//        if (host.equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
-//            holder.checkBox.setVisibility(View.VISIBLE);
-//        }
+        if (holder.guestList.getUser().getUserName().equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
+            holder.checkBox.setVisibility(View.INVISIBLE);
+        }
 
         holder.checkBox.setOnCheckedChangeListener(null);
         holder.checkBox.setSelected(holder.checkBox.isSelected()); // this line diverges from HostPartyAdapter template
