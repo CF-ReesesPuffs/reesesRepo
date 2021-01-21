@@ -22,8 +22,10 @@ import android.widget.Toast;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
+import com.amplifyframework.api.ApiOperation;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.api.graphql.model.ModelSubscription;
 import com.amplifyframework.auth.AuthUser;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.auth.options.AuthSignOutOptions;
@@ -50,6 +52,60 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     SharedPreferences preferences;
 
     @Override
+    public void onResume() {
+
+        super.onResume();
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (preferences.getString("userId", "NA").equals("NA")) {
+            Amplify.API.query(
+                    ModelQuery.list(User.class),
+                    response -> {
+                        for (User user : response.getData()) {
+                            if (user.getUserName().equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
+                                currentUser = user;
+
+                                final SharedPreferences.Editor preferenceEditor = preferences.edit();
+                                preferenceEditor.putString("userId", currentUser.getId());
+                                preferenceEditor.apply();
+                                String userId = preferences.getString("userId", "NA");
+                                System.out.println("userID is " + userId);
+                            }
+                        }
+                    },
+                    error -> Log.e("Amp.userQuery", "fail")
+            );
+        }
+
+        ApiOperation deleteSubscription = Amplify.API.subscribe(
+                ModelSubscription.onDelete(Party.class),
+                subWork -> Log.i("Amp.subOnDelete", "sub is working"),
+                lessParty -> {
+                    Amplify.API.query(
+                            ModelQuery.get(User.class, currentUser.getId()),
+                            partyList -> {
+                                parties.clear();
+                                for (GuestList party : partyList.getData().getParties()) {
+                                    if (party.getInviteStatus().equals("Accepted")) {
+                                        parties.add(party.getParty());
+                                    }
+                                }
+                                Message message = new Message();
+                                message.arg1 = 1;
+                                handleParties.sendMessage(message);
+                            },
+                            error -> Log.e("mp.subscribe", "failed sub query")
+                    );
+                },
+                subError -> Log.e("Amp.subOnDelete", "failed to subscribe on delete"),
+                () -> Log.i("Amp.subOnDelete", "delete sub complete")
+        );
+
+        deleteSubscription.start();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
@@ -62,9 +118,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
         configureAws();
         getIsSignedIn();
-
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Log.i("Android.SharedPrefs", "In shared prefs, here is username: " + preferences.getString("username", "NA"));
 
 //============================================================================== handler check logged
         handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
@@ -113,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                         if (msg.arg1 == 1) {
                             Log.i("Amplify", "Parties are showing");
                         }
-                        partyRecyclerView.getAdapter().notifyItemInserted(parties.size());
+                        partyRecyclerView.getAdapter().notifyDataSetChanged();
                         return false;
                     }
                 });
@@ -126,13 +179,15 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             Amplify.API.query(
                     ModelQuery.list(User.class), // we should swap this from .list(.class) to .get(userId) to save cycles & time.
                     response -> {
+
+
+                        //TODO: this can be refactored to remove the user as it is queried now at the top
+
                         Log.i("Amplify.currentUser", "This is the current user, " + authUser);
                         for (User user : response.getData()) {
                             if (user.getUserName().equalsIgnoreCase(authUser.getUsername())) {
                                 currentUser = user;
-                                SharedPreferences preferences  = PreferenceManager.getDefaultSharedPreferences(this);
-                                final SharedPreferences.Editor preferenceEditor = preferences.edit();
-                                preferenceEditor.putString("userId", currentUser.getId());
+
                                 Amplify.API.query(
                                         ModelQuery.get(User.class, currentUser.getId()),
                                         response2 -> {
