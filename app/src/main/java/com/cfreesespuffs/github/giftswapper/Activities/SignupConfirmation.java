@@ -3,12 +3,14 @@ package com.cfreesespuffs.github.giftswapper.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -68,6 +70,12 @@ public class SignupConfirmation extends AppCompatActivity {
                     }
             );
             Intent lastIntent = new Intent(SignupConfirmation.this, MainActivity.class);
+
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            final SharedPreferences.Editor preferenceEditor = preferences.edit();
+            preferenceEditor.putString("username", username);
+            preferenceEditor.apply();
+
             this.startActivity(lastIntent);
         });
         signUpHandler = new Handler(Looper.getMainLooper(), message -> {

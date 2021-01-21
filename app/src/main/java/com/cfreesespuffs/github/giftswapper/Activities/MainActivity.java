@@ -6,10 +6,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +39,8 @@ import com.cfreesespuffs.github.giftswapper.R;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.Preferences;
 
 public class MainActivity extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener {
     public ArrayList<Party> parties = new ArrayList<>();
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     RecyclerView partyRecyclerView;
     User currentUser;
     ImageButton loginButton;
+    SharedPreferences preferences;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -59,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
         configureAws();
         getIsSignedIn();
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Log.i("Android.SharedPrefs", "In shared prefs, here is username: " + preferences.getString("username", "NA"));
 
 //============================================================================== handler check logged
         handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
