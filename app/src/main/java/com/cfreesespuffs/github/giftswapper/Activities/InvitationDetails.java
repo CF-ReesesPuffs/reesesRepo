@@ -45,6 +45,7 @@ public class InvitationDetails extends AppCompatActivity {
 
         intent = getIntent();
         String partyId = intent.getExtras().getString("partyId");
+        System.out.println("This is the party ID " +partyId);
 
         Amplify.API.query(
                 ModelQuery.get(Party.class, partyId),
@@ -90,8 +91,6 @@ public class InvitationDetails extends AppCompatActivity {
         declineInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //TODO: Set the invite status to false
 
                 List<GuestList> target = party.getUsers();
                 for(GuestList thisGuestList : target){
