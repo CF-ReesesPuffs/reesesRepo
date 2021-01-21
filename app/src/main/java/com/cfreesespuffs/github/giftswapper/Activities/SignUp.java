@@ -52,7 +52,6 @@ public class SignUp extends AppCompatActivity {
                 return;
             }
 
-
             if (userName.getText().toString().contains(" ")) {
                 Toast toast = Toast.makeText(getApplicationContext(),
                         "Username cannot contain spaces.", Toast.LENGTH_LONG);

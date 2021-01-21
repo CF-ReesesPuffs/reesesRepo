@@ -77,6 +77,11 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 }
             }
 
+            if (message.arg1 == 0) {
+                Button hostButton = findViewById(R.id.host_party_button);
+                hostButton.setVisibility(View.INVISIBLE);
+            }
+
 //            if (message.arg1 == 6) {
 //                System.out.println("You want to go to your ended parties?");
 //                Intent endPartyIntent = new Intent(MainActivity.this, EndedPartyCheck.class);
@@ -89,7 +94,11 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 partyRecyclerView.setVisibility(View.INVISIBLE); // VERY BLUNT. Effective, but blunt.
                 Toast.makeText(this, "You are now signed out", Toast.LENGTH_LONG).show();
                 loginButton.setVisibility(View.VISIBLE);
+                Button hostButton = findViewById(R.id.host_party_button);
+                hostButton.setVisibility(View.INVISIBLE);
                 Log.i("Auth.arg1-5", "Logged out via Settings");
+                ImageButton createAccountBt = findViewById(R.id.createAccountButton);
+                createAccountBt.setVisibility(View.VISIBLE);
             }
 
             return false;

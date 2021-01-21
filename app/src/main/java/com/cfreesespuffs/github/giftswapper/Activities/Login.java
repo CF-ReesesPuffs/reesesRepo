@@ -32,9 +32,9 @@ public class Login extends AppCompatActivity {
                         startActivity(new Intent(Login.this, MainActivity.class));
 
                         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-                        final SharedPreferences.Editor preferencEditor = preferences.edit();
-                        preferencEditor.putString("username", username.getText().toString());
-                        preferencEditor.apply();
+                        final SharedPreferences.Editor preferenceEditor = preferences.edit();
+                        preferenceEditor.putString("username", username.getText().toString());
+                        preferenceEditor.apply();
 
                     },
                     error -> Log.e("Amplify.login", "Sign in fail: " + error.toString())
