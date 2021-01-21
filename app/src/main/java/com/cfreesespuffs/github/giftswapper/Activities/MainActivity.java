@@ -39,8 +39,6 @@ import com.cfreesespuffs.github.giftswapper.R;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.prefs.PreferenceChangeEvent;
-import java.util.prefs.Preferences;
 
 public class MainActivity extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener {
     public ArrayList<Party> parties = new ArrayList<>();
@@ -74,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 if (Amplify.Auth.getCurrentUser() != null) {
                     Log.i("Android.VersionTest", "=== 1 ===");
                     Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
+                    ImageButton createAccountBt = findViewById(R.id.createAccountButton);
+                    createAccountBt.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -121,6 +121,9 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                         for (User user : response.getData()) {
                             if (user.getUserName().equalsIgnoreCase(authUser.getUsername())) {
                                 currentUser = user;
+                                SharedPreferences preferences  = PreferenceManager.getDefaultSharedPreferences(this);
+                                final SharedPreferences.Editor preferenceEditor = preferences.edit();
+                                preferenceEditor.putString("userId", currentUser.getId());
                                 Amplify.API.query(
                                         ModelQuery.get(User.class, currentUser.getId()),
                                         response2 -> {
@@ -161,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         });
 
 //================= sign up
-        ImageButton navButton = MainActivity.this.findViewById(R.id.nav_button);
+        ImageButton navButton = MainActivity.this.findViewById(R.id.createAccountButton);
         navButton.setOnClickListener((view) -> {
             Intent goToNavIntent = new Intent(MainActivity.this, SignUp.class);//Maybe this shouldn't be a button, possibly a spinner?
             MainActivity.this.startActivity(goToNavIntent);
@@ -230,7 +233,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         goToPartyDetailIntent.putExtra("id", party.getId());
         goToPartyDetailIntent.putExtra("date", party.getHostedOn());
         goToPartyDetailIntent.putExtra("time", party.getHostedAt());
-//        goToPartyDetailIntent.putExtra("host", party.getTheHost().getUserName());
         this.startActivity(goToPartyDetailIntent);
     }
 
@@ -244,6 +246,8 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                         Message optionMessage = new Message();
                         optionMessage.arg1 = 5;
                         handleCheckLoggedIn.sendMessage(optionMessage); // setting up a message, I was running into issues. sendEmptyMessage worked like a charm.
+                        preferences.edit().clear().apply();
+                        Log.i("Android.SharedPrefs", "All in the prefs: " + preferences.getString("userId", "NA"));
                     },
                     error -> Log.e("Auth.logout", "The error: ", error)
             );
@@ -258,5 +262,3 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         return true;
     }
 }
-
-//    Intent goToNavIntent = new Intent(MainActivity.this, SignUp.class);//Maybe this shouldn't be a button, possibly a spinner?

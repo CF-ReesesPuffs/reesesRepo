@@ -17,7 +17,7 @@
         android:backgroundTint="#99ED8922"
         android:contentDescription="TODO"
         app:layout_constraintBottom_toBottomOf="@+id/main_header"
-        app:layout_constraintEnd_toStartOf="@+id/nav_button"
+        app:layout_constraintEnd_toStartOf="@+id/createAccountButton"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/main_header"
         app:layout_constraintTop_toTopOf="@+id/main_header"
@@ -38,7 +38,7 @@
         app:layout_constraintVertical_bias="0.196" />
 
     <ImageButton
-        android:id="@+id/nav_button"
+        android:id="@+id/createAccountButton"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginEnd="16dp"
@@ -99,7 +99,7 @@
         android:backgroundTint="#99ED8922"
         android:paddingLeft="4sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nav_button"
+        app:layout_constraintTop_toBottomOf="@+id/createAccountButton"
         app:srcCompat="@drawable/ic_login_foreground" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
