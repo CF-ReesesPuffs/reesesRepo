@@ -105,6 +105,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                             startParty.setEnabled(true);
                             partyDeleter.setVisible(true);
                             guestRemover.setVisible(true);
+                            connectAdapterToRecycler();
                         }
                         if (msg.arg1 == 3) {
                             startParty.setEnabled(true);
@@ -342,7 +343,11 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     private void connectAdapterToRecycler() {
         recyclerView = findViewById(R.id.postPartyRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new ViewAdapter(guestList, "TBD#NADDA", this));
+        if (pendingParty != null){
+            recyclerView.setAdapter(new ViewAdapter(guestList, pendingParty.getTheHost().getUserName(), this));
+        } else {
+            recyclerView.setAdapter(new ViewAdapter(guestList, "Alan Smithee", this)); // not great code. Could break one user's experience :P
+        }
     }
 
     @Override

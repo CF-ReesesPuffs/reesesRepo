@@ -6,10 +6,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     RecyclerView partyRecyclerView;
     User currentUser;
     ImageButton loginButton;
+    SharedPreferences preferences;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -60,13 +63,23 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         configureAws();
         getIsSignedIn();
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Log.i("Android.SharedPrefs", "In shared prefs, here is username: " + preferences.getString("username", "NA"));
+
 //============================================================================== handler check logged
         handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 1) {
                 if (Amplify.Auth.getCurrentUser() != null) {
                     Log.i("Android.VersionTest", "=== 1 ===");
                     Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
+                    ImageButton createAccountBt = findViewById(R.id.createAccountButton);
+                    createAccountBt.setVisibility(View.INVISIBLE);
                 }
+            }
+
+            if (message.arg1 == 0) {
+                Button hostButton = findViewById(R.id.host_party_button);
+                hostButton.setVisibility(View.INVISIBLE);
             }
 
 //            if (message.arg1 == 6) {
@@ -81,7 +94,11 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 partyRecyclerView.setVisibility(View.INVISIBLE); // VERY BLUNT. Effective, but blunt.
                 Toast.makeText(this, "You are now signed out", Toast.LENGTH_LONG).show();
                 loginButton.setVisibility(View.VISIBLE);
+                Button hostButton = findViewById(R.id.host_party_button);
+                hostButton.setVisibility(View.INVISIBLE);
                 Log.i("Auth.arg1-5", "Logged out via Settings");
+                ImageButton createAccountBt = findViewById(R.id.createAccountButton);
+                createAccountBt.setVisibility(View.VISIBLE);
             }
 
             return false;
@@ -113,6 +130,9 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                         for (User user : response.getData()) {
                             if (user.getUserName().equalsIgnoreCase(authUser.getUsername())) {
                                 currentUser = user;
+                                SharedPreferences preferences  = PreferenceManager.getDefaultSharedPreferences(this);
+                                final SharedPreferences.Editor preferenceEditor = preferences.edit();
+                                preferenceEditor.putString("userId", currentUser.getId());
                                 Amplify.API.query(
                                         ModelQuery.get(User.class, currentUser.getId()),
                                         response2 -> {
@@ -153,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         });
 
 //================= sign up
-        ImageButton navButton = MainActivity.this.findViewById(R.id.nav_button);
+        ImageButton navButton = MainActivity.this.findViewById(R.id.createAccountButton);
         navButton.setOnClickListener((view) -> {
             Intent goToNavIntent = new Intent(MainActivity.this, SignUp.class);//Maybe this shouldn't be a button, possibly a spinner?
             MainActivity.this.startActivity(goToNavIntent);
@@ -222,7 +242,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         goToPartyDetailIntent.putExtra("id", party.getId());
         goToPartyDetailIntent.putExtra("date", party.getHostedOn());
         goToPartyDetailIntent.putExtra("time", party.getHostedAt());
-//        goToPartyDetailIntent.putExtra("host", party.getTheHost().getUserName());
         this.startActivity(goToPartyDetailIntent);
     }
 
@@ -236,6 +255,8 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                         Message optionMessage = new Message();
                         optionMessage.arg1 = 5;
                         handleCheckLoggedIn.sendMessage(optionMessage); // setting up a message, I was running into issues. sendEmptyMessage worked like a charm.
+                        preferences.edit().clear().apply();
+                        Log.i("Android.SharedPrefs", "All in the prefs: " + preferences.getString("userId", "NA"));
                     },
                     error -> Log.e("Auth.logout", "The error: ", error)
             );
@@ -250,5 +271,3 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         return true;
     }
 }
-
-//    Intent goToNavIntent = new Intent(MainActivity.this, SignUp.class);//Maybe this shouldn't be a button, possibly a spinner?

@@ -19,6 +19,9 @@ import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
 import com.cfreesespuffs.github.giftswapper.R;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class SignUp extends AppCompatActivity {
 
     @Override
@@ -32,9 +35,36 @@ public class SignUp extends AppCompatActivity {
             EditText password = findViewById(R.id.passwordOneEt);
             EditText passwordTwo = findViewById((R.id.passwordTwoEt));
 
+            String regex = "^[\\\\w!#$%&'*+/=?`{|}~^-]+(?:\\\\.[\\\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,6}$"; // https://howtodoinjava.com/java/regex/java-regex-validate-email-address/
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(userEmail.getText().toString());
+
+            if (matcher.matches()) {
+                Log.i("Amp.EmailMatcher", "The Email is Good! Clear!");
+            } else {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Please check your email", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                View toastView = toast.getView();
+                toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+                toast.show();
+                Log.e("Amp.EmailMatcher", "Bad email. Bad!");
+                return;
+            }
+
+            if (userName.getText().toString().contains(" ")) {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Username cannot contain spaces.", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                View toastView = toast.getView();
+                toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+                toast.show();
+                return;
+            }
+
             if (password.getText().toString().length() < 8) { // https://stackoverflow.com/questions/2506876/how-to-change-position-of-toast-in-android
                 Toast toast = Toast.makeText(getApplicationContext(),
-                "Password must be at least 8 characters.", Toast.LENGTH_LONG);
+                "Password must be at least 8 characters and no spaces.", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 View toastView = toast.getView(); // find the whole of the toast
                 toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN); //  to keep the rounded corners https://stackoverflow.com/questions/31175601/how-can-i-change-default-toast-message-color-and-background-color-in-android
@@ -60,9 +90,8 @@ public class SignUp extends AppCompatActivity {
 
             Intent intent = new Intent(this, SignupConfirmation.class);
             intent.putExtra("username", userName.getText().toString());
-
             intent.putExtra("password", password.getText().toString());
-
+            intent.putExtra("email", userEmail.getText().toString());
             this.startActivity(intent);
         });
     }

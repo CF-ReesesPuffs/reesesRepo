@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,7 +45,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
     }
 
     @Override // This gets called when a fragment(list item) has a java class attached to it
-    public void onBindViewHolder(@NonNull AdapterViewHolder holder,  int position) { // position is the position in the array
+    public void onBindViewHolder(@NonNull AdapterViewHolder holder, int position) { // position is the position in the array
         holder.guestList = guestList.get(position);
         System.out.println("this is guestlist: " + guestList);
 
@@ -56,6 +57,10 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
         userName.setText(holder.guestList.getUser().getUserName());
         status.setText(holder.guestList.getInviteStatus());
 
+        if (host.equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
+            holder.checkBox.setVisibility(View.VISIBLE);
+        }
+
         if (holder.guestList.getUser().getUserName().equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
             holder.checkBox.setVisibility(View.INVISIBLE);
         }
@@ -65,7 +70,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
+                if (isChecked) {
                     userName.setSelected(true);
                     Log.i("Android.viewAdapter", "This has been selected. " + guestList.get(position));
                     toRemove.add(guestList.get(position));
@@ -79,9 +84,10 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
         holder.checkBox.setChecked(userName.isSelected());
     }
 
-    @Override // This gets called so it knows how many fragments (list item) to put on the screen at once
+    @Override
+    // This gets called so it knows how many fragments (list item) to put on the screen at once
     public int getItemCount() {
-        if(guestList == null){
+        if (guestList == null) {
             return 0;
         }
         return guestList.size();
