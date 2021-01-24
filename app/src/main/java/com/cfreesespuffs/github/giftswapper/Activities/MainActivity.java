@@ -58,26 +58,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (preferences.getString("userId", "NA").equals("NA")) {
-            Amplify.API.query(
-                    ModelQuery.list(User.class),
-                    response -> {
-                        for (User user : response.getData()) {
-                            if (user.getUserName().equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
-                                currentUser = user;
-
-                                final SharedPreferences.Editor preferenceEditor = preferences.edit();
-                                preferenceEditor.putString("userId", currentUser.getId());
-                                preferenceEditor.apply();
-                                String userId = preferences.getString("userId", "NA");
-                                System.out.println("userID is " + userId);
-                            }
-                        }
-                    },
-                    error -> Log.e("Amp.userQuery", "fail")
-            );
-        }
-
         ApiOperation deleteSubscription = Amplify.API.subscribe(
                 ModelSubscription.onDelete(Party.class),
                 subWork -> Log.i("Amp.subOnDelete", "sub is working"),
@@ -127,6 +107,27 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                     Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
                     ImageButton createAccountBt = findViewById(R.id.createAccountButton);
                     createAccountBt.setVisibility(View.INVISIBLE);
+
+                    if (preferences.getString("userId", "NA").equals("NA")) {
+                        Amplify.API.query(
+                                ModelQuery.list(User.class),
+                                response -> {
+                                    for (User user : response.getData()) {
+                                        if (user.getUserName().equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
+                                            currentUser = user;
+
+                                            final SharedPreferences.Editor preferenceEditor = preferences.edit();
+                                            preferenceEditor.putString("userId", currentUser.getId());
+                                            preferenceEditor.apply();
+                                            String userId = preferences.getString("userId", "NA");
+                                            System.out.println("userID is " + userId);
+                                        }
+                                    }
+                                },
+                                error -> Log.e("Amp.userQuery", "fail")
+                        );
+                    }
+
                 }
             }
 
