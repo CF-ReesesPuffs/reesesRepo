@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                     ImageButton createAccountBt = findViewById(R.id.createAccountButton);
                     createAccountBt.setVisibility(View.INVISIBLE);
 
-                    if (preferences.getString("userId", "NA").equals("NA")) {
+                    if (preferences.getString("userId", "NA").equals("NA")) { //where gets currentUser still might break it.
                         Amplify.API.query(
                                 ModelQuery.list(User.class),
                                 response -> {

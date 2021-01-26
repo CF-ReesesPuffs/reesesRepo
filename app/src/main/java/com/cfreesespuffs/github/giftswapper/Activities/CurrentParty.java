@@ -2,7 +2,9 @@ package com.cfreesespuffs.github.giftswapper.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +16,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,12 +54,13 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     int currentTurn = 100; // this is not smart :P
     ApiOperation subscription;
     AuthUser authUser;
+    Toolbar toolbar;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -63,6 +68,8 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_party);
 
+        toolbar = (Toolbar) findViewById(R.id.tb_Current_Party);
+        setSupportActionBar(toolbar);
 
         intent = getIntent();
         partyId = intent.getExtras().getString("id");
@@ -82,6 +89,16 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
         TextView partyName = CurrentParty.this.findViewById(R.id.partyName);
         partyName.setText(intent.getExtras().getString("thisPartyId"));
+
+        TextView partyTv = (TextView) findViewById(R.id.currentPartyTitleTb);
+        partyTv.setText(intent.getExtras().getString("thisPartyId"));
+
+        Button homeButton = findViewById(R.id.thisHomeButton);
+        homeButton.setOnClickListener(view -> {
+            Intent intent = new Intent(CurrentParty.this, MainActivity.class);
+            CurrentParty.this.startActivity(intent);
+
+        });
 
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
