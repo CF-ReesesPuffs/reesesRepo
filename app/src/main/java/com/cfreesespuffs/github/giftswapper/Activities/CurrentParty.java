@@ -56,12 +56,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     AuthUser authUser;
     Toolbar toolbar;
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,9 +80,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 },
                 error -> Log.e("amplify.user", String.valueOf(error))
         );
-
-        TextView partyName = CurrentParty.this.findViewById(R.id.partyName);
-        partyName.setText(intent.getExtras().getString("thisPartyId"));
 
         TextView partyTv = (TextView) findViewById(R.id.currentPartyTitleTb);
         partyTv.setText(intent.getExtras().getString("thisPartyId"));
@@ -224,11 +215,11 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 () -> Log.i(SUBSCRIBETAG, "Subscription completed")
         );
 
-        ImageButton homeDetailButton = CurrentParty.this.findViewById(R.id.goHome);
-        homeDetailButton.setOnClickListener((view)-> {
-            Intent goToMainIntent = new Intent(CurrentParty.this, MainActivity.class);
-            CurrentParty.this.startActivity(goToMainIntent);
-        });
+//        ImageButton homeDetailButton = CurrentParty.this.findViewById(R.id.goHome);
+//        homeDetailButton.setOnClickListener((view)-> {
+//            Intent goToMainIntent = new Intent(CurrentParty.this, MainActivity.class);
+//            CurrentParty.this.startActivity(goToMainIntent);
+//        });
     }
 
     public void connectAdapterToRecycler() {
