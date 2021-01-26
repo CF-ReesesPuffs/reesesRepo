@@ -56,7 +56,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     Handler handleSingleItem;
     ApiOperation subscription;
     ApiOperation deleteSubscription;
-    ApiOperation singlePartySubscription;
+    //ApiOperation singlePartySubscription;
     ArrayList<GuestList> guestList = new ArrayList<>();
     ArrayList<GuestList> attendeesGuestList = new ArrayList<>();
     MenuItem partyDeleter;
@@ -288,15 +288,9 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 error -> Log.e("Amplify", "Failed to retrieve store")
         );
 
-        singlePartySubscription = Amplify.API.subscribe(
-                getPartyStatus(intent.getExtras().getString("id")),
-                subCheck -> Log.e("Sub.SingleParty", "Connection established"),
-                response -> {
-                    Log.e("Sub.SingleParty", "This is the party: " + response.getData());
-                },
-                failure -> Log.e("Sub.SingleParty", "failure: " + failure),
-                () -> Log.i("Amp.SingleParty", "sub is closed")
-        );
+       // createSinglePartySubscription(intent.getExtras().getString("id"));
+
+
 
         deleteSubscription = Amplify.API.subscribe(
                 ModelSubscription.onDelete(GuestList.class),
@@ -567,10 +561,18 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     }
 
     private GraphQLRequest<Party> getPartyStatus(String id) {
-        String document = "query getTodo($id: ID!) { "
-                + "getTodo(id: $id) { "
+        String document = "subscription getPartyStatus($id: ID!) { "
+                + "onUpdateOfSpecificParty(id: $id) { "
                 + "id "
-                + "name "
+                + "title "
+                + "hostedOn "
+                + "hostedAt "
+                + "partyDateAWS "
+                + "partyDate "
+                + "price "
+                + "isReady "
+                + "isFinished "
+                + "stealLimit "
                 + "}"
                 + "}";
         return new SimpleGraphQLRequest<>(
@@ -579,5 +581,20 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 Party.class,
                 new GsonVariablesSerializer());
     }
+
+    private void createSinglePartySubscription (String id) {
+
+        Amplify.API.subscribe(
+                getPartyStatus(intent.getExtras().getString("id")),
+                subCheck -> Log.e("Sub.SingleParty", "Connection established"),
+                response -> {
+                    Log.e("Sub.SingleParty", "This is the party: " + response.getData() + " ID: " + intent.getExtras().getString("id"));
+                },
+                failure -> Log.e("Sub.SingleParty", "failure: " + failure),
+                () -> Log.i("Amp.SingleParty", "sub is closed")
+        );
+
+    }
+       // singlePartySubscription.start();
 
 }

@@ -46,6 +46,6 @@ type Party @model {
 }
 
 type Subscription {
-  onUpdateOfSpecificParty(partyId: ID!): Party
-    @aws_subscribe(mutations: ["updateParty"])
+  onUpdateOfSpecificParty(id: ID!): Party
+    @aws_subscribe(mutations: "updateParty")
 }

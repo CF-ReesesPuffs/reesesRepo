@@ -40,8 +40,8 @@ public final class Party implements Model {
   private final @ModelField(targetType="AWSDate") Temporal.Date partyDateAWS;
   private final @ModelField(targetType="String") String partyDate;
   private final @ModelField(targetType="String") String price;
-  public  @ModelField(targetType="Boolean") Boolean isReady;
-  public  @ModelField(targetType="Boolean") Boolean isFinished;
+  public @ModelField(targetType="Boolean") Boolean isReady;
+  public @ModelField(targetType="Boolean") Boolean isFinished;
   private final @ModelField(targetType="Int") Integer stealLimit;
   private final @ModelField(targetType="User") @BelongsTo(targetName = "partyTheHostId", type = User.class) User theHost;
   private final @ModelField(targetType="GuestList") @HasMany(associatedWith = "party", type = GuestList.class) List<GuestList> users = null;
