@@ -26,6 +26,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amplifyframework.api.ApiOperation;
+import com.amplifyframework.api.aws.GsonVariablesSerializer;
+import com.amplifyframework.api.graphql.GraphQLRequest;
+import com.amplifyframework.api.graphql.SimpleGraphQLRequest;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.api.graphql.model.ModelSubscription;
@@ -40,6 +43,7 @@ import com.cfreesespuffs.github.giftswapper.Adapters.ViewAdapter;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskListener, NavigationView.OnNavigationItemSelectedListener {
@@ -52,6 +56,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     Handler handleSingleItem;
     ApiOperation subscription;
     ApiOperation deleteSubscription;
+    ApiOperation singlePartySubscription;
     ArrayList<GuestList> guestList = new ArrayList<>();
     ArrayList<GuestList> attendeesGuestList = new ArrayList<>();
     MenuItem partyDeleter;
@@ -281,6 +286,16 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                     handleSingleItem.sendEmptyMessage(1);
                 },
                 error -> Log.e("Amplify", "Failed to retrieve store")
+        );
+
+        singlePartySubscription = Amplify.API.subscribe(
+                getPartyStatus(intent.getExtras().getString("id")),
+                subCheck -> Log.e("Sub.SingleParty", "Connection established"),
+                response -> {
+                    Log.e("Sub.SingleParty", "This is the party: " + response.getData());
+                },
+                failure -> Log.e("Sub.SingleParty", "failure: " + failure),
+                () -> Log.i("Amp.SingleParty", "sub is closed")
         );
 
         deleteSubscription = Amplify.API.subscribe(
@@ -550,4 +565,19 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         intent2.putExtra("thisPartyId", getIntent().getExtras().getString("title"));
         PendingPage.this.startActivity(intent2);
     }
+
+    private GraphQLRequest<Party> getPartyStatus(String id) {
+        String document = "query getTodo($id: ID!) { "
+                + "getTodo(id: $id) { "
+                + "id "
+                + "name "
+                + "}"
+                + "}";
+        return new SimpleGraphQLRequest<>(
+                document,
+                Collections.singletonMap("id", id),
+                Party.class,
+                new GsonVariablesSerializer());
+    }
+
 }

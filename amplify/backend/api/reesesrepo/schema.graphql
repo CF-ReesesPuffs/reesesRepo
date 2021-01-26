@@ -44,3 +44,8 @@ type Party @model {
   users: [GuestList] @connection(name: "ConParty")
   gifts: [Gift] @connection(name: "PartyGifts")
 }
+
+type Subscription {
+  onUpdateOfSpecificParty(partyId: ID!): Party
+    @aws_subscribe(mutations: ["updateParty"])
+}
