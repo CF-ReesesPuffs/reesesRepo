@@ -17,7 +17,9 @@
             android:name=".PostParty"
             android:theme="@style/Theme.AllNoActionBarNone"
             />
-        <activity android:name=".Activities.CurrentParty" />
+        <activity android:name=".Activities.CurrentParty"
+            android:theme="@style/Theme.Giftswapper.NoActionBar" />
+<!--            />-->
         <activity android:name=".Activities.EndedPartyCheck"/>
         <activity
             android:theme="@style/Theme.AllNoActionBarNone"
