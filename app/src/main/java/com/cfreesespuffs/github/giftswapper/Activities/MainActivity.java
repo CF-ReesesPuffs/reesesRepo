@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -37,6 +40,7 @@ import com.cfreesespuffs.github.giftswapper.Adapters.PartyAdapter;
 import com.cfreesespuffs.github.giftswapper.InvitationList;
 import com.cfreesespuffs.github.giftswapper.PendingPage;
 import com.cfreesespuffs.github.giftswapper.R;
+import com.google.android.material.badge.BadgeDrawable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     User currentUser;
     ImageButton loginButton;
     SharedPreferences preferences;
+    private Menu mToolBar; // todo: wise up about this.
 
     @Override
     public void onResume() {
@@ -88,8 +93,17 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
         return true;
     }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        mToolBar = menu;
+        createBellBadge(2);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -228,6 +242,9 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             MainActivity.this.startActivity(goToNotificationsIntent);
         });
 
+
+//        MenuItem badgeItem = this.findViewById(R.menu.menu_main).
+
 //================= sign up
         ImageButton navButton = MainActivity.this.findViewById(R.id.createAccountButton);
         navButton.setOnClickListener((view) -> {
@@ -325,5 +342,36 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         }
 
         return true;
+    }
+
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu) {
+//        mToolBar = menu;
+//        createBellBadge(2);
+//        return super.onPrepareOptionsMenu(menu);
+//    }
+
+    private void createBellBadge(int paramInt) {
+        if (Build.VERSION.SDK_INT <= 15) {
+            return;
+        }
+        MenuItem bellItem = this.findViewById(R.id.mainActivityBadge);
+
+        LayerDrawable localLayerDrawable = (LayerDrawable) bellItem.getIcon();
+
+        Drawable bellBadgeDrawable = localLayerDrawable.findDrawableByLayerId(R.id.badge);
+
+        com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable badgeDrawable;
+
+
+        if ((bellBadgeDrawable != null) && ((bellBadgeDrawable instanceof BadgeDrawable)) && (paramInt < 10)) {
+            badgeDrawable = (com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable) bellBadgeDrawable;
+        } else {
+            badgeDrawable = new com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable(this);
+        }
+        badgeDrawable.setCount(paramInt);
+        localLayerDrawable.mutate();
+        localLayerDrawable.setDrawableByLayerId(R.id.badge, badgeDrawable);
+        bellItem.setIcon(localLayerDrawable);
     }
 }

@@ -13,4 +13,11 @@
         android:id="@+id/setting_logout"
         android:title="@string/logout"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/mainActivityBadge"
+        android:icon="@drawable/party_badge"
+        app:showAsAction="ifRoom"
+        android:title="bellBadge" />
+
 </menu>
