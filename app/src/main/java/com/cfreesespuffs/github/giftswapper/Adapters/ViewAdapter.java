@@ -47,7 +47,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
     @Override // This gets called when a fragment(list item) has a java class attached to it
     public void onBindViewHolder(@NonNull AdapterViewHolder holder, int position) { // position is the position in the array
         holder.guestList = guestList.get(position);
-        System.out.println("this is guestlist: " + guestList);
+//        System.out.println("this is guestlist: " + guestList);
 
         TextView userName = holder.itemView.findViewById(R.id.guestName);
         TextView status = holder.itemView.findViewById(R.id.status);

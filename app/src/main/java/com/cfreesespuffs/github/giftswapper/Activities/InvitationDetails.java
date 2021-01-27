@@ -104,7 +104,7 @@ public class InvitationDetails extends AppCompatActivity {
 
                 guestList.inviteStatus = "Declined";
 
-                Log.i("Amplify.guestList", "This is guest list " + guestList);
+//                Log.i("Amplify.guestList", "This is guest list " + guestList);
                 Amplify.API.mutate(
                         ModelMutation.update(guestList),
                         response -> Log.i("DeclinedInvite", "You declined an invite! " + response.getData().toString()),

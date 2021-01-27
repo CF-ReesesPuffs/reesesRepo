@@ -26,6 +26,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amplifyframework.api.ApiOperation;
+import com.amplifyframework.api.aws.GsonVariablesSerializer;
+import com.amplifyframework.api.graphql.GraphQLRequest;
+import com.amplifyframework.api.graphql.SimpleGraphQLRequest;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.api.graphql.model.ModelSubscription;
@@ -40,6 +43,7 @@ import com.cfreesespuffs.github.giftswapper.Adapters.ViewAdapter;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskListener, NavigationView.OnNavigationItemSelectedListener {
@@ -48,7 +52,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
     RecyclerView recyclerView;
-    Handler handler;
     Handler handleSingleItem;
     ApiOperation subscription;
     ApiOperation deleteSubscription;
@@ -57,7 +60,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     MenuItem partyDeleter;
     MenuItem guestRemover;
     String partyId;
-    Party pendingParty;
+    Party pendingParty, lastParty;
     int counter = 0;
     Button startParty;
     Intent intent;
@@ -111,7 +114,13 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                             startParty.setEnabled(true);
                             startParty.setText("Go to party!");
                         }
-                        recyclerView.getAdapter().notifyItemInserted(guestList.size());
+
+                        if (msg.arg1 == 6) {
+                            startParty.setEnabled(true);
+                            startParty.setText("Party's over!");
+                        }
+
+                        recyclerView.getAdapter().notifyItemInserted(guestList.size()); // might not be the right place...
                         return false;
                     }
                 });
@@ -145,7 +154,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
         startParty.setOnClickListener((view) -> {
 
-            if (pendingParty.isFinished) {
+            if (pendingParty.isFinished) {  // Todo: confirms this works.
                 Intent headToPostParty = new Intent(PendingPage.this, PostParty.class);
 
                 headToPostParty.putExtra("title", pendingParty.getTitle());
@@ -275,13 +284,14 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
                     for (GuestList user : response.getData().getUsers()) {
-                        Log.i("Amplify.test", "stuff to test " + user);
                         guestList.add(user);
                     }
                     handleSingleItem.sendEmptyMessage(1);
                 },
                 error -> Log.e("Amplify", "Failed to retrieve store")
         );
+
+        createSinglePartySubscription(intent.getExtras().getString("id"));
 
         deleteSubscription = Amplify.API.subscribe(
                 ModelSubscription.onDelete(GuestList.class),
@@ -314,7 +324,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 ModelSubscription.onUpdate(GuestList.class),
                 onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
                 newGuests -> {
-                    Log.i("Amp.Subscribe.details", "This is the content: " + newGuests.getData());
+                    Log.i("Amp.Subscribe.details", "This is the content: "); // + newGuests.getData()
 
                     Amplify.API.query(
                             ModelQuery.get(Party.class, intent.getExtras().getString("id")),
@@ -328,14 +338,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                                 }
 
                                 pendingParty = response.getData();
-//                                Amplify.API.query(
-//                                        ModelQuery.get(Party.class, partyId),
-//                                        responseParty -> {
-//                                            Log.i("Amp.Partyhere", "Party has been getten.");
-//                                            pendingParty = responseParty.getData();
-//                                        },
-//                                        error -> Log.e("Amp.Partyhere", "Error down: " + error)
-//                                );
 
                                 Message message = new Message();
                                 message.arg1 = 1;
@@ -421,8 +423,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         ArrayList<GuestList> userToDeleteNow = ((ViewAdapter) recyclerView.getAdapter()).toRemove;
 
         for (GuestList toDelete : userToDeleteNow) {
-            System.out.println("The toDelete object: " + toDelete);
-
             Amplify.API.query(
                     ModelQuery.get(User.class, toDelete.getUser().getId()),
                     userToGet -> {
@@ -458,7 +458,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 ModelQuery.get(Party.class, partyId),
                 partyAllToDelete -> {
                     Amplify.API.query(
-                            ModelQuery.list(GuestList.class),
+                            ModelQuery.list(GuestList.class), // todo: query for specfic guestlist
                             thePartyGoers -> {
                                 for (GuestList guestList : thePartyGoers.getData()) {
                                     if (guestList.getParty().getId().contains(partyAllToDelete.getData().getId())) {
@@ -473,7 +473,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                             error -> Log.e("Amp.del.user", "Failure: " + error));
 
                     Amplify.API.query(
-                            ModelQuery.list(Gift.class),
+                            ModelQuery.list(Gift.class), // todo: query for specfic gifts
                             allTheGifts -> {
                                 for (Gift gift : allTheGifts.getData()) {
                                     if (gift.getParty().getId().contains(partyAllToDelete.getData().getId())) {
@@ -549,5 +549,53 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         intent2.putExtra("id", partyId);
         intent2.putExtra("thisPartyId", getIntent().getExtras().getString("title"));
         PendingPage.this.startActivity(intent2);
+    }
+
+    private GraphQLRequest<Party> getPartyStatus(String id) {
+        String document = "subscription getPartyStatus($id: ID!) { "
+                + "onUpdateOfSpecificParty(id: $id) { "
+                    + "id "
+                    + "title "
+                    + "hostedOn "
+                    + "hostedAt "
+                    + "partyDateAWS "
+                    + "partyDate "
+                    + "price "
+                    + "isReady "
+                    + "isFinished "
+                    + "stealLimit "
+//                    + "theHost { "
+//                        + "items { "
+//                            + "id "
+//                            + "userName "
+//                            + "email "
+//                            + "}"
+//                        + "}"
+                    + "}"
+                + "}";
+        return new SimpleGraphQLRequest<>(
+                document,
+                Collections.singletonMap("id", id),
+                Party.class,
+                new GsonVariablesSerializer());
+    }
+
+    private void createSinglePartySubscription (String id) {
+        Amplify.API.subscribe(getPartyStatus(intent.getExtras().getString("id")),
+                subCheck -> Log.d("Sub.SingleParty", "Connection established for: " + subCheck),
+                response -> {
+                    Log.e("Sub.SingleParty", "This is the SUB party: " + response.getData() + " ID: " + intent.getExtras().getString("id"));
+                    Log.e("Sub.SingleParty", "This is the pendingParty: " + pendingParty);
+                    if (response.getData().isFinished) {
+                        pendingParty.isFinished = true; // because the current query we run doesn't replace everything of the pendingparty variable, and we don't need it to.
+                        Message toPostParty = new Message();
+                        toPostParty.arg1 = 6;
+                        handleSingleItem.sendMessage(toPostParty);
+                    }
+                },
+                failure -> Log.e("Sub.SingleParty", "failure: " + failure),
+                () -> Log.i("Amp.SingleParty", "sub is closed")
+        );
+
     }
 }
