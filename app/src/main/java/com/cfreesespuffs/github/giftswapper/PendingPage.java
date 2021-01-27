@@ -458,7 +458,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 ModelQuery.get(Party.class, partyId),
                 partyAllToDelete -> {
                     Amplify.API.query(
-                            ModelQuery.list(GuestList.class),
+                            ModelQuery.list(GuestList.class), // todo: query for specfic guestlist
                             thePartyGoers -> {
                                 for (GuestList guestList : thePartyGoers.getData()) {
                                     if (guestList.getParty().getId().contains(partyAllToDelete.getData().getId())) {
@@ -473,7 +473,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                             error -> Log.e("Amp.del.user", "Failure: " + error));
 
                     Amplify.API.query(
-                            ModelQuery.list(Gift.class),
+                            ModelQuery.list(Gift.class), // todo: query for specfic gifts
                             allTheGifts -> {
                                 for (Gift gift : allTheGifts.getData()) {
                                     if (gift.getParty().getId().contains(partyAllToDelete.getData().getId())) {
@@ -565,9 +565,9 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                     + "isFinished "
                     + "stealLimit "
 //                    + "theHost { "
-//                        + "items {"
+//                        + "items { "
 //                            + "id "
-//                            + "userName"
+//                            + "userName "
 //                            + "email "
 //                            + "}"
 //                        + "}"
