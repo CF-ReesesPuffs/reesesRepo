@@ -62,7 +62,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     MenuItem partyDeleter;
     MenuItem guestRemover;
     String partyId;
-    Party pendingParty;
+    Party pendingParty, lastParty;
     int counter = 0;
     Button startParty;
     Intent intent;
@@ -116,7 +116,13 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                             startParty.setEnabled(true);
                             startParty.setText("Go to party!");
                         }
-                        recyclerView.getAdapter().notifyItemInserted(guestList.size());
+
+                        if (msg.arg1 == 6) {
+                            startParty.setEnabled(true);
+                            startParty.setText("Party's over!");
+                        }
+
+                        recyclerView.getAdapter().notifyItemInserted(guestList.size()); // might not be the right place...
                         return false;
                     }
                 });
@@ -150,7 +156,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
 
         startParty.setOnClickListener((view) -> {
 
-            if (pendingParty.isFinished) {
+            if (pendingParty.isFinished) {  // Todo: confirms this works.
                 Intent headToPostParty = new Intent(PendingPage.this, PostParty.class);
 
                 headToPostParty.putExtra("title", pendingParty.getTitle());
@@ -280,7 +286,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
                     for (GuestList user : response.getData().getUsers()) {
-                        Log.i("Amplify.test", "stuff to test " + user);
+//                        Log.i("Amplify.test", "stuff to test " + user);
                         guestList.add(user);
                     }
                     handleSingleItem.sendEmptyMessage(1);
@@ -288,9 +294,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 error -> Log.e("Amplify", "Failed to retrieve store")
         );
 
-       // createSinglePartySubscription(intent.getExtras().getString("id"));
-
-
+        createSinglePartySubscription(intent.getExtras().getString("id"));
 
         deleteSubscription = Amplify.API.subscribe(
                 ModelSubscription.onDelete(GuestList.class),
@@ -323,7 +327,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 ModelSubscription.onUpdate(GuestList.class),
                 onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
                 newGuests -> {
-                    Log.i("Amp.Subscribe.details", "This is the content: " + newGuests.getData());
+                    Log.i("Amp.Subscribe.details", "This is the content: "); // + newGuests.getData()
 
                     Amplify.API.query(
                             ModelQuery.get(Party.class, intent.getExtras().getString("id")),
@@ -430,7 +434,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         ArrayList<GuestList> userToDeleteNow = ((ViewAdapter) recyclerView.getAdapter()).toRemove;
 
         for (GuestList toDelete : userToDeleteNow) {
-            System.out.println("The toDelete object: " + toDelete);
+//            System.out.println("The toDelete object: " + toDelete);
 
             Amplify.API.query(
                     ModelQuery.get(User.class, toDelete.getUser().getId()),
@@ -563,17 +567,24 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     private GraphQLRequest<Party> getPartyStatus(String id) {
         String document = "subscription getPartyStatus($id: ID!) { "
                 + "onUpdateOfSpecificParty(id: $id) { "
-                + "id "
-                + "title "
-                + "hostedOn "
-                + "hostedAt "
-                + "partyDateAWS "
-                + "partyDate "
-                + "price "
-                + "isReady "
-                + "isFinished "
-                + "stealLimit "
-                + "}"
+                    + "id "
+                    + "title "
+                    + "hostedOn "
+                    + "hostedAt "
+                    + "partyDateAWS "
+                    + "partyDate "
+                    + "price "
+                    + "isReady "
+                    + "isFinished "
+                    + "stealLimit "
+//                    + "theHost { "
+//                        + "items {"
+//                            + "id "
+//                            + "userName"
+//                            + "email "
+//                            + "}"
+//                        + "}"
+                    + "}"
                 + "}";
         return new SimpleGraphQLRequest<>(
                 document,
@@ -583,12 +594,17 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     }
 
     private void createSinglePartySubscription (String id) {
-
-        Amplify.API.subscribe(
-                getPartyStatus(intent.getExtras().getString("id")),
-                subCheck -> Log.e("Sub.SingleParty", "Connection established"),
+        Amplify.API.subscribe(getPartyStatus(intent.getExtras().getString("id")),
+                subCheck -> Log.d("Sub.SingleParty", "Connection established for: " + subCheck),
                 response -> {
-                    Log.e("Sub.SingleParty", "This is the party: " + response.getData() + " ID: " + intent.getExtras().getString("id"));
+                    Log.e("Sub.SingleParty", "This is the SUB party: " + response.getData() + " ID: " + intent.getExtras().getString("id"));
+                    Log.e("Sub.SingleParty", "This is the pendingParty: " + pendingParty);
+                    if (response.getData().isFinished) {
+                        pendingParty.isFinished = true; // because otherwise, while we have a new party, we don't *hold* it anywhere.
+                        Message toPostParty = new Message();
+                        toPostParty.arg1 = 6;
+                        handleSingleItem.sendMessage(toPostParty);
+                    }
                 },
                 failure -> Log.e("Sub.SingleParty", "failure: " + failure),
                 () -> Log.i("Amp.SingleParty", "sub is closed")
