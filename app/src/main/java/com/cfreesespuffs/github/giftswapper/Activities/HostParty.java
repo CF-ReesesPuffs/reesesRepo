@@ -82,7 +82,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         stealLimitSpinner();
 
         AuthUser authUser = Amplify.Auth.getCurrentUser();
-        // dev is weird
+
         Amplify.API.query(
                 ModelQuery.list(User.class),
                 response -> {
@@ -96,13 +96,11 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 error -> Log.e("Amplify.user", "error: " + error)
         );
 
-        // https://www.javaprogramto.com/2020/08/how-to-convert-calendar-to-localdatetime-in-java-8.html
-
         generalHandler = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 1) {
                 Toast.makeText(this, "Add more party goers!", Toast.LENGTH_LONG).show();
             }
-            if (message.arg1 == 2) {
+            if (message.arg1 == 2) {         // https://www.javaprogramto.com/2020/08/how-to-convert-calendar-to-localdatetime-in-java-8.html
                 Date dateFormat = date.getTime(); // https://www.candidjava.com/tutorial/java-program-to-convert-calendar-to-date-and-date-to-calendar/#:~:text=Calendar%20object%20to%20Date%20object%2C%20Using%20Calendar.getInstance%20%28%29,object%20to%20Calendar%20object%2C%20Date%20d%3Dnew%20Date%20%281515660075000l%29%3B
                 SimpleDateFormat format = new SimpleDateFormat("MMMM dd, yyyy  hh:mm a");
                 String prettyDate = format.format(dateFormat);
@@ -125,8 +123,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         partyDate = findViewById(R.id.editTextDate);
 
         Button findGuestButton = findViewById(R.id.findGuest_button);
-        findGuestButton.setOnClickListener((view) -> {
-//        https://stackoverflow.com/questions/9596010/android-use-done-button-on-keyboard-to-click-button
+        findGuestButton.setOnClickListener((view) -> { // https://stackoverflow.com/questions/9596010/android-use-done-button-on-keyboard-to-click-button
 
             Amplify.API.query(
                     ModelQuery.list(User.class),
@@ -206,8 +203,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 List<User> guestsToInviteList = new ArrayList();
 
                 guestsToInviteList.addAll(guestsToInvite);
-
-//                System.out.println(guestsToInviteList.toString());
 
                 boolean flag = false;
                 for (User guest : guestsToInviteList) {

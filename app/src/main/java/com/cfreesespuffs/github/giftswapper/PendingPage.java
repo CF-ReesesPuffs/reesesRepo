@@ -52,11 +52,9 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
     ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
     RecyclerView recyclerView;
-    Handler handler;
     Handler handleSingleItem;
     ApiOperation subscription;
     ApiOperation deleteSubscription;
-    //ApiOperation singlePartySubscription;
     ArrayList<GuestList> guestList = new ArrayList<>();
     ArrayList<GuestList> attendeesGuestList = new ArrayList<>();
     MenuItem partyDeleter;
@@ -286,7 +284,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
                     for (GuestList user : response.getData().getUsers()) {
-//                        Log.i("Amplify.test", "stuff to test " + user);
                         guestList.add(user);
                     }
                     handleSingleItem.sendEmptyMessage(1);
@@ -341,14 +338,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                                 }
 
                                 pendingParty = response.getData();
-//                                Amplify.API.query(
-//                                        ModelQuery.get(Party.class, partyId),
-//                                        responseParty -> {
-//                                            Log.i("Amp.Partyhere", "Party has been getten.");
-//                                            pendingParty = responseParty.getData();
-//                                        },
-//                                        error -> Log.e("Amp.Partyhere", "Error down: " + error)
-//                                );
 
                                 Message message = new Message();
                                 message.arg1 = 1;
@@ -434,8 +423,6 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         ArrayList<GuestList> userToDeleteNow = ((ViewAdapter) recyclerView.getAdapter()).toRemove;
 
         for (GuestList toDelete : userToDeleteNow) {
-//            System.out.println("The toDelete object: " + toDelete);
-
             Amplify.API.query(
                     ModelQuery.get(User.class, toDelete.getUser().getId()),
                     userToGet -> {
@@ -600,7 +587,7 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
                     Log.e("Sub.SingleParty", "This is the SUB party: " + response.getData() + " ID: " + intent.getExtras().getString("id"));
                     Log.e("Sub.SingleParty", "This is the pendingParty: " + pendingParty);
                     if (response.getData().isFinished) {
-                        pendingParty.isFinished = true; // because otherwise, while we have a new party, we don't *hold* it anywhere.
+                        pendingParty.isFinished = true; // because the current query we run doesn't replace everything of the pendingparty variable, and we don't need it to.
                         Message toPostParty = new Message();
                         toPostParty.arg1 = 6;
                         handleSingleItem.sendMessage(toPostParty);
@@ -611,6 +598,4 @@ public class PendingPage extends AppCompatActivity implements ViewAdapter.OnInte
         );
 
     }
-       // singlePartySubscription.start();
-
 }
