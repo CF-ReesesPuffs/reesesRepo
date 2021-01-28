@@ -16,6 +16,7 @@
         android:background="@color/gold_yellow"
         android:backgroundTint="#99ED8922"
         android:contentDescription="TODO"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/main_header"
         app:layout_constraintEnd_toStartOf="@+id/createAccountButton"
         app:layout_constraintHorizontal_bias="1.0"

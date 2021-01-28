@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bell"
+        android:drawable="@drawable/ic_notification_foreground"
+        android:gravity="center"
+        android:title="BELL" />
+    <item
+        android:id="@+id/badge"
+        android:drawable="@android:color/transparent"
+        android:title="BELL" />
+
+</layer-list>
