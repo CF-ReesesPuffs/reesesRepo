@@ -18,6 +18,11 @@ type GuestList @model {
   party: Party @connection(name:"ConParty")
 }
 
+type Subscription {
+  onCreateOfUserId(user: User @connection(name: "ConUser"))
+  @aws_subscribe(mutations: ["createGuestList"])
+}
+
 type Gift @model {
   id: ID!
   title: String!
@@ -49,18 +54,3 @@ type Subscription {
   onUpdateOfSpecificParty(id: ID!): Party
     @aws_subscribe(mutations: ["updateParty"])
 }
-
-#subscription OnUpdateParty {
-#  onUpdateParty {
-#    id
-#    title
-#    hosteOn
-#    hostedAt
-#    partyDateAWS
-#    partyDate
-#    price
-#    isReady
-#    isfinished
-#    stealLimit
-#  }
-#}

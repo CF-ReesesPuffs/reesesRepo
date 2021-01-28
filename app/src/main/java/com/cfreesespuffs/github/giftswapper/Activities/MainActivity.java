@@ -49,6 +49,7 @@ import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener {
     public ArrayList<Party> parties = new ArrayList<>();
+    public ArrayList<Party> pendingParties = new ArrayList<>();
     Handler handleCheckLoggedIn;
     Handler handleParties;
     RecyclerView partyRecyclerView;
@@ -60,10 +61,25 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
     @Override
     public void onResume() {
-
         super.onResume();
-
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        Amplify.API.query(
+                ModelQuery.get(User.class, preferences.getString("userId", "NA")),
+                response2 -> {
+                    pendingParties.clear();
+                    for (GuestList party : response2.getData().getParties()) {
+                        if (party.getInviteStatus().equals("Pending")){
+                            pendingParties.add(party.getParty());
+                            Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
+                        }
+                    }
+                    Message message = new Message();
+                    message.arg1 = 10;
+                    handleCheckLoggedIn.sendMessage(message);
+                },
+                error -> Log.e("Amplify", "Failed to retrieve store")
+        );
 
         ApiOperation deleteSubscription = Amplify.API.subscribe(
                 ModelSubscription.onDelete(Party.class),
@@ -102,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     public boolean onPrepareOptionsMenu(Menu menu) {
         bellItem = menu.findItem(R.id.mainActivityBadge);
         localLayerDrawable = (LayerDrawable) bellItem.getIcon();
-        createBellBadge(1);
+        //createBellBadge(1);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -168,6 +184,10 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 Log.i("Auth.arg1-5", "Logged out via Settings");
                 ImageButton createAccountBt = findViewById(R.id.createAccountButton);
                 createAccountBt.setVisibility(View.VISIBLE);
+            }
+
+            if (message.arg1 == 10){
+                createBellBadge(pendingParties.size());
             }
 
             return false;
