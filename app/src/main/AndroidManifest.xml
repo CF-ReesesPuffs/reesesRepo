@@ -27,10 +27,9 @@
         <activity android:name=".Activities.InvitationDetails" />
         <activity android:name=".Activities.HostParty" />
         <activity android:name=".Activities.UserProfile" />
-        <activity android:name=".Activities.MainActivity" >
+        <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

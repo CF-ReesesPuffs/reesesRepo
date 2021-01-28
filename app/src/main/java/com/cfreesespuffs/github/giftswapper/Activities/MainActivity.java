@@ -1,6 +1,7 @@
 package com.cfreesespuffs.github.giftswapper.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,7 +55,8 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     User currentUser;
     ImageButton loginButton;
     SharedPreferences preferences;
-    private Menu mToolBar; // todo: wise up about this.
+    MenuItem bellItem;
+    LayerDrawable localLayerDrawable;
 
     @Override
     public void onResume() {
@@ -93,17 +95,23 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        mToolBar = menu;
-        createBellBadge(2);
-        return super.onPrepareOptionsMenu(menu);
-    }
 
+        bellItem = menu.findItem(R.id.mainActivityBadge);
+        if (bellItem.getIcon() != null ) {
+            Log.e("Android.BellItem", "Present");
+            localLayerDrawable = (LayerDrawable) bellItem.getIcon();
+        }
+        createBellBadge(3);
+//        menu.findItem(R.id.mainActivityBadge).setVisible(false); // helped be a sanity check that the badge/icon *was* real.
+        super.onPrepareOptionsMenu(menu);
+
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -242,9 +250,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             MainActivity.this.startActivity(goToNotificationsIntent);
         });
 
-
-//        MenuItem badgeItem = this.findViewById(R.menu.menu_main).
-
 //================= sign up
         ImageButton navButton = MainActivity.this.findViewById(R.id.createAccountButton);
         navButton.setOnClickListener((view) -> {
@@ -341,28 +346,21 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             handleCheckLoggedIn.sendMessage(goToEndPartyActivity);
         }
 
+        if (item.getItemId() == R.id.mainActivityBadge) {
+            Log.i("Menu.badgeClick", "CLICK");
+            Intent goToNotificationsIntent = new Intent(MainActivity.this, InvitationList.class);//Is this were we want to send them?
+            MainActivity.this.startActivity(goToNotificationsIntent);
+        }
         return true;
     }
-
-//    @Override
-//    public boolean onPrepareOptionsMenu(Menu menu) {
-//        mToolBar = menu;
-//        createBellBadge(2);
-//        return super.onPrepareOptionsMenu(menu);
-//    }
 
     private void createBellBadge(int paramInt) {
         if (Build.VERSION.SDK_INT <= 15) {
             return;
         }
-        MenuItem bellItem = this.findViewById(R.id.mainActivityBadge);
-
-        LayerDrawable localLayerDrawable = (LayerDrawable) bellItem.getIcon();
 
         Drawable bellBadgeDrawable = localLayerDrawable.findDrawableByLayerId(R.id.badge);
-
         com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable badgeDrawable;
-
 
         if ((bellBadgeDrawable != null) && ((bellBadgeDrawable instanceof BadgeDrawable)) && (paramInt < 10)) {
             badgeDrawable = (com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable) bellBadgeDrawable;

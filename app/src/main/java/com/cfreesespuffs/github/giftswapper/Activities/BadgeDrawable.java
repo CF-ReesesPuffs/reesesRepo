@@ -27,14 +27,15 @@ public class BadgeDrawable extends Drawable {
     private boolean mWillDraw = false;
 
     public BadgeDrawable(Context paramContext) {
-        this.mTextSize = paramContext.getResources().getDimension(R.dimen.browser_actions_context_menu_min_padding); // R.dimen. is wrong
+
+        this.mTextSize = paramContext.getResources().getDimension(R.dimen.browser_actions_context_menu_min_padding) * .8f; // R.dimen. is wrong paramContext.getResources().getDimension(R.dimen.browser_actions_context_menu_min_padding)
         this.mBadgePaint = new Paint();
 
         this.mBadgePaint.setColor(paramContext.getResources().getColor(R.color.black)); // todo: there is no "colorBlack"
         this.mBadgePaint.setAntiAlias(true);
         this.mBadgePaint.setStyle(Paint.Style.FILL);
         this.mTextPaint = new Paint();
-        this.mTextPaint.setColor(Color.CYAN);
+        this.mTextPaint.setColor(Color.WHITE);
         this.mTextPaint.setTypeface(Typeface.DEFAULT);
         this.mTextPaint.setTextSize(this.mTextSize);
         this.mTextPaint.setAntiAlias(true);
