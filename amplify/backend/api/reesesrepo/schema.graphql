@@ -18,11 +18,6 @@ type GuestList @model {
   party: Party @connection(name:"ConParty")
 }
 
-type Subscription {
-  onCreateOfUserId(user: User @connection(name: "ConUser"))
-  @aws_subscribe(mutations: ["createGuestList"])
-}
-
 type Gift @model {
   id: ID!
   title: String!
@@ -52,5 +47,8 @@ type Party @model {
 
 type Subscription {
   onUpdateOfSpecificParty(id: ID!): Party
-    @aws_subscribe(mutations: ["updateParty"])
+   @aws_subscribe(mutations: ["updateParty"])
+
+  onCreateOfUserId(user: String): GuestList
+   @aws_subscribe(mutations: ["createGuestList"])
 }

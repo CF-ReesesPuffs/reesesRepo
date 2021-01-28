@@ -28,6 +28,9 @@ import com.amplifyframework.AmplifyException;
 import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
 import com.amplifyframework.api.ApiOperation;
 import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.aws.GsonVariablesSerializer;
+import com.amplifyframework.api.graphql.GraphQLRequest;
+import com.amplifyframework.api.graphql.SimpleGraphQLRequest;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.api.graphql.model.ModelSubscription;
 import com.amplifyframework.auth.AuthUser;
@@ -69,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 response2 -> {
                     pendingParties.clear();
                     for (GuestList party : response2.getData().getParties()) {
-                        if (party.getInviteStatus().equals("Pending")){
+                        if (party.getInviteStatus().equals("Pending")) {
                             pendingParties.add(party.getParty());
                             Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
                         }
@@ -106,6 +109,10 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         );
 
         deleteSubscription.start();
+
+        if(!preferences.getString("userId", "NA").equals("NA")){
+            createSingleIdGuestListSubscription(preferences.getString("userId", "NA"));
+        }
     }
 
     @Override
@@ -186,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 createAccountBt.setVisibility(View.VISIBLE);
             }
 
-            if (message.arg1 == 10){
+            if (message.arg1 == 10) {
                 createBellBadge(pendingParties.size());
             }
 
@@ -282,7 +289,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             Intent goToLoginIntent = new Intent(MainActivity.this, Login.class);
             MainActivity.this.startActivity(goToLoginIntent);
         });
-
     }
 
 //=========== RecyclerView=======================
@@ -384,5 +390,37 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         localLayerDrawable.mutate();
         localLayerDrawable.setDrawableByLayerId(R.id.badge, badgeDrawable);
         bellItem.setIcon(localLayerDrawable);
+    }
+
+    private GraphQLRequest<GuestList> getPendingParty(String id) {
+        String document = "subscription onCreateOfUserId($id: String) { "
+                + "onCreateOfUserId(user: $id) { "
+                    + "inviteStatus "
+                    + "invitedUser "
+                    + "}"
+                    + "}";
+        return new SimpleGraphQLRequest<>(
+                document,
+                Collections.singletonMap("id", id),
+                GuestList.class,
+                new GsonVariablesSerializer());
+    }
+
+    private void createSingleIdGuestListSubscription(String id){
+        Amplify.API.subscribe(getPendingParty(id),
+                subCheck -> {
+                    Log.d("Sub.SingleGuestList", "Connection for: " + subCheck);
+                            Log.d("Sub.SingleGuestList", "this is ID: " + id);
+                },
+                response -> {
+                    Log.e("Sub.SingleGuestList", "response: " + response);
+                    pendingParties.add(response.getData().getParty());
+                    Message message = new Message();
+                    message.arg1 = 10;
+                    handleCheckLoggedIn.sendMessage(message);
+                },
+                failure -> Log.e("Sub.SingleGuestList", "failure: " + failure),
+                () -> Log.i("Sub.SingleGuestList", "Sub is closed")
+        );
     }
 }
