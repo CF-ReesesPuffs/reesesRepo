@@ -17,27 +17,24 @@ import com.cfreesespuffs.github.giftswapper.R;
 
 public class BadgeDrawable extends Drawable {
 
-    private Paint mBadgePaint;
-    private Paint mTextPaint;
-    private Rect mTxtRect = new Rect();
-    private float mTextSize;
+    private final Paint mBadgePaint;
+    private final Paint mTextPaint;
+    private final Rect mTxtRect = new Rect();
     private String mCount = "";
-
-    //    private Rect mTxtRect = new Rect();
     private boolean mWillDraw = false;
 
-    public BadgeDrawable(Context paramContext) {
+    public BadgeDrawable(Context paramContext) { // https://codkiller0911.medium.com/adding-notification-badges-to-the-icons-in-android-b29ab4e15625
 
-        this.mTextSize = paramContext.getResources().getDimension(R.dimen.browser_actions_context_menu_min_padding) * .8f; // R.dimen. is wrong paramContext.getResources().getDimension(R.dimen.browser_actions_context_menu_min_padding)
+        float mTextSize = paramContext.getResources().getDimension(R.dimen.browser_actions_context_menu_min_padding) * .8f; // R.dimen. is wrong paramContext.getResources().getDimension(R.dimen.browser_actions_context_menu_min_padding)
         this.mBadgePaint = new Paint();
 
-        this.mBadgePaint.setColor(paramContext.getResources().getColor(R.color.black)); // todo: there is no "colorBlack"
+        this.mBadgePaint.setColor(paramContext.getResources().getColor(R.color.black));
         this.mBadgePaint.setAntiAlias(true);
         this.mBadgePaint.setStyle(Paint.Style.FILL);
         this.mTextPaint = new Paint();
         this.mTextPaint.setColor(Color.WHITE);
         this.mTextPaint.setTypeface(Typeface.DEFAULT);
-        this.mTextPaint.setTextSize(this.mTextSize);
+        this.mTextPaint.setTextSize(mTextSize);
         this.mTextPaint.setAntiAlias(true);
         this.mTextPaint.setTextAlign(Paint.Align.CENTER);
     }
@@ -78,19 +75,13 @@ public class BadgeDrawable extends Drawable {
     }
 
     @Override
-    public void setAlpha(int paramInt) {
-
-    }
+    public void setAlpha(int paramInt) {    }
 
     @Override
-    public void setColorFilter(@Nullable ColorFilter colorFilter) {
-
-    }
+    public void setColorFilter(@Nullable ColorFilter colorFilter) {    }
 
     @Override
-    public int getOpacity() {
-        return PixelFormat.TRANSPARENT;
-    }
+    public int getOpacity() { return PixelFormat.TRANSPARENT; }
 
     public void setCount (int paramInt) {
         this.mCount = Integer.toString(paramInt);

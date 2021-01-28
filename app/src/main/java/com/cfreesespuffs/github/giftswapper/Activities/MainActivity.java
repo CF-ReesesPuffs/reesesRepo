@@ -100,17 +100,10 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-
         bellItem = menu.findItem(R.id.mainActivityBadge);
-        if (bellItem.getIcon() != null ) {
-            Log.e("Android.BellItem", "Present");
-            localLayerDrawable = (LayerDrawable) bellItem.getIcon();
-        }
-        createBellBadge(3);
-//        menu.findItem(R.id.mainActivityBadge).setVisible(false); // helped be a sanity check that the badge/icon *was* real.
-        super.onPrepareOptionsMenu(menu);
-
-        return true;
+        localLayerDrawable = (LayerDrawable) bellItem.getIcon();
+        createBellBadge(1);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
