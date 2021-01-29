@@ -49,6 +49,6 @@ type Subscription {
   onUpdateOfSpecificParty(id: ID!): Party
    @aws_subscribe(mutations: ["updateParty"])
 
-  onCreateOfUserId(user: String): GuestList
+  onCreateOfUserId(invitedUser: String): GuestList
    @aws_subscribe(mutations: ["createGuestList"])
 }

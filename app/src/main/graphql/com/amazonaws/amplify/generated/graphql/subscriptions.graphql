@@ -133,8 +133,8 @@ subscription OnUpdateOfSpecificParty($id: ID!) {
     updatedAt
   }
 }
-subscription OnCreateOfUserId($user: String) {
-  onCreateOfUserId(user: $user) {
+subscription OnCreateOfUserId($invitedUser: String) {
+  onCreateOfUserId(invitedUser: $invitedUser) {
     id
     inviteStatus
     invitee

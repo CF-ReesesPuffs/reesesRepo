@@ -4111,7 +4111,7 @@
                         "description": null,
                         "args": [
                             {
-                                "name": "user",
+                                "name": "invitedUser",
                                 "description": null,
                                 "type": {
                                     "kind": "SCALAR",

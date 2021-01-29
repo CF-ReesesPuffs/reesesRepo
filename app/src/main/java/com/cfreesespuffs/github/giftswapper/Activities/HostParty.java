@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +32,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
@@ -37,6 +40,7 @@ import com.amplifyframework.auth.AuthUser;
 import com.amplifyframework.core.Amplify;
 
 import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.core.reachability.Host;
 import com.amplifyframework.datastore.generated.model.GuestList;
 
 import com.amplifyframework.datastore.generated.model.Party;
@@ -106,6 +110,14 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 String prettyDate = format.format(dateFormat);
                 partyDate.setText(prettyDate);
             }
+            if (message.arg1 == 3) {
+                Toast.makeText(this, "You forgot to include a date and time.", Toast.LENGTH_LONG).show();
+            }
+
+            if (message.arg1 == 4) {
+                Toast.makeText(this, "You need to include a name for the party.", Toast.LENGTH_LONG).show();
+            }
+
             return false;
         });
 
@@ -218,13 +230,28 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                     return;
                 }
 
+
                 String nameOfParty = partyName.getText().toString();
                 String priceOfParty = selectedPriceSpinner.getSelectedItem().toString();
+
+                if (nameOfParty.equals("")) {
+                    Message message = new Message();
+                    message.arg1 = 4;
+                    generalHandler.sendMessage(message);
+                    return;
+                }
+
+                if (date == null) {
+                    Message message = new Message();
+                    message.arg1 = 3;
+                    generalHandler.sendMessage(message);
+                    return;
+                }
 
                //David's find https://github.com/aws-amplify/amplify-android/issues/590
 
                 Date dateFormat = date.getTime(); // https://www.candidjava.com/tutorial/java-program-to-convert-calendar-to-date-and-date-to-calendar/#:~:text=Calendar%20object%20to%20Date%20object%2C%20Using%20Calendar.getInstance%20%28%29,object%20to%20Calendar%20object%2C%20Date%20d%3Dnew%20Date%20%281515660075000l%29%3B
-
+                        // TODO: ADD REQUIREMENT for DATE.
                 SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm a");
                 String prettyTime = formatTime.format(dateFormat);
 

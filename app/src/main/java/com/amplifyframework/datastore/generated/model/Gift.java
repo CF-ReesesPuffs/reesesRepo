@@ -36,9 +36,9 @@ public final class Gift implements Model {
     public @ModelField(targetType="String") String lastPartyGoer;
     public @ModelField(targetType="User") @BelongsTo(targetName = "giftUserId", type = User.class) User user;
     private final @ModelField(targetType="Party") @BelongsTo(targetName = "giftPartyId", type = Party.class) Party party;
-  public String getId() {
-      return id;
-  }
+    public String getId() {
+        return id;
+    }
   
   public String getTitle() {
       return title;

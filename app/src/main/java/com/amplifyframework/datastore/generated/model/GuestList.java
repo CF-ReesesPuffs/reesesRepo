@@ -28,46 +28,46 @@ public final class GuestList implements Model {
   public static final QueryField TURN_ORDER = field("turnOrder");
   public static final QueryField USER = field("guestListUserId");
   public static final QueryField PARTY = field("guestListPartyId");
-  private final @ModelField(targetType="ID", isRequired = true) String id;
-  public @ModelField(targetType="String") String inviteStatus;
-  private final @ModelField(targetType="String") String invitee;
-  private final @ModelField(targetType="String") String invitedUser;
-  public @ModelField(targetType="Boolean") Boolean takenTurn;
-  public @ModelField(targetType="Int") Integer turnOrder;
-  private final @ModelField(targetType="User") @BelongsTo(targetName = "guestListUserId", type = User.class) User user;
-  private final @ModelField(targetType="Party") @BelongsTo(targetName = "guestListPartyId", type = Party.class) Party party;
-  public String getId() {
+    private final @ModelField(targetType="ID", isRequired = true) String id;
+    public @ModelField(targetType="String") String inviteStatus;
+    private final @ModelField(targetType="String") String invitee;
+    private final @ModelField(targetType="String") String invitedUser;
+    public @ModelField(targetType="Boolean") Boolean takenTurn;
+    public @ModelField(targetType="Int") Integer turnOrder;
+    private final @ModelField(targetType="User") @BelongsTo(targetName = "guestListUserId", type = User.class) User user;
+    private final @ModelField(targetType="Party") @BelongsTo(targetName = "guestListPartyId", type = Party.class) Party party;
+    public String getId() {
         return id;
     }
-
+  
   public String getInviteStatus() {
       return inviteStatus;
   }
-
+  
   public String getInvitee() {
       return invitee;
   }
-
+  
   public String getInvitedUser() {
       return invitedUser;
   }
-
+  
   public Boolean getTakenTurn() {
       return takenTurn;
   }
-
+  
   public Integer getTurnOrder() {
       return turnOrder;
   }
-
+  
   public User getUser() {
       return user;
   }
-
+  
   public Party getParty() {
       return party;
   }
-
+  
   private GuestList(String id, String inviteStatus, String invitee, String invitedUser, Boolean takenTurn, Integer turnOrder, User user, Party party) {
     this.id = id;
     this.inviteStatus = inviteStatus;
@@ -78,7 +78,7 @@ public final class GuestList implements Model {
     this.user = user;
     this.party = party;
   }
-
+  
   @Override
    public boolean equals(Object obj) {
       if (this == obj) {
@@ -97,7 +97,7 @@ public final class GuestList implements Model {
               ObjectsCompat.equals(getParty(), guestList.getParty());
       }
   }
-
+  
   @Override
    public int hashCode() {
     return new StringBuilder()
@@ -112,7 +112,7 @@ public final class GuestList implements Model {
       .toString()
       .hashCode();
   }
-
+  
   @Override
    public String toString() {
     return new StringBuilder()
@@ -128,12 +128,12 @@ public final class GuestList implements Model {
       .append("}")
       .toString();
   }
-
+  
   public static BuildStep builder() {
       return new Builder();
   }
-
-  /**
+  
+  /** 
    * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
    * This is a convenience method to return an instance of the object with only its ID populated
    * to be used in the context of a parameter in a delete mutation or referencing a foreign key
@@ -163,7 +163,7 @@ public final class GuestList implements Model {
       null
     );
   }
-
+  
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       inviteStatus,
@@ -185,7 +185,7 @@ public final class GuestList implements Model {
     BuildStep user(User user);
     BuildStep party(Party party);
   }
-
+  
 
   public static class Builder implements BuildStep {
     private String id;
@@ -199,7 +199,7 @@ public final class GuestList implements Model {
     @Override
      public GuestList build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
-
+        
         return new GuestList(
           id,
           inviteStatus,
@@ -210,50 +210,50 @@ public final class GuestList implements Model {
           user,
           party);
     }
-
+    
     @Override
      public BuildStep inviteStatus(String inviteStatus) {
         this.inviteStatus = inviteStatus;
         return this;
     }
-
+    
     @Override
      public BuildStep invitee(String invitee) {
         this.invitee = invitee;
         return this;
     }
-
+    
     @Override
      public BuildStep invitedUser(String invitedUser) {
         this.invitedUser = invitedUser;
         return this;
     }
-
+    
     @Override
      public BuildStep takenTurn(Boolean takenTurn) {
         this.takenTurn = takenTurn;
         return this;
     }
-
+    
     @Override
      public BuildStep turnOrder(Integer turnOrder) {
         this.turnOrder = turnOrder;
         return this;
     }
-
+    
     @Override
      public BuildStep user(User user) {
         this.user = user;
         return this;
     }
-
+    
     @Override
      public BuildStep party(Party party) {
         this.party = party;
         return this;
     }
-
-    /**
+    
+    /** 
      * WARNING: Do not set ID when creating a new object. Leave this blank and one will be auto generated for you.
      * This should only be set when referring to an already existing object.
      * @param id id
@@ -262,18 +262,18 @@ public final class GuestList implements Model {
      */
     public BuildStep id(String id) throws IllegalArgumentException {
         this.id = id;
-
+        
         try {
             UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
         } catch (Exception exception) {
           throw new IllegalArgumentException("Model IDs must be unique in the format of UUID.",
                     exception);
         }
-
+        
         return this;
     }
   }
-
+  
 
   public final class CopyOfBuilder extends Builder {
     private CopyOfBuilder(String id, String inviteStatus, String invitee, String invitedUser, Boolean takenTurn, Integer turnOrder, User user, Party party) {
@@ -286,41 +286,41 @@ public final class GuestList implements Model {
         .user(user)
         .party(party);
     }
-
+    
     @Override
      public CopyOfBuilder inviteStatus(String inviteStatus) {
       return (CopyOfBuilder) super.inviteStatus(inviteStatus);
     }
-
+    
     @Override
      public CopyOfBuilder invitee(String invitee) {
       return (CopyOfBuilder) super.invitee(invitee);
     }
-
+    
     @Override
      public CopyOfBuilder invitedUser(String invitedUser) {
       return (CopyOfBuilder) super.invitedUser(invitedUser);
     }
-
+    
     @Override
      public CopyOfBuilder takenTurn(Boolean takenTurn) {
       return (CopyOfBuilder) super.takenTurn(takenTurn);
     }
-
+    
     @Override
      public CopyOfBuilder turnOrder(Integer turnOrder) {
       return (CopyOfBuilder) super.turnOrder(turnOrder);
     }
-
+    
     @Override
      public CopyOfBuilder user(User user) {
       return (CopyOfBuilder) super.user(user);
     }
-
+    
     @Override
      public CopyOfBuilder party(Party party) {
       return (CopyOfBuilder) super.party(party);
     }
   }
-
+  
 }

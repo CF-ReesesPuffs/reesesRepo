@@ -110,8 +110,8 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
         deleteSubscription.start();
 
-        if(!preferences.getString("userId", "NA").equals("NA")){
-            createSingleIdGuestListSubscription(preferences.getString("userId", "NA"));
+        if (!preferences.getString("userId", "NA").equals("NA")) {
+            createSingleIdGuestListSubscription(preferences.getString("username", "NA"));
         }
     }
 
@@ -222,8 +222,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             Amplify.API.query(
                     ModelQuery.list(User.class), // we should swap this from .list(.class) to .get(userId) to save cycles & time.
                     response -> {
-
-
                         //TODO: this can be refactored to remove the user as it is queried now at the top
 
                         Log.i("Amplify.currentUser", "This is the current user, " + authUser);
@@ -320,7 +318,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     }
 
     //========================================================================== aws
-    private void configureAws() {
+    private void configureAws() { // todo: where else can we put this instead of onCreate so it only ever runs once?
         try {
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
@@ -392,28 +390,27 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         bellItem.setIcon(localLayerDrawable);
     }
 
-    private GraphQLRequest<GuestList> getPendingParty(String id) {
-        String document = "subscription onCreateOfUserId($id: String) { "
-                + "onCreateOfUserId(user: $id) { "
-                    + "inviteStatus "
-                    + "invitedUser "
-                    + "}"
-                    + "}";
+    private GraphQLRequest<GuestList> getPendingParty(String username) { // https://graphql.org/blog/subscriptions-in-graphql-and-relay/
+        String document = "subscription getPendingParty($invitedUser: String) { "
+                + "onCreateOfUserId(invitedUser: $invitedUser) { "
+                + "inviteStatus "
+                + "invitedUser "
+                + "}"
+                + "}";
         return new SimpleGraphQLRequest<>(
                 document,
-                Collections.singletonMap("id", id),
+                Collections.singletonMap("invitedUser", username),
                 GuestList.class,
                 new GsonVariablesSerializer());
     }
 
-    private void createSingleIdGuestListSubscription(String id){
-        Amplify.API.subscribe(getPendingParty(id),
+    private void createSingleIdGuestListSubscription(String username) {
+        Amplify.API.subscribe(getPendingParty(username),
                 subCheck -> {
-                    Log.d("Sub.SingleGuestList", "Connection for: " + subCheck);
-                            Log.d("Sub.SingleGuestList", "this is ID: " + id);
+                    Log.d("Sub.SingleGuestList", "Connection established. this is ID: " + username);
                 },
                 response -> {
-                    Log.e("Sub.SingleGuestList", "response: " + response);
+                    Log.d("Sub.SingleGuestList", "RESPONSE: " + response);
                     pendingParties.add(response.getData().getParty());
                     Message message = new Message();
                     message.arg1 = 10;
