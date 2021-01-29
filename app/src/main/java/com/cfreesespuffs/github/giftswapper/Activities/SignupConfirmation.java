@@ -48,7 +48,14 @@ public class SignupConfirmation extends AppCompatActivity {
                                 .build();
                         Amplify.API.mutate(
                                 ModelMutation.create(newUser),
-                                response -> Log.i("Amplify.API", "success"),
+                                response -> {
+                                    Log.i("Amplify.API", "success");
+                                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                                    final SharedPreferences.Editor preferenceEditor = preferences.edit();
+                                    preferenceEditor.putString("username", username);
+                                    preferenceEditor.putString("userId", response.getData().getId());
+                                    preferenceEditor.apply();
+                                },
                                 error -> Log.e("Amplify.API", "newUser not created: " + error)
                         );
                         Amplify.Auth.signIn(
@@ -70,11 +77,6 @@ public class SignupConfirmation extends AppCompatActivity {
                     }
             );
             Intent lastIntent = new Intent(SignupConfirmation.this, MainActivity.class);
-
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            final SharedPreferences.Editor preferenceEditor = preferences.edit();
-            preferenceEditor.putString("username", username);
-            preferenceEditor.apply();
 
             this.startActivity(lastIntent);
         });
