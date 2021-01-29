@@ -4107,6 +4107,29 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "onCreateOfUserId",
+                        "description": null,
+                        "args": [
+                            {
+                                "name": "invitedUser",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            }
+                        ],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "GuestList",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "onCreateUser",
                         "description": null,
                         "args": [],

@@ -57,7 +57,7 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
 
         AuthUser authUser = Amplify.Auth.getCurrentUser();
         if (Amplify.Auth.getCurrentUser() != null) {
-            Amplify.API.query(
+            Amplify.API.query(  //TODO: delete this query and use shared preferences id
                     ModelQuery.list(User.class),
                     response -> {
                         for (User user : response.getData()) {

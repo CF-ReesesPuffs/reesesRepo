@@ -23,15 +23,15 @@ public final class User implements Model {
   public static final QueryField ID = field("id");
   public static final QueryField USER_NAME = field("userName");
   public static final QueryField EMAIL = field("email");
-  private final @ModelField(targetType="ID", isRequired = true) String id;
-  private final @ModelField(targetType="String", isRequired = true) String userName;
-  private final @ModelField(targetType="String") String email;
-  private final @ModelField(targetType="Party") @HasMany(associatedWith = "theHost", type = Party.class) List<Party> hosting = null;
-  private final @ModelField(targetType="Gift") @HasMany(associatedWith = "user", type = Gift.class) List<Gift> gifts = null;
-  private final @ModelField(targetType="GuestList") @HasMany(associatedWith = "user", type = GuestList.class) List<GuestList> parties = null;
-  public String getId() {
-      return id;
-  }
+    private final @ModelField(targetType="ID", isRequired = true) String id;
+    private final @ModelField(targetType="String", isRequired = true) String userName;
+    private final @ModelField(targetType="String") String email;
+    private final @ModelField(targetType="Party") @HasMany(associatedWith = "theHost", type = Party.class) List<Party> hosting = null;
+    private final @ModelField(targetType="Gift") @HasMany(associatedWith = "user", type = Gift.class) List<Gift> gifts = null;
+    private final @ModelField(targetType="GuestList") @HasMany(associatedWith = "user", type = GuestList.class) List<GuestList> parties = null;
+    public String getId() {
+        return id;
+    }
   
   public String getUserName() {
       return userName;

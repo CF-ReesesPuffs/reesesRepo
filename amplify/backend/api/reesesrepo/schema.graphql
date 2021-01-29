@@ -47,20 +47,8 @@ type Party @model {
 
 type Subscription {
   onUpdateOfSpecificParty(id: ID!): Party
-    @aws_subscribe(mutations: ["updateParty"])
-}
+   @aws_subscribe(mutations: ["updateParty"])
 
-#subscription OnUpdateParty {
-#  onUpdateParty {
-#    id
-#    title
-#    hosteOn
-#    hostedAt
-#    partyDateAWS
-#    partyDate
-#    price
-#    isReady
-#    isfinished
-#    stealLimit
-#  }
-#}
+  onCreateOfUserId(invitedUser: String): GuestList
+   @aws_subscribe(mutations: ["createGuestList"])
+}

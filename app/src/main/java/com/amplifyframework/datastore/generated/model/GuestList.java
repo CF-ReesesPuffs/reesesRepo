@@ -28,17 +28,17 @@ public final class GuestList implements Model {
   public static final QueryField TURN_ORDER = field("turnOrder");
   public static final QueryField USER = field("guestListUserId");
   public static final QueryField PARTY = field("guestListPartyId");
-  private final @ModelField(targetType="ID", isRequired = true) String id;
-  public @ModelField(targetType="String") String inviteStatus;
-  private final @ModelField(targetType="String") String invitee;
-  private final @ModelField(targetType="String") String invitedUser;
-  public @ModelField(targetType="Boolean") Boolean takenTurn;
-  public @ModelField(targetType="Int") Integer turnOrder;
-  private final @ModelField(targetType="User") @BelongsTo(targetName = "guestListUserId", type = User.class) User user;
-  private final @ModelField(targetType="Party") @BelongsTo(targetName = "guestListPartyId", type = Party.class) Party party;
-  public String getId() {
-      return id;
-  }
+    private final @ModelField(targetType="ID", isRequired = true) String id;
+    public @ModelField(targetType="String") String inviteStatus;
+    private final @ModelField(targetType="String") String invitee;
+    private final @ModelField(targetType="String") String invitedUser;
+    public @ModelField(targetType="Boolean") Boolean takenTurn;
+    public @ModelField(targetType="Int") Integer turnOrder;
+    private final @ModelField(targetType="User") @BelongsTo(targetName = "guestListUserId", type = User.class) User user;
+    private final @ModelField(targetType="Party") @BelongsTo(targetName = "guestListPartyId", type = Party.class) Party party;
+    public String getId() {
+        return id;
+    }
   
   public String getInviteStatus() {
       return inviteStatus;

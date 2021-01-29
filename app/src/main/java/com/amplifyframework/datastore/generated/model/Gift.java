@@ -28,17 +28,17 @@ public final class Gift implements Model {
   public static final QueryField LAST_PARTY_GOER = field("lastPartyGoer");
   public static final QueryField USER = field("giftUserId");
   public static final QueryField PARTY = field("giftPartyId");
-  private final @ModelField(targetType="ID", isRequired = true) String id;
-  private final @ModelField(targetType="String", isRequired = true) String title;
-  private final @ModelField(targetType="Int") Integer number;
-  public @ModelField(targetType="String") String partyGoer;
-  public @ModelField(targetType="Int") Integer timesStolen;
-  public @ModelField(targetType="String") String lastPartyGoer;
-  public @ModelField(targetType="User") @BelongsTo(targetName = "giftUserId", type = User.class) User user;
-  private final @ModelField(targetType="Party") @BelongsTo(targetName = "giftPartyId", type = Party.class) Party party;
-  public String getId() {
-      return id;
-  }
+    private final @ModelField(targetType="ID", isRequired = true) String id;
+    private final @ModelField(targetType="String", isRequired = true) String title;
+    private final @ModelField(targetType="Int") Integer number;
+    public @ModelField(targetType="String") String partyGoer;
+    public @ModelField(targetType="Int") Integer timesStolen;
+    public @ModelField(targetType="String") String lastPartyGoer;
+    public @ModelField(targetType="User") @BelongsTo(targetName = "giftUserId", type = User.class) User user;
+    private final @ModelField(targetType="Party") @BelongsTo(targetName = "giftPartyId", type = Party.class) Party party;
+    public String getId() {
+        return id;
+    }
   
   public String getTitle() {
       return title;
