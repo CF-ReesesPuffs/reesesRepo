@@ -18,14 +18,10 @@
         android:ems="10"
         android:focusableInTouchMode="true"
         android:inputType="textPersonName"
-        android:maxLines="1"
-        android:nextFocusDown="@id/usernameLogin"
-        android:nextFocusForward="@id/usernameLogin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.50"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameTv3">
-    </EditText>
+        app:layout_constraintTop_toBottomOf="@+id/usernameTv3" />
 
     <EditText
         android:id="@+id/passwordLogin"
@@ -37,7 +33,7 @@
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.50"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -48,8 +44,8 @@
         android:layout_marginTop="36dp"
         android:fontFamily="@font/architects_daughter"
         android:text="Login"
-        android:textColor="#FFFFFF"
         android:focusable="auto"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/passwordLogin"
         app:layout_constraintTop_toBottomOf="@+id/passwordLogin"
@@ -75,11 +71,11 @@
         android:id="@+id/usernameTv3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="188dp"
+        android:layout_marginTop="124dp"
         android:text="Username"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.331"
+        app:layout_constraintHorizontal_bias="0.334"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
