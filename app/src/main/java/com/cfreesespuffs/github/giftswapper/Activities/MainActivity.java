@@ -177,12 +177,12 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 hostButton.setVisibility(View.INVISIBLE);
             }
 
-//            if (message.arg1 == 6) { // Todo: go to post parties
-//                System.out.println("You want to go to your ended parties?");
-//                Intent endPartyIntent = new Intent(MainActivity.this, EndedPartyCheck.class);
-//                endPartyIntent.putExtra("userId", currentUser.getId());
-//                MainActivity.this.startActivity(endPartyIntent);
-//            }
+            if (message.arg1 == 6) { // Todo: go to post parties
+                System.out.println("You want to go to your ended parties?");
+                Intent endPartyIntent = new Intent(MainActivity.this, EndedPartyCheck.class);
+                endPartyIntent.putExtra("userId", currentUser.getId());
+                MainActivity.this.startActivity(endPartyIntent);
+            }
 
             if (message.arg1 == 5) {
                 parties.clear();
