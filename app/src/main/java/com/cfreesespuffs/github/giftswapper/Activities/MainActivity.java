@@ -67,22 +67,26 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         super.onResume();
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        Amplify.API.query(
-                ModelQuery.get(User.class, preferences.getString("userId", "NA")),
-                response2 -> {
-                    pendingParties.clear();
-                    for (GuestList party : response2.getData().getParties()) {
-                        if (party.getInviteStatus().equals("Pending")) {
-                            pendingParties.add(party.getParty());
-                            Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
+        Log.e("Android.prefs", "heres prefs id: " + preferences.getString("userId", "NA"));
+
+        if (!preferences.getString("userId", "NA").equals("NA")) {
+            Amplify.API.query(
+                    ModelQuery.get(User.class, preferences.getString("userId", "NA")),
+                    response2 -> {
+                        pendingParties.clear();
+                        for (GuestList party : response2.getData().getParties()) {
+                            if (party.getInviteStatus().equals("Pending")) {
+                                pendingParties.add(party.getParty());
+                                Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
+                            }
                         }
-                    }
-                    Message message = new Message();
-                    message.arg1 = 10;
-                    handleCheckLoggedIn.sendMessage(message);
-                },
-                error -> Log.e("Amplify", "Failed to retrieve store")
-        );
+                        Message message = new Message();
+                        message.arg1 = 10;
+                        handleCheckLoggedIn.sendMessage(message);
+                    },
+                    error -> Log.e("Amplify", "Failed to retrieve store")
+            );
+        }
 
         ApiOperation deleteSubscription = Amplify.API.subscribe(
                 ModelSubscription.onDelete(Party.class),
@@ -232,6 +236,23 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                                 Amplify.API.query(
                                         ModelQuery.get(User.class, currentUser.getId()),
                                         response2 -> {
+                                            pendingParties.clear();
+                                            for (GuestList party : response2.getData().getParties()) {
+                                                if (party.getInviteStatus().equals("Pending")) {
+                                                    pendingParties.add(party.getParty());
+                                                    Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
+                                                }
+                                            }
+                                            Message message = new Message();
+                                            message.arg1 = 10;
+                                            handleCheckLoggedIn.sendMessage(message);
+                                        },
+                                        error -> Log.e("Amplify", "Failed to retrieve store")
+                                );
+
+                                Amplify.API.query(
+                                        ModelQuery.get(User.class, currentUser.getId()),
+                                        response2 -> {
                                             for (GuestList party : response2.getData().getParties()) {
                                                 if (party.getInviteStatus().equals("Accepted")) {
                                                     parties.add(party.getParty());
@@ -261,6 +282,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                     }
             );
         }
+
 //================= invites
         ImageButton notificationButton = MainActivity.this.findViewById(R.id.notification_button);
         notificationButton.setOnClickListener((view) -> {
@@ -395,6 +417,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 + "onCreateOfUserId(invitedUser: $invitedUser) { "
                 + "inviteStatus "
                 + "invitedUser "
+                + "id "
                 + "}"
                 + "}";
         return new SimpleGraphQLRequest<>(
