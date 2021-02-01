@@ -61,13 +61,12 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     SharedPreferences preferences;
     MenuItem bellItem;
     LayerDrawable localLayerDrawable;
+    boolean[] isSignedIn = {false};
 
     @Override
     public void onResume() {
         super.onResume();
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        Log.e("Android.prefs", "heres prefs id: " + preferences.getString("userId", "NA"));
 
         if (!preferences.getString("userId", "NA").equals("NA")) {
             Amplify.API.query(
@@ -77,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                         for (GuestList party : response2.getData().getParties()) {
                             if (party.getInviteStatus().equals("Pending")) {
                                 pendingParties.add(party.getParty());
-                                Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
+//                                Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
                             }
                         }
                         Message message = new Message();
@@ -146,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             if (message.arg1 == 1) {
                 if (Amplify.Auth.getCurrentUser() != null) {
                     Log.i("Android.VersionTest", "=== 1 ===");
-                    Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
+//                    Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
                     ImageButton createAccountBt = findViewById(R.id.createAccountButton);
                     createAccountBt.setVisibility(View.INVISIBLE);
 
@@ -211,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                     @Override
                     public boolean handleMessage(@NonNull Message msg) {
                         if (msg.arg1 == 1) {
-                            Log.i("Amplify", "Parties are showing");
+//                            Log.i("Amplify", "Parties are showing");
                         }
                         partyRecyclerView.getAdapter().notifyDataSetChanged();
                         return false;
@@ -220,8 +219,10 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
         connectRecycler();
 
-        Log.i("Amplify.authUser", "This is the current user, " + Amplify.Auth.getCurrentUser());
         AuthUser authUser = Amplify.Auth.getCurrentUser();
+
+        Log.e("Auth.isSignedin", "Signed in?: " + isSignedIn[0]);
+
         if (Amplify.Auth.getCurrentUser() != null) {
             Amplify.API.query(
                     ModelQuery.list(User.class), // we should swap this from .list(.class) to .get(userId) to save cycles & time.
@@ -322,16 +323,17 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     // =======================================================================
 //========================================================= user -sign-in
     public boolean getIsSignedIn() {
-        boolean[] isSignedIn = {false};
         Amplify.Auth.fetchAuthSession(
                 result -> {
                     Message message = new Message();
                     if (result.isSignedIn()) {
+                        isSignedIn[0] = true;
                         message.arg1 = 1;
                         handleCheckLoggedIn.sendMessage(message);
                     } else {
                         message.arg1 = 0;
                         handleCheckLoggedIn.sendMessage(message);
+                        MainActivity.this.startActivity(new Intent(MainActivity.this, Login.class));
                     }
                 },
                 error -> Log.e("Amplify.login", error.toString())
@@ -369,11 +371,11 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                     AuthSignOutOptions.builder().globalSignOut(true).build(),
                     () -> {
                         Log.i("Auth.logout", "Signed out via Settings menu");
-                        Message optionMessage = new Message();
-                        optionMessage.arg1 = 5;
-                        handleCheckLoggedIn.sendMessage(optionMessage); // setting up a message, I was running into issues. sendEmptyMessage worked like a charm.
+//                        Message optionMessage = new Message();
+//                        optionMessage.arg1 = 5;
+//                        handleCheckLoggedIn.sendMessage(optionMessage); // setting up a message, I was running into issues. sendEmptyMessage worked like a charm.
                         preferences.edit().clear().apply();
-                        Log.i("Android.SharedPrefs", "All in the prefs: " + preferences.getString("userId", "NA"));
+                        MainActivity.this.startActivity(new Intent(MainActivity.this, Login.class));
                     },
                     error -> Log.e("Auth.logout", "The error: ", error)
             );
