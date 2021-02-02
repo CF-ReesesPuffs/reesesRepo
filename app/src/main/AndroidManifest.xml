@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cfreesespuffs.github.giftswapper" >
+    package="com.cfreesespuffs.github.giftswapper">
 
     <application
         android:allowBackup="true"
@@ -8,30 +8,32 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Giftswapper" >
+        android:theme="@style/Theme.Giftswapper">
+        <activity android:name=".Activities.EndedPartyJava"></activity>
+        <activity android:name=".Activities.endedPartyJava" />
         <activity android:name=".InvitationList" /> <!-- <activity android:name=".PendingPartyFragment" /> -->
         <activity android:name=".Activities.SignupConfirmation" />
         <activity android:name=".Activities.SignUp" />
-        <activity android:name=".Activities.Login"
-            android:windowSoftInputMode="stateVisible"
-            />
+        <activity
+            android:name=".Activities.Login"
+            android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".PostParty"
-            android:theme="@style/Theme.AllNoActionBarNone"
-            />
-        <activity android:name=".Activities.CurrentParty"
-            android:theme="@style/Theme.Giftswapper.NoActionBar" />
-<!--            />-->
-        <activity android:name=".Activities.EndedPartyCheck"/>
+            android:theme="@style/Theme.AllNoActionBarNone" />
         <activity
-            android:theme="@style/Theme.AllNoActionBarNone"
-            android:name=".PendingPage"/>
+            android:name=".Activities.CurrentParty"
+            android:theme="@style/Theme.Giftswapper.NoActionBar" /> <!-- /> -->
+        <activity android:name=".Activities.EndedPartyCheck" />
+        <activity
+            android:name=".PendingPage"
+            android:theme="@style/Theme.AllNoActionBarNone" />
         <activity android:name=".Activities.InvitationDetails" />
         <activity android:name=".Activities.HostParty" />
         <activity android:name=".Activities.UserProfile" />
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -42,5 +44,3 @@
     </application>
 
 </manifest>
-
-<!--          -->

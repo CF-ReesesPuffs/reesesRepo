@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                             partyList -> {
                                 parties.clear();
                                 for (GuestList party : partyList.getData().getParties()) {
-                                    if (party.getInviteStatus().equals("Accepted")) {
+                                    if (party.getInviteStatus().equals("Accepted")) {  // TODO: to add && party.getIsFinished() == false
                                         parties.add(party.getParty());
                                     }
                                 }
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
             if (message.arg1 == 6) { // Todo: go to post parties
                 System.out.println("You want to go to your ended parties?");
-                Intent endPartyIntent = new Intent(MainActivity.this, EndedPartyCheck.class);
+                Intent endPartyIntent = new Intent(MainActivity.this, EndedPartyJava.class);
                 endPartyIntent.putExtra("userId", currentUser.getId());
                 MainActivity.this.startActivity(endPartyIntent);
             }
@@ -239,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                                         response2 -> {
                                             pendingParties.clear();
                                             for (GuestList party : response2.getData().getParties()) {
-                                                if (party.getInviteStatus().equals("Pending")) {
+                                                if (party.getInviteStatus().equals("Pending")) { // and !isfinished()
                                                     pendingParties.add(party.getParty());
                                                     Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
                                                 }
@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                                         ModelQuery.get(User.class, currentUser.getId()),
                                         response2 -> {
                                             for (GuestList party : response2.getData().getParties()) {
-                                                if (party.getInviteStatus().equals("Accepted")) {
+                                                if (party.getInviteStatus().equals("Accepted") && !party.getParty().getIsFinished()) {
                                                     parties.add(party.getParty());
                                                 }
                                             }
@@ -381,7 +381,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             );
         }
 
-        if (item.getItemId() == R.id.completed_parties) { // Todo: rebuild endedParty.kt file
+        if (item.getItemId() == R.id.completed_parties) {
             Message goToEndPartyActivity = new Message();
             goToEndPartyActivity.arg1 = 6;
             handleCheckLoggedIn.sendMessage(goToEndPartyActivity);
