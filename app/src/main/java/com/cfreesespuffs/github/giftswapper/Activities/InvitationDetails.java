@@ -51,6 +51,8 @@ public class InvitationDetails extends AppCompatActivity {
                 ModelQuery.get(Party.class, partyId),
                 response -> {
                     party = response.getData();
+                    TextView hostName = InvitationDetails.this.findViewById(R.id.partyHost);
+                    hostName.setText(party.getTheHost().getUserName());
                     Log.i("Amplify.query", "We got a party " + partyId);
                 },
                 error -> Log.e("Amplify.query", "no party " + error)

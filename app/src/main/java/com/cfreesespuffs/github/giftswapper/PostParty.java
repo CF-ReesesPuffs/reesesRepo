@@ -1,5 +1,6 @@
 package com.cfreesespuffs.github.giftswapper;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -36,13 +37,27 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
         Toolbar actionBar = findViewById(R.id.post_part_actionbar);
         setSupportActionBar(actionBar);
 
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true){
+            @Override
+            public void handleOnBackPressed() {
+                PostParty.this.startActivity(new Intent(PostParty.this, MainActivity.class));
+            }
+        };
+
+        Intent intent = getIntent();
+
+        if(!intent.getExtras().getString("from", "NA").equals("endedList")) {
+            getOnBackPressedDispatcher().addCallback(this, callback);
+        }
+
         Button homeDetailButton = PostParty.this.findViewById(R.id.customHomeButton);
         homeDetailButton.setOnClickListener((view)-> {
             Intent goToMainIntent = new Intent(PostParty.this, MainActivity.class);
             PostParty.this.startActivity(goToMainIntent);
         });
 
-        Intent intent = getIntent();
+        //Intent intent2 = getIntent();
         TextView partyName = PostParty.this.findViewById(R.id.partyName);
         partyName.setText(intent.getExtras().getString("title"));
 

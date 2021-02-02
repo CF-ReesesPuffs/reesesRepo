@@ -12,10 +12,10 @@
         android:id="@+id/textView8"
         android:layout_width="322dp"
         android:layout_height="63dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/tv_style"
         android:elegantTextHeight="true"
-        android:text="Your invitations list"
+        android:text="Invitations"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
 
@@ -27,8 +27,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/postPartyRV"
-        android:layout_width="331dp"
-        android:layout_height="417dp"
+        android:layout_width="318dp"
+        android:layout_height="422dp"
         android:background="@drawable/et_style"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

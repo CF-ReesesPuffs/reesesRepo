@@ -39,6 +39,7 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.PartyViewHol
     @Override
     public void onBindViewHolder(@NonNull PartyViewHolder holder, int position) {
         holder.party= parties.get(position);
+        Log.e("Android.holder", "Holder: " + holder.party);
         TextView titleView = holder.itemView.findViewById(R.id.party_title);
         TextView dateView = holder.itemView.findViewById(R.id.party_date);
         TextView timeView = holder.itemView.findViewById(R.id.party_time);

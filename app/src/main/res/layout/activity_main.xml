@@ -55,8 +55,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/party_recyclerview"
-        android:layout_width="336dp"
-        android:layout_height="322dp"
+        android:layout_width="322dp"
+        android:layout_height="408dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/et_style"
         android:paddingTop="6sp"
@@ -82,13 +82,14 @@
         android:id="@+id/parties_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:fontFamily="@font/autour_one"
         android:text="Your Parties"
         android:textColor="#000000"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/party_recyclerview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.067"
+        app:layout_constraintHorizontal_bias="0.159"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton

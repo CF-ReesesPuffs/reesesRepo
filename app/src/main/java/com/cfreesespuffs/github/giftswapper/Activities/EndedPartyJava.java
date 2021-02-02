@@ -43,10 +43,6 @@ public class EndedPartyJava extends AppCompatActivity implements PartyAdapter.In
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        Button checkButton = findViewById(R.id.button2);
-        checkButton.setOnClickListener(v ->
-                Log.i("Button.check", "CHECK"));
-
         endPartyHandler = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 1) {
                 Objects.requireNonNull(endedPartiesRv.getAdapter()).notifyDataSetChanged();
@@ -97,6 +93,7 @@ public class EndedPartyJava extends AppCompatActivity implements PartyAdapter.In
         goToPartyDetailIntent.putExtra("partyId", party.getId());
         goToPartyDetailIntent.putExtra("when",String.valueOf(party.HOSTED_ON));
         goToPartyDetailIntent.putExtra("setTime", String.valueOf(party.HOSTED_AT));
+        goToPartyDetailIntent.putExtra("from", "endedList");
         this.startActivity(goToPartyDetailIntent);
     }
 }

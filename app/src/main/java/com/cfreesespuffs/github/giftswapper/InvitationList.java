@@ -33,7 +33,7 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
 
     RecyclerView recyclerView;
     public ArrayList<Party> parties = new ArrayList<>();
-    Handler handler;
+    //Handler handler;
     Handler handleParties;
     User currentUser;
 
@@ -99,18 +99,11 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
         Intent intent = new Intent(InvitationList.this, InvitationDetails.class);
 
         Date partyToFormat = java.util.Date.from(Instant.parse(party.getPartyDate()));
-        System.out.println("*************party format************** " + partyToFormat.toString());
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-       // format.setTimeZone(TimeZone.getTimeZone(Calendar.getInstance().getTimeZone().getDisplayName()));
         format.setTimeZone(TimeZone.getTimeZone("PST"));
 
-        String testDateString = format.format(partyToFormat);
-//        Date inptdate = null;
-//        try {
-//            inptdate = format.parse(inpt);
-//        } catch (ParseException e) {e.printStackTrace();}
-        System.out.println("********Input date********* " + testDateString);
+       // String testDateString = format.format(partyToFormat);
 
         intent.putExtra("partyName", party.getTitle());
         intent.putExtra("when", party.getHostedOn());
