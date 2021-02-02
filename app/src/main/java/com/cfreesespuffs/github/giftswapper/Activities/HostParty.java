@@ -205,10 +205,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
             public void onClick(View view) {
 
                 TextView partyName = findViewById(R.id.textViewPartyName);
-                // partyDate = findViewById(R.id.editTextDate);
-                // partyTime = findViewById(R.id.editTextTime);
                 Spinner selectedPriceSpinner = findViewById(R.id.price_spinner);
-                Log.i("Android.usersToAdd", ((HostPartyAdapter) recyclerView.getAdapter()).usersToAdd.toString());
 
                 Set guestsToInvite = ((HostPartyAdapter) recyclerView.getAdapter()).usersToAdd;
 
@@ -229,7 +226,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                     Log.e("guests.list", "this was hit");
                     return;
                 }
-
 
                 String nameOfParty = partyName.getText().toString();
                 String priceOfParty = selectedPriceSpinner.getSelectedItem().toString();
