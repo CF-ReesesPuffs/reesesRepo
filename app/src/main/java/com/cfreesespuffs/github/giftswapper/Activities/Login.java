@@ -40,5 +40,8 @@ public class Login extends AppCompatActivity {
                     error -> Log.e("Amplify.login", "Sign in fail: " + error.toString())
             );
         });
+
+        ((Button) findViewById(R.id.toSignUp)).setOnClickListener(view ->
+                Login.this.startActivity(new Intent(Login.this, SignUp.class)));
     }
 }
