@@ -49,10 +49,12 @@ import com.google.android.material.badge.BadgeDrawable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener {
     public ArrayList<Party> parties = new ArrayList<>();
     public ArrayList<Party> pendingParties = new ArrayList<>();
+    public HashMap<String, String> pendingPartiesHM = new HashMap<>();
     Handler handleCheckLoggedIn;
     Handler handleParties;
     RecyclerView partyRecyclerView;
@@ -75,8 +77,9 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                         pendingParties.clear();
                         for (GuestList party : response2.getData().getParties()) {
                             if (party.getInviteStatus().equals("Pending")) {
+                                pendingPartiesHM.put(party.getId(), party.getInvitedUser());
                                 pendingParties.add(party.getParty());
-//                                Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
+                                Log.e("Parties.HM", "Size in onResume: " + pendingPartiesHM.size());
                             }
                         }
                         Message message = new Message();
@@ -197,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             }
 
             if (message.arg1 == 10) {
-                createBellBadge(pendingParties.size());
+                createBellBadge(pendingPartiesHM.size());
             }
 
             return false;
@@ -239,7 +242,9 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                                         response2 -> {
                                             pendingParties.clear();
                                             for (GuestList party : response2.getData().getParties()) {
-                                                if (party.getInviteStatus().equals("Pending")) { // and !isfinished()
+                                                if (party.getInviteStatus().equals("Pending")) {
+                                                    pendingPartiesHM.put(party.getId(), party.getInvitedUser());
+                                                    Log.e("Parties.HM", "Size in onCreate: " + pendingPartiesHM.size());
                                                     pendingParties.add(party.getParty());
                                                     Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
                                                 }
@@ -436,6 +441,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 },
                 response -> {
                     Log.d("Sub.SingleGuestList", "RESPONSE: " + response);
+                    pendingPartiesHM.put(response.getData().getId(), response.getData().getInvitedUser());
                     pendingParties.add(response.getData().getParty());
                     Message message = new Message();
                     message.arg1 = 10;
