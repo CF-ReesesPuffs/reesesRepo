@@ -10,8 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Giftswapper">
         <activity android:name=".Activities.EndedParties"></activity>
-        <activity android:name=".Activities.endedPartyJava" />
-        <activity android:name=".InvitationList" /> <!-- <activity android:name=".PendingPartyFragment" /> -->
+<!--        <activity android:name=".Activities.endedPartyJava" />-->
+        <activity android:name=".InvitationList"
+            android:label="Invitations" /> <!-- <activity android:name=".PendingPartyFragment" /> -->
         <activity android:name=".Activities.SignupConfirmation" />
         <activity android:name=".Activities.SignUp" />
         <activity
@@ -23,12 +24,13 @@
         <activity
             android:name=".Activities.CurrentParty"
             android:theme="@style/Theme.Giftswapper.NoActionBar" /> <!-- /> -->
-        <activity android:name=".Activities.EndedPartyCheck" />
+<!--        <activity android:name=".Activities.EndedPartyCheck" />-->
         <activity
             android:name=".PendingPage"
             android:theme="@style/Theme.AllNoActionBarNone" />
         <activity android:name=".Activities.InvitationDetails" />
-        <activity android:name=".Activities.HostParty" />
+        <activity android:name=".Activities.HostParty"
+            android:label="Host a Party"/> <!-- https://stackoverflow.com/questions/14483393/how-do-i-change-the-android-actionbar-title-and-icon -->
         <activity android:name=".Activities.UserProfile" />
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
