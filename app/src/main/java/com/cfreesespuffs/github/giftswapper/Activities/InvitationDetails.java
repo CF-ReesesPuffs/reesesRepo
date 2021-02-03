@@ -45,7 +45,7 @@ public class InvitationDetails extends AppCompatActivity {
 
         intent = getIntent();
         String partyId = intent.getExtras().getString("partyId");
-        System.out.println("This is the party ID " +partyId);
+        System.out.println("This is the party ID " + partyId);
 
         Amplify.API.query(
                 ModelQuery.get(Party.class, partyId),
@@ -59,18 +59,18 @@ public class InvitationDetails extends AppCompatActivity {
         );
 
         AuthUser authUser = Amplify.Auth.getCurrentUser();
-        if(Amplify.Auth.getCurrentUser() != null) {
+        if (Amplify.Auth.getCurrentUser() != null) {
             Amplify.API.query(
                     ModelQuery.list(User.class),
                     response -> {
                         for (User user : response.getData()) {
-                            if (user.getUserName().equalsIgnoreCase(authUser.getUsername())){
+                            if (user.getUserName().equalsIgnoreCase(authUser.getUsername())) {
                                 loggedUser = user;
                                 Log.i("Amplify.currentUser", "This is the current user, " + loggedUser);
                             }
                         }
                     },
-            error -> Log.e("Amplify.currentUser", "error"));
+                    error -> Log.e("Amplify.currentUser", "error"));
         }
 
 //=================================================================================================== Invitation details
@@ -95,13 +95,13 @@ public class InvitationDetails extends AppCompatActivity {
             public void onClick(View v) {
 
                 List<GuestList> target = party.getUsers();
-                for(GuestList thisGuestList : target){
-                    if(thisGuestList.getInvitedUser().equalsIgnoreCase(authUser.getUsername())){
+                for (GuestList thisGuestList : target) {
+                    if (thisGuestList.getInvitedUser().equalsIgnoreCase(authUser.getUsername())) {
                         guestList = thisGuestList;
                     }
                 }
-                if(guestList == null){
-                  Log.i("Amplify.error", "Couldn't find the user");
+                if (guestList == null) {
+                    Log.i("Amplify.error", "Couldn't find the user");
                 }
 
                 guestList.inviteStatus = "Declined";
@@ -110,7 +110,6 @@ public class InvitationDetails extends AppCompatActivity {
                 Amplify.API.mutate(
                         ModelMutation.update(guestList),
                         response -> Log.i("DeclinedInvite", "You declined an invite! " + response.getData().toString()),
-
                         error -> Log.e("DeclinedInviteFail", error.toString())
                 );
 
@@ -129,8 +128,8 @@ public class InvitationDetails extends AppCompatActivity {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) | (actionId == EditorInfo.IME_ACTION_DONE)) {
                     acceptInvite.requestFocus();
 
-                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE); // finds the keyboard
-                    imm.hideSoftInputFromWindow(v.getWindowToken(),0); // hides the keyboard away in most other cases.
+                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE); // finds the keyboard
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0); // hides the keyboard away in most other cases.
                 }
                 return false; // puts the keyboard away in most other cases.
             }
@@ -143,7 +142,7 @@ public class InvitationDetails extends AppCompatActivity {
             public void onClick(View v) {
                 String giftName = giftChosen.getText().toString();
 
-                if(giftName.equals("")){
+                if (giftName.equals("")) {
                     handlerCheck(1);
                     return;
                 }
@@ -156,7 +155,8 @@ public class InvitationDetails extends AppCompatActivity {
                                 String giftParty = gift.getParty().getTitle();
                                 System.out.println("Here is theParty: " + theParty + ". And here is the giftParty: " + giftParty);
                                 if (gift.getParty().getTitle().equals(theParty)) {
-                                    if (gift.getNumber() > highestNum) highestNum = gift.getNumber();
+                                    if (gift.getNumber() > highestNum)
+                                        highestNum = gift.getNumber();
                                 }
                             }
 
@@ -177,20 +177,18 @@ public class InvitationDetails extends AppCompatActivity {
                                     response2 -> Log.i("AddGift", "You saved a new gift to bring, " + giftName),
                                     error -> Log.e("AddGiftFail", error.toString())
                             );
-
                             Log.i("Amplify.endModelQuery", "Success of query.");
-
                         },
                         error -> Log.e("Amplify.Query", "something went wrong" + error.toString())
                 );
 
                 List<GuestList> target = party.getUsers();
-                for(GuestList thisGuestList : target){
-                    if(thisGuestList.getInvitedUser().equalsIgnoreCase(authUser.getUsername())){
+                for (GuestList thisGuestList : target) {
+                    if (thisGuestList.getInvitedUser().equalsIgnoreCase(authUser.getUsername())) {
                         guestList = thisGuestList;
                     }
                 }
-                if(guestList == null){
+                if (guestList == null) {
                     Log.i("Amplify.error", "Couldn't find the user");
                 }
 

@@ -33,7 +33,6 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
 
     RecyclerView recyclerView;
     public ArrayList<Party> parties = new ArrayList<>();
-    //Handler handler;
     Handler handleParties;
     User currentUser;
 
@@ -63,7 +62,6 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
                         for (User user : response.getData()) {
                             if (user.getUserName().equalsIgnoreCase(authUser.getUsername())) {
                                 currentUser = user;
-                                Log.i("Amplify.currentUser", "This is the current user, " + currentUser);
                                 Amplify.API.query(
                                         ModelQuery.get(User.class, currentUser.getId()),
                                         response2 -> {
@@ -98,7 +96,7 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
     public void listener(Party party) {
         Intent intent = new Intent(InvitationList.this, InvitationDetails.class);
 
-        Date partyToFormat = java.util.Date.from(Instant.parse(party.getPartyDate()));
+        // Date partyToFormat = java.util.Date.from(Instant.parse(party.getPartyDate()));
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         format.setTimeZone(TimeZone.getTimeZone("PST"));

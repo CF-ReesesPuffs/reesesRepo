@@ -6,10 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
+//import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
+//import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -67,14 +67,14 @@ import java.util.TimeZone;
 public class HostParty extends AppCompatActivity implements HostPartyAdapter.GuestListListener, DatePickerDialog.OnDateSetListener {
 
     public ArrayList<User> guestList = new ArrayList<>();
-    public HashSet<Integer> invitedGuestList;
+//    public HashSet<Integer> invitedGuestList;
     Handler handler;
     Handler generalHandler;
     RecyclerView recyclerView;
     HashMap<String, User> uniqueGuestList = new HashMap<>();
     User currentUser;
     Calendar date; // there are 2 potential calendar options
-    TextView partyDate, partyTime;
+    TextView partyDate;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -93,7 +93,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                     for (User user : response.getData()) {
                         if (user.getUserName().equalsIgnoreCase(authUser.getUsername())) {
                             currentUser = user;
-                            System.out.println("This is our current user/host" + currentUser);
                         }
                     }
                 },
@@ -170,8 +169,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
-                    Log.e("Android.KeyPress", "ENTER/DONE been HIT");
-
                     Amplify.API.query(
                             ModelQuery.list(User.class),
                             response -> {
@@ -223,7 +220,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                     Message noGuestsMsg = new Message();
                     noGuestsMsg.arg1 = 1;
                     generalHandler.sendMessage(noGuestsMsg);
-                    Log.e("guests.list", "this was hit");
                     return;
                 }
 
@@ -278,9 +274,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 Amplify.API.mutate(
                         ModelMutation.create(party),
                         response -> {
-                            Log.i("Amplify.API", "success party started");
                             Party party2 = response.getData();
-
                             for (User guest : guestsToInviteList) {
                                 GuestList inviteStatus = GuestList.builder()
                                         .inviteStatus("Pending")
@@ -315,7 +309,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
     }
 
     public void priceSpinner() {
-        String[] pricePoints = {"$0- $10", "$11- $20", "$21- $30", "$31- $40"};
+        String[] pricePoints = {"$0 - $10", "$11 - $20", "$21 - $30", "$31 - $40"};
         Spinner spinner = (Spinner) findViewById(R.id.price_spinner);
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, pricePoints);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -343,7 +337,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         date.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         date.set(Calendar.MINUTE, minute);
-                        Log.v("Android.Date", "this is the date " + date.getTime());
                         Message dateMessage = new Message();
                         dateMessage.arg1 = 2;
                         generalHandler.sendMessage(dateMessage);

@@ -3,11 +3,14 @@ package com.cfreesespuffs.github.giftswapper.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
@@ -20,6 +23,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -140,6 +145,16 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            Window window = this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(this.getResources().getColor(R.color.green));
+        }
+
         configureAws();
         getIsSignedIn();
 
@@ -148,9 +163,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             if (message.arg1 == 1) {
                 if (Amplify.Auth.getCurrentUser() != null) {
                     Log.i("Android.VersionTest", "=== 1 ===");
-//                    Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
-                    ImageButton createAccountBt = findViewById(R.id.createAccountButton);
-                    createAccountBt.setVisibility(View.INVISIBLE);
 
                     if (preferences.getString("userId", "NA").equals("NA")) { //where gets currentUser still might break it.
                         Amplify.API.query(
@@ -182,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
             if (message.arg1 == 6) { // Todo: go to post parties
                 System.out.println("You want to go to your ended parties?");
-                Intent endPartyIntent = new Intent(MainActivity.this, EndedPartyJava.class);
+                Intent endPartyIntent = new Intent(MainActivity.this, EndedParties.class);
                 endPartyIntent.putExtra("userId", currentUser.getId());
                 MainActivity.this.startActivity(endPartyIntent);
             }
@@ -194,9 +206,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 loginButton.setVisibility(View.VISIBLE);
                 Button hostButton = findViewById(R.id.host_party_button);
                 hostButton.setVisibility(View.INVISIBLE);
-                Log.i("Auth.arg1-5", "Logged out via Settings");
-                ImageButton createAccountBt = findViewById(R.id.createAccountButton);
-                createAccountBt.setVisibility(View.VISIBLE);
             }
 
             if (message.arg1 == 10) {
@@ -223,8 +232,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         connectRecycler();
 
         AuthUser authUser = Amplify.Auth.getCurrentUser();
-
-        Log.e("Auth.isSignedin", "Signed in?: " + isSignedIn[0]);
 
         if (Amplify.Auth.getCurrentUser() != null) {
             Amplify.API.query(
@@ -266,14 +273,12 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                                             }
 
                                             System.out.println("Presort: " + parties);
-
                                             Collections.sort(parties, new Comparator<Party>() {
                                                 @Override
                                                 public int compare(Party party1, Party party2) {
                                                     return party1.getPartyDate().compareTo(party2.getPartyDate());
                                                 }
                                             });
-
                                             System.out.println("Postsort: " + parties);
 
                                             handleParties.sendEmptyMessage(1);
@@ -289,31 +294,11 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             );
         }
 
-//================= invites
-        ImageButton notificationButton = MainActivity.this.findViewById(R.id.notification_button);
-        notificationButton.setOnClickListener((view) -> {
-            Intent goToNotificationsIntent = new Intent(MainActivity.this, InvitationList.class);//Is this were we want to send them?
-            MainActivity.this.startActivity(goToNotificationsIntent);
-        });
-
-//================= sign up
-        ImageButton navButton = MainActivity.this.findViewById(R.id.createAccountButton);
-        navButton.setOnClickListener((view) -> {
-            Intent goToNavIntent = new Intent(MainActivity.this, SignUp.class);//Maybe this shouldn't be a button, possibly a spinner?
-            MainActivity.this.startActivity(goToNavIntent);
-        });
-
         Button hostPartyButton = MainActivity.this.findViewById(R.id.host_party_button);
+        hostPartyButton.setBackgroundColor(getResources().getColor(R.color.green));
         hostPartyButton.setOnClickListener((view) -> {
             Intent goToHostPartyIntent = new Intent(MainActivity.this, HostParty.class);
             MainActivity.this.startActivity(goToHostPartyIntent);
-        });
-
-        loginButton = MainActivity.this.findViewById(R.id.login_button);
-        if (Amplify.Auth.getCurrentUser() != null) loginButton.setVisibility(View.INVISIBLE);
-        loginButton.setOnClickListener((view) -> {
-            Intent goToLoginIntent = new Intent(MainActivity.this, Login.class);
-            MainActivity.this.startActivity(goToLoginIntent);
         });
     }
 
@@ -376,9 +361,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                     AuthSignOutOptions.builder().globalSignOut(true).build(),
                     () -> {
                         Log.i("Auth.logout", "Signed out via Settings menu");
-//                        Message optionMessage = new Message();
-//                        optionMessage.arg1 = 5;
-//                        handleCheckLoggedIn.sendMessage(optionMessage); // setting up a message, I was running into issues. sendEmptyMessage worked like a charm.
                         preferences.edit().clear().apply();
                         MainActivity.this.startActivity(new Intent(MainActivity.this, Login.class));
                     },
@@ -393,7 +375,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         }
 
         if (item.getItemId() == R.id.mainActivityBadge) {
-            Log.i("Menu.badgeClick", "CLICK");
             Intent goToNotificationsIntent = new Intent(MainActivity.this, InvitationList.class);//Is this were we want to send them?
             MainActivity.this.startActivity(goToNotificationsIntent);
         }

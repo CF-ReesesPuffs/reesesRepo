@@ -1,5 +1,6 @@
 package com.cfreesespuffs.github.giftswapper.Adapters;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,10 +40,14 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.PartyViewHol
     @Override
     public void onBindViewHolder(@NonNull PartyViewHolder holder, int position) {
         holder.party= parties.get(position);
-        Log.e("Android.holder", "Holder: " + holder.party);
+
         TextView titleView = holder.itemView.findViewById(R.id.party_title);
         TextView dateView = holder.itemView.findViewById(R.id.party_date);
         TextView timeView = holder.itemView.findViewById(R.id.party_time);
+
+        titleView.setTextColor(Color.parseColor("#000000")); // https://stackoverflow.com/questions/32671004/how-to-change-the-color-of-a-button
+        dateView.setTextColor(Color.parseColor("#000000"));
+        timeView.setTextColor(Color.parseColor("#000000"));
 
         titleView.setText(holder.party.getTitle());
         dateView.setText(holder.party.getHostedOn());
@@ -55,8 +60,8 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.PartyViewHol
         return parties.size();
     }
 
-    public static interface InteractWithPartyListener{
-        public void listener(Party party);
+    public interface InteractWithPartyListener{
+        void listener(Party party);
     }
     public static class PartyViewHolder extends RecyclerView.ViewHolder{
         public Party party;
