@@ -88,6 +88,7 @@ public class EndedParties extends AppCompatActivity implements PartyAdapter.Inte
         goToPartyDetailIntent.putExtra("when", String.valueOf(party.HOSTED_ON));
         goToPartyDetailIntent.putExtra("setTime", String.valueOf(party.HOSTED_AT));
         goToPartyDetailIntent.putExtra("from", "endedList");
+//        goToPartyDetailIntent.putExtra("host", party.getTheHost().getUserName());
         this.startActivity(goToPartyDetailIntent);
     }
 }
