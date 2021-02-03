@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.amplifyframework.api.graphql.model.ModelQuery;
@@ -34,7 +36,6 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
     RecyclerView recyclerView;
     public ArrayList<Party> parties = new ArrayList<>();
     Handler handleParties;
-    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,35 +55,21 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
                 });
         connectAdapterToRecycler();
 
-        AuthUser authUser = Amplify.Auth.getCurrentUser();
-        if (Amplify.Auth.getCurrentUser() != null) {
-            Amplify.API.query(  //TODO: delete this query and use shared preferences id
-                    ModelQuery.list(User.class),
-                    response -> {
-                        for (User user : response.getData()) {
-                            if (user.getUserName().equalsIgnoreCase(authUser.getUsername())) {
-                                currentUser = user;
-                                Amplify.API.query(
-                                        ModelQuery.get(User.class, currentUser.getId()),
-                                        response2 -> {
-                                            for (GuestList party : response2.getData().getParties()) {
-                                                if (party.getInviteStatus().equals("Pending")){
-                                                    parties.add(party.getParty());
-                                                    Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
-                                                }
-                                            }
-                                            handleParties.sendEmptyMessage(1);
-                                        },
-                                        error -> Log.e("Amplify", "Failed to retrieve store")
-                                );
-                            }
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        Amplify.API.query(
+                ModelQuery.get(User.class, preferences.getString("userId", "NA")),
+                response2 -> {
+                    for (GuestList party : response2.getData().getParties()) {
+                        if (party.getInviteStatus().equals("Pending")) {
+                            parties.add(party.getParty());
+                            Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
                         }
-                    },
-                    error -> {
-                        Log.e("Amplify.currentUser", "No current user found");
                     }
-            );
-        }
+                    handleParties.sendEmptyMessage(1);
+                },
+                error -> Log.e("Amplify", "Failed to retrieve store")
+        );
     }
 
     private void connectAdapterToRecycler() {
@@ -96,12 +83,8 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
     public void listener(Party party) {
         Intent intent = new Intent(InvitationList.this, InvitationDetails.class);
 
-        // Date partyToFormat = java.util.Date.from(Instant.parse(party.getPartyDate()));
-
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         format.setTimeZone(TimeZone.getTimeZone("PST"));
-
-       // String testDateString = format.format(partyToFormat);
 
         intent.putExtra("partyName", party.getTitle());
         intent.putExtra("when", party.getHostedOn());
