@@ -103,7 +103,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 });
 
         handlerGeneral = new Handler(Looper.getMainLooper(), message -> { // Todo: confirm working.
-            Log.e ("Amp.TurnNotice", "Hit the turnNotice");
             if (message.arg1 == 1) {
                 Toast.makeText(this, "It is your turn, pick a gift!", Toast.LENGTH_LONG).show();
             }
@@ -129,8 +128,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         Amplify.API.query(
                 ModelQuery.get(Party.class, partyId),
                 response -> {
-                    Log.i("Test party.gift", "===" + response.getData().getGifts());
-
                     for (Gift giftBrought : response.getData().getGifts()) {
                         giftList.add(giftBrought);
                         }

@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Giftswapper">
-        <activity android:name=".Activities.EndedPartyJava"></activity>
+        <activity android:name=".Activities.EndedParties"></activity>
         <activity android:name=".Activities.endedPartyJava" />
         <activity android:name=".InvitationList" /> <!-- <activity android:name=".PendingPartyFragment" /> -->
         <activity android:name=".Activities.SignupConfirmation" />

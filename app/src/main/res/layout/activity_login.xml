@@ -15,6 +15,7 @@
         android:background="@drawable/et_style"
         android:elegantTextHeight="true"
         android:ems="10"
+        android:textColor="@color/black"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -23,6 +24,7 @@
 
     <EditText
         android:id="@+id/passwordLogin"
+        android:textColor="@color/black"
         android:layout_width="235dp"
         android:layout_height="30dp"
         android:layout_marginTop="4dp"

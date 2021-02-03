@@ -7,102 +7,43 @@
     android:background="#AF0000"
     tools:context=".Activities.MainActivity">
 
-    <ImageButton
-        android:id="@+id/notification_button"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="135dp"
-        android:layout_marginEnd="12dp"
-        android:background="@color/gold_yellow"
-        android:backgroundTint="#99ED8922"
-        android:contentDescription="TODO"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/main_header"
-        app:layout_constraintEnd_toStartOf="@+id/createAccountButton"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/main_header"
-        app:layout_constraintTop_toTopOf="@+id/main_header"
-        app:srcCompat="@drawable/ic_notification_foreground" />
-
-    <TextView
-        android:id="@+id/main_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:fontFamily="@font/autour_one"
-        android:text="@string/gift_swapper"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/parties_textview"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.196" />
-
-    <ImageButton
-        android:id="@+id/createAccountButton"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/gold_yellow"
-        android:backgroundTint="#99ED8922"
-        android:contentDescription="TODO"
-        app:layout_constraintBottom_toBottomOf="@+id/notification_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/ic_menu_foreground" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/party_recyclerview"
         android:layout_width="322dp"
         android:layout_height="408dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="4dp"
         android:background="@drawable/et_style"
         android:paddingTop="6sp"
-        app:layout_constraintBottom_toTopOf="@+id/host_party_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/parties_textview" />
 
     <Button
         android:id="@+id/host_party_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="108dp"
+        android:layout_marginTop="18dp"
         android:fontFamily="@font/architects_daughter"
         android:text="@string/host_a_party"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/party_recyclerview" />
 
     <TextView
         android:id="@+id/parties_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/autour_one"
         android:text="Your Parties"
         android:textColor="#000000"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/party_recyclerview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.159"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageButton
-        android:id="@+id/login_button"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/gold_yellow"
-        android:backgroundTint="#99ED8922"
-        android:paddingLeft="4sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createAccountButton"
-        app:srcCompat="@drawable/ic_login_foreground" />
+        app:layout_constraintHorizontal_bias="0.186"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

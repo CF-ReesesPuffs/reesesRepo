@@ -74,8 +74,6 @@ public class SignUp extends AppCompatActivity {
             }
 
             if (!password.getText().toString().equals(passwordTwo.getText().toString())) { // https://www.geeksforgeeks.org/character-equals-method-in-java-with-examples/ because PVO forgot that != doesn't work on strings.
-                Log.i("Android.password", "This is password 1: " + password.getText().toString());
-                Log.i("Android.password", "This is password 2: " + password.getText().toString());
                 Toast.makeText(this, "Your password doesn't match.", Toast.LENGTH_SHORT).show();
                 return;
             }

@@ -41,7 +41,7 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
         OnBackPressedCallback callback = new OnBackPressedCallback(true){
             @Override
             public void handleOnBackPressed() {
-                PostParty.this.startActivity(new Intent(PostParty.this, MainActivity.class));
+                PostParty.this.startActivity(new Intent(PostParty.this, MainActivity.class)); // https://stackoverflow.com/questions/55074497/how-to-add-onbackpressedcallback-to-fragment
             }
         };
 
@@ -57,7 +57,6 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
             PostParty.this.startActivity(goToMainIntent);
         });
 
-        //Intent intent2 = getIntent();
         TextView partyName = PostParty.this.findViewById(R.id.partyName);
         partyName.setText(intent.getExtras().getString("title"));
 

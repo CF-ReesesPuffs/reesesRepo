@@ -103,6 +103,9 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                             connectAdapterToRecycler();
                             recyclerView.getAdapter().notifyDataSetChanged();
                             Log.i("Amplify", "It worked!");
+
+                            TextView hostTv = findViewById(R.id.hostTv);
+                            hostTv.setText(String.format("Host: %s", pendingParty.getTheHost().getUserName()));
                         }
                         if (msg.arg1 == 2) {
                             startParty.setText("Go to party!");
@@ -130,15 +133,16 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
         intent = getIntent();
         partyId = intent.getExtras().getString("id");
 
-        System.out.println(intent.getExtras().getString("title"));
-
         Amplify.API.query(
                 ModelQuery.get(Party.class, partyId),
                 response -> {
-                    Log.i("Amp.Partyhere", "Party has been gotten.");
                     pendingParty = response.getData();
                     Log.i("Amp.Partyhere", "pendingParty's host: " + pendingParty.getTheHost().getUserName());
                     Log.i("Amp.Partyhere", "Auth username: " + Amplify.Auth.getCurrentUser().getUsername());
+
+                    TextView hostTv = findViewById(R.id.hostTv);
+                    hostTv.setText(String.format("Host: %s", pendingParty.getTheHost().getUserName()));
+
                     if (pendingParty.getTheHost().getUserName().equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
                         Message message = new Message();
                         message.arg1 = 2;
@@ -206,7 +210,6 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                                                 e.printStackTrace();
                                             }
                                             autoSwap(); // also goes to the PostParty activity, and set Party.isFinished() to true.
-                                            Log.i("Counter.Two", "bumpBump");
                                         }
                                     });
                     twoPlayerSwapAlert.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -262,7 +265,6 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
         Button homeButton = findViewById(R.id.customHomeButton);
         homeButton.setOnClickListener((view) -> {
             subscription.cancel(); // not functioning as expected (aka not working at all).
-            Log.i("Activity.homeButton", "It was clicked.");
             Intent intent1 = new Intent(this, MainActivity.class);
             startActivity(intent1);
         });
@@ -275,11 +277,8 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
 
         // Has to be included, otherwise doesn't show up via layout xml \
         TextView priceDef = PendingPage.this.findViewById(R.id.price);//|
-        priceDef.setText("Price");                                    //|
+        priceDef.setText(String.format("Price: %s", intent.getExtras().getString("price")));
         // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
-
-        TextView price = PendingPage.this.findViewById(R.id.priceLimit);
-        price.setText(intent.getExtras().getString("price"));
 
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
@@ -333,7 +332,6 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                                 guestList.clear();
                                 if (response.getData() != null) { // subscriptions can return a completely empty/null response. ???
                                     for (GuestList user : response.getData().getUsers()) {
-                                        Log.i("Amplify.test", "Within the Subscription: " + user);
                                         guestList.add(user);
                                     }
                                 }
@@ -428,8 +426,6 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                     ModelQuery.get(User.class, toDelete.getUser().getId()),
                     userToGet -> {
                         User thisUser = userToGet.getData();
-                        Log.i("Amp.user", "users gifts here: " + thisUser.getGifts().toString());
-
                         for (Gift thisPartysGift : thisUser.getGifts()) {
                             if (thisPartysGift.getParty().getId().equalsIgnoreCase(pendingParty.getId())) {
                                 Gift giftToRemove = thisPartysGift;
