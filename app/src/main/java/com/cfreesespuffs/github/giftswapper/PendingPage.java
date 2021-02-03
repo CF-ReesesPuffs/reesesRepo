@@ -105,7 +105,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                             Log.i("Amplify", "It worked!");
 
                             TextView hostTv = findViewById(R.id.hostTv);
-                            hostTv.setText(String.format("Host: %s", pendingParty.getTheHost().getUserName())); // will break on party delete
+                            hostTv.setText(String.format("Host: %s", pendingParty.getTheHost().getUserName()));
                         }
                         if (msg.arg1 == 2) {
                             startParty.setText("Go to party!");
@@ -339,7 +339,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                                 pendingParty = response.getData();
 
                                 Message message = new Message();
-                                message.arg1 = 1;
+                                message.arg1 = 1; // todo: NEEDS TO MOVE DIFFERENT MESSAGE ARG
                                 handleSingleItem.sendMessage(message);
                             },
                             error -> Log.e("Amplify", "Failed to retrieve store")
@@ -454,55 +454,34 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
         Amplify.API.query(
                 ModelQuery.get(Party.class, partyId),
                 partyAllToDelete -> {
-                    Amplify.API.query(
-                            ModelQuery.list(GuestList.class), // todo: query for specfic guestlist
-                            thePartyGoers -> {
-                                for (GuestList guestList : thePartyGoers.getData()) {
-                                    if (guestList.getParty().getId().contains(partyAllToDelete.getData().getId())) {
+                    List<GuestList> gLToDelete = partyAllToDelete.getData().getUsers();
+                    List<Gift> giftsToDelete = partyAllToDelete.getData().getGifts();
+                    
+                    for (int i = 0; i < gLToDelete.size(); i++) {
+                        Amplify.API.mutate(
+                                ModelMutation.delete(gLToDelete.get(i)),
+                                response4 -> Log.i("Amp.del.user", "You're outta there, " + guestList + "!"),
+                                error -> Log.e("Amp.del.user", "Error: " + error));
+                    }
 
-                                        Amplify.API.mutate(
-                                                ModelMutation.delete(guestList),
-                                                response4 -> Log.i("Amp.del.user", "You're outta there, " + guestList + "!"),
-                                                error -> Log.e("Amp.del.user", "Error: " + error));
-                                    }
-                                }
-                            },
-                            error -> Log.e("Amp.del.user", "Failure: " + error));
+                    for (int i = 0; i < giftsToDelete.size(); i++) {
+                        Amplify.API.mutate(
+                                ModelMutation.delete(giftsToDelete.get(i)),
+                                response4 -> Log.i("Amp.del.user", "You're outta there!"),
+                                error -> Log.e("Amp.del.user", "Error: " + error));
+                    }
 
-                    Amplify.API.query(
-                            ModelQuery.list(Gift.class), // todo: query for specfic gifts
-                            allTheGifts -> {
-                                for (Gift gift : allTheGifts.getData()) {
-                                    if (gift.getParty().getId().contains(partyAllToDelete.getData().getId())) {
+                    Amplify.API.mutate(
+                            ModelMutation.delete(partyAllToDelete.getData()), // as before, it's not enough to have a party, you've got to get it's data too. why?
+                            theParty -> Log.i("Amplify.delete", "Gone"),
+                            error2 -> Log.e("Amplify.delete", "Where you at? Error: " + error2)
+                    );
 
-                                        Amplify.API.mutate(
-                                                ModelMutation.delete(gift),
-                                                response4 -> {
+                    subscription.cancel();
 
-                                                    Amplify.API.mutate(
-                                                            ModelMutation.delete(partyAllToDelete.getData()), // as before, it's not enough to have a party, you've got to get it's data too. why?
-                                                            theParty -> Log.i("Amplify.delete", "Gone"),
-                                                            error2 -> Log.e("Amplify.delete", "Where you at? Error: " + error2)
-                                                    );
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
 
-                                                    Log.i("Amp.del.user", "You're outta there, " + gift + "!");
-                                                },
-                                                error -> Log.e("Amp.del.user", "Error: " + error));
-                                    }
-
-                                    try { // makes system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
-                                        Thread.sleep(1000);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                    subscription.cancel();
-
-                                    Intent intent = new Intent(this, MainActivity.class);
-                                    startActivity(intent);
-                                }
-                            },
-                            error -> Log.e("Amp.del.user", "Failure: " + error));
                 },
                 error -> Log.e("Amp.del.party", "FAIL: " + error));
     }
@@ -551,16 +530,16 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
     private GraphQLRequest<Party> getPartyStatus(String id) {
         String document = "subscription getPartyStatus($id: ID!) { "
                 + "onUpdateOfSpecificParty(id: $id) { "
-                    + "id "
-                    + "title "
-                    + "hostedOn "
-                    + "hostedAt "
-                    + "partyDateAWS "
-                    + "partyDate "
-                    + "price "
-                    + "isReady "
-                    + "isFinished "
-                    + "stealLimit "
+                + "id "
+                + "title "
+                + "hostedOn "
+                + "hostedAt "
+                + "partyDateAWS "
+                + "partyDate "
+                + "price "
+                + "isReady "
+                + "isFinished "
+                + "stealLimit "
 //                    + "theHost { "
 //                        + "items { "
 //                            + "id "
@@ -568,7 +547,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
 //                            + "email "
 //                            + "}"
 //                        + "}"
-                    + "}"
+                + "}"
                 + "}";
         return new SimpleGraphQLRequest<>(
                 document,
@@ -577,7 +556,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                 new GsonVariablesSerializer());
     }
 
-    private void createSinglePartySubscription (String id) {
+    private void createSinglePartySubscription(String id) {
         Amplify.API.subscribe(getPartyStatus(intent.getExtras().getString("id")),
                 subCheck -> Log.d("Sub.SingleParty", "Connection established for: " + subCheck),
                 response -> {
