@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-<!--    https://www.geeksforgeeks.org/how-to-change-the-color-of-status-bar-in-an-android-app/-->
+<!--    https://www.geeksforgeeks.org/how-to-change-the-color-of-status-bar-in-an-android-app/ -->
 <!--    Need to try this ^^^ because it is "Light.NoActionBar I wonly have *DARK* ActionBar -->
 
     <style name="Theme.AllNoActionBarNone" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
@@ -29,7 +29,6 @@
         <item name="windowActionBar">false</item>
         <item name="android:windowActionBarOverlay">false</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
     </style>
 
     <style name="ThemeOverlay.titleColor" parent="">

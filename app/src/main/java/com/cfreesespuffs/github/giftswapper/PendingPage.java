@@ -105,7 +105,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                             Log.i("Amplify", "It worked!");
 
                             TextView hostTv = findViewById(R.id.hostTv);
-                            hostTv.setText(String.format("Host: %s", pendingParty.getTheHost().getUserName()));
+                            hostTv.setText(String.format("Host: %s", pendingParty.getTheHost().getUserName())); // will break on party delete
                         }
                         if (msg.arg1 == 2) {
                             startParty.setText("Go to party!");
