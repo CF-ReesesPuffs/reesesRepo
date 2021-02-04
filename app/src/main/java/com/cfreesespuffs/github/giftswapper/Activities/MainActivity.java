@@ -192,10 +192,10 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 }
             }
 
-            if (message.arg1 == 0) {
-                Button hostButton = findViewById(R.id.host_party_button);
-                hostButton.setVisibility(View.INVISIBLE);
-            }
+//            if (message.arg1 == 0) {
+//                Button hostButton = findViewById(R.id.host_party_button);
+//                hostButton.setVisibility(View.INVISIBLE);
+//            }
 
             if (message.arg1 == 6) { // Todo: go to post parties
                 System.out.println("You want to go to your ended parties?");
@@ -327,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                         handleCheckLoggedIn.sendMessage(message);
                     } else {
                         message.arg1 = 0;
-                        handleCheckLoggedIn.sendMessage(message);
+//                        handleCheckLoggedIn.sendMessage(message);
                         MainActivity.this.startActivity(new Intent(MainActivity.this, Login.class));
                     }
                 },
