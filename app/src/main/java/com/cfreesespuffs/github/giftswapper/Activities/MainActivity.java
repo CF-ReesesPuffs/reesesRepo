@@ -448,7 +448,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 + "}";
         return new SimpleGraphQLRequest<>(
                 document,
-                Collections.singletonMap("pUserName", "userName"),
+                Collections.singletonMap("pUserName", userName),
                 User.class,
                 new GsonVariablesSerializer());
     }
