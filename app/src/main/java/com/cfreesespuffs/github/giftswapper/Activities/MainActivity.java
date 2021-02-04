@@ -158,6 +158,11 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         configureAws();
         getIsSignedIn();
 
+        Amplify.API.query(
+                getUserByName("pal"),
+                response -> Log.e("Query.UserId", "user: " + response.getData()),
+                error -> Log.e("Query.UserId", "Error: " + error)
+        );
 //============================================================================== handler check logged
         handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 1) {
@@ -432,4 +437,21 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 () -> Log.i("Sub.SingleGuestList", "Sub is closed")
         );
     }
+
+    private GraphQLRequest<User> getUserByName(String userName) {
+        String document = "query IdByName ($pUserName: String!) {"
+                + "idByName(userName: $pUserName) {"
+                + "items {"
+                + "id"
+                + "}"
+                + "}"
+                + "}";
+        return new SimpleGraphQLRequest<>(
+                document,
+                Collections.singletonMap("pUserName", "userName"),
+                User.class,
+                new GsonVariablesSerializer());
+    }
+
+
 }
