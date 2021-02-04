@@ -35,15 +35,15 @@ public class SignUp extends AppCompatActivity {
             EditText password = findViewById(R.id.passwordOneEt);
             EditText passwordTwo = findViewById((R.id.passwordTwoEt));
 
-            String regex = "^[\\\\w!#$%&'*+/=?`{|}~^-]+(?:\\\\.[\\\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,6}$"; // https://howtodoinjava.com/java/regex/java-regex-validate-email-address/
-            Pattern pattern = Pattern.compile(regex);
+            String regex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"; // https://emailregex.com/
+            Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
             Matcher matcher = pattern.matcher(userEmail.getText().toString());
 
-            if (matcher.matches()) {
-                Log.i("Amp.EmailMatcher", "The Email is Good! Clear!");
-            } else {
+//            if (matcher.matches()) {
+//                Log.i("Amp.EmailMatcher", "The Email is Good! Clear!");
+            if (!matcher.matches()) {
                 Toast toast = Toast.makeText(getApplicationContext(),
-                        "Please check your email", Toast.LENGTH_LONG);
+                        "Email Address is incorrect", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 View toastView = toast.getView();
                 toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
@@ -52,9 +52,9 @@ public class SignUp extends AppCompatActivity {
                 return;
             }
 
-            if (userName.getText().toString().contains(" ")) {
+            if (userName.getText().toString().contains(" ") || userName.getText().) {
                 Toast toast = Toast.makeText(getApplicationContext(),
-                        "Username cannot contain spaces.", Toast.LENGTH_LONG);
+                        "Username must be filled and cannot contain spaces.", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 View toastView = toast.getView();
                 toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
@@ -77,6 +77,14 @@ public class SignUp extends AppCompatActivity {
                 Toast.makeText(this, "Your password doesn't match.", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "A confirmation code has been sent to your email", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            View toastView = toast.getView();
+            toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+            toast.show();
+            Log.e("Amp.EmailMatcher", "Bad email. Bad!");
 
             Amplify.Auth.signUp(
                     userName.getText().toString().toLowerCase(),
