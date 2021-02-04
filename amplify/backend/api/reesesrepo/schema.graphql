@@ -1,4 +1,4 @@
-type User @model {
+type User @model @key(name: "idByName", fields: ["userName"], queryField: "idByName") {
   id: ID!
   userName: String!
   email: String
@@ -52,3 +52,4 @@ type Subscription {
   onCreateOfUserId(invitedUser: String): GuestList
    @aws_subscribe(mutations: ["createGuestList"])
 }
+
