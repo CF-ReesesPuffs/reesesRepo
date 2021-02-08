@@ -49,9 +49,8 @@ public final class Party implements Model {
     public String getId() {
         return id;
     }
-
-
-    public String getTitle() {
+  
+  public String getTitle() {
       return title;
   }
   

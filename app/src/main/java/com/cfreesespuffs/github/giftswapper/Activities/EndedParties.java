@@ -1,12 +1,14 @@
 package com.cfreesespuffs.github.giftswapper.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -14,6 +16,9 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.amplifyframework.api.aws.GsonVariablesSerializer;
+import com.amplifyframework.api.graphql.GraphQLRequest;
+import com.amplifyframework.api.graphql.SimpleGraphQLRequest;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.GuestList;
@@ -24,28 +29,27 @@ import com.cfreesespuffs.github.giftswapper.PostParty;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Objects;
+import java.util.Set;
 
 public class EndedParties extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener {
 
     RecyclerView endedPartiesRv;
     ArrayList<Party> endedParties = new ArrayList<>();
-    Handler endPartyHandler;
+    HashMap<String, Party> endedPartiesHM = new HashMap<>();
     Handler oRendHandler;
     SharedPreferences prefs;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ended_party);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        endPartyHandler = new Handler(Looper.getMainLooper(), message -> {
-            if (message.arg1 == 1) {
-                Objects.requireNonNull(endedPartiesRv.getAdapter()).notifyDataSetChanged();
-            }
-            return false;
-        });
 
         oRendHandler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -67,14 +71,30 @@ public class EndedParties extends AppCompatActivity implements PartyAdapter.Inte
                 response -> {
                     for (GuestList guestList : response.getData().getParties()) {
                         if (guestList.getParty().getIsFinished()) {
-                            endedParties.add(guestList.getParty());
+                            endedPartiesHM.put(guestList.getId(), guestList.getParty());
                         }
                     }
+                    endedParties.addAll(endedPartiesHM.values());
                     Message message = new Message();
                     message.arg1 = 1;
                     oRendHandler.sendMessage(message);
                 },
                 error -> Log.e("End.Party", "Fail: " + error)
+        );
+
+        Amplify.API.subscribe(getNewGuestList(prefs.getString("username", "NA")),
+                subCheck -> Log.i("Amp.gLSub", "success: " + subCheck),
+                response -> {
+                    endedPartiesHM.remove(response.getData().getId());
+                    endedParties.clear();
+                    endedParties.addAll(endedPartiesHM.values());
+
+                    Message message = new Message();
+                    message.arg1 = 1;
+                    oRendHandler.sendMessage(message);
+                },
+                error -> Log.e("Amp.gLSub", "error: " + error),
+                () -> Log.e("Amp.gLSub", "sub is closed")
         );
     }
 
@@ -88,5 +108,21 @@ public class EndedParties extends AppCompatActivity implements PartyAdapter.Inte
         goToPartyDetailIntent.putExtra("setTime", String.valueOf(party.HOSTED_AT));
         goToPartyDetailIntent.putExtra("from", "endedList");
         this.startActivity(goToPartyDetailIntent);
+    }
+
+    private GraphQLRequest<GuestList> getNewGuestList(String username) {
+        String document = "subscription getNewGuestList ($username: String) { "
+                + " onDeleteSpecificGuestList(invitedUser: $username) { "
+                + "id "
+                + "party { "
+                + "id "
+                + "}"
+                + "}"
+                + "}";
+        return new SimpleGraphQLRequest<>(
+                document,
+                Collections.singletonMap("username", username),
+                GuestList.class,
+                new GsonVariablesSerializer());
     }
 }
