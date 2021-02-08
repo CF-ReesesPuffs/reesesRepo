@@ -75,6 +75,19 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         super.onResume();
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        Amplify.API.query(
+                ModelQuery.list(User.class, User.USER_NAME.eq(preferences.getString("username", "NA"))),
+                response -> {
+                    for (User user : response.getData()) {
+                        Log.e("Amp.listByName", "This is ID: " + user.getId());
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("userId", user.getId());
+                        editor.apply();
+                    }
+                },
+                error -> Log.e("Amp.listByName", "error: " + error)
+        );
+
         if (!preferences.getString("userId", "NA").equals("NA")) {
             Amplify.API.query(
                     ModelQuery.get(User.class, preferences.getString("userId", "NA")),
@@ -158,11 +171,11 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         configureAws();
         getIsSignedIn();
 
-        Amplify.API.query(
-                getUserByName("pal"),
-                response -> Log.e("Query.UserId", "user: " + response.getData()),
-                error -> Log.e("Query.UserId", "Error: " + error)
-        );
+//        Amplify.API.query(
+//                getUserByName("pal"),
+//                response -> Log.e("Query.UserId", "user: " + response.getData()),
+//                error -> Log.e("Query.UserId", "Error: " + error)
+//        );
 //============================================================================== handler check logged
         handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 1) {
@@ -438,20 +451,20 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         );
     }
 
-    private GraphQLRequest<User> getUserByName(String userName) {
-        String document = "query IdByName ($pUserName: String!) {"
-                + "idByName(userName: $pUserName) {"
-                + "items {"
-                + "id"
-                + "}"
-                + "}"
-                + "}";
-        return new SimpleGraphQLRequest<>(
-                document,
-                Collections.singletonMap("pUserName", userName),
-                User.class,
-                new GsonVariablesSerializer());
-    }
+//    private GraphQLRequest<User> getUserByName(String userName) {
+//        String document = "query IdByName ($pUserName: String!) {"
+//                + "idByName(userName: $pUserName) {"
+//                + "items {"
+//                + "id"
+//                + "}"
+//                + "}"
+//                + "}";
+//        return new SimpleGraphQLRequest<>(
+//                document,
+//                Collections.singletonMap("pUserName", userName),
+//                User.class,
+//                new GsonVariablesSerializer());
+//    }
 
 
 }
