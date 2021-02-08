@@ -51,5 +51,8 @@ type Subscription {
 
   onCreateOfUserId(invitedUser: String): GuestList
    @aws_subscribe(mutations: ["createGuestList"])
+
+   onDeleteSpecificGuestList(invitedUser: String): GuestList
+   @aws_subscribe(mutations: ["deleteGuestList"])
 }
 

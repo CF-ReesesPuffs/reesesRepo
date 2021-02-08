@@ -50,8 +50,8 @@ public final class Party implements Model {
         return id;
     }
 
-
-    public String getTitle() {
+  
+  public String getTitle() {
       return title;
   }
   

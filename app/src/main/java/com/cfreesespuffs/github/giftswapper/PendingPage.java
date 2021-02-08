@@ -104,8 +104,6 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                             recyclerView.getAdapter().notifyDataSetChanged();
                             Log.i("Amplify", "It worked!");
 
-                            TextView hostTv = findViewById(R.id.hostTv);
-                            hostTv.setText(String.format("Host: %s", pendingParty.getTheHost().getUserName()));
                         }
                         if (msg.arg1 == 2) {
                             startParty.setText("Go to party!");
@@ -264,7 +262,9 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
 
         Button homeButton = findViewById(R.id.customHomeButton);
         homeButton.setOnClickListener((view) -> {
-            subscription.cancel(); // not functioning as expected (aka not working at all).
+            subscription.cancel();
+            deleteSubscription.cancel();
+
             Intent intent1 = new Intent(this, MainActivity.class);
             startActivity(intent1);
         });
@@ -478,6 +478,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                     );
 
                     subscription.cancel();
+                    deleteSubscription.cancel();
 
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
@@ -521,6 +522,8 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
 
     public void goToParty() {
         subscription.cancel();
+        deleteSubscription.cancel();
+
         Intent intent2 = new Intent(PendingPage.this, CurrentParty.class);
         intent2.putExtra("id", partyId);
         intent2.putExtra("thisPartyId", getIntent().getExtras().getString("title"));
