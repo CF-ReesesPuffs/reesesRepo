@@ -159,10 +159,23 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         getIsSignedIn();
 
         Amplify.API.query(
-                getUserByName("pal"),
-                response -> Log.e("Query.UserId", "user: " + response.getData()),
-                error -> Log.e("Query.UserId", "Error: " + error)
+                ModelQuery.list(User.class, User.USER_NAME.contains("pal")), // https://docs.amplify.aws/lib/graphqlapi/query-data/q/platform/android
+                response -> {
+                    for (User user : response.getData()) {
+                        Log.e("MyAmplifyApp", user.getId() );
+                    }
+                },
+                error -> Log.e("MyAmplifyApp", "Query failure", error)
         );
+
+//        Amplify.API.query(
+//                getUserByName("pal"),
+//                response -> {
+//                    Log.e("Query.UserId", "user: " + response.getData());
+//                    Log.e("Query.UserId", "all data from response : " + response);
+//                },
+//                error -> Log.e("Query.UserId", "Error: " + error)
+//        );
 //============================================================================== handler check logged
         handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 1) {
@@ -439,16 +452,16 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     }
 
     private GraphQLRequest<User> getUserByName(String userName) {
-        String document = "query IdByName ($pUserName: String!) {"
-                + "idByName(userName: $pUserName) {"
-                + "items {"
-                + "id"
+        String document = "query IdByName ($userName: String!) { "
+                + "idByName(userName: $userName) { "
+                + "items { "
+                + "email "
                 + "}"
                 + "}"
                 + "}";
         return new SimpleGraphQLRequest<>(
                 document,
-                Collections.singletonMap("pUserName", userName),
+                Collections.singletonMap("userName", userName),
                 User.class,
                 new GsonVariablesSerializer());
     }
