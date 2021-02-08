@@ -40,7 +40,6 @@ public class EndedParties extends AppCompatActivity implements PartyAdapter.Inte
     RecyclerView endedPartiesRv;
     ArrayList<Party> endedParties = new ArrayList<>();
     HashMap<String, Party> endedPartiesHM = new HashMap<>();
-    Handler endPartyHandler;
     Handler oRendHandler;
     SharedPreferences prefs;
 
@@ -51,12 +50,6 @@ public class EndedParties extends AppCompatActivity implements PartyAdapter.Inte
         setContentView(R.layout.activity_ended_party);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        endPartyHandler = new Handler(Looper.getMainLooper(), message -> {
-            if (message.arg1 == 1) {
-                Objects.requireNonNull(endedPartiesRv.getAdapter()).notifyDataSetChanged();
-            }
-            return false;
-        });
 
         oRendHandler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -79,7 +72,6 @@ public class EndedParties extends AppCompatActivity implements PartyAdapter.Inte
                     for (GuestList guestList : response.getData().getParties()) {
                         if (guestList.getParty().getIsFinished()) {
                             endedPartiesHM.put(guestList.getId(), guestList.getParty());
-                           // Log.e("Amp.endedParty", "ID: " + guestList.getId());
                         }
                     }
                     endedParties.addAll(endedPartiesHM.values());
@@ -93,10 +85,10 @@ public class EndedParties extends AppCompatActivity implements PartyAdapter.Inte
         Amplify.API.subscribe(getNewGuestList(prefs.getString("username", "NA")),
                 subCheck -> Log.i("Amp.gLSub", "success: " + subCheck),
                 response -> {
-                    Log.e("Amp.gLSub", "Return: " + response.getData());
-                    endedPartiesHM.remove(response.getData().getParty().getId());
+                    endedPartiesHM.remove(response.getData().getId());
                     endedParties.clear();
                     endedParties.addAll(endedPartiesHM.values());
+
                     Message message = new Message();
                     message.arg1 = 1;
                     oRendHandler.sendMessage(message);

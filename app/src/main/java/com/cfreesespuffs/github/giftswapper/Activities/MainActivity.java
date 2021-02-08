@@ -190,32 +190,34 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
         connectRecycler();
 
-        Amplify.API.query(
-                ModelQuery.get(User.class, preferences.getString("userId", "NA")),
-                response2 -> {
-                    pendingParties.clear();
-                    for (GuestList party : response2.getData().getParties()) {
-                        if (party.getInviteStatus().equals("Pending")) {
-                            pendingPartiesHM.put(party.getId(), party.getInvitedUser());
-                            pendingParties.add(party.getParty());
-                        }
-                        if (party.getInviteStatus().equals("Accepted") && !party.getParty().getIsFinished()) {
-                            parties.add(party.getParty());
-                        }
-                        Collections.sort(parties, new Comparator<Party>() {
-                            @Override
-                            public int compare(Party party1, Party party2) {
-                                return party1.getPartyDate().compareTo(party2.getPartyDate());
+        if (!preferences.getString("userId", "NA").equals("NA")) {
+            Amplify.API.query(
+                    ModelQuery.get(User.class, preferences.getString("userId", "NA")),
+                    response2 -> {
+                        pendingParties.clear();
+                        for (GuestList party : response2.getData().getParties()) {
+                            if (party.getInviteStatus().equals("Pending")) {
+                                pendingPartiesHM.put(party.getId(), party.getInvitedUser());
+                                pendingParties.add(party.getParty());
                             }
-                        });
-                    }
-                    handleParties.sendEmptyMessage(1);
-                    Message message = new Message();
-                    message.arg1 = 10;
-                    handleCheckLoggedIn.sendMessage(message);
-                },
-                error -> Log.e("Amplify", "Failed to retrieve store")
-        );
+                            if (party.getInviteStatus().equals("Accepted") && !party.getParty().getIsFinished()) {
+                                parties.add(party.getParty());
+                            }
+                            Collections.sort(parties, new Comparator<Party>() {
+                                @Override
+                                public int compare(Party party1, Party party2) {
+                                    return party1.getPartyDate().compareTo(party2.getPartyDate());
+                                }
+                            });
+                        }
+                        handleParties.sendEmptyMessage(1);
+                        Message message = new Message();
+                        message.arg1 = 10;
+                        handleCheckLoggedIn.sendMessage(message);
+                    },
+                    error -> Log.e("Amplify", "Failed to retrieve store")
+            );
+        }
 
         Button hostPartyButton = MainActivity.this.findViewById(R.id.host_party_button);
         hostPartyButton.setBackgroundColor(getResources().getColor(R.color.green));
