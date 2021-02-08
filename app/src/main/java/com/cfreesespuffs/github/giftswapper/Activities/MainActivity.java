@@ -73,20 +73,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     @Override
     public void onResume() {
         super.onResume();
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        Amplify.API.query(
-                ModelQuery.list(User.class, User.USER_NAME.eq(preferences.getString("username", "NA"))),
-                response -> {
-                    for (User user : response.getData()) {
-                        Log.e("Amp.listByName", "This is ID: " + user.getId());
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString("userId", user.getId());
-                        editor.apply();
-                    }
-                },
-                error -> Log.e("Amp.listByName", "error: " + error)
-        );
 
         if (!preferences.getString("userId", "NA").equals("NA")) {
             Amplify.API.query(
@@ -117,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                             partyList -> {
                                 parties.clear();
                                 for (GuestList party : partyList.getData().getParties()) {
-                                    if (party.getInviteStatus().equals("Accepted")) {  // TODO: to add && party.getIsFinished() == false
+                                    if (party.getInviteStatus().equals("Accepted") && !party.getParty().getIsFinished()) {
                                         parties.add(party.getParty());
                                     }
                                 }
@@ -157,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
@@ -171,47 +158,10 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         configureAws();
         getIsSignedIn();
 
-//        Amplify.API.query(
-//                getUserByName("pal"),
-//                response -> Log.e("Query.UserId", "user: " + response.getData()),
-//                error -> Log.e("Query.UserId", "Error: " + error)
-//        );
 //============================================================================== handler check logged
         handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
-            if (message.arg1 == 1) {
-                if (Amplify.Auth.getCurrentUser() != null) {
-                    Log.i("Android.VersionTest", "=== 1 ===");
 
-                    if (preferences.getString("userId", "NA").equals("NA")) { //where gets currentUser still might break it.
-                        Amplify.API.query(
-                                ModelQuery.list(User.class),
-                                response -> {
-                                    for (User user : response.getData()) {
-                                        if (user.getUserName().equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
-                                            currentUser = user;
-
-                                            final SharedPreferences.Editor preferenceEditor = preferences.edit();
-                                            preferenceEditor.putString("userId", currentUser.getId());
-                                            preferenceEditor.apply();
-                                            String userId = preferences.getString("userId", "NA");
-                                            System.out.println("userID is " + userId);
-                                        }
-                                    }
-                                },
-                                error -> Log.e("Amp.userQuery", "fail")
-                        );
-                    }
-
-                }
-            }
-
-//            if (message.arg1 == 0) {
-//                Button hostButton = findViewById(R.id.host_party_button);
-//                hostButton.setVisibility(View.INVISIBLE);
-//            }
-
-            if (message.arg1 == 6) { // Todo: go to post parties
-                System.out.println("You want to go to your ended parties?");
+            if (message.arg1 == 6) {
                 Intent endPartyIntent = new Intent(MainActivity.this, EndedParties.class);
                 endPartyIntent.putExtra("userId", currentUser.getId());
                 MainActivity.this.startActivity(endPartyIntent);
@@ -239,9 +189,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 new Handler.Callback() {
                     @Override
                     public boolean handleMessage(@NonNull Message msg) {
-                        if (msg.arg1 == 1) {
-//                            Log.i("Amplify", "Parties are showing");
-                        }
                         partyRecyclerView.getAdapter().notifyDataSetChanged();
                         return false;
                     }
@@ -249,68 +196,111 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
         connectRecycler();
 
-        AuthUser authUser = Amplify.Auth.getCurrentUser();
+//        AuthUser authUser = Amplify.Auth.getCurrentUser();
 
-        if (Amplify.Auth.getCurrentUser() != null) {
-            Amplify.API.query(
-                    ModelQuery.list(User.class), // we should swap this from .list(.class) to .get(userId) to save cycles & time.
-                    response -> {
-                        //TODO: this can be refactored to remove the user as it is queried now at the top
-
-                        Log.i("Amplify.currentUser", "This is the current user, " + authUser);
-                        for (User user : response.getData()) {
-                            if (user.getUserName().equalsIgnoreCase(authUser.getUsername())) {
-                                currentUser = user;
-
-                                Amplify.API.query(
-                                        ModelQuery.get(User.class, currentUser.getId()),
-                                        response2 -> {
-                                            pendingParties.clear();
-                                            for (GuestList party : response2.getData().getParties()) {
-                                                if (party.getInviteStatus().equals("Pending")) {
-                                                    pendingPartiesHM.put(party.getId(), party.getInvitedUser());
-                                                    Log.e("Parties.HM", "Size in onCreate: " + pendingPartiesHM.size());
-                                                    pendingParties.add(party.getParty());
-                                                    Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
-                                                }
-                                            }
-                                            Message message = new Message();
-                                            message.arg1 = 10;
-                                            handleCheckLoggedIn.sendMessage(message);
-                                        },
-                                        error -> Log.e("Amplify", "Failed to retrieve store")
-                                );
-
-                                Amplify.API.query(
-                                        ModelQuery.get(User.class, currentUser.getId()),
-                                        response2 -> {
-                                            for (GuestList party : response2.getData().getParties()) {
-                                                if (party.getInviteStatus().equals("Accepted") && !party.getParty().getIsFinished()) {
-                                                    parties.add(party.getParty());
-                                                }
-                                            }
-
-                                            System.out.println("Presort: " + parties);
-                                            Collections.sort(parties, new Comparator<Party>() {
-                                                @Override
-                                                public int compare(Party party1, Party party2) {
-                                                    return party1.getPartyDate().compareTo(party2.getPartyDate());
-                                                }
-                                            });
-                                            System.out.println("Postsort: " + parties);
-
-                                            handleParties.sendEmptyMessage(1);
-                                        },
-                                        error -> Log.e("Amplify", "Failed to retrieve store")
-                                );
-                            }
+        Amplify.API.query(
+                ModelQuery.get(User.class, preferences.getString("userId", "NA")),
+                response2 -> {
+                    pendingParties.clear();
+                    for (GuestList party : response2.getData().getParties()) {
+                        if (party.getInviteStatus().equals("Pending")) {
+                            pendingPartiesHM.put(party.getId(), party.getInvitedUser());
+                            Log.e("Parties.HM", "Size in onCreate: " + pendingPartiesHM.size());
+                            pendingParties.add(party.getParty());
+                            Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
                         }
-                    },
-                    error -> {
-                        Log.e("Amplify.currentUser", "No current user found");
                     }
-            );
-        }
+                    Message message = new Message();
+                    message.arg1 = 10;
+                    handleCheckLoggedIn.sendMessage(message);
+                },
+                error -> Log.e("Amplify", "Failed to retrieve store")
+        );
+
+        Amplify.API.query(
+                ModelQuery.get(User.class, preferences.getString("userId", "NA")),
+                response2 -> {
+                    for (GuestList party : response2.getData().getParties()) {
+                        if (party.getInviteStatus().equals("Accepted") && !party.getParty().getIsFinished()) {
+                            parties.add(party.getParty());
+                        }
+                    }
+
+                    System.out.println("Presort: " + parties);
+                    Collections.sort(parties, new Comparator<Party>() {
+                        @Override
+                        public int compare(Party party1, Party party2) {
+                            return party1.getPartyDate().compareTo(party2.getPartyDate());
+                        }
+                    });
+                    System.out.println("Postsort: " + parties);
+
+                    handleParties.sendEmptyMessage(1);
+                },
+                error -> Log.e("Amplify", "Failed to retrieve store")
+        );
+
+//
+//        if (Amplify.Auth.getCurrentUser() != null) {
+//            Amplify.API.query(
+//                    ModelQuery.list(User.class), // we should swap this from .list(.class) to .get(userId) to save cycles & time.
+//                    response -> {
+//                        //TODO: this can be refactored to remove the user as it is queried now at the top
+//
+//                      //  Log.i("Amplify.currentUser", "This is the current user, " + authUser);
+//                        for (User user : response.getData()) {
+//                            if (user.getUserName().equalsIgnoreCase(authUser.getUsername())) {
+//                                currentUser = user;
+
+//                                Amplify.API.query(
+//                                        ModelQuery.get(User.class, currentUser.getId()),
+//                                        response2 -> {
+//                                            pendingParties.clear();
+//                                            for (GuestList party : response2.getData().getParties()) {
+//                                                if (party.getInviteStatus().equals("Pending")) {
+//                                                    pendingPartiesHM.put(party.getId(), party.getInvitedUser());
+//                                                    Log.e("Parties.HM", "Size in onCreate: " + pendingPartiesHM.size());
+//                                                    pendingParties.add(party.getParty());
+//                                                    Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
+//                                                }
+//                                            }
+//                                            Message message = new Message();
+//                                            message.arg1 = 10;
+//                                            handleCheckLoggedIn.sendMessage(message);
+//                                        },
+//                                        error -> Log.e("Amplify", "Failed to retrieve store")
+//                                );
+
+//                                Amplify.API.query(
+//                                        ModelQuery.get(User.class, currentUser.getId()),
+//                                        response2 -> {
+//                                            for (GuestList party : response2.getData().getParties()) {
+//                                                if (party.getInviteStatus().equals("Accepted") && !party.getParty().getIsFinished()) {
+//                                                    parties.add(party.getParty());
+//                                                }
+//                                            }
+//
+//                                            System.out.println("Presort: " + parties);
+//                                            Collections.sort(parties, new Comparator<Party>() {
+//                                                @Override
+//                                                public int compare(Party party1, Party party2) {
+//                                                    return party1.getPartyDate().compareTo(party2.getPartyDate());
+//                                                }
+//                                            });
+//                                            System.out.println("Postsort: " + parties);
+//
+//                                            handleParties.sendEmptyMessage(1);
+//                                        },
+//                                        error -> Log.e("Amplify", "Failed to retrieve store")
+//                                );
+//                            }
+//                        }
+//                    },
+//                    error -> {
+//                        Log.e("Amplify.currentUser", "No current user found");
+//                    }
+//            );
+//        }
 
         Button hostPartyButton = MainActivity.this.findViewById(R.id.host_party_button);
         hostPartyButton.setBackgroundColor(getResources().getColor(R.color.green));
@@ -333,14 +323,9 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     public boolean getIsSignedIn() {
         Amplify.Auth.fetchAuthSession(
                 result -> {
-                    Message message = new Message();
                     if (result.isSignedIn()) {
                         isSignedIn[0] = true;
-                        message.arg1 = 1;
-                        handleCheckLoggedIn.sendMessage(message);
                     } else {
-                        message.arg1 = 0;
-//                        handleCheckLoggedIn.sendMessage(message);
                         MainActivity.this.startActivity(new Intent(MainActivity.this, Login.class));
                     }
                 },
@@ -450,21 +435,5 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 () -> Log.i("Sub.SingleGuestList", "Sub is closed")
         );
     }
-
-//    private GraphQLRequest<User> getUserByName(String userName) {
-//        String document = "query IdByName ($pUserName: String!) {"
-//                + "idByName(userName: $pUserName) {"
-//                + "items {"
-//                + "id"
-//                + "}"
-//                + "}"
-//                + "}";
-//        return new SimpleGraphQLRequest<>(
-//                document,
-//                Collections.singletonMap("pUserName", userName),
-//                User.class,
-//                new GsonVariablesSerializer());
-//    }
-
 
 }
