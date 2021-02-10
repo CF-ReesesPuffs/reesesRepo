@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     public void onResume() {
         super.onResume();
 
-        if (!preferences.getString("userId", "NA").equals("NA")) {
+        if (!preferences.getString("userId", "NA").equals("NA")) { // might be able to remove.
             Amplify.API.query(
                     ModelQuery.get(User.class, preferences.getString("userId", "NA")),
                     response2 -> {
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
         createSingleIdGuestListSubscription(preferences.getString("username", "NA"));
 
-//============================================================================== handler check logged
+//===================================== handler check logged
         handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
 
             if (message.arg1 == 6) {
@@ -336,9 +336,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
     private void createSingleIdGuestListSubscription(String username) {
         Amplify.API.subscribe(getPendingParty(username),
-                subCheck -> {
-                    Log.d("Sub.SingleGuestList", "Connection established. this is ID: " + username);
-                },
+                subCheck -> Log.d("Sub.SingleGuestList", "Connection established. this is ID: " + username),
                 response -> {
                     pendingPartiesHM.put(response.getData().getId(), response.getData().getInvitedUser());
                     pendingParties.add(response.getData().getParty());
@@ -350,7 +348,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 () -> Log.i("Sub.SingleGuestList", "Sub is closed")
         );
     }
-
 
     private GraphQLRequest<User> getUserByName(String userName) {
         String document = "query IdByName ($userName: String!) { "
