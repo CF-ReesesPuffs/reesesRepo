@@ -25,9 +25,8 @@ public class BadgeDrawable extends Drawable {
 
     public BadgeDrawable(Context paramContext) { // https://codkiller0911.medium.com/adding-notification-badges-to-the-icons-in-android-b29ab4e15625
 
-        float mTextSize = paramContext.getResources().getDimension(R.dimen.browser_actions_context_menu_min_padding) * .8f; // R.dimen. is wrong paramContext.getResources().getDimension(R.dimen.browser_actions_context_menu_min_padding)
+        float mTextSize = paramContext.getResources().getDimension(R.dimen.browser_actions_context_menu_min_padding) * .8f;
         this.mBadgePaint = new Paint();
-
         this.mBadgePaint.setColor(paramContext.getResources().getColor(R.color.black));
         this.mBadgePaint.setAntiAlias(true);
         this.mBadgePaint.setStyle(Paint.Style.FILL);
@@ -55,6 +54,7 @@ public class BadgeDrawable extends Drawable {
         } else {
             circleRadius = Math.min(width, height) / 4.0f + 4.5F;
         }
+
         float circleX = width - circleRadius + 6.2F;
         float circleY = circleRadius - 9.5f;
 
@@ -71,19 +71,22 @@ public class BadgeDrawable extends Drawable {
         }
 
         paramCanvas.drawText(this.mCount, textX, textY, this.mTextPaint);
-
     }
 
     @Override
-    public void setAlpha(int paramInt) {    }
+    public void setAlpha(int paramInt) {
+    }
 
     @Override
-    public void setColorFilter(@Nullable ColorFilter colorFilter) {    }
+    public void setColorFilter(@Nullable ColorFilter colorFilter) {
+    }
 
     @Override
-    public int getOpacity() { return PixelFormat.TRANSPARENT; }
+    public int getOpacity() {
+        return PixelFormat.TRANSPARENT;
+    }
 
-    public void setCount (int paramInt) {
+    public void setCount(int paramInt) {
         this.mCount = Integer.toString(paramInt);
         if (paramInt > 0) {
             this.mWillDraw = true;
