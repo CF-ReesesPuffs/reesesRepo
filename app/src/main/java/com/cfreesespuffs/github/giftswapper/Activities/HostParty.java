@@ -193,7 +193,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 guestsToInviteList.addAll(guestsToInvite);
 
                 boolean flag = false;
-                for (User guest : guestsToInviteList) {
+                for (User guest : guestsToInviteList) { // todo: convert to hashmap, this issue will be resolved and could be refactored away.
                     if (guest.getUserName().equalsIgnoreCase(authUser.getUsername())) flag = true;
                 }
                 if (!flag) guestsToInviteList.add(currentUser);
