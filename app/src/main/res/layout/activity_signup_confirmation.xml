@@ -22,6 +22,18 @@
         app:layout_constraintTop_toBottomOf="@+id/codeEt"
         app:layout_constraintVertical_bias="0.312" />
 
+
+    <Button
+        android:id="@+id/resendConfirmB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="Resend Code"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/usernameConfirmEt"
         android:layout_width="wrap_content"

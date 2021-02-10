@@ -125,6 +125,7 @@ public class SignUp extends AppCompatActivity {
                     password.getText().toString(),
                     AuthSignUpOptions.builder().userAttribute(AuthUserAttributeKey.email(), userEmail.getText().toString()).build(),
                     result -> {
+
                         Log.i("Amplify.signUp", "Result: " + result.toString());
 
                         Message message = new Message();
