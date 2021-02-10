@@ -49,7 +49,7 @@ public class Login extends AppCompatActivity {
                     }
                 });
 
-        ((Button) findViewById(R.id.loginButton)).setOnClickListener(view -> {
+        findViewById(R.id.loginButton).setOnClickListener(view -> {
             EditText username = findViewById(R.id.usernameLogin);
             EditText password = findViewById(R.id.passwordLogin);
 
@@ -67,7 +67,6 @@ public class Login extends AppCompatActivity {
                                 ModelQuery.list(User.class, User.USER_NAME.eq(preferences.getString("username", "NA"))),
                                 response -> {
                                     for (User user : response.getData()) {
-                                        Log.e("Amp.listByName", "This is ID: " + user.getId());
                                         SharedPreferences.Editor editor = preferences.edit();
                                         editor.putString("userId", user.getId());
                                         editor.apply();
@@ -86,11 +85,7 @@ public class Login extends AppCompatActivity {
             );
         });
 
-        ((Button) findViewById(R.id.toSignUp)).setOnClickListener(view ->
+        findViewById(R.id.toSignUp).setOnClickListener(view ->
                 Login.this.startActivity(new Intent(Login.this, SignUp.class)));
     }
-
-
-
-
 }
