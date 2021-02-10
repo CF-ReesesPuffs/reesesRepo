@@ -63,7 +63,7 @@ public class SignUp extends AppCompatActivity {
                     }
                 });
 
-        ((Button) findViewById(R.id.signUpButton)).setOnClickListener(view -> {
+        findViewById(R.id.signUpButton).setOnClickListener(view -> {
             EditText userEmail = findViewById(R.id.emailEt);
             EditText userName = findViewById(R.id.usernameEt);
             EditText password = findViewById(R.id.passwordOneEt);
@@ -72,9 +72,6 @@ public class SignUp extends AppCompatActivity {
             String regex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"; // https://emailregex.com/
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(userEmail.getText().toString().toLowerCase());
-
-            // TODO: ensure no one else has username (query the user list);
-            // TODO: if username already picked, create toast.
 
             if (matcher.matches()) {
                 Log.i("Amp.EmailMatcher", "The Email is Good! Clear!");
@@ -105,7 +102,6 @@ public class SignUp extends AppCompatActivity {
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 View toastView = toast.getView(); // find the whole of the toast
                 toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN); //  to keep the rounded corners https://stackoverflow.com/questions/31175601/how-can-i-change-default-toast-message-color-and-background-color-in-android
-//                toastView.setBackgroundColor(Color.YELLOW); // discards the entire Toast view+background, makes the toast bg square hard corners. https://www.zealtyro.com/2020/05/how-to-use-toast-in-android-studio.html#:~:text=To%20change%20the%20Toast%20background%20color%2C%20first%20of,can%20change%20the%20%27view%27%20with%20your%20desired%20one.
                 toast.show();
                 return;
             }
@@ -125,9 +121,6 @@ public class SignUp extends AppCompatActivity {
                     password.getText().toString(),
                     AuthSignUpOptions.builder().userAttribute(AuthUserAttributeKey.email(), userEmail.getText().toString()).build(),
                     result -> {
-
-                        Log.i("Amplify.signUp", "Result: " + result.toString());
-
                         Message message = new Message();
                         message.arg1 = 1;
                         handler.sendMessage(message);
@@ -140,11 +133,9 @@ public class SignUp extends AppCompatActivity {
                     },
                     error -> {
                         Log.e("Amplify.signUp", "Failed to sign up: " + error.toString());
-
                         Message message = new Message();
                         message.arg1 = 0;
                         handler.sendMessage(message);
-
                         return;
                     }
             );
