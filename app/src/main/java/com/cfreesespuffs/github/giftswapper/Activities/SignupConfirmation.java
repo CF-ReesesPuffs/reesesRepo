@@ -99,7 +99,6 @@ public class SignupConfirmation extends AppCompatActivity {
         });
 
         Button resendCodeButton = findViewById(R.id.resendConfirmB);
-
         resendCodeButton.setOnClickListener(view -> {
 
             if (usernameConfirm.getText().toString().isEmpty()) {
