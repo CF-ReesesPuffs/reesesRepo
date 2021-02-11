@@ -136,7 +136,6 @@ public class SignUp extends AppCompatActivity {
                         Message message = new Message();
                         message.arg1 = 0;
                         handler.sendMessage(message);
-                        return;
                     }
             );
         });

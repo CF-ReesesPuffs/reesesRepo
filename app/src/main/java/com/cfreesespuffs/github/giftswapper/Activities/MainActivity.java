@@ -3,13 +3,11 @@ package com.cfreesespuffs.github.giftswapper.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -38,7 +36,6 @@ import com.amplifyframework.api.graphql.GraphQLRequest;
 import com.amplifyframework.api.graphql.SimpleGraphQLRequest;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.api.graphql.model.ModelSubscription;
-import com.amplifyframework.auth.AuthUser;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.auth.options.AuthSignOutOptions;
 import com.amplifyframework.core.Amplify;
@@ -141,12 +138,10 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
 
-        if (Build.VERSION.SDK_INT >= 21) {
-            Window window = this.getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);  // https://www.geeksforgeeks.org/how-to-change-the-color-of-status-bar-in-an-android-app/
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(this.getResources().getColor(R.color.green));
-        }
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);  // https://www.geeksforgeeks.org/how-to-change-the-color-of-status-bar-in-an-android-app/
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.green));
 
         configureAws();
         getIsSignedIn();
@@ -236,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     }
 
 //========================================================= user -sign-in
-    public boolean getIsSignedIn() {
+    public void getIsSignedIn() {
         Amplify.Auth.fetchAuthSession(
                 result -> {
                     if (result.isSignedIn()) {
@@ -247,7 +242,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 },
                 error -> Log.e("Amplify.login", error.toString())
         );
-        return isSignedIn[0];
     }
 
     //========================================================================== aws
@@ -301,14 +295,11 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     }
 
     private void createBellBadge(int paramInt) {
-        if (Build.VERSION.SDK_INT <= 15) {
-            return;
-        }
 
         Drawable bellBadgeDrawable = localLayerDrawable.findDrawableByLayerId(R.id.badge);
         com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable badgeDrawable;
 
-        if ((bellBadgeDrawable != null) && ((bellBadgeDrawable instanceof BadgeDrawable)) && (paramInt < 10)) {
+        if (bellBadgeDrawable instanceof BadgeDrawable && paramInt < 10) {
             badgeDrawable = (com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable) bellBadgeDrawable;
         } else {
             badgeDrawable = new com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable(this);
