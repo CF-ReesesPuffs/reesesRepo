@@ -47,7 +47,6 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
                     @Override
                     public boolean handleMessage(@NonNull Message msg) {
                         if (msg.arg1 == 1) {
-                            Log.i("Amplify", "Parties are showing");
                         }
                         recyclerView.getAdapter().notifyItemInserted(parties.size());
                         return false;
@@ -63,7 +62,6 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
                     for (GuestList party : response2.getData().getParties()) {
                         if (party.getInviteStatus().equals("Pending")) {
                             parties.add(party.getParty());
-                            Log.i("Amplify.currentUser", "This is the number of parties: " + parties.size());
                         }
                     }
                     handleParties.sendEmptyMessage(1);

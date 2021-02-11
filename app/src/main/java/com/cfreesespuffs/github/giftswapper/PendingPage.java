@@ -102,9 +102,8 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                         if (msg.arg1 == 1) {
                             connectAdapterToRecycler();
                             recyclerView.getAdapter().notifyDataSetChanged();
-                            Log.i("Amplify", "It worked!");
-
                         }
+
                         if (msg.arg1 == 2) {
                             startParty.setText("Go to party!");
                             startParty.setEnabled(true);
@@ -112,6 +111,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                             guestRemover.setVisible(true);
                             connectAdapterToRecycler();
                         }
+
                         if (msg.arg1 == 3) {
                             startParty.setEnabled(true);
                             startParty.setText("Go to party!");
@@ -135,8 +135,6 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                 ModelQuery.get(Party.class, partyId),
                 response -> {
                     pendingParty = response.getData();
-                    Log.i("Amp.Partyhere", "pendingParty's host: " + pendingParty.getTheHost().getUserName());
-                    Log.i("Amp.Partyhere", "Auth username: " + Amplify.Auth.getCurrentUser().getUsername());
 
                     TextView hostTv = findViewById(R.id.hostTv);
                     hostTv.setText(String.format("Host: %s", pendingParty.getTheHost().getUserName()));
@@ -157,7 +155,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
 
         startParty.setOnClickListener((view) -> {
 
-            if (pendingParty.isFinished) {  // Todo: confirms this works.
+            if (pendingParty.isFinished) {
                 Intent headToPostParty = new Intent(PendingPage.this, PostParty.class);
 
                 headToPostParty.putExtra("title", pendingParty.getTitle());
@@ -223,7 +221,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                 if (!pendingParty.isReady && counter > 2) {
                     counter = 0;
                     for (int i = 0; i < guestList.size(); i++) {
-                        if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).getTurnOrder() == 0) { // might not need && guestlist
+                        if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).getTurnOrder() == 0) {
                             counter++;
                             guestList.get(i).turnOrder = counter;
 
@@ -283,9 +281,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                 response -> {
-                    for (GuestList user : response.getData().getUsers()) {
-                        guestList.add(user);
-                    }
+                    guestList.addAll(response.getData().getUsers());
                     handleSingleItem.sendEmptyMessage(1);
                 },
                 error -> Log.e("Amplify", "Failed to retrieve store")
@@ -297,15 +293,12 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                 ModelSubscription.onDelete(GuestList.class),
                 onDeleteFunctioning -> Log.i("Amp.SubOnDelete", "Killer Sub working."),
                 lessGuest -> {
-                    Log.i("Amp.DeleteSub", "Going to be one+ less guests.");
                     Amplify.API.query(
                             ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                             delResponse -> {
                                 guestList.clear();
                                 if (delResponse.getData() != null) {
-                                    for (GuestList user : delResponse.getData().getUsers()) {
-                                        guestList.add(user);
-                                    }
+                                    guestList.addAll(delResponse.getData().getUsers());
                                 }
                                 Message message = new Message();
                                 message.arg1 = 1;
@@ -324,22 +317,18 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                 ModelSubscription.onUpdate(GuestList.class),
                 onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
                 newGuests -> {
-                    Log.i("Amp.Subscribe.details", "This is the content: "); // + newGuests.getData()
-
                     Amplify.API.query(
                             ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                             response -> {
                                 guestList.clear();
                                 if (response.getData() != null) { // subscriptions can return a completely empty/null response. ???
-                                    for (GuestList user : response.getData().getUsers()) {
-                                        guestList.add(user);
-                                    }
+                                    guestList.addAll(response.getData().getUsers());
                                 }
 
                                 pendingParty = response.getData();
 
                                 Message message = new Message();
-                                message.arg1 = 1; // todo: NEEDS TO MOVE DIFFERENT MESSAGE ARG
+                                message.arg1 = 1;
                                 handleSingleItem.sendMessage(message);
                             },
                             error -> Log.e("Amplify", "Failed to retrieve store")
@@ -350,7 +339,6 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
         );
 
         subscription.start();
-
     }
 
     private void connectAdapterToRecycler() {
@@ -370,7 +358,6 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         drawerLayout.closeDrawer(GravityCompat.START); // Cannot be included in the if statement.
-        System.out.println("A menu item has been clicked.");
         if (item.getItemId() == R.id.partyRemoveGoer) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(true)
@@ -482,7 +469,6 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
 
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
-
                 },
                 error -> Log.e("Amp.del.party", "FAIL: " + error));
     }
@@ -514,7 +500,6 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                     headToPostParty.putExtra("title", pendingParty.getTitle());
                     headToPostParty.putExtra("partyId", pendingParty.getId());
                     startActivity(headToPostParty);
-                    Log.i("Mutation.thisParty", "Party: Complete!");
                 },
                 error -> Log.e("Mutation.thisParty", "Party mutate: FAIL")
         );
@@ -543,13 +528,6 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                 + "isReady "
                 + "isFinished "
                 + "stealLimit "
-//                    + "theHost { "
-//                        + "items { "
-//                            + "id "
-//                            + "userName "
-//                            + "email "
-//                            + "}"
-//                        + "}"
                 + "}"
                 + "}";
         return new SimpleGraphQLRequest<>(
@@ -560,11 +538,9 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
     }
 
     private void createSinglePartySubscription(String id) {
-        Amplify.API.subscribe(getPartyStatus(intent.getExtras().getString("id")),
+        Amplify.API.subscribe(getPartyStatus(id),
                 subCheck -> Log.d("Sub.SingleParty", "Connection established for: " + subCheck),
                 response -> {
-                    Log.e("Sub.SingleParty", "This is the SUB party: " + response.getData() + " ID: " + intent.getExtras().getString("id"));
-                    Log.e("Sub.SingleParty", "This is the pendingParty: " + pendingParty);
                     if (response.getData().isFinished) {
                         pendingParty.isFinished = true; // because the current query we run doesn't replace everything of the pendingparty variable, and we don't need it to.
                         Message toPostParty = new Message();
@@ -575,6 +551,5 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                 failure -> Log.e("Sub.SingleParty", "failure: " + failure),
                 () -> Log.i("Amp.SingleParty", "sub is closed")
         );
-
     }
 }

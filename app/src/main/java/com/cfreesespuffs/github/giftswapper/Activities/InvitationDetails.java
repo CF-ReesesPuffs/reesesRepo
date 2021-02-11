@@ -3,7 +3,9 @@ package com.cfreesespuffs.github.giftswapper.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -17,7 +19,6 @@ import android.widget.Toast;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
-import com.amplifyframework.auth.AuthUser;
 
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
@@ -37,15 +38,16 @@ public class InvitationDetails extends AppCompatActivity {
     int highestNum = 0;
     EditText giftChosen;
     Button acceptInvite;
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invited_party_page);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         intent = getIntent();
         String partyId = intent.getExtras().getString("partyId");
-        System.out.println("This is the party ID " + partyId);
 
         Amplify.API.query(
                 ModelQuery.get(Party.class, partyId),
@@ -53,25 +55,19 @@ public class InvitationDetails extends AppCompatActivity {
                     party = response.getData();
                     TextView hostName = InvitationDetails.this.findViewById(R.id.partyHost);
                     hostName.setText(party.getTheHost().getUserName());
-                    Log.i("Amplify.query", "We got a party " + partyId);
                 },
                 error -> Log.e("Amplify.query", "no party " + error)
         );
 
-        AuthUser authUser = Amplify.Auth.getCurrentUser();
-        if (Amplify.Auth.getCurrentUser() != null) {
-            Amplify.API.query(
-                    ModelQuery.list(User.class),
-                    response -> {
-                        for (User user : response.getData()) {
-                            if (user.getUserName().equalsIgnoreCase(authUser.getUsername())) {
-                                loggedUser = user;
-                                Log.i("Amplify.currentUser", "This is the current user, " + loggedUser);
-                            }
-                        }
-                    },
-                    error -> Log.e("Amplify.currentUser", "error"));
-        }
+        Amplify.API.query(
+                ModelQuery.list(User.class, User.ID.eq(preferences.getString("userId", "NA"))),
+                response -> {
+                    for (User user : response.getData()) {
+                        loggedUser = user;
+                    }
+                },
+                error -> Log.e("Amplify.currentUser", "error")
+        );
 
 //=================================================================================================== Invitation details
         Intent intent = getIntent();
@@ -96,17 +92,13 @@ public class InvitationDetails extends AppCompatActivity {
 
                 List<GuestList> target = party.getUsers();
                 for (GuestList thisGuestList : target) {
-                    if (thisGuestList.getInvitedUser().equalsIgnoreCase(authUser.getUsername())) {
+                    if (thisGuestList.getInvitedUser().equalsIgnoreCase(loggedUser.getUserName())) {
                         guestList = thisGuestList;
                     }
-                }
-                if (guestList == null) {
-                    Log.i("Amplify.error", "Couldn't find the user");
                 }
 
                 guestList.inviteStatus = "Declined";
 
-//                Log.i("Amplify.guestList", "This is guest list " + guestList);
                 Amplify.API.mutate(
                         ModelMutation.update(guestList),
                         response -> Log.i("DeclinedInvite", "You declined an invite! " + response.getData().toString()),
@@ -120,8 +112,8 @@ public class InvitationDetails extends AppCompatActivity {
         });
 
         acceptInvite = InvitationDetails.this.findViewById(R.id.acceptInvite);
-
         giftChosen = InvitationDetails.this.findViewById(R.id.giftUserBrings);
+
         giftChosen.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -135,8 +127,7 @@ public class InvitationDetails extends AppCompatActivity {
             }
         });
 
-
-//=================================================================================================== Accept invite
+//============================================= Accept invite
         acceptInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,19 +139,14 @@ public class InvitationDetails extends AppCompatActivity {
                 }
 
                 Amplify.API.query(
-                        ModelQuery.list(Gift.class),
+                        ModelQuery.list(Gift.class, Gift.PARTY.eq(partyId)),
                         response -> {
-                            for (Gift gift : response.getData()) {
-                                String theParty = intent.getExtras().getString("partyName");
-                                String giftParty = gift.getParty().getTitle();
-                                System.out.println("Here is theParty: " + theParty + ". And here is the giftParty: " + giftParty);
-                                if (gift.getParty().getTitle().equals(theParty)) {
+                            if (response.getData() != null) {
+                                for (Gift gift : response.getData()) {
                                     if (gift.getNumber() > highestNum)
                                         highestNum = gift.getNumber();
                                 }
                             }
-
-                            System.out.println("Success, Highest Number now: " + highestNum); // count 1
 
                             Gift gift = Gift.builder()
                                     .title(giftName)
@@ -168,8 +154,8 @@ public class InvitationDetails extends AppCompatActivity {
                                     .timesStolen(0)
                                     .user(loggedUser)
                                     .partyGoer("TBD")
-                                    .lastPartyGoer(authUser.getUsername())
-                                    .number(highestNum + 1) // tried incrementing, was not currently functioning
+                                    .lastPartyGoer(loggedUser.getUserName())
+                                    .number(highestNum + 1)
                                     .build();
 
                             Amplify.API.mutate(
@@ -177,19 +163,15 @@ public class InvitationDetails extends AppCompatActivity {
                                     response2 -> Log.i("AddGift", "You saved a new gift to bring, " + giftName),
                                     error -> Log.e("AddGiftFail", error.toString())
                             );
-                            Log.i("Amplify.endModelQuery", "Success of query.");
                         },
                         error -> Log.e("Amplify.Query", "something went wrong" + error.toString())
                 );
 
                 List<GuestList> target = party.getUsers();
                 for (GuestList thisGuestList : target) {
-                    if (thisGuestList.getInvitedUser().equalsIgnoreCase(authUser.getUsername())) {
+                    if (thisGuestList.getInvitedUser().equalsIgnoreCase(loggedUser.getUserName())) {
                         guestList = thisGuestList;
                     }
-                }
-                if (guestList == null) {
-                    Log.i("Amplify.error", "Couldn't find the user");
                 }
 
                 guestList.inviteStatus = "Accepted";
@@ -211,15 +193,10 @@ public class InvitationDetails extends AppCompatActivity {
 
         if (messageCode == 1) {
             Toast.makeText(this, "You need to bring a gift", Toast.LENGTH_LONG).show();
+        }
 
-            Log.i("Amplify.login", "They weren't logged in");
-        } else if (messageCode == 2) {
-//            Log.i("Amplify.login", Amplify.Auth.getCurrentUser().getUsername());
-
-        } else if (messageCode == 3) {
+        if (messageCode == 3) {
             Toast.makeText(this, "You need to bring a gift", Toast.LENGTH_LONG).show();
-        } else {
-            Log.i("Amplify.login", "Send true or false pls");
         }
     }
 
