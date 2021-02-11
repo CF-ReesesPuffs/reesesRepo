@@ -193,7 +193,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
             }
         });
 
-        selectedPriceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        selectedPriceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { // https://stackoverflow.com/questions/1337424/android-spinner-get-the-selected-item-change-event
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Message message = new Message();
