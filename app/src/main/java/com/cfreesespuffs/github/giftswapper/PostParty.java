@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.PreferenceChangeEvent;
 
-public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWithGiftsListener{
+public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWithGiftsListener {
 
     RecyclerView recyclerView;
     ArrayList<Gift> endGifts = new ArrayList<>();
@@ -50,7 +50,7 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
         setSupportActionBar(actionBar);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        OnBackPressedCallback callback = new OnBackPressedCallback(true){
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 PostParty.this.startActivity(new Intent(PostParty.this, MainActivity.class)); // https://stackoverflow.com/questions/55074497/how-to-add-onbackpressedcallback-to-fragment
@@ -67,7 +67,6 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
 
                         if (message.arg1 == 5) {
                             deleteButton.setVisibility(View.VISIBLE);
-
                         }
 
                         connectRecycler();
@@ -96,7 +95,7 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
         });
 
         Button homeDetailButton = PostParty.this.findViewById(R.id.customHomeButton);
-        homeDetailButton.setOnClickListener((view)-> {
+        homeDetailButton.setOnClickListener((view) -> {
             Intent goToMainIntent = new Intent(PostParty.this, MainActivity.class);
             PostParty.this.startActivity(goToMainIntent);
         });
@@ -109,8 +108,8 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
                 response -> {
                     Log.e("Amp.giftqL", "the intent: " + intent.getExtras().getString("partyId"));
                     Log.e("Amp.giftqL", "the response: " + response);
-                    for(Gift gift : response.getData()){
-                            endGifts.add(gift);
+                    for (Gift gift : response.getData()) {
+                        endGifts.add(gift);
                     }
                     handler.sendEmptyMessage(1);
                 },
@@ -121,11 +120,12 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
     public void connectRecycler() {
         recyclerView = findViewById(R.id.postPartyRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new GiftAdapter(endGifts, null,this));
+        recyclerView.setAdapter(new GiftAdapter(endGifts, null, this));
     }
 
     @Override
-    public void giftsToDoListener(Gift gift) {}
+    public void giftsToDoListener(Gift gift) {
+    }
 
     public void deleteParty() {
 
@@ -155,13 +155,9 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
                             error2 -> Log.e("Amplify.delete", "Where you at? Error: " + error2)
                     );
 
-//                    subscription.cancel();
-
                     Intent intent = new Intent(this, EndedParties.class);
                     startActivity(intent);
-
                 },
                 error -> Log.e("Amp.del.party", "FAIL: " + error));
     }
-
 }
