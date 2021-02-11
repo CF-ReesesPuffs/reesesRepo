@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 //import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,11 +19,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -67,7 +70,7 @@ import java.util.TimeZone;
 public class HostParty extends AppCompatActivity implements HostPartyAdapter.GuestListListener, DatePickerDialog.OnDateSetListener {
 
     public ArrayList<User> guestList = new ArrayList<>();
-//    public HashSet<Integer> invitedGuestList;
+    //    public HashSet<Integer> invitedGuestList;
     Handler handler;
     Handler generalHandler;
     RecyclerView recyclerView;
@@ -75,6 +78,9 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
     User currentUser;
     Calendar date; // there are 2 potential calendar options
     TextView partyDate;
+    Spinner selectedPriceSpinner;
+    Spinner stealLimitSpinner;
+    boolean spinnerFlag = false;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -84,6 +90,9 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
         priceSpinner();
         stealLimitSpinner();
+
+        selectedPriceSpinner = findViewById(R.id.price_spinner);
+        stealLimitSpinner = findViewById(R.id.stealLimit_spinner);
 
         AuthUser authUser = Amplify.Auth.getCurrentUser();
 
@@ -108,6 +117,8 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 SimpleDateFormat format = new SimpleDateFormat("MMMM dd, yyyy  hh:mm a");
                 String prettyDate = format.format(dateFormat);
                 partyDate.setText(prettyDate);
+                selectedPriceSpinner.setFocusableInTouchMode(true);
+                selectedPriceSpinner.requestFocus();
             }
             if (message.arg1 == 3) {
                 Toast.makeText(this, "You forgot to include a date and time.", Toast.LENGTH_LONG).show();
@@ -115,6 +126,16 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
             if (message.arg1 == 4) {
                 Toast.makeText(this, "You need to include a name for the party.", Toast.LENGTH_LONG).show();
+            }
+
+            if (message.arg1 == 5) {
+                Log.e("Handler.5", "What is flag? " + spinnerFlag);
+
+                if (spinnerFlag) {
+                    stealLimitSpinner.setFocusableInTouchMode(true);
+                    stealLimitSpinner.requestFocus();
+                }
+                spinnerFlag = true; // makes the spinner open up correctly but only intermittently.
             }
 
             return false;
@@ -160,7 +181,58 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         });
 
         EditText dateTimeText = findViewById(R.id.editTextDate);
+
+        selectedPriceSpinner.setOnFocusChangeListener(new View.OnFocusChangeListener() { // https://stackoverflow.com/questions/23075561/set-focus-on-spinner-when-selected-in-android
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (selectedPriceSpinner.getWindowToken() != null) {
+                        selectedPriceSpinner.performClick();
+                    }
+                }
+            }
+        });
+
+        selectedPriceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Message message = new Message();
+                message.arg1 = 5;
+                generalHandler.sendMessage(message);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        stealLimitSpinner.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (stealLimitSpinner.getWindowToken() != null) {
+                        stealLimitSpinner.performClick();
+                    }
+                }
+            }
+        });
+
+        dateTimeText.setOnFocusChangeListener(new View.OnFocusChangeListener() { // https://stackoverflow.com/questions/4165414/how-to-hide-soft-keyboard-on-android-after-clicking-outside-edittext
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    showDateTimePicker();
+                }
+            }
+        });
+
         dateTimeText.setOnClickListener((view) -> {
+            if (view != null) { // https://medium.com/cs-random-thoughts-on-tech/android-force-hide-system-keyboard-while-retaining-edittexts-focus-9d3fd8dbed32
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
             showDateTimePicker();
         });
 
@@ -202,7 +274,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
             public void onClick(View view) {
 
                 TextView partyName = findViewById(R.id.textViewPartyName);
-                Spinner selectedPriceSpinner = findViewById(R.id.price_spinner);
 
                 Set guestsToInvite = ((HostPartyAdapter) recyclerView.getAdapter()).usersToAdd;
 
@@ -240,10 +311,10 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                     return;
                 }
 
-               //David's find https://github.com/aws-amplify/amplify-android/issues/590
+                //David's find https://github.com/aws-amplify/amplify-android/issues/590
 
                 Date dateFormat = date.getTime(); // https://www.candidjava.com/tutorial/java-program-to-convert-calendar-to-date-and-date-to-calendar/#:~:text=Calendar%20object%20to%20Date%20object%2C%20Using%20Calendar.getInstance%20%28%29,object%20to%20Calendar%20object%2C%20Date%20d%3Dnew%20Date%20%281515660075000l%29%3B
-                        // TODO: ADD REQUIREMENT for DATE.
+                // TODO: ADD REQUIREMENT for DATE.
                 SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm a");
                 String prettyTime = formatTime.format(dateFormat);
 
@@ -255,8 +326,8 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
                 String text = sdf.format(dateFormat);
 
-                Spinner stealLimitSpinner = findViewById(R.id.stealLimit_spinner);
-                int stealLimitNumber = (int)stealLimitSpinner.getSelectedItem();
+//                Spinner stealLimitSpinner = findViewById(R.id.stealLimit_spinner);
+                int stealLimitNumber = (int) stealLimitSpinner.getSelectedItem();
 
                 Party party;
                 party = Party.builder()
