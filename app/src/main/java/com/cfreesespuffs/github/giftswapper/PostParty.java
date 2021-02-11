@@ -49,7 +49,6 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
         Toolbar actionBar = findViewById(R.id.post_part_actionbar);
         setSupportActionBar(actionBar);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Handler handler;
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true){
             @Override
@@ -60,12 +59,23 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
 
         intent = getIntent();
         Button deleteButton = findViewById(R.id.deleteParty);
-//
-        if(!intent.getExtras().getString("from", "NA").equals("endedList")) {
-            getOnBackPressedDispatcher().addCallback(this, callback);
-            deleteButton.setVisibility(View.INVISIBLE);
-        }
 
+        handler = new Handler(Looper.getMainLooper(),
+                new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(@NonNull Message message) {
+
+                        if (message.arg1 == 5) {
+                            deleteButton.setVisibility(View.VISIBLE);
+
+                        }
+
+                        connectRecycler();
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                        return false;
+                    }
+                }
+        );
 
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("partyId", "NA")),
@@ -73,7 +83,9 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
                     partyHost = response.getData().getTheHost().getUserName();
                     preferences = PreferenceManager.getDefaultSharedPreferences(this);
                     if (!partyHost.equals(preferences.getString("username", "NA"))) {
-                        deleteButton.setVisibility(View.VISIBLE);
+                        Message message = new Message();
+                        message.arg1 = 5;
+                        handler.sendMessage(message);
                     }
                 },
                 error -> Log.e("Query.host", "Error.")
@@ -91,17 +103,6 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
 
         TextView partyName = PostParty.this.findViewById(R.id.partyName);
         partyName.setText(intent.getExtras().getString("title"));
-
-        handler = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message message) {
-                        connectRecycler();
-                        recyclerView.getAdapter().notifyDataSetChanged();
-                        return false;
-                    }
-                }
-        );
 
         Amplify.API.query(
                 ModelQuery.list(Gift.class, Gift.PARTY_GOER.eq(preferences.getString("username", "NA"))),
