@@ -26,7 +26,6 @@ public class PartyFragment extends Fragment {
     private String mTitle;
     private String mDate;
     private String mTime;
-//    private String mPrice;
 
     public PartyFragment() {
         // Required empty public constructor
@@ -48,7 +47,6 @@ public class PartyFragment extends Fragment {
         args.putString(ARG_PARAM1, title);
         args.putString(ARG_PARAM2, date);
         args.putString(ARG_PARAM3, time);
-//        args.putString(ARG_PARAM4, price);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,7 +58,6 @@ public class PartyFragment extends Fragment {
             mTitle = getArguments().getString(ARG_PARAM1);
             mDate = getArguments().getString(ARG_PARAM2);
             mTime = getArguments().getString(ARG_PARAM3);
-//            mPrice = getArguments().getString(ARG_PARAM4);
         }
     }
 
