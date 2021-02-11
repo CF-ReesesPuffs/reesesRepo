@@ -50,14 +50,11 @@ public class CurrentPartyUserAdapter extends RecyclerView.Adapter<CurrentPartyUs
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_current_party_user, parent, false);
 
-
         final AdapterViewHolder viewHolder = new AdapterViewHolder(view);
-
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println(viewHolder.user);
                 listener.taskListener(viewHolder.user.getUser().getUserName());
             }
         });
@@ -70,10 +67,6 @@ public class CurrentPartyUserAdapter extends RecyclerView.Adapter<CurrentPartyUs
         holder.user = userActiveParty.get(position);
         TextView userName = holder.itemView.findViewById(R.id.userNameOnly);
         TextView turnOrderTv = holder.itemView.findViewById(R.id.turnOrder);
-
-        Log.i("Amp.RvTurnOrder", "is there turn order? : " + holder.user.getTurnOrder());
-
-//        String turn = String.format("%d", holder.user.getTurnOrder()); // Todo: what is "String.format (locale...)" about?
 
         turnOrderTv.setText(holder.user.getTurnOrder().toString()); // might also be able to parseInt as string?
         userName.setText(holder.user.getUser().getUserName());
