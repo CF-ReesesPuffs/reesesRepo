@@ -81,7 +81,7 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
                 response -> {
                     partyHost = response.getData().getTheHost().getUserName();
                     preferences = PreferenceManager.getDefaultSharedPreferences(this);
-                    if (!partyHost.equals(preferences.getString("username", "NA"))) {
+                    if (partyHost.equals(preferences.getString("username", "NA"))) {
                         Message message = new Message();
                         message.arg1 = 5;
                         handler.sendMessage(message);
