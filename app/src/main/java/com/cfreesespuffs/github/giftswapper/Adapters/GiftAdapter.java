@@ -79,7 +79,7 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
 
         authUser = Amplify.Auth.getCurrentUser();
 
-        if (giftUpdate.getUser().getUserName().equalsIgnoreCase(authUser.getUsername()) && giftUpdate.getPartyGoer().contains("TBD")) {
+        if (giftUpdate.getUser().getUserName().equalsIgnoreCase(authUser.getUsername()) && giftUpdate.getPartyGoer().contains("TBD")) { // todo: swap out authUser. might be unreliaable. user prefs username instead.
             userOwner.setText("you brought this gift!");
         } else {
             userOwner.setText(giftUpdate.getPartyGoer()); // to change name that shows up. b

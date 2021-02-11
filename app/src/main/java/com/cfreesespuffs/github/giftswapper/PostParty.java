@@ -48,6 +48,8 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
         setContentView(R.layout.post_party_navigation);
         Toolbar actionBar = findViewById(R.id.post_part_actionbar);
         setSupportActionBar(actionBar);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Handler handler;
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true){
             @Override
@@ -58,25 +60,24 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
 
         intent = getIntent();
         Button deleteButton = findViewById(R.id.deleteParty);
-
+//
         if(!intent.getExtras().getString("from", "NA").equals("endedList")) {
             getOnBackPressedDispatcher().addCallback(this, callback);
             deleteButton.setVisibility(View.INVISIBLE);
         }
 
+
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("partyId", "NA")),
                 response -> {
-                    Log.e("Query.host", "Party host");
                     partyHost = response.getData().getTheHost().getUserName();
                     preferences = PreferenceManager.getDefaultSharedPreferences(this);
                     if (!partyHost.equals(preferences.getString("username", "NA"))) {
-                        deleteButton.setVisibility(View.INVISIBLE);
+                        deleteButton.setVisibility(View.VISIBLE);
                     }
                 },
                 error -> Log.e("Query.host", "Error.")
         );
-
 
         deleteButton.setOnClickListener((view) -> {
             deleteParty();
@@ -103,12 +104,12 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
         );
 
         Amplify.API.query(
-                ModelQuery.list(Gift.class),
+                ModelQuery.list(Gift.class, Gift.PARTY_GOER.eq(preferences.getString("username", "NA"))),
                 response -> {
+                    Log.e("Amp.giftqL", "the intent: " + intent.getExtras().getString("partyId"));
+                    Log.e("Amp.giftqL", "the response: " + response);
                     for(Gift gift : response.getData()){
-                        if(gift.getParty().getId().equals(intent.getExtras().getString("partyId"))){
                             endGifts.add(gift);
-                        }
                     }
                     handler.sendEmptyMessage(1);
                 },

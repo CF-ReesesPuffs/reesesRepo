@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         setContentView(R.layout.activity_main);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
 
