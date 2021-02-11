@@ -1,6 +1,5 @@
 package com.cfreesespuffs.github.giftswapper.Adapters;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.R;
 
@@ -54,7 +52,6 @@ public class HostPartyAdapter extends RecyclerView.Adapter<HostPartyAdapter.Gues
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
                     usernameView.setSelected(true);
-                    Log.i("Android.hostAdapter", "This has been selected " + guestList.get(position) + "add position " + position);
                     usersToAdd.add(guestList.get(position));
                 } else {
                     usernameView.setSelected(false);
@@ -73,8 +70,8 @@ public class HostPartyAdapter extends RecyclerView.Adapter<HostPartyAdapter.Gues
         return guestList.size();
     }
 
-    public static interface GuestListListener{
-        public void listener(User user);
+    public interface GuestListListener{
+        void listener(User user);
     }
 
     public static class GuestListViewHolder extends RecyclerView.ViewHolder{
@@ -85,7 +82,7 @@ public class HostPartyAdapter extends RecyclerView.Adapter<HostPartyAdapter.Gues
         public GuestListViewHolder(@NonNull View usernameView){
             super(usernameView);
             this.usernameView = usernameView;
-            this.checkBox = (CheckBox) usernameView.findViewById(R.id.rsvpCheckBox);
+            this.checkBox = usernameView.findViewById(R.id.rsvpCheckBox);
         }
     }
 

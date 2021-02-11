@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -40,7 +42,7 @@ import com.cfreesespuffs.github.giftswapper.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCommWithGiftsListener, CurrentPartyUserAdapter.OnInteractWithTaskListener{
+public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCommWithGiftsListener, CurrentPartyUserAdapter.OnInteractWithTaskListener {
     ArrayList<GuestList> guestList = new ArrayList<>();
     HashMap<Integer, GuestList> gLHashMap = new HashMap<>();
     ArrayList<Gift> giftList = new ArrayList<>();
@@ -55,14 +57,16 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     ApiOperation subscription;
     AuthUser authUser;
     Toolbar toolbar;
+    SharedPreferences preferences;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_party);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        toolbar = (Toolbar) findViewById(R.id.tb_Current_Party);
+        toolbar = findViewById(R.id.tb_Current_Party);
         setSupportActionBar(toolbar);
 
         intent = getIntent();
@@ -70,25 +74,18 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         authUser = Amplify.Auth.getCurrentUser();
 
         Amplify.API.query(
-                ModelQuery.list(User.class),
-                response ->{
-                    for(User user : response.getData()){
-                        if(user.getUserName().equalsIgnoreCase(authUser.getUsername())){
-                            amplifyUser = user;
-                        }
-                    }
-                },
+                ModelQuery.get(User.class, preferences.getString("userId", "NA")),
+                response -> amplifyUser = response.getData(),
                 error -> Log.e("amplify.user", String.valueOf(error))
         );
 
-        TextView partyTv = (TextView) findViewById(R.id.currentPartyTitleTb);
+        TextView partyTv = findViewById(R.id.currentPartyTitleTb);
         partyTv.setText(intent.getExtras().getString("thisPartyId"));
 
         Button homeButton = findViewById(R.id.thisHomeButton);
         homeButton.setOnClickListener(view -> {
             Intent intent = new Intent(CurrentParty.this, MainActivity.class);
             CurrentParty.this.startActivity(intent);
-
         });
 
         handler = new Handler(Looper.getMainLooper(),
@@ -110,27 +107,20 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         });
 
         Amplify.API.query(
-                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+                ModelQuery.get(Party.class, partyId),
                 response -> {
                     party = response.getData();
                     for (GuestList user : response.getData().getUsers()) {
-                        if(user.getInviteStatus().equals("Accepted")){
+                        if (user.getInviteStatus().equals("Accepted")) {
                             guestList.add(user);
                             gLHashMap.put(user.getTurnOrder(), user);
-                            if (!user.getTakenTurn() && user.getTurnOrder() < currentTurn) currentTurn = user.getTurnOrder();
+                            if (!user.getTakenTurn() && user.getTurnOrder() < currentTurn)
+                                currentTurn = user.getTurnOrder();
                         }
                     }
-                    handler.sendEmptyMessage(1);
-                },
-                error -> Log.e("Amplify", "Failed to retrieve store")
-        );
-
-        Amplify.API.query(
-                ModelQuery.get(Party.class, partyId),
-                response -> {
-                    for (Gift giftBrought : response.getData().getGifts()) {
+                    for (Gift giftBrought : party.getGifts()) {
                         giftList.add(giftBrought);
-                        }
+                    }
                     handler.sendEmptyMessage(1);
                 },
                 error -> Log.e("Amplify", "Failed to retrieve store")
@@ -144,10 +134,10 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 createdItem -> {
                     GuestList updatedGl = createdItem.getData();
                     gLHashMap.replace(updatedGl.getTurnOrder(), updatedGl);
-                    for (int i = 1; i < gLHashMap.size()+1; i++) {
+                    for (int i = 1; i < gLHashMap.size() + 1; i++) {
                         if (!gLHashMap.get(i).getTakenTurn()) {
                             currentTurn = i;
-                            if (gLHashMap.get(i).getUser().getUserName().equalsIgnoreCase(amplifyUser.getUserName())) { // Todo: check that this works.
+                            if (gLHashMap.get(i).getUser().getUserName().equalsIgnoreCase(amplifyUser.getUserName())) {
                                 Message turnAlertMsg = new Message();
                                 turnAlertMsg.arg1 = 1;
                                 handlerGeneral.sendMessage(turnAlertMsg);
@@ -161,18 +151,18 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 () -> Log.i(SUBSCRIBETAG, "Subscription completed")
         );
 
-        subscription = Amplify.API.subscribe(
+        subscription = Amplify.API.subscribe( // Todo: this might be awful code if more than one party is ongoing.
                 ModelSubscription.onUpdate(Gift.class),
                 onEstablished -> Log.i(SUBSCRIBETAG, "Subscription established"),
                 createdItem -> {
-                    Log.i(SUBSCRIBETAG, "Subscription created: " + ((Gift) createdItem.getData()).getTitle());
+                    Log.i(SUBSCRIBETAG, "Subscription created: " + createdItem.getData().getTitle());
 
                     Amplify.API.query(
                             ModelQuery.get(Party.class, partyId),
                             response -> {
                                 Party completedParty = response.getData();
                                 giftList.clear();
-                                for (Gift giftBrought : response.getData().getGifts()) {
+                                for (Gift giftBrought : completedParty.getGifts()) {
                                     giftList.add(giftBrought);
                                 }
 
@@ -194,11 +184,10 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                     party.isFinished = true;
 
                                     Amplify.API.query(
-                                            ModelMutation.update(party), // TODO: not certain if party will update as global variable. But will find out.
+                                            ModelMutation.update(party),
                                             response2 -> Log.i("Mutation.thisParty", "Party: Complete!"),
                                             error -> Log.e("Mutation.thisParty", "Party mutate: FAIL")
                                     );
-
                                     startActivity(headToPostParty);
                                 }
                                 handler.sendEmptyMessage(1);
@@ -211,12 +200,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 },
                 () -> Log.i(SUBSCRIBETAG, "Subscription completed")
         );
-
-//        ImageButton homeDetailButton = CurrentParty.this.findViewById(R.id.goHome);
-//        homeDetailButton.setOnClickListener((view)-> {
-//            Intent goToMainIntent = new Intent(CurrentParty.this, MainActivity.class);
-//            CurrentParty.this.startActivity(goToMainIntent);
-//        });
     }
 
     public void connectAdapterToRecycler() {
@@ -241,7 +224,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         }
 
         if (gift.getLastPartyGoer().equalsIgnoreCase(amplifyUser.getUserName())) {
-            Toast.makeText(this,"You can't steal a gift that was just taken from you.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You can't steal a gift that was just taken from you.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -283,18 +266,18 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
             );
 
             gift.lastPartyGoer = previousGiftOwner;
-            gift.partyGoer = amplifyUser.getUserName(); // changes the "in party" owner
+            gift.partyGoer = amplifyUser.getUserName();
 
             Amplify.API.mutate(
                     ModelMutation.update(gift),
                     response2 -> Log.i("Mutation", "mutated the gifts user " + gift),
                     error -> Log.e("Mutation", "Failure, you disgrace family " + error)
             );
-
             Toast.makeText(this, "You chose a gift! " + gift.getTitle(), Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    public void taskListener(String party) { }
+    public void taskListener(String party) {
+    }
 }

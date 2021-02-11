@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.GuestList;
-import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
@@ -47,12 +46,9 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
     @Override // This gets called when a fragment(list item) has a java class attached to it
     public void onBindViewHolder(@NonNull AdapterViewHolder holder, int position) { // position is the position in the array
         holder.guestList = guestList.get(position);
-//        System.out.println("this is guestlist: " + guestList);
 
         TextView userName = holder.itemView.findViewById(R.id.guestName);
         TextView status = holder.itemView.findViewById(R.id.status);
-
-        // TODO: if user == host THEN setCheckbox to visible.
 
         userName.setText(holder.guestList.getUser().getUserName());
         status.setText(holder.guestList.getInviteStatus());
@@ -85,16 +81,15 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
     }
 
     @Override
-    // This gets called so it knows how many fragments (list item) to put on the screen at once
-    public int getItemCount() {
+    public int getItemCount() { // This gets called so it knows how many fragments (list item) to put on the screen at once
         if (guestList == null) {
             return 0;
         }
         return guestList.size();
     }
 
-    public static interface OnInteractWithTaskListener {
-        public void listener(GuestList guestList);
+    public interface OnInteractWithTaskListener {
+        void listener(GuestList guestList);
     }
 
     public static class AdapterViewHolder extends RecyclerView.ViewHolder {
@@ -105,7 +100,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
         public AdapterViewHolder(@NonNull View itemView) {
             super(itemView);
             this.itemView = itemView;
-            this.checkBox = (CheckBox) itemView.findViewById(R.id.deletePartycB);
+            this.checkBox = itemView.findViewById(R.id.deletePartycB);
         }
     }
 }

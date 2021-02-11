@@ -42,7 +42,7 @@ public class SignupConfirmation extends AppCompatActivity {
         username = intent.getExtras().getString("username");
         usernameConfirm = findViewById(R.id.usernameConfirmEt);
 
-        ((Button) findViewById(R.id.signUpConfirmButton)).setOnClickListener(view -> {
+        findViewById(R.id.signUpConfirmButton).setOnClickListener(view -> {
             EditText confirmCode = findViewById(R.id.codeEt);
             String password = intent.getExtras().getString("password");
             String email = intent.getExtras().getString("email");
@@ -50,7 +50,6 @@ public class SignupConfirmation extends AppCompatActivity {
                     usernameConfirm.getText().toString().toLowerCase(),
                     confirmCode.getText().toString(),
                     result -> {
-                        Log.i("Amplify.confirm", result.isSignUpComplete() ? "Signup: Successful" : "Signup: FAIL"); // TODO: something better needs to happen here?
                         message.arg1 = 123;
                         signUpHandler.sendEmptyMessage(message.arg1);
                         User newUser = User.builder()
@@ -65,7 +64,15 @@ public class SignupConfirmation extends AppCompatActivity {
                         Amplify.Auth.signIn(
                                 username.toLowerCase(),
                                 password,
-                                loginResult -> this.startActivity(new Intent(SignupConfirmation.this, MainActivity.class)),
+                                loginResult -> {
+
+                                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                                    final SharedPreferences.Editor preferenceEditor = preferences.edit();
+                                    preferenceEditor.putString("username", username);
+                                    preferenceEditor.apply();
+
+                                    this.startActivity(new Intent(SignupConfirmation.this, MainActivity.class));
+                                },
                                 thisError -> Log.e("Auth.Result", "Fail")
                         );
                     },
@@ -76,18 +83,8 @@ public class SignupConfirmation extends AppCompatActivity {
                         View toastView = toast.getView();
                         toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
                         toast.show();
-                        Log.e("Auth.Result", "failure");
-                        return;
                     }
             );
-            Intent lastIntent = new Intent(SignupConfirmation.this, MainActivity.class);
-
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            final SharedPreferences.Editor preferenceEditor = preferences.edit();
-            preferenceEditor.putString("username", username);
-            preferenceEditor.apply();
-
-            this.startActivity(lastIntent);
         });
 
         signUpHandler = new Handler(Looper.getMainLooper(), message -> {
@@ -101,8 +98,7 @@ public class SignupConfirmation extends AppCompatActivity {
             return false;
         });
 
-        Button resendCodeButton = (Button) findViewById(R.id.resendConfirmB);
-
+        Button resendCodeButton = findViewById(R.id.resendConfirmB);
         resendCodeButton.setOnClickListener(view -> {
 
             if (usernameConfirm.getText().toString().isEmpty()) {
@@ -117,7 +113,6 @@ public class SignupConfirmation extends AppCompatActivity {
 
             Amplify.Auth.resendSignUpCode(usernameConfirm.getText().toString().toLowerCase(),
                     success -> {
-                        Log.i("AuthDemo", "Code was sent again: " + success.toString());
                         Toast toast = Toast.makeText(getApplicationContext(),
                                 "New confirmation code has been resent to email.", Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER, 0, 0);
@@ -128,7 +123,5 @@ public class SignupConfirmation extends AppCompatActivity {
                     error -> Log.e("AuthDemo", "Failed to resend code.", error)
             );
         });
-
-
     }
 }

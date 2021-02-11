@@ -27,7 +27,6 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
 
     public Gift giftUpdate;
     public Gift heldGift;
-    public TextView userOwner;
 
     public GiftAdapter(ArrayList<Gift> giftsList, User user, OnCommWithGiftsListener listener) {
         this.giftsList = giftsList;
@@ -64,8 +63,8 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
         return viewHolder;
     }
 
-    public static interface OnCommWithGiftsListener {
-        public void giftsToDoListener(Gift gift);
+    public interface OnCommWithGiftsListener {
+        void giftsToDoListener(Gift gift);
     }
 
     @Override
@@ -76,15 +75,11 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
         userOwner.setVisibility(View.VISIBLE);
 
         heldGift = holder.gifts;
-       // giftNameTv.setText(holder.gifts.getTitle());
         giftUpdate = giftsList.get(position);
 
         authUser = Amplify.Auth.getCurrentUser();
 
-        Log.i("System.viewholder", "The authuser: " + authUser);
-        Log.i("System.viewholder", "From the giftUpdate: " + giftUpdate.getUser().getUserName());
-
-        if (giftUpdate.getUser().getUserName().equalsIgnoreCase(authUser.getUsername()) && giftUpdate.getPartyGoer().contains("TBD")) {
+        if (giftUpdate.getUser().getUserName().equalsIgnoreCase(authUser.getUsername()) && giftUpdate.getPartyGoer().contains("TBD")) { // todo: swap out authUser. might be unreliaable. user prefs username instead.
             userOwner.setText("you brought this gift!");
         } else {
             userOwner.setText(giftUpdate.getPartyGoer()); // to change name that shows up. b

@@ -23,7 +23,7 @@ import com.cfreesespuffs.github.giftswapper.R;
 import java.util.ArrayList;
 
 public class UserProfile extends AppCompatActivity {
-//
+
 //    RecyclerView recyclerView;
 //    ArrayList<Gift> giftsOfUser = new ArrayList<>();
 //    Handler handler;
