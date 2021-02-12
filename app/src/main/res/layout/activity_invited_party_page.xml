@@ -175,6 +175,7 @@
         android:layout_height="62dp"
         android:layout_marginStart="16dp"
         android:text="Decline"
+        android:visibility="invisible"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/acceptInvite"

@@ -138,6 +138,11 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 spinnerFlag = true; // makes the spinner open up correctly but only intermittently.
             }
 
+            if (message.arg1 == 10) {
+                Toast.makeText(this, "We're sorry, we only support up to 10 guest right now. :(", Toast.LENGTH_LONG).show();
+            }
+
+
             return false;
         });
 
@@ -264,9 +269,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 TextView partyName = findViewById(R.id.textViewPartyName);
 
                 Set guestsToInvite = ((HostPartyAdapter) recyclerView.getAdapter()).usersToAdd;
-
                 List<User> guestsToInviteList = new ArrayList();
-
                 guestsToInviteList.addAll(guestsToInvite);
 
                 boolean flag = false;
@@ -279,6 +282,13 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                     Message noGuestsMsg = new Message();
                     noGuestsMsg.arg1 = 1;
                     generalHandler.sendMessage(noGuestsMsg);
+                    return;
+                }
+
+                if (guestsToInviteList.size() > 10) {
+                    Message message = new Message();
+                    message.arg1 = 10;
+                    generalHandler.sendMessage(message);
                     return;
                 }
 

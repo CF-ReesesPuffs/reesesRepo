@@ -6,17 +6,20 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:logo="@mipmap/ic_launcher_round"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Giftswapper">
         <activity android:name=".Activities.EndedParties"></activity>
 <!--        <activity android:name=".Activities.endedPartyJava" />-->
+<!-- https://romannurik.github.io/AndroidAssetStudio/ for the icon batch rendering.  https://stackoverflow.com/questions/37085753/android-studio-image-asset-launcher-icon-background-color/37085828#37085828 -->
         <activity android:name=".InvitationList"
             android:label="Invitations" /> <!-- <activity android:name=".PendingPartyFragment" /> -->
         <activity android:name=".Activities.SignupConfirmation" />
         <activity android:name=".Activities.SignUp" />
         <activity
             android:name=".Activities.Login"
+            android:logo="@mipmap/ic_launcher_round"
             android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".PostParty"
@@ -35,7 +38,6 @@
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
