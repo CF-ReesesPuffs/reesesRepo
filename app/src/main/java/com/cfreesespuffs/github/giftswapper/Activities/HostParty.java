@@ -139,7 +139,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
             }
 
             if (message.arg1 == 10) {
-                Toast.makeText(this, "We're sorry, right now we only support up to 10 guest right now. :(", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "We're sorry, we only support up to 10 guest right now. :(", Toast.LENGTH_LONG).show();
             }
 
 
@@ -269,9 +269,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 TextView partyName = findViewById(R.id.textViewPartyName);
 
                 Set guestsToInvite = ((HostPartyAdapter) recyclerView.getAdapter()).usersToAdd;
-
                 List<User> guestsToInviteList = new ArrayList();
-
                 guestsToInviteList.addAll(guestsToInvite);
 
                 boolean flag = false;
