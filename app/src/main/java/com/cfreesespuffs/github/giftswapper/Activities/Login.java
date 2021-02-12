@@ -33,6 +33,9 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+//        getActionBar().setDisplayUseLogoEnabled(true);
+
+
         handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
                     @Override

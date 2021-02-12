@@ -1,10 +1,14 @@
 package com.cfreesespuffs.github.giftswapper.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -39,6 +43,7 @@ public class InvitationDetails extends AppCompatActivity {
     EditText giftChosen;
     Button acceptInvite;
     SharedPreferences preferences;
+    Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +54,35 @@ public class InvitationDetails extends AppCompatActivity {
         intent = getIntent();
         String partyId = intent.getExtras().getString("partyId");
 
-        Amplify.API.query(
-                ModelQuery.get(Party.class, partyId),
-                response -> {
-                    party = response.getData();
-                    TextView hostName = InvitationDetails.this.findViewById(R.id.partyHost);
-                    hostName.setText(party.getTheHost().getUserName());
-                },
-                error -> Log.e("Amplify.query", "no party " + error)
-        );
+        handler = new Handler(Looper.getMainLooper(),
+                new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(@NonNull Message msg) {
+
+                        if (msg.arg1 == 1) {
+                            findViewById(R.id.declineInvite).setVisibility(View.VISIBLE);
+                        }
+                        return false;
+                    }
+                });
+
+                Amplify.API.query(
+                        ModelQuery.get(Party.class, partyId),
+                        response -> {
+                            party = response.getData();
+                            TextView hostName = InvitationDetails.this.findViewById(R.id.partyHost);
+                            hostName.setText(party.getTheHost().getUserName());
+
+                            if (!preferences.getString("username", "NA").equals(party.getTheHost().getUserName())) {
+                                Log.e("pref.Username", "we here?");
+                                Message message = new Message();
+                                message.arg1 = 1;
+                                handler.sendMessage(message);
+                            }
+
+                        },
+                        error -> Log.e("Amplify.query", "no party " + error)
+                );
 
         Amplify.API.query(
                 ModelQuery.list(User.class, User.ID.eq(preferences.getString("userId", "NA"))),
