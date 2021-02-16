@@ -369,6 +369,124 @@ subscription OnDeleteSpecificGuestList($invitedUser: String) {
     updatedAt
   }
 }
+subscription OnUpdateHostGuestList($invitee: String) {
+  onUpdateHostGuestList(invitee: $invitee) {
+    id
+    inviteStatus
+    invitee
+    invitedUser
+    takenTurn
+    turnOrder
+    user {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          lastPartyGoer
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      partyDateAWS
+      partyDate
+      price
+      isReady
+      isFinished
+      stealLimit
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          lastPartyGoer
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
 subscription OnCreateUser {
   onCreateUser {
     id

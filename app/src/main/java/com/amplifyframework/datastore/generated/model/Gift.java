@@ -38,7 +38,8 @@ public final class Gift implements Model {
     private final @ModelField(targetType="Party") @BelongsTo(targetName = "giftPartyId", type = Party.class) Party party;
     public String getId() {
         return id;
-    }
+
+  }
   
   public String getTitle() {
       return title;

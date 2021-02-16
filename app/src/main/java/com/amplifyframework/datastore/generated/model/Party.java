@@ -48,7 +48,8 @@ public final class Party implements Model {
     private final @ModelField(targetType="Gift") @HasMany(associatedWith = "party", type = Gift.class) List<Gift> gifts = null;
     public String getId() {
         return id;
-    }
+
+  }
   
   public String getTitle() {
       return title;

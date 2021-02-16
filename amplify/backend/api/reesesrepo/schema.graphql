@@ -54,5 +54,8 @@ type Subscription {
 
    onDeleteSpecificGuestList(invitedUser: String): GuestList
    @aws_subscribe(mutations: ["deleteGuestList"])
+
+   onUpdateHostGuestList(invitee: String): GuestList
+   @aws_subscribe(mutations: ["updateGuestList"])
 }
 

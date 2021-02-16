@@ -25,6 +25,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amplifyframework.api.ApiOperation;
+import com.amplifyframework.api.aws.GsonVariablesSerializer;
+import com.amplifyframework.api.graphql.GraphQLRequest;
+import com.amplifyframework.api.graphql.SimpleGraphQLRequest;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.api.graphql.model.ModelSubscription;
@@ -40,6 +43,7 @@ import com.cfreesespuffs.github.giftswapper.PostParty;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCommWithGiftsListener, CurrentPartyUserAdapter.OnInteractWithTaskListener {
@@ -275,6 +279,22 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
             );
             Toast.makeText(this, "You chose a gift! " + gift.getTitle(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+//    onUpdateHostGuestList(invitee: String): GuestList
+//    @aws_subscribe(mutations: ["updateGuestList"])
+
+    private GraphQLRequest<GuestList> getGuestListByHost(String host) {
+        String document = "query hostGuestList ($invitee: String) { "
+                + "onUpdateHostGuestList(invitee: $invitee) { "
+                + "id "
+                + "}"
+                + "}";
+                return new SimpleGraphQLRequest<> (
+                        document,
+                        Collections.singletonMap("invitee", host),
+                        GuestList.class,
+                        new GsonVariablesSerializer());
     }
 
     @Override
