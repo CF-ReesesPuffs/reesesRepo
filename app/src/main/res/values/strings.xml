@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">giftswapper</string>
+    <string name="app_name">Gift Swapper</string>
     <string name="gift_swapper">Gift Swapper</string>
     <string name="host_a_party">Host a Party!</string>
     <string name="todo">TODO</string>
