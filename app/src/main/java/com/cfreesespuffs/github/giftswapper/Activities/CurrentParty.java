@@ -132,6 +132,8 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
         String SUBSCRIBETAG = "Amplify.subscription";
 
+        hostGuestListSub(intent.getExtras().getString("host"));
+
         ApiOperation guestListSub = Amplify.API.subscribe( // Todo: this might be awful code if more than one party is ongoing.
                 ModelSubscription.onUpdate(GuestList.class),
                 onEstablished -> Log.i(SUBSCRIBETAG, "Guestlist Sub established."),
@@ -281,13 +283,23 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         }
     }
 
-//    onUpdateHostGuestList(invitee: String): GuestList
-//    @aws_subscribe(mutations: ["updateGuestList"])
+    private void hostGuestListSub(String host) {
+        Amplify.API.subscribe(getGuestListByHost(host),
+                subCheck -> Log.i("Sub.HostGuestList", "success"),
+                response -> {
+                    Log.e("Sub.subGuestList", "response: " + response);
+                    Log.i("Sub.subGuestList", "in response");
+                },
+                failure -> Log.e("Sub.subGuestList", "failure: " + failure),
+                () -> Log.i("Sub.subGuestList", "Sub is closed"));
+    }
 
     private GraphQLRequest<GuestList> getGuestListByHost(String host) {
-        String document = "query hostGuestList ($invitee: String) { "
+        String document = "subscription hostGuestList ($invitee: String) { "
                 + "onUpdateHostGuestList(invitee: $invitee) { "
+                + "party { "
                 + "id "
+                + "}"
                 + "}"
                 + "}";
                 return new SimpleGraphQLRequest<> (

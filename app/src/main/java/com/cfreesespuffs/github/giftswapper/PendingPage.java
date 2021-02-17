@@ -511,6 +511,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
 
         Intent intent2 = new Intent(PendingPage.this, CurrentParty.class);
         intent2.putExtra("id", partyId);
+        intent2.putExtra("host", pendingParty.getTheHost().getUserName());
         intent2.putExtra("thisPartyId", getIntent().getExtras().getString("title"));
         PendingPage.this.startActivity(intent2);
     }
