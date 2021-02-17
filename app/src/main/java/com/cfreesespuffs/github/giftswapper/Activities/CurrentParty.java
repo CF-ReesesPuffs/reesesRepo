@@ -132,30 +132,59 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
         String SUBSCRIBETAG = "Amplify.subscription";
 
-        hostGuestListSub(intent.getExtras().getString("host"));
+        //hostGuestListSub(intent.getExtras().getString("host"));
 
-        ApiOperation guestListSub = Amplify.API.subscribe( // Todo: this might be awful code if more than one party is ongoing.
-                ModelSubscription.onUpdate(GuestList.class),
-                onEstablished -> Log.i(SUBSCRIBETAG, "Guestlist Sub established."),
-                createdItem -> {
-                    GuestList updatedGl = createdItem.getData();
-                    gLHashMap.replace(updatedGl.getTurnOrder(), updatedGl);
-                    for (int i = 1; i < gLHashMap.size() + 1; i++) {
-                        if (!gLHashMap.get(i).getTakenTurn()) {
-                            currentTurn = i;
-                            if (gLHashMap.get(i).getUser().getUserName().equalsIgnoreCase(amplifyUser.getUserName())) {
-                                Message turnAlertMsg = new Message();
-                                turnAlertMsg.arg1 = 1;
-                                handlerGeneral.sendMessage(turnAlertMsg);
-                            }
-                            break;
-                        }
-                    }
-                    Log.i("Amp.NewCurrentTurn", "This is the turn: " + currentTurn);
+        Amplify.API.subscribe(getGuestListByHost(intent.getExtras().getString("host")),
+                subCheck -> Log.i("Sub.HostGuestList", "success"),
+                response -> {
+                    Log.e("Sub.subGuestList", "response: " + response);
+                    Amplify.API.query(
+                            ModelQuery.get(Party.class, response.getData().getParty().getId()),
+                            response2 -> {
+                                Log.i("Sub.sub", "response: " + response2);
+                                for (GuestList guestList : response2.getData().getUsers())
+                                    gLHashMap.replace(guestList.getTurnOrder(), guestList);
+                                for (int i = 1; i < gLHashMap.size() + 1; i++) {
+                                    if (!gLHashMap.get(i).getTakenTurn()) {
+                                        currentTurn = i;
+                                        if (gLHashMap.get(i).getUser().getUserName().equalsIgnoreCase(amplifyUser.getUserName())) {
+                                            Message turnAlertMsg = new Message();
+                                            turnAlertMsg.arg1 = 1;
+                                            handlerGeneral.sendMessage(turnAlertMsg);
+                                        }
+                                        break;
+                                    }
+                                }
+                                Log.i("Amp.newSub", "This is the turn: " + currentTurn);
+                            },
+                            error -> Log.e("Sub.sub", "error: " + error)
+                    );
                 },
-                onFailure -> Log.i(SUBSCRIBETAG, onFailure.toString()),
-                () -> Log.i(SUBSCRIBETAG, "Subscription completed")
-        );
+                failure -> Log.e("Sub.subGuestList", "failure: " + failure),
+                () -> Log.i("Sub.subGuestList", "Sub is closed"));
+
+//        ApiOperation guestListSub = Amplify.API.subscribe( // Todo: this might be awful code if more than one party is ongoing.
+//                ModelSubscription.onUpdate(GuestList.class),
+//                onEstablished -> Log.i(SUBSCRIBETAG, "Guestlist Sub established."),
+//                createdItem -> {
+//                    GuestList updatedGl = createdItem.getData();
+//                    gLHashMap.replace(updatedGl.getTurnOrder(), updatedGl);
+//                    for (int i = 1; i < gLHashMap.size() + 1; i++) {
+//                        if (!gLHashMap.get(i).getTakenTurn()) {
+//                            currentTurn = i;
+//                            if (gLHashMap.get(i).getUser().getUserName().equalsIgnoreCase(amplifyUser.getUserName())) {
+//                                Message turnAlertMsg = new Message();
+//                                turnAlertMsg.arg1 = 1;
+//                                handlerGeneral.sendMessage(turnAlertMsg);
+//                            }
+//                            break;
+//                        }
+//                    }
+//                    Log.i("Amp.NewCurrentTurn", "This is the turn: " + currentTurn);
+//                },
+//                onFailure -> Log.i(SUBSCRIBETAG, onFailure.toString()),
+//                () -> Log.i(SUBSCRIBETAG, "Subscription completed")
+//        );
 
         subscription = Amplify.API.subscribe( // Todo: this might be awful code if more than one party is ongoing.
                 ModelSubscription.onUpdate(Gift.class),
@@ -302,11 +331,11 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 + "}"
                 + "}"
                 + "}";
-                return new SimpleGraphQLRequest<> (
-                        document,
-                        Collections.singletonMap("invitee", host),
-                        GuestList.class,
-                        new GsonVariablesSerializer());
+        return new SimpleGraphQLRequest<>(
+                document,
+                Collections.singletonMap("invitee", host),
+                GuestList.class,
+                new GsonVariablesSerializer());
     }
 
     @Override
