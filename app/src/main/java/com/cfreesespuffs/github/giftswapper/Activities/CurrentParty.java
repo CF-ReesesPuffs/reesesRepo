@@ -132,9 +132,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
         String SUBSCRIBETAG = "Amplify.subscription";
 
-        //hostGuestListSub(intent.getExtras().getString("host"));
-
-        Amplify.API.subscribe(getGuestListByHost(intent.getExtras().getString("host")),
+        ApiOperation guestListByHost = Amplify.API.subscribe(getGuestListByHost(intent.getExtras().getString("host")),
                 subCheck -> Log.i("Sub.HostGuestList", "success"),
                 response -> {
                     Log.e("Sub.subGuestList", "response: " + response);
@@ -162,29 +160,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 },
                 failure -> Log.e("Sub.subGuestList", "failure: " + failure),
                 () -> Log.i("Sub.subGuestList", "Sub is closed"));
-
-//        ApiOperation guestListSub = Amplify.API.subscribe( // Todo: this might be awful code if more than one party is ongoing.
-//                ModelSubscription.onUpdate(GuestList.class),
-//                onEstablished -> Log.i(SUBSCRIBETAG, "Guestlist Sub established."),
-//                createdItem -> {
-//                    GuestList updatedGl = createdItem.getData();
-//                    gLHashMap.replace(updatedGl.getTurnOrder(), updatedGl);
-//                    for (int i = 1; i < gLHashMap.size() + 1; i++) {
-//                        if (!gLHashMap.get(i).getTakenTurn()) {
-//                            currentTurn = i;
-//                            if (gLHashMap.get(i).getUser().getUserName().equalsIgnoreCase(amplifyUser.getUserName())) {
-//                                Message turnAlertMsg = new Message();
-//                                turnAlertMsg.arg1 = 1;
-//                                handlerGeneral.sendMessage(turnAlertMsg);
-//                            }
-//                            break;
-//                        }
-//                    }
-//                    Log.i("Amp.NewCurrentTurn", "This is the turn: " + currentTurn);
-//                },
-//                onFailure -> Log.i(SUBSCRIBETAG, onFailure.toString()),
-//                () -> Log.i(SUBSCRIBETAG, "Subscription completed")
-//        );
 
         subscription = Amplify.API.subscribe( // Todo: this might be awful code if more than one party is ongoing.
                 ModelSubscription.onUpdate(Gift.class),
@@ -215,7 +190,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                     headToPostParty.putExtra("setTime", String.valueOf(completedParty.HOSTED_AT));
 
                                     subscription.cancel(); // KILL THE SUBSCRIPTION. BURN IT DOWN.
-
+                                    guestListByHost.cancel();
                                     party.isFinished = true;
 
                                     Amplify.API.query(

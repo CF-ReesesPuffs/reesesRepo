@@ -163,33 +163,20 @@ public class InvitationDetails extends AppCompatActivity {
                     return;
                 }
 
-                Amplify.API.query(
-                        ModelQuery.list(Gift.class, Gift.PARTY.eq(partyId)),
-                        response -> {
-                            if (response.getData() != null) {
-                                for (Gift gift : response.getData()) {
-                                    if (gift.getNumber() > highestNum)
-                                        highestNum = gift.getNumber();
-                                }
-                            }
+                Gift gift = Gift.builder()
+                        .title(giftName)
+                        .party(party)
+                        .timesStolen(0)
+                        .user(loggedUser)
+                        .partyGoer("TBD")
+                        .lastPartyGoer(loggedUser.getUserName())
+                        .number(42)
+                        .build();
 
-                            Gift gift = Gift.builder()
-                                    .title(giftName)
-                                    .party(party)
-                                    .timesStolen(0)
-                                    .user(loggedUser)
-                                    .partyGoer("TBD")
-                                    .lastPartyGoer(loggedUser.getUserName())
-                                    .number(highestNum + 1)
-                                    .build();
-
-                            Amplify.API.mutate(
-                                    ModelMutation.create(gift),
-                                    response2 -> Log.i("AddGift", "You saved a new gift to bring, " + giftName),
-                                    error -> Log.e("AddGiftFail", error.toString())
-                            );
-                        },
-                        error -> Log.e("Amplify.Query", "something went wrong" + error.toString())
+                Amplify.API.mutate(
+                        ModelMutation.create(gift),
+                        response2 -> Log.i("AddGift", "You saved a new gift to bring, " + giftName),
+                        error -> Log.e("AddGiftFail", error.toString())
                 );
 
                 List<GuestList> target = party.getUsers();
