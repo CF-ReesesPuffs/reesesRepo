@@ -25,6 +25,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amplifyframework.api.ApiOperation;
+import com.amplifyframework.api.aws.GsonVariablesSerializer;
+import com.amplifyframework.api.graphql.GraphQLRequest;
+import com.amplifyframework.api.graphql.SimpleGraphQLRequest;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.api.graphql.model.ModelSubscription;
@@ -40,6 +43,7 @@ import com.cfreesespuffs.github.giftswapper.PostParty;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCommWithGiftsListener, CurrentPartyUserAdapter.OnInteractWithTaskListener {
@@ -128,28 +132,34 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
         String SUBSCRIBETAG = "Amplify.subscription";
 
-        ApiOperation guestListSub = Amplify.API.subscribe( // Todo: this might be awful code if more than one party is ongoing.
-                ModelSubscription.onUpdate(GuestList.class),
-                onEstablished -> Log.i(SUBSCRIBETAG, "Guestlist Sub established."),
-                createdItem -> {
-                    GuestList updatedGl = createdItem.getData();
-                    gLHashMap.replace(updatedGl.getTurnOrder(), updatedGl);
-                    for (int i = 1; i < gLHashMap.size() + 1; i++) {
-                        if (!gLHashMap.get(i).getTakenTurn()) {
-                            currentTurn = i;
-                            if (gLHashMap.get(i).getUser().getUserName().equalsIgnoreCase(amplifyUser.getUserName())) {
-                                Message turnAlertMsg = new Message();
-                                turnAlertMsg.arg1 = 1;
-                                handlerGeneral.sendMessage(turnAlertMsg);
-                            }
-                            break;
-                        }
-                    }
-                    Log.i("Amp.NewCurrentTurn", "This is the turn: " + currentTurn);
+        ApiOperation guestListByHost = Amplify.API.subscribe(getGuestListByHost(intent.getExtras().getString("host")),
+                subCheck -> Log.i("Sub.HostGuestList", "success"),
+                response -> {
+                    Log.e("Sub.subGuestList", "response: " + response);
+                    Amplify.API.query(
+                            ModelQuery.get(Party.class, response.getData().getParty().getId()),
+                            response2 -> {
+                                Log.i("Sub.sub", "response: " + response2);
+                                for (GuestList guestList : response2.getData().getUsers())
+                                    gLHashMap.replace(guestList.getTurnOrder(), guestList);
+                                for (int i = 1; i < gLHashMap.size() + 1; i++) {
+                                    if (!gLHashMap.get(i).getTakenTurn()) {
+                                        currentTurn = i;
+                                        if (gLHashMap.get(i).getUser().getUserName().equalsIgnoreCase(amplifyUser.getUserName())) {
+                                            Message turnAlertMsg = new Message();
+                                            turnAlertMsg.arg1 = 1;
+                                            handlerGeneral.sendMessage(turnAlertMsg);
+                                        }
+                                        break;
+                                    }
+                                }
+                                Log.i("Amp.newSub", "This is the turn: " + currentTurn);
+                            },
+                            error -> Log.e("Sub.sub", "error: " + error)
+                    );
                 },
-                onFailure -> Log.i(SUBSCRIBETAG, onFailure.toString()),
-                () -> Log.i(SUBSCRIBETAG, "Subscription completed")
-        );
+                failure -> Log.e("Sub.subGuestList", "failure: " + failure),
+                () -> Log.i("Sub.subGuestList", "Sub is closed"));
 
         subscription = Amplify.API.subscribe( // Todo: this might be awful code if more than one party is ongoing.
                 ModelSubscription.onUpdate(Gift.class),
@@ -180,7 +190,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                     headToPostParty.putExtra("setTime", String.valueOf(completedParty.HOSTED_AT));
 
                                     subscription.cancel(); // KILL THE SUBSCRIPTION. BURN IT DOWN.
-
+                                    guestListByHost.cancel();
                                     party.isFinished = true;
 
                                     Amplify.API.query(
@@ -275,6 +285,32 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
             );
             Toast.makeText(this, "You chose a gift! " + gift.getTitle(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void hostGuestListSub(String host) {
+        Amplify.API.subscribe(getGuestListByHost(host),
+                subCheck -> Log.i("Sub.HostGuestList", "success"),
+                response -> {
+                    Log.e("Sub.subGuestList", "response: " + response);
+                    Log.i("Sub.subGuestList", "in response");
+                },
+                failure -> Log.e("Sub.subGuestList", "failure: " + failure),
+                () -> Log.i("Sub.subGuestList", "Sub is closed"));
+    }
+
+    private GraphQLRequest<GuestList> getGuestListByHost(String host) {
+        String document = "subscription hostGuestList ($invitee: String) { "
+                + "onUpdateHostGuestList(invitee: $invitee) { "
+                + "party { "
+                + "id "
+                + "}"
+                + "}"
+                + "}";
+        return new SimpleGraphQLRequest<>(
+                document,
+                Collections.singletonMap("invitee", host),
+                GuestList.class,
+                new GsonVariablesSerializer());
     }
 
     @Override

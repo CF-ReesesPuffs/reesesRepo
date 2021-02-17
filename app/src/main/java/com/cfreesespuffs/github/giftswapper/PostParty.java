@@ -104,11 +104,11 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
         partyName.setText(intent.getExtras().getString("title"));
 
         Amplify.API.query(
-                ModelQuery.list(Gift.class, Gift.PARTY_GOER.eq(preferences.getString("username", "NA"))),
+                ModelQuery.get(Party.class, intent.getExtras().getString("partyId", "NA")),
                 response -> {
                     Log.e("Amp.giftqL", "the intent: " + intent.getExtras().getString("partyId"));
                     Log.e("Amp.giftqL", "the response: " + response);
-                    for (Gift gift : response.getData()) {
+                    for (Gift gift : response.getData().getGifts()) {
                         endGifts.add(gift);
                     }
                     handler.sendEmptyMessage(1);

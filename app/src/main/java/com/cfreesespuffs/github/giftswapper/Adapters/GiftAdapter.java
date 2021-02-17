@@ -86,7 +86,7 @@ public class GiftAdapter extends RecyclerView.Adapter<GiftAdapter.GiftsToViewHol
         }
 
         if (giftUpdate.getPartyGoer().contains("TBD")) {
-            giftNameTv.setText(giftUpdate.getNumber().toString());
+            giftNameTv.setText("unopened");
         } else {
             giftNameTv.setText(giftUpdate.getTitle());
         }
