@@ -62,6 +62,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     AuthUser authUser;
     Toolbar toolbar;
     SharedPreferences preferences;
+    String giftStolenToCheck;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -114,6 +115,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 ModelQuery.get(Party.class, partyId),
                 response -> {
                     party = response.getData();
+                    giftStolenToCheck = party.lastGiftStolen;
                     for (GuestList user : response.getData().getUsers()) {
                         if (user.getInviteStatus().equals("Accepted")) {
                             guestList.add(user);
@@ -140,7 +142,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                             ModelQuery.get(Party.class, response.getData().getParty().getId()),
                             response2 -> {
                                 Log.i("Sub.sub", "response: " + response2);
-                                // todo: be sure to hold onto *lastGiftStolen* value.
+                                giftStolenToCheck = response2.getData().lastGiftStolen; // todo: be sure to hold onto *lastGiftStolen* value.
                                 for (GuestList guestList : response2.getData().getUsers())
                                     gLHashMap.replace(guestList.getTurnOrder(), guestList);
                                 for (int i = 1; i < gLHashMap.size() + 1; i++) {
@@ -234,7 +236,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
             return;
         }
 
-        if (gift.getTitle().equalsIgnoreCase(party.getLastGiftStolen())) {
+        if (gift.getTitle().equalsIgnoreCase(giftStolenToCheck)) {
             Toast.makeText(this, "You can't steal a gift that was just taken from you.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -248,6 +250,8 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 party.lastGiftStolen = gift.getTitle();
             }
 
+//            giftStolenToCheck
+            
             Amplify.API.query(
                     ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                     response3 -> {
