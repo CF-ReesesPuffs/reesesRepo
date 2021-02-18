@@ -125,7 +125,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                         }
                     }
                     for (Gift giftBrought : party.getGifts()) {
-                        giftList.add(giftBrought);
+                        giftList.add(giftBrought); // Todo: where to check for stealLimits reached and only gift is currentUser's gift edge case.
                     }
                     handler.sendEmptyMessage(1);
                 },
@@ -250,8 +250,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 party.lastGiftStolen = gift.getTitle();
             }
 
-//            giftStolenToCheck
-            
             Amplify.API.query(
                     ModelQuery.get(Party.class, intent.getExtras().getString("id")),
                     response3 -> {
