@@ -62,6 +62,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     AuthUser authUser;
     Toolbar toolbar;
     SharedPreferences preferences;
+    String giftStolenToCheck;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -114,6 +115,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 ModelQuery.get(Party.class, partyId),
                 response -> {
                     party = response.getData();
+                    giftStolenToCheck = party.lastGiftStolen;
                     for (GuestList user : response.getData().getUsers()) {
                         if (user.getInviteStatus().equals("Accepted")) {
                             guestList.add(user);
@@ -123,7 +125,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                         }
                     }
                     for (Gift giftBrought : party.getGifts()) {
-                        giftList.add(giftBrought);
+                        giftList.add(giftBrought); // Todo: where to check for stealLimits reached and only gift is currentUser's gift edge case.
                     }
                     handler.sendEmptyMessage(1);
                 },
@@ -140,7 +142,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                             ModelQuery.get(Party.class, response.getData().getParty().getId()),
                             response2 -> {
                                 Log.i("Sub.sub", "response: " + response2);
-                                // todo: be sure to hold onto *lastGiftStolen* value.
+                                giftStolenToCheck = response2.getData().lastGiftStolen; // todo: be sure to hold onto *lastGiftStolen* value.
                                 for (GuestList guestList : response2.getData().getUsers())
                                     gLHashMap.replace(guestList.getTurnOrder(), guestList);
                                 for (int i = 1; i < gLHashMap.size() + 1; i++) {
@@ -234,17 +236,18 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
             return;
         }
 
-        if (gift.getTitle().equalsIgnoreCase(party.getLastGiftStolen())) {
+        if (gift.getTitle().equalsIgnoreCase(giftStolenToCheck)) {
             Toast.makeText(this, "You can't steal a gift that was just taken from you.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (gift.getTimesStolen().equals(party.getStealLimit())) { // steal limit is hardcoded. todo: fix this to be dynamic.
+        if (gift.getTimesStolen().equals(party.getStealLimit())) {
             Toast.makeText(this, "This gift can not be stolen anymore!", Toast.LENGTH_SHORT).show();
         } else {
 
             if (!gift.getPartyGoer().equals("TBD")) {
                 gift.timesStolen = gift.getTimesStolen() + 1;
+                party.lastGiftStolen = gift.getTitle();
             }
 
             Amplify.API.query(
@@ -285,6 +288,13 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                     response2 -> Log.i("Mutation", "mutated the gifts user " + gift),
                     error -> Log.e("Mutation", "Failure, you disgrace family " + error)
             );
+
+            Amplify.API.mutate(
+                    ModelMutation.update(party),
+                    response4 -> Log.i("Mutation", "mutated the party" + party),
+                    error -> Log.e("Mutation", "Error: " + error)
+            );
+
             Toast.makeText(this, "You chose a gift! " + gift.getTitle(), Toast.LENGTH_SHORT).show();
         }
     }

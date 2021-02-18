@@ -337,6 +337,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                         .isReady(false)
                         .isFinished(false)
                         .stealLimit(stealLimitNumber)
+                        .lastGiftStolen("")
                         .build();
 
                 Amplify.API.mutate(

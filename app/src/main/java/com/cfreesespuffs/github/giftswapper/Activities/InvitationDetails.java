@@ -167,9 +167,9 @@ public class InvitationDetails extends AppCompatActivity {
                         .title(giftName)
                         .party(party)
                         .timesStolen(0)
-                        .user(loggedUser)
-                        .partyGoer("TBD")
-                        .lastPartyGoer(loggedUser.getUserName())
+                        .user(loggedUser) // who *OWNS* the gift
+                        .partyGoer("TBD") // who *holds* the gift
+//                        .lastPartyGoer(loggedUser.getUserName())
                         .number(42)
                         .build();
 
