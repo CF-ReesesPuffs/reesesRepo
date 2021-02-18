@@ -542,6 +542,13 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
         Amplify.API.subscribe(getPartyStatus(id),
                 subCheck -> Log.d("Sub.SingleParty", "Connection established for: " + subCheck),
                 response -> { //TODO: add logic for parties ready
+                    if(response.getData().isReady){
+                        pendingParty.isReady = true;
+                        Message toParty = new Message();
+                        toParty.arg1 = 3;
+                        handleSingleItem.sendMessage(toParty);
+                    }
+
                     if (response.getData().isFinished) {
                         pendingParty.isFinished = true; // because the current query we run doesn't replace everything of the pendingparty variable, and we don't need it to.
                         Message toPostParty = new Message();
