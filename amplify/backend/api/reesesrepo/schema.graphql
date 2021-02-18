@@ -24,7 +24,6 @@ type Gift @model {
   number: Int
   partyGoer: String
   timesStolen: Int
-  lastPartyGoer: String
   user: User @connection(name: "GiftGroup")
   party: Party @connection(name: "PartyGifts")
 }
@@ -40,6 +39,7 @@ type Party @model {
   isReady: Boolean
   isFinished: Boolean
   stealLimit: Int
+  lastGiftStolen: String
   theHost: User @connection(name: "hostList")
   users: [GuestList] @connection(name: "ConParty")
   gifts: [Gift] @connection(name: "PartyGifts")

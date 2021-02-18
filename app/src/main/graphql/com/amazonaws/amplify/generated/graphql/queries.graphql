@@ -16,6 +16,7 @@ query GetUser($id: ID!) {
         isReady
         isFinished
         stealLimit
+        lastGiftStolen
         theHost {
           id
           userName
@@ -41,7 +42,6 @@ query GetUser($id: ID!) {
         number
         partyGoer
         timesStolen
-        lastPartyGoer
         user {
           id
           userName
@@ -60,6 +60,7 @@ query GetUser($id: ID!) {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -94,6 +95,7 @@ query GetUser($id: ID!) {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -128,6 +130,7 @@ query ListUsers(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -140,7 +143,6 @@ query ListUsers(
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -189,6 +191,7 @@ query GetGuestList($id: ID!) {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -201,7 +204,6 @@ query GetGuestList($id: ID!) {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -234,6 +236,7 @@ query GetGuestList($id: ID!) {
       isReady
       isFinished
       stealLimit
+      lastGiftStolen
       theHost {
         id
         userName
@@ -270,7 +273,6 @@ query GetGuestList($id: ID!) {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -323,6 +325,7 @@ query ListGuestLists(
         isReady
         isFinished
         stealLimit
+        lastGiftStolen
         theHost {
           id
           userName
@@ -352,7 +355,6 @@ query GetGift($id: ID!) {
     number
     partyGoer
     timesStolen
-    lastPartyGoer
     user {
       id
       userName
@@ -369,6 +371,7 @@ query GetGift($id: ID!) {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -381,7 +384,6 @@ query GetGift($id: ID!) {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -414,6 +416,7 @@ query GetGift($id: ID!) {
       isReady
       isFinished
       stealLimit
+      lastGiftStolen
       theHost {
         id
         userName
@@ -450,7 +453,6 @@ query GetGift($id: ID!) {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -475,7 +477,6 @@ query ListGifts(
       number
       partyGoer
       timesStolen
-      lastPartyGoer
       user {
         id
         userName
@@ -503,6 +504,7 @@ query ListGifts(
         isReady
         isFinished
         stealLimit
+        lastGiftStolen
         theHost {
           id
           userName
@@ -537,6 +539,7 @@ query GetParty($id: ID!) {
     isReady
     isFinished
     stealLimit
+    lastGiftStolen
     theHost {
       id
       userName
@@ -553,6 +556,7 @@ query GetParty($id: ID!) {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -565,7 +569,6 @@ query GetParty($id: ID!) {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -613,6 +616,7 @@ query GetParty($id: ID!) {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -628,7 +632,6 @@ query GetParty($id: ID!) {
         number
         partyGoer
         timesStolen
-        lastPartyGoer
         user {
           id
           userName
@@ -647,6 +650,7 @@ query GetParty($id: ID!) {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -676,6 +680,7 @@ query ListPartys(
       isReady
       isFinished
       stealLimit
+      lastGiftStolen
       theHost {
         id
         userName
@@ -712,7 +717,6 @@ query ListPartys(
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -754,6 +758,7 @@ query IdByName(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -766,7 +771,6 @@ query IdByName(
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }

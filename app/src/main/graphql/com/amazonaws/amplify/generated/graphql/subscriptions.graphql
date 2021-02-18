@@ -11,6 +11,7 @@ subscription OnUpdateOfSpecificParty($id: ID!) {
     isReady
     isFinished
     stealLimit
+    lastGiftStolen
     theHost {
       id
       userName
@@ -27,6 +28,7 @@ subscription OnUpdateOfSpecificParty($id: ID!) {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -39,7 +41,6 @@ subscription OnUpdateOfSpecificParty($id: ID!) {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -87,6 +88,7 @@ subscription OnUpdateOfSpecificParty($id: ID!) {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -102,7 +104,6 @@ subscription OnUpdateOfSpecificParty($id: ID!) {
         number
         partyGoer
         timesStolen
-        lastPartyGoer
         user {
           id
           userName
@@ -121,6 +122,7 @@ subscription OnUpdateOfSpecificParty($id: ID!) {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -157,6 +159,7 @@ subscription OnCreateOfUserId($invitedUser: String) {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -169,7 +172,6 @@ subscription OnCreateOfUserId($invitedUser: String) {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -202,6 +204,7 @@ subscription OnCreateOfUserId($invitedUser: String) {
       isReady
       isFinished
       stealLimit
+      lastGiftStolen
       theHost {
         id
         userName
@@ -238,7 +241,6 @@ subscription OnCreateOfUserId($invitedUser: String) {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -275,6 +277,7 @@ subscription OnDeleteSpecificGuestList($invitedUser: String) {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -287,7 +290,6 @@ subscription OnDeleteSpecificGuestList($invitedUser: String) {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -320,6 +322,7 @@ subscription OnDeleteSpecificGuestList($invitedUser: String) {
       isReady
       isFinished
       stealLimit
+      lastGiftStolen
       theHost {
         id
         userName
@@ -356,7 +359,6 @@ subscription OnDeleteSpecificGuestList($invitedUser: String) {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -393,6 +395,7 @@ subscription OnUpdateHostGuestList($invitee: String) {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -405,7 +408,6 @@ subscription OnUpdateHostGuestList($invitee: String) {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -438,6 +440,7 @@ subscription OnUpdateHostGuestList($invitee: String) {
       isReady
       isFinished
       stealLimit
+      lastGiftStolen
       theHost {
         id
         userName
@@ -474,7 +477,6 @@ subscription OnUpdateHostGuestList($invitee: String) {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -504,6 +506,7 @@ subscription OnCreateUser {
         isReady
         isFinished
         stealLimit
+        lastGiftStolen
         theHost {
           id
           userName
@@ -529,7 +532,6 @@ subscription OnCreateUser {
         number
         partyGoer
         timesStolen
-        lastPartyGoer
         user {
           id
           userName
@@ -548,6 +550,7 @@ subscription OnCreateUser {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -582,6 +585,7 @@ subscription OnCreateUser {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -611,6 +615,7 @@ subscription OnUpdateUser {
         isReady
         isFinished
         stealLimit
+        lastGiftStolen
         theHost {
           id
           userName
@@ -636,7 +641,6 @@ subscription OnUpdateUser {
         number
         partyGoer
         timesStolen
-        lastPartyGoer
         user {
           id
           userName
@@ -655,6 +659,7 @@ subscription OnUpdateUser {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -689,6 +694,7 @@ subscription OnUpdateUser {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -718,6 +724,7 @@ subscription OnDeleteUser {
         isReady
         isFinished
         stealLimit
+        lastGiftStolen
         theHost {
           id
           userName
@@ -743,7 +750,6 @@ subscription OnDeleteUser {
         number
         partyGoer
         timesStolen
-        lastPartyGoer
         user {
           id
           userName
@@ -762,6 +768,7 @@ subscription OnDeleteUser {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -796,6 +803,7 @@ subscription OnDeleteUser {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -832,6 +840,7 @@ subscription OnCreateGuestList {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -844,7 +853,6 @@ subscription OnCreateGuestList {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -877,6 +885,7 @@ subscription OnCreateGuestList {
       isReady
       isFinished
       stealLimit
+      lastGiftStolen
       theHost {
         id
         userName
@@ -913,7 +922,6 @@ subscription OnCreateGuestList {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -950,6 +958,7 @@ subscription OnUpdateGuestList {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -962,7 +971,6 @@ subscription OnUpdateGuestList {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -995,6 +1003,7 @@ subscription OnUpdateGuestList {
       isReady
       isFinished
       stealLimit
+      lastGiftStolen
       theHost {
         id
         userName
@@ -1031,7 +1040,6 @@ subscription OnUpdateGuestList {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1068,6 +1076,7 @@ subscription OnDeleteGuestList {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1080,7 +1089,6 @@ subscription OnDeleteGuestList {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1113,6 +1121,7 @@ subscription OnDeleteGuestList {
       isReady
       isFinished
       stealLimit
+      lastGiftStolen
       theHost {
         id
         userName
@@ -1149,7 +1158,6 @@ subscription OnDeleteGuestList {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1169,7 +1177,6 @@ subscription OnCreateGift {
     number
     partyGoer
     timesStolen
-    lastPartyGoer
     user {
       id
       userName
@@ -1186,6 +1193,7 @@ subscription OnCreateGift {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1198,7 +1206,6 @@ subscription OnCreateGift {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1231,6 +1238,7 @@ subscription OnCreateGift {
       isReady
       isFinished
       stealLimit
+      lastGiftStolen
       theHost {
         id
         userName
@@ -1267,7 +1275,6 @@ subscription OnCreateGift {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1287,7 +1294,6 @@ subscription OnUpdateGift {
     number
     partyGoer
     timesStolen
-    lastPartyGoer
     user {
       id
       userName
@@ -1304,6 +1310,7 @@ subscription OnUpdateGift {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1316,7 +1323,6 @@ subscription OnUpdateGift {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1349,6 +1355,7 @@ subscription OnUpdateGift {
       isReady
       isFinished
       stealLimit
+      lastGiftStolen
       theHost {
         id
         userName
@@ -1385,7 +1392,6 @@ subscription OnUpdateGift {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1405,7 +1411,6 @@ subscription OnDeleteGift {
     number
     partyGoer
     timesStolen
-    lastPartyGoer
     user {
       id
       userName
@@ -1422,6 +1427,7 @@ subscription OnDeleteGift {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1434,7 +1440,6 @@ subscription OnDeleteGift {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1467,6 +1472,7 @@ subscription OnDeleteGift {
       isReady
       isFinished
       stealLimit
+      lastGiftStolen
       theHost {
         id
         userName
@@ -1503,7 +1509,6 @@ subscription OnDeleteGift {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1528,6 +1533,7 @@ subscription OnCreateParty {
     isReady
     isFinished
     stealLimit
+    lastGiftStolen
     theHost {
       id
       userName
@@ -1544,6 +1550,7 @@ subscription OnCreateParty {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1556,7 +1563,6 @@ subscription OnCreateParty {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1604,6 +1610,7 @@ subscription OnCreateParty {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1619,7 +1626,6 @@ subscription OnCreateParty {
         number
         partyGoer
         timesStolen
-        lastPartyGoer
         user {
           id
           userName
@@ -1638,6 +1644,7 @@ subscription OnCreateParty {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1662,6 +1669,7 @@ subscription OnUpdateParty {
     isReady
     isFinished
     stealLimit
+    lastGiftStolen
     theHost {
       id
       userName
@@ -1678,6 +1686,7 @@ subscription OnUpdateParty {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1690,7 +1699,6 @@ subscription OnUpdateParty {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1738,6 +1746,7 @@ subscription OnUpdateParty {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1753,7 +1762,6 @@ subscription OnUpdateParty {
         number
         partyGoer
         timesStolen
-        lastPartyGoer
         user {
           id
           userName
@@ -1772,6 +1780,7 @@ subscription OnUpdateParty {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1796,6 +1805,7 @@ subscription OnDeleteParty {
     isReady
     isFinished
     stealLimit
+    lastGiftStolen
     theHost {
       id
       userName
@@ -1812,6 +1822,7 @@ subscription OnDeleteParty {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1824,7 +1835,6 @@ subscription OnDeleteParty {
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1872,6 +1882,7 @@ subscription OnDeleteParty {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1887,7 +1898,6 @@ subscription OnDeleteParty {
         number
         partyGoer
         timesStolen
-        lastPartyGoer
         user {
           id
           userName
@@ -1906,6 +1916,7 @@ subscription OnDeleteParty {
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
