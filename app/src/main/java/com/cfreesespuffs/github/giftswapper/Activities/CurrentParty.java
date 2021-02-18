@@ -140,6 +140,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                             ModelQuery.get(Party.class, response.getData().getParty().getId()),
                             response2 -> {
                                 Log.i("Sub.sub", "response: " + response2);
+                                // todo: be sure to hold onto *lastGiftStolen* value.
                                 for (GuestList guestList : response2.getData().getUsers())
                                     gLHashMap.replace(guestList.getTurnOrder(), guestList);
                                 for (int i = 1; i < gLHashMap.size() + 1; i++) {
@@ -238,11 +239,13 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
             return;
         }
 
-        if (gift.getTimesStolen() >= 2) {
+        if (gift.getTimesStolen().equals(party.getStealLimit())) { // steal limit is hardcoded. todo: fix this to be dynamic.
             Toast.makeText(this, "This gift can not be stolen anymore!", Toast.LENGTH_SHORT).show();
-            return;
         } else {
-            gift.timesStolen = gift.getTimesStolen() + 1;
+
+            if (!gift.getPartyGoer().equals("TBD")) {
+                gift.timesStolen = gift.getTimesStolen() + 1;
+            }
 
             Amplify.API.query(
                     ModelQuery.get(Party.class, intent.getExtras().getString("id")),
