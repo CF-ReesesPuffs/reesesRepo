@@ -19,6 +19,7 @@ mutation CreateUser(
         isReady
         isFinished
         stealLimit
+        lastGiftStolen
         theHost {
           id
           userName
@@ -44,7 +45,6 @@ mutation CreateUser(
         number
         partyGoer
         timesStolen
-        lastPartyGoer
         user {
           id
           userName
@@ -63,6 +63,7 @@ mutation CreateUser(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -97,6 +98,7 @@ mutation CreateUser(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -129,6 +131,7 @@ mutation UpdateUser(
         isReady
         isFinished
         stealLimit
+        lastGiftStolen
         theHost {
           id
           userName
@@ -154,7 +157,6 @@ mutation UpdateUser(
         number
         partyGoer
         timesStolen
-        lastPartyGoer
         user {
           id
           userName
@@ -173,6 +175,7 @@ mutation UpdateUser(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -207,6 +210,7 @@ mutation UpdateUser(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -239,6 +243,7 @@ mutation DeleteUser(
         isReady
         isFinished
         stealLimit
+        lastGiftStolen
         theHost {
           id
           userName
@@ -264,7 +269,6 @@ mutation DeleteUser(
         number
         partyGoer
         timesStolen
-        lastPartyGoer
         user {
           id
           userName
@@ -283,6 +287,7 @@ mutation DeleteUser(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -317,6 +322,7 @@ mutation DeleteUser(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -356,6 +362,7 @@ mutation CreateGuestList(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -368,7 +375,6 @@ mutation CreateGuestList(
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -401,6 +407,7 @@ mutation CreateGuestList(
       isReady
       isFinished
       stealLimit
+      lastGiftStolen
       theHost {
         id
         userName
@@ -437,7 +444,6 @@ mutation CreateGuestList(
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -477,6 +483,7 @@ mutation UpdateGuestList(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -489,7 +496,6 @@ mutation UpdateGuestList(
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -522,6 +528,7 @@ mutation UpdateGuestList(
       isReady
       isFinished
       stealLimit
+      lastGiftStolen
       theHost {
         id
         userName
@@ -558,7 +565,6 @@ mutation UpdateGuestList(
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -598,6 +604,7 @@ mutation DeleteGuestList(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -610,7 +617,6 @@ mutation DeleteGuestList(
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -643,6 +649,7 @@ mutation DeleteGuestList(
       isReady
       isFinished
       stealLimit
+      lastGiftStolen
       theHost {
         id
         userName
@@ -679,7 +686,6 @@ mutation DeleteGuestList(
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -702,7 +708,6 @@ mutation CreateGift(
     number
     partyGoer
     timesStolen
-    lastPartyGoer
     user {
       id
       userName
@@ -719,6 +724,7 @@ mutation CreateGift(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -731,7 +737,6 @@ mutation CreateGift(
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -764,6 +769,7 @@ mutation CreateGift(
       isReady
       isFinished
       stealLimit
+      lastGiftStolen
       theHost {
         id
         userName
@@ -800,7 +806,6 @@ mutation CreateGift(
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -823,7 +828,6 @@ mutation UpdateGift(
     number
     partyGoer
     timesStolen
-    lastPartyGoer
     user {
       id
       userName
@@ -840,6 +844,7 @@ mutation UpdateGift(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -852,7 +857,6 @@ mutation UpdateGift(
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -885,6 +889,7 @@ mutation UpdateGift(
       isReady
       isFinished
       stealLimit
+      lastGiftStolen
       theHost {
         id
         userName
@@ -921,7 +926,6 @@ mutation UpdateGift(
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -944,7 +948,6 @@ mutation DeleteGift(
     number
     partyGoer
     timesStolen
-    lastPartyGoer
     user {
       id
       userName
@@ -961,6 +964,7 @@ mutation DeleteGift(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -973,7 +977,6 @@ mutation DeleteGift(
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1006,6 +1009,7 @@ mutation DeleteGift(
       isReady
       isFinished
       stealLimit
+      lastGiftStolen
       theHost {
         id
         userName
@@ -1042,7 +1046,6 @@ mutation DeleteGift(
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1070,6 +1073,7 @@ mutation CreateParty(
     isReady
     isFinished
     stealLimit
+    lastGiftStolen
     theHost {
       id
       userName
@@ -1086,6 +1090,7 @@ mutation CreateParty(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1098,7 +1103,6 @@ mutation CreateParty(
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1146,6 +1150,7 @@ mutation CreateParty(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1161,7 +1166,6 @@ mutation CreateParty(
         number
         partyGoer
         timesStolen
-        lastPartyGoer
         user {
           id
           userName
@@ -1180,6 +1184,7 @@ mutation CreateParty(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1207,6 +1212,7 @@ mutation UpdateParty(
     isReady
     isFinished
     stealLimit
+    lastGiftStolen
     theHost {
       id
       userName
@@ -1223,6 +1229,7 @@ mutation UpdateParty(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1235,7 +1242,6 @@ mutation UpdateParty(
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1283,6 +1289,7 @@ mutation UpdateParty(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1298,7 +1305,6 @@ mutation UpdateParty(
         number
         partyGoer
         timesStolen
-        lastPartyGoer
         user {
           id
           userName
@@ -1317,6 +1323,7 @@ mutation UpdateParty(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1344,6 +1351,7 @@ mutation DeleteParty(
     isReady
     isFinished
     stealLimit
+    lastGiftStolen
     theHost {
       id
       userName
@@ -1360,6 +1368,7 @@ mutation DeleteParty(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1372,7 +1381,6 @@ mutation DeleteParty(
           number
           partyGoer
           timesStolen
-          lastPartyGoer
           createdAt
           updatedAt
         }
@@ -1420,6 +1428,7 @@ mutation DeleteParty(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }
@@ -1435,7 +1444,6 @@ mutation DeleteParty(
         number
         partyGoer
         timesStolen
-        lastPartyGoer
         user {
           id
           userName
@@ -1454,6 +1462,7 @@ mutation DeleteParty(
           isReady
           isFinished
           stealLimit
+          lastGiftStolen
           createdAt
           updatedAt
         }

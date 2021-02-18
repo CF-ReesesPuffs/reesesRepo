@@ -233,7 +233,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
             return;
         }
 
-        if (gift.getLastPartyGoer().equalsIgnoreCase(amplifyUser.getUserName())) {
+        if (gift.getTitle().equalsIgnoreCase(party.getLastGiftStolen())) {
             Toast.makeText(this, "You can't steal a gift that was just taken from you.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -275,7 +275,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                     error -> Log.e("Amplify", "Failed to retrieve store")
             );
 
-            gift.lastPartyGoer = previousGiftOwner;
             gift.partyGoer = amplifyUser.getUserName();
 
             Amplify.API.mutate(

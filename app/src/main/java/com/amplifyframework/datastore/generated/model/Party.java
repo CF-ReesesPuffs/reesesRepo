@@ -32,23 +32,24 @@ public final class Party implements Model {
   public static final QueryField IS_READY = field("isReady");
   public static final QueryField IS_FINISHED = field("isFinished");
   public static final QueryField STEAL_LIMIT = field("stealLimit");
+  public static final QueryField LAST_GIFT_STOLEN = field("lastGiftStolen");
   public static final QueryField THE_HOST = field("partyTheHostId");
-    private final @ModelField(targetType="ID", isRequired = true) String id;
-    private final @ModelField(targetType="String", isRequired = true) String title;
-    private final @ModelField(targetType="String") String hostedOn;
-    private final @ModelField(targetType="String") String hostedAt;
-    private final @ModelField(targetType="AWSDate") Temporal.Date partyDateAWS;
-    private final @ModelField(targetType="String") String partyDate;
-    private final @ModelField(targetType="String") String price;
-    public @ModelField(targetType="Boolean") Boolean isReady;
-    public @ModelField(targetType="Boolean") Boolean isFinished;
-    private final @ModelField(targetType="Int") Integer stealLimit;
-    private final @ModelField(targetType="User") @BelongsTo(targetName = "partyTheHostId", type = User.class) User theHost;
-    private final @ModelField(targetType="GuestList") @HasMany(associatedWith = "party", type = GuestList.class) List<GuestList> users = null;
-    private final @ModelField(targetType="Gift") @HasMany(associatedWith = "party", type = Gift.class) List<Gift> gifts = null;
-    public String getId() {
-        return id;
-
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="String", isRequired = true) String title;
+  private final @ModelField(targetType="String") String hostedOn;
+  private final @ModelField(targetType="String") String hostedAt;
+  private final @ModelField(targetType="AWSDate") Temporal.Date partyDateAWS;
+  private final @ModelField(targetType="String") String partyDate;
+  private final @ModelField(targetType="String") String price;
+  public @ModelField(targetType="Boolean") Boolean isReady;
+  public @ModelField(targetType="Boolean") Boolean isFinished;
+  private final @ModelField(targetType="Int") Integer stealLimit;
+  private final @ModelField(targetType="String") String lastGiftStolen;
+  private final @ModelField(targetType="User") @BelongsTo(targetName = "partyTheHostId", type = User.class) User theHost;
+  private final @ModelField(targetType="GuestList") @HasMany(associatedWith = "party", type = GuestList.class) List<GuestList> users = null;
+  private final @ModelField(targetType="Gift") @HasMany(associatedWith = "party", type = Gift.class) List<Gift> gifts = null;
+  public String getId() {
+      return id;
   }
   
   public String getTitle() {
@@ -87,6 +88,10 @@ public final class Party implements Model {
       return stealLimit;
   }
   
+  public String getLastGiftStolen() {
+      return lastGiftStolen;
+  }
+  
   public User getTheHost() {
       return theHost;
   }
@@ -99,7 +104,7 @@ public final class Party implements Model {
       return gifts;
   }
   
-  private Party(String id, String title, String hostedOn, String hostedAt, Temporal.Date partyDateAWS, String partyDate, String price, Boolean isReady, Boolean isFinished, Integer stealLimit, User theHost) {
+  private Party(String id, String title, String hostedOn, String hostedAt, Temporal.Date partyDateAWS, String partyDate, String price, Boolean isReady, Boolean isFinished, Integer stealLimit, String lastGiftStolen, User theHost) {
     this.id = id;
     this.title = title;
     this.hostedOn = hostedOn;
@@ -110,6 +115,7 @@ public final class Party implements Model {
     this.isReady = isReady;
     this.isFinished = isFinished;
     this.stealLimit = stealLimit;
+    this.lastGiftStolen = lastGiftStolen;
     this.theHost = theHost;
   }
   
@@ -131,6 +137,7 @@ public final class Party implements Model {
               ObjectsCompat.equals(getIsReady(), party.getIsReady()) &&
               ObjectsCompat.equals(getIsFinished(), party.getIsFinished()) &&
               ObjectsCompat.equals(getStealLimit(), party.getStealLimit()) &&
+              ObjectsCompat.equals(getLastGiftStolen(), party.getLastGiftStolen()) &&
               ObjectsCompat.equals(getTheHost(), party.getTheHost());
       }
   }
@@ -148,6 +155,7 @@ public final class Party implements Model {
       .append(getIsReady())
       .append(getIsFinished())
       .append(getStealLimit())
+      .append(getLastGiftStolen())
       .append(getTheHost())
       .toString()
       .hashCode();
@@ -167,6 +175,7 @@ public final class Party implements Model {
       .append("isReady=" + String.valueOf(getIsReady()) + ", ")
       .append("isFinished=" + String.valueOf(getIsFinished()) + ", ")
       .append("stealLimit=" + String.valueOf(getStealLimit()) + ", ")
+      .append("lastGiftStolen=" + String.valueOf(getLastGiftStolen()) + ", ")
       .append("theHost=" + String.valueOf(getTheHost()))
       .append("}")
       .toString();
@@ -206,6 +215,7 @@ public final class Party implements Model {
       null,
       null,
       null,
+      null,
       null
     );
   }
@@ -221,6 +231,7 @@ public final class Party implements Model {
       isReady,
       isFinished,
       stealLimit,
+      lastGiftStolen,
       theHost);
   }
   public interface TitleStep {
@@ -239,6 +250,7 @@ public final class Party implements Model {
     BuildStep isReady(Boolean isReady);
     BuildStep isFinished(Boolean isFinished);
     BuildStep stealLimit(Integer stealLimit);
+    BuildStep lastGiftStolen(String lastGiftStolen);
     BuildStep theHost(User theHost);
   }
   
@@ -254,6 +266,7 @@ public final class Party implements Model {
     private Boolean isReady;
     private Boolean isFinished;
     private Integer stealLimit;
+    private String lastGiftStolen;
     private User theHost;
     @Override
      public Party build() {
@@ -270,6 +283,7 @@ public final class Party implements Model {
           isReady,
           isFinished,
           stealLimit,
+          lastGiftStolen,
           theHost);
     }
     
@@ -329,6 +343,12 @@ public final class Party implements Model {
     }
     
     @Override
+     public BuildStep lastGiftStolen(String lastGiftStolen) {
+        this.lastGiftStolen = lastGiftStolen;
+        return this;
+    }
+    
+    @Override
      public BuildStep theHost(User theHost) {
         this.theHost = theHost;
         return this;
@@ -357,7 +377,7 @@ public final class Party implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, String hostedOn, String hostedAt, Temporal.Date partyDateAws, String partyDate, String price, Boolean isReady, Boolean isFinished, Integer stealLimit, User theHost) {
+    private CopyOfBuilder(String id, String title, String hostedOn, String hostedAt, Temporal.Date partyDateAws, String partyDate, String price, Boolean isReady, Boolean isFinished, Integer stealLimit, String lastGiftStolen, User theHost) {
       super.id(id);
       super.title(title)
         .hostedOn(hostedOn)
@@ -368,6 +388,7 @@ public final class Party implements Model {
         .isReady(isReady)
         .isFinished(isFinished)
         .stealLimit(stealLimit)
+        .lastGiftStolen(lastGiftStolen)
         .theHost(theHost);
     }
     
@@ -414,6 +435,11 @@ public final class Party implements Model {
     @Override
      public CopyOfBuilder stealLimit(Integer stealLimit) {
       return (CopyOfBuilder) super.stealLimit(stealLimit);
+    }
+    
+    @Override
+     public CopyOfBuilder lastGiftStolen(String lastGiftStolen) {
+      return (CopyOfBuilder) super.lastGiftStolen(lastGiftStolen);
     }
     
     @Override
