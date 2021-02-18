@@ -239,12 +239,13 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
             return;
         }
 
-        if (gift.getTimesStolen().equals(party.getStealLimit())) { // steal limit is hardcoded. todo: fix this to be dynamic.
+        if (gift.getTimesStolen().equals(party.getStealLimit())) {
             Toast.makeText(this, "This gift can not be stolen anymore!", Toast.LENGTH_SHORT).show();
         } else {
 
             if (!gift.getPartyGoer().equals("TBD")) {
                 gift.timesStolen = gift.getTimesStolen() + 1;
+                party.lastGiftStolen = gift.getTitle();
             }
 
             Amplify.API.query(
@@ -285,6 +286,13 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                     response2 -> Log.i("Mutation", "mutated the gifts user " + gift),
                     error -> Log.e("Mutation", "Failure, you disgrace family " + error)
             );
+
+            Amplify.API.mutate(
+                    ModelMutation.update(party),
+                    response4 -> Log.i("Mutation", "mutated the party" + party),
+                    error -> Log.e("Mutation", "Error: " + error)
+            );
+
             Toast.makeText(this, "You chose a gift! " + gift.getTitle(), Toast.LENGTH_SHORT).show();
         }
     }
