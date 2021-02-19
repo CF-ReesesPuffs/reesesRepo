@@ -8,23 +8,6 @@
     tools:context=".InvitationList">
 
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="322dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/tv_style"
-        android:elegantTextHeight="true"
-        android:text="Invitations"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/postPartyRV"
         android:layout_width="318dp"
@@ -32,7 +15,8 @@
         android:background="@drawable/et_style"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8"
-        app:layout_constraintVertical_bias="0.241" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.168" />
 </androidx.constraintlayout.widget.ConstraintLayout>
