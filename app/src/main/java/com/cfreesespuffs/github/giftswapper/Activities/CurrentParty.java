@@ -325,6 +325,8 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 new GsonVariablesSerializer());
     }
 
+
+
     @Override
     public void taskListener(String party) {
     }

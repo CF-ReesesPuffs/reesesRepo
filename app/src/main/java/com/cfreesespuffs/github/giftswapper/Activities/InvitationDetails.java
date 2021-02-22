@@ -169,8 +169,7 @@ public class InvitationDetails extends AppCompatActivity {
                         .timesStolen(0)
                         .user(loggedUser) // who *OWNS* the gift
                         .partyGoer("TBD") // who *holds* the gift
-//                        .lastPartyGoer(loggedUser.getUserName())
-                        .number("42")
+                        .number(intent.getExtras().getString("partyId", "NA"))
                         .build();
 
                 Amplify.API.mutate(
