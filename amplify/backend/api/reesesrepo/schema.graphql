@@ -60,5 +60,6 @@ type Subscription {
 
    onUpdateGiftOfSpecificParty(number: String): Gift
    @aws_subscribe(mutations: ["updateGift"])
+
 }
 

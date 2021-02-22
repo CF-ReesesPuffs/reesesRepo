@@ -4239,29 +4239,6 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "onUpdateGiftOfSpecificParty",
-                        "description": null,
-                        "args": [
-                            {
-                                "name": "number",
-                                "description": null,
-                                "type": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                },
-                                "defaultValue": null
-                            }
-                        ],
-                        "type": {
-                            "kind": "OBJECT",
-                            "name": "Gift",
-                            "ofType": null
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
                         "name": "onCreateUser",
                         "description": null,
                         "args": [],
