@@ -32,8 +32,7 @@ public final class User implements Model {
     private final @ModelField(targetType="GuestList") @HasMany(associatedWith = "user", type = GuestList.class) List<GuestList> parties = null;
     public String getId() {
         return id;
-
-  }
+    }
   
   public String getUserName() {
       return userName;

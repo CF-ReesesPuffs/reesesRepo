@@ -2116,7 +2116,7 @@
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
-                            "name": "ModelIntInput",
+                            "name": "ModelStringInput",
                             "ofType": null
                         },
                         "defaultValue": null
@@ -2266,7 +2266,7 @@
                         "args": [],
                         "type": {
                             "kind": "SCALAR",
-                            "name": "Int",
+                            "name": "String",
                             "ofType": null
                         },
                         "isDeprecated": false,
@@ -3452,7 +3452,7 @@
                         "description": null,
                         "type": {
                             "kind": "SCALAR",
-                            "name": "Int",
+                            "name": "String",
                             "ofType": null
                         },
                         "defaultValue": null
@@ -3523,7 +3523,7 @@
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
-                            "name": "ModelIntInput",
+                            "name": "ModelStringInput",
                             "ofType": null
                         },
                         "defaultValue": null
@@ -3626,7 +3626,7 @@
                         "description": null,
                         "type": {
                             "kind": "SCALAR",
-                            "name": "Int",
+                            "name": "String",
                             "ofType": null
                         },
                         "defaultValue": null
@@ -4233,6 +4233,29 @@
                         "type": {
                             "kind": "OBJECT",
                             "name": "GuestList",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "onUpdateGiftOfSpecificParty",
+                        "description": null,
+                        "args": [
+                            {
+                                "name": "number",
+                                "description": null,
+                                "type": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                },
+                                "defaultValue": null
+                            }
+                        ],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "Gift",
                             "ofType": null
                         },
                         "isDeprecated": false,

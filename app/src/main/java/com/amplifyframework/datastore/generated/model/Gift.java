@@ -29,21 +29,21 @@ public final class Gift implements Model {
   public static final QueryField PARTY = field("giftPartyId");
     private final @ModelField(targetType="ID", isRequired = true) String id;
     private final @ModelField(targetType="String", isRequired = true) String title;
-    private final @ModelField(targetType="Int") Integer number;
+    private final @ModelField(targetType="Int") String number;
     public @ModelField(targetType="String") String partyGoer;
     public @ModelField(targetType="Int") Integer timesStolen;
+    public @ModelField(targetType="String") String lastPartyGoer;
     public @ModelField(targetType="User") @BelongsTo(targetName = "giftUserId", type = User.class) User user;
     private final @ModelField(targetType="Party") @BelongsTo(targetName = "giftPartyId", type = Party.class) Party party;
     public String getId() {
         return id;
-
     }
   
   public String getTitle() {
       return title;
   }
   
-  public Integer getNumber() {
+  public String getNumber() {
       return number;
   }
   
@@ -63,7 +63,7 @@ public final class Gift implements Model {
       return party;
   }
   
-  private Gift(String id, String title, Integer number, String partyGoer, Integer timesStolen, User user, Party party) {
+  private Gift(String id, String title, String number, String partyGoer, Integer timesStolen, User user, Party party) {
     this.id = id;
     this.title = title;
     this.number = number;
@@ -171,7 +171,7 @@ public final class Gift implements Model {
   public interface BuildStep {
     Gift build();
     BuildStep id(String id) throws IllegalArgumentException;
-    BuildStep number(Integer number);
+    BuildStep number(String number);
     BuildStep partyGoer(String partyGoer);
     BuildStep timesStolen(Integer timesStolen);
     BuildStep user(User user);
@@ -182,7 +182,7 @@ public final class Gift implements Model {
   public static class Builder implements TitleStep, BuildStep {
     private String id;
     private String title;
-    private Integer number;
+    private String number;
     private String partyGoer;
     private Integer timesStolen;
     private User user;
@@ -209,7 +209,7 @@ public final class Gift implements Model {
     }
     
     @Override
-     public BuildStep number(Integer number) {
+     public BuildStep number(String number) {
         this.number = number;
         return this;
     }
@@ -261,7 +261,7 @@ public final class Gift implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, Integer number, String partyGoer, Integer timesStolen, User user, Party party) {
+    private CopyOfBuilder(String id, String title, String number, String partyGoer, Integer timesStolen, User user, Party party) {
       super.id(id);
       super.title(title)
         .number(number)
@@ -277,7 +277,7 @@ public final class Gift implements Model {
     }
     
     @Override
-     public CopyOfBuilder number(Integer number) {
+     public CopyOfBuilder number(String number) {
       return (CopyOfBuilder) super.number(number);
     }
     
