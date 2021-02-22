@@ -38,8 +38,7 @@ public final class GuestList implements Model {
     private final @ModelField(targetType="Party") @BelongsTo(targetName = "guestListPartyId", type = Party.class) Party party;
     public String getId() {
         return id;
-
-  }
+    }
   
   public String getInviteStatus() {
       return inviteStatus;
