@@ -170,7 +170,7 @@ public class InvitationDetails extends AppCompatActivity {
                         .user(loggedUser) // who *OWNS* the gift
                         .partyGoer("TBD") // who *holds* the gift
 //                        .lastPartyGoer(loggedUser.getUserName())
-                        .number(42)
+                        .number("42")
                         .build();
 
                 Amplify.API.mutate(
