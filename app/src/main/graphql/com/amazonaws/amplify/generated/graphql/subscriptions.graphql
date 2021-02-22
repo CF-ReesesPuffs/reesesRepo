@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # this is an auto generated file. This will be overwritten
 subscription OnUpdateOfSpecificParty($id: ID!) {
   onUpdateOfSpecificParty(id: $id) {
@@ -2046,3 +2047,2053 @@ subscription OnDeleteParty {
     updatedAt
   }
 }
+=======
+# this is an auto generated file. This will be overwritten
+subscription OnUpdateOfSpecificParty($id: ID!) {
+  onUpdateOfSpecificParty(id: $id) {
+    id
+    title
+    hostedOn
+    hostedAt
+    partyDateAWS
+    partyDate
+    price
+    isReady
+    isFinished
+    stealLimit
+    lastGiftStolen
+    theHost {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    users {
+      items {
+        id
+        inviteStatus
+        invitee
+        invitedUser
+        takenTurn
+        turnOrder
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    gifts {
+      items {
+        id
+        title
+        number
+        partyGoer
+        timesStolen
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnCreateOfUserId($invitedUser: String) {
+  onCreateOfUserId(invitedUser: $invitedUser) {
+    id
+    inviteStatus
+    invitee
+    invitedUser
+    takenTurn
+    turnOrder
+    user {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      partyDateAWS
+      partyDate
+      price
+      isReady
+      isFinished
+      stealLimit
+      lastGiftStolen
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteSpecificGuestList($invitedUser: String) {
+  onDeleteSpecificGuestList(invitedUser: $invitedUser) {
+    id
+    inviteStatus
+    invitee
+    invitedUser
+    takenTurn
+    turnOrder
+    user {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      partyDateAWS
+      partyDate
+      price
+      isReady
+      isFinished
+      stealLimit
+      lastGiftStolen
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateHostGuestList($invitee: String) {
+  onUpdateHostGuestList(invitee: $invitee) {
+    id
+    inviteStatus
+    invitee
+    invitedUser
+    takenTurn
+    turnOrder
+    user {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      partyDateAWS
+      partyDate
+      price
+      isReady
+      isFinished
+      stealLimit
+      lastGiftStolen
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateGiftOfSpecificParty($number: String) {
+  onUpdateGiftOfSpecificParty(number: $number) {
+    id
+    title
+    number
+    partyGoer
+    timesStolen
+    user {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      partyDateAWS
+      partyDate
+      price
+      isReady
+      isFinished
+      stealLimit
+      lastGiftStolen
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnCreateUser {
+  onCreateUser {
+    id
+    userName
+    email
+    hosting {
+      items {
+        id
+        title
+        hostedOn
+        hostedAt
+        partyDateAWS
+        partyDate
+        price
+        isReady
+        isFinished
+        stealLimit
+        lastGiftStolen
+        theHost {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        users {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    gifts {
+      items {
+        id
+        title
+        number
+        partyGoer
+        timesStolen
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    parties {
+      items {
+        id
+        inviteStatus
+        invitee
+        invitedUser
+        takenTurn
+        turnOrder
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateUser {
+  onUpdateUser {
+    id
+    userName
+    email
+    hosting {
+      items {
+        id
+        title
+        hostedOn
+        hostedAt
+        partyDateAWS
+        partyDate
+        price
+        isReady
+        isFinished
+        stealLimit
+        lastGiftStolen
+        theHost {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        users {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    gifts {
+      items {
+        id
+        title
+        number
+        partyGoer
+        timesStolen
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    parties {
+      items {
+        id
+        inviteStatus
+        invitee
+        invitedUser
+        takenTurn
+        turnOrder
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteUser {
+  onDeleteUser {
+    id
+    userName
+    email
+    hosting {
+      items {
+        id
+        title
+        hostedOn
+        hostedAt
+        partyDateAWS
+        partyDate
+        price
+        isReady
+        isFinished
+        stealLimit
+        lastGiftStolen
+        theHost {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        users {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    gifts {
+      items {
+        id
+        title
+        number
+        partyGoer
+        timesStolen
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    parties {
+      items {
+        id
+        inviteStatus
+        invitee
+        invitedUser
+        takenTurn
+        turnOrder
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnCreateGuestList {
+  onCreateGuestList {
+    id
+    inviteStatus
+    invitee
+    invitedUser
+    takenTurn
+    turnOrder
+    user {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      partyDateAWS
+      partyDate
+      price
+      isReady
+      isFinished
+      stealLimit
+      lastGiftStolen
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateGuestList {
+  onUpdateGuestList {
+    id
+    inviteStatus
+    invitee
+    invitedUser
+    takenTurn
+    turnOrder
+    user {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      partyDateAWS
+      partyDate
+      price
+      isReady
+      isFinished
+      stealLimit
+      lastGiftStolen
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteGuestList {
+  onDeleteGuestList {
+    id
+    inviteStatus
+    invitee
+    invitedUser
+    takenTurn
+    turnOrder
+    user {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      partyDateAWS
+      partyDate
+      price
+      isReady
+      isFinished
+      stealLimit
+      lastGiftStolen
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnCreateGift {
+  onCreateGift {
+    id
+    title
+    number
+    partyGoer
+    timesStolen
+    user {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      partyDateAWS
+      partyDate
+      price
+      isReady
+      isFinished
+      stealLimit
+      lastGiftStolen
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateGift {
+  onUpdateGift {
+    id
+    title
+    number
+    partyGoer
+    timesStolen
+    user {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      partyDateAWS
+      partyDate
+      price
+      isReady
+      isFinished
+      stealLimit
+      lastGiftStolen
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteGift {
+  onDeleteGift {
+    id
+    title
+    number
+    partyGoer
+    timesStolen
+    user {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    party {
+      id
+      title
+      hostedOn
+      hostedAt
+      partyDateAWS
+      partyDate
+      price
+      isReady
+      isFinished
+      stealLimit
+      lastGiftStolen
+      theHost {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      users {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnCreateParty {
+  onCreateParty {
+    id
+    title
+    hostedOn
+    hostedAt
+    partyDateAWS
+    partyDate
+    price
+    isReady
+    isFinished
+    stealLimit
+    lastGiftStolen
+    theHost {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    users {
+      items {
+        id
+        inviteStatus
+        invitee
+        invitedUser
+        takenTurn
+        turnOrder
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    gifts {
+      items {
+        id
+        title
+        number
+        partyGoer
+        timesStolen
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateParty {
+  onUpdateParty {
+    id
+    title
+    hostedOn
+    hostedAt
+    partyDateAWS
+    partyDate
+    price
+    isReady
+    isFinished
+    stealLimit
+    lastGiftStolen
+    theHost {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    users {
+      items {
+        id
+        inviteStatus
+        invitee
+        invitedUser
+        takenTurn
+        turnOrder
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    gifts {
+      items {
+        id
+        title
+        number
+        partyGoer
+        timesStolen
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteParty {
+  onDeleteParty {
+    id
+    title
+    hostedOn
+    hostedAt
+    partyDateAWS
+    partyDate
+    price
+    isReady
+    isFinished
+    stealLimit
+    lastGiftStolen
+    theHost {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    users {
+      items {
+        id
+        inviteStatus
+        invitee
+        invitedUser
+        takenTurn
+        turnOrder
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    gifts {
+      items {
+        id
+        title
+        number
+        partyGoer
+        timesStolen
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        party {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+>>>>>>> Stashed changes

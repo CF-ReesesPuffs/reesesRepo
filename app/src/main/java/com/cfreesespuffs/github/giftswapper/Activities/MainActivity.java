@@ -87,33 +87,34 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                     },
                     error -> Log.e("Amplify", "Failed to retrieve store")
             );
-        }
 
-        ApiOperation deleteSubscription = Amplify.API.subscribe(
-                ModelSubscription.onDelete(Party.class),
-                subWork -> Log.i("Amp.subOnDelete", "sub is working"),
-                lessParty -> {
-                    Amplify.API.query(
-                            ModelQuery.get(User.class, preferences.getString("userId", "NA")),
-                            partyList -> {
-                                parties.clear();
-                                for (GuestList party : partyList.getData().getParties()) {
-                                    if (party.getInviteStatus().equals("Accepted") && !party.getParty().getIsFinished()) {
-                                        parties.add(party.getParty());
+            ApiOperation deleteSubscription = Amplify.API.subscribe(
+                    ModelSubscription.onDelete(Party.class),
+                    subWork -> Log.i("Amp.subOnDelete", "sub is working"),
+                    lessParty -> {
+                        Amplify.API.query(
+                                ModelQuery.get(User.class, preferences.getString("userId", "NA")),
+                                partyList -> {
+                                    parties.clear();
+                                    for (GuestList party : partyList.getData().getParties()) {
+                                        if (party.getInviteStatus().equals("Accepted") && !party.getParty().getIsFinished()) {
+                                            parties.add(party.getParty());
+                                        }
                                     }
-                                }
-                                Message message = new Message();
-                                message.arg1 = 1;
-                                handleParties.sendMessage(message);
-                            },
-                            error -> Log.e("mp.subscribe", "failed sub query")
-                    );
-                },
-                subError -> Log.e("Amp.subOnDelete", "failed to subscribe on delete"),
-                () -> Log.i("Amp.subOnDelete", "delete sub complete")
-        );
+                                    Message message = new Message();
+                                    message.arg1 = 1;
+                                    handleParties.sendMessage(message);
+                                },
+                                error -> Log.e("mp.subscribe", "failed sub query")
+                        );
+                    },
+                    subError -> Log.e("Amp.subOnDelete", "failed to subscribe on delete"),
+                    () -> Log.i("Amp.subOnDelete", "delete sub complete")
+            );
 
-        deleteSubscription.start();
+            deleteSubscription.start();
+
+        }
     }
 
     @Override
@@ -231,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         partyRecyclerView.setAdapter(new PartyAdapter(parties, this));
     }
 
-//========================================================= user -sign-in
+    //========================================================= user -sign-in
     public void getIsSignedIn() {
         Amplify.Auth.fetchAuthSession(
                 result -> {

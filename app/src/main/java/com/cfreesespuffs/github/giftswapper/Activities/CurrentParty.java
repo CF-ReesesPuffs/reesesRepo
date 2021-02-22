@@ -2,7 +2,6 @@ package com.cfreesespuffs.github.giftswapper.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,10 +16,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +26,6 @@ import com.amplifyframework.api.graphql.GraphQLRequest;
 import com.amplifyframework.api.graphql.SimpleGraphQLRequest;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
-import com.amplifyframework.api.graphql.model.ModelSubscription;
 import com.amplifyframework.auth.AuthUser;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
@@ -125,7 +120,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                         }
                     }
                     for (Gift giftBrought : party.getGifts()) {
-                        giftList.add(giftBrought); // Todo: where to check for stealLimits reached and only gift is currentUser's gift edge case.
+                        giftList.add(giftBrought);
                     }
                     handler.sendEmptyMessage(1);
                 },
@@ -142,7 +137,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                             ModelQuery.get(Party.class, response.getData().getParty().getId()),
                             response2 -> {
                                 Log.i("Sub.sub", "response: " + response2);
-                                giftStolenToCheck = response2.getData().lastGiftStolen; // todo: be sure to hold onto *lastGiftStolen* value.
+                                giftStolenToCheck = response2.getData().lastGiftStolen;
                                 for (GuestList guestList : response2.getData().getUsers())
                                     gLHashMap.replace(guestList.getTurnOrder(), guestList);
                                 for (int i = 1; i < gLHashMap.size() + 1; i++) {
@@ -164,8 +159,8 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 failure -> Log.e("Sub.subGuestList", "failure: " + failure),
                 () -> Log.i("Sub.subGuestList", "Sub is closed"));
 
-        subscription = Amplify.API.subscribe( // Todo: this might be awful code if more than one party is ongoing.
-                ModelSubscription.onUpdate(Gift.class),
+        subscription = Amplify.API.subscribe(
+                getNumberUpdate(partyId),
                 onEstablished -> Log.i(SUBSCRIBETAG, "Subscription established"),
                 createdItem -> {
                     Log.i(SUBSCRIBETAG, "Subscription created: " + createdItem.getData().getTitle());
@@ -322,6 +317,21 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                 document,
                 Collections.singletonMap("invitee", host),
                 GuestList.class,
+                new GsonVariablesSerializer());
+    }
+
+    private GraphQLRequest<Gift> getNumberUpdate(String number) {
+        String document = "subscription giftNumber ($number: String) { "
+                + "onUpdateGiftOfSpecificParty(number: $number) { "
+                + "party { "
+                + "id "
+                + "}"
+                + "}"
+                + "}";
+        return new SimpleGraphQLRequest<>(
+                document,
+                Collections.singletonMap("number", number),
+                Gift.class,
                 new GsonVariablesSerializer());
     }
 
