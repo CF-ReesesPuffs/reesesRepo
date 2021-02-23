@@ -61,7 +61,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
     MenuItem partyDeleter;
     MenuItem guestRemover;
     String partyId;
-    Party pendingParty, lastParty;
+    Party pendingParty;
     int counter = 0;
     Button startParty;
     Intent intent;
@@ -117,6 +117,37 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                             startParty.setText("Go to party!");
                         }
 
+                        if (msg.arg1 == 4) {
+
+                            subscription = Amplify.API.subscribe(
+                                    getGuestListByHost(pendingParty.getTheHost().getUserName()),
+                                    onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
+                                    newGuests -> {
+                                        Amplify.API.query(
+                                                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+                                                response -> {
+                                                    guestList.clear();
+                                                    if (response.getData() != null) { // subscriptions can return a completely empty/null response. ???
+                                                        guestList.addAll(response.getData().getUsers());
+                                                    }
+
+                                                    pendingParty = response.getData();
+
+                                                    Message message = new Message();
+                                                    message.arg1 = 1;
+                                                    handleSingleItem.sendMessage(message);
+                                                },
+                                                error -> Log.e("Amplify", "Failed to retrieve store")
+                                        );
+                                    },
+                                    error -> Log.e("Amp.Sub.Fail", "Failure: " + error),
+                                    () -> Log.i("Amp.Subscribe.details", "Subscription Complete.")
+                            );
+
+                            subscription.start();
+
+                        }
+
                         if (msg.arg1 == 6) {
                             startParty.setEnabled(true);
                             startParty.setText("Party's over!");
@@ -149,6 +180,11 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                         message.arg1 = 3;
                         handleSingleItem.sendMessage(message);
                     }
+
+                    Message message = new Message();
+                    message.arg1 = 4;
+                    handleSingleItem.sendMessage(message);
+
                 },
                 error -> Log.e("Amp.Partyhere", "Error down: " + error)
         );
@@ -313,32 +349,32 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
 
         deleteSubscription.start();
 
-        subscription = Amplify.API.subscribe( // TODO: how to focus/narrow subscription so it doesn't get the firehose of ALL EVERYTHING ALWAYS BEING CHANGED.
-                ModelSubscription.onUpdate(GuestList.class),
-                onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
-                newGuests -> {
-                    Amplify.API.query(
-                            ModelQuery.get(Party.class, intent.getExtras().getString("id")),
-                            response -> {
-                                guestList.clear();
-                                if (response.getData() != null) { // subscriptions can return a completely empty/null response. ???
-                                    guestList.addAll(response.getData().getUsers());
-                                }
-
-                                pendingParty = response.getData();
-
-                                Message message = new Message();
-                                message.arg1 = 1;
-                                handleSingleItem.sendMessage(message);
-                            },
-                            error -> Log.e("Amplify", "Failed to retrieve store")
-                    );
-                },
-                error -> Log.e("Amp.Sub.Fail", "Failure: " + error),
-                () -> Log.i("Amp.Subscribe.details", "Subscription Complete.")
-        );
-
-        subscription.start();
+//        subscription = Amplify.API.subscribe( // TODO: how to focus/narrow subscription so it doesn't get the firehose of ALL EVERYTHING ALWAYS BEING CHANGED.
+//                getGuestListByHost(pendingParty.getTheHost().getUserName()),
+//                onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
+//                newGuests -> {
+//                    Amplify.API.query(
+//                            ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+//                            response -> {
+//                                guestList.clear();
+//                                if (response.getData() != null) { // subscriptions can return a completely empty/null response. ???
+//                                    guestList.addAll(response.getData().getUsers());
+//                                }
+//
+//                                pendingParty = response.getData();
+//
+//                                Message message = new Message();
+//                                message.arg1 = 1;
+//                                handleSingleItem.sendMessage(message);
+//                            },
+//                            error -> Log.e("Amplify", "Failed to retrieve store")
+//                    );
+//                },
+//                error -> Log.e("Amp.Sub.Fail", "Failure: " + error),
+//                () -> Log.i("Amp.Subscribe.details", "Subscription Complete.")
+//        );
+//
+//        subscription.start();
     }
 
     private void connectAdapterToRecycler() {
@@ -443,7 +479,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                 partyAllToDelete -> {
                     List<GuestList> gLToDelete = partyAllToDelete.getData().getUsers();
                     List<Gift> giftsToDelete = partyAllToDelete.getData().getGifts();
-                    
+
                     for (int i = 0; i < gLToDelete.size(); i++) {
                         Amplify.API.mutate(
                                 ModelMutation.delete(gLToDelete.get(i)),
@@ -542,7 +578,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
         Amplify.API.subscribe(getPartyStatus(id),
                 subCheck -> Log.d("Sub.SingleParty", "Connection established for: " + subCheck),
                 response -> { //TODO: add logic for parties ready
-                    if(response.getData().isReady){
+                    if (response.getData().isReady) {
                         pendingParty.isReady = true;
                         Message toParty = new Message();
                         toParty.arg1 = 3;
@@ -560,4 +596,20 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                 () -> Log.i("Amp.SingleParty", "sub is closed")
         );
     }
+
+    private GraphQLRequest<GuestList> getGuestListByHost(String host) {
+        String document = "subscription hostGuestList ($invitee: String) { "
+                + "onUpdateHostGuestList(invitee: $invitee) { "
+                + "party { "
+                + "id "
+                + "}"
+                + "}"
+                + "}";
+        return new SimpleGraphQLRequest<>(
+                document,
+                Collections.singletonMap("invitee", host),
+                GuestList.class,
+                new GsonVariablesSerializer());
+    }
+
 }
