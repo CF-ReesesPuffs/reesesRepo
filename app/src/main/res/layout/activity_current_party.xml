@@ -62,11 +62,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/usersRecycler"
-        android:layout_width="380dp"
-        android:layout_height="200dp"
+        android:layout_width="176dp"
+        android:layout_height="50dp"
         android:background="@drawable/et_style"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintHorizontal_bias="0.025"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
@@ -75,30 +75,29 @@
         android:layout_width="380dp"
         android:layout_height="275dp"
         android:background="@drawable/et_style"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingTop="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView17"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
     <TextView
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:text="Party Members"
+        android:layout_marginTop="8dp"
+        android:text="Turn Order"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/usersRecycler"
+        app:layout_constraintStart_toStartOf="@+id/usersRecycler"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
     <TextView
         android:id="@+id/textView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="8dp"
         android:text="Gifts"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#000000"
