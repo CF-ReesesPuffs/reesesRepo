@@ -5,29 +5,32 @@
     android:id="@+id/frameLayout6"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="3sp"
-    android:paddingBottom="3sp"
+    android:paddingTop="0sp"
+    android:paddingBottom="0sp"
     tools:context=".Fragments.CurrentPartyFrag">
 
     <TextView
         android:id="@+id/userNameOnly"
         android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="4dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="16dp"
         android:text="username"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/turnOrder"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/turnOrder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="116dp"
+        android:layout_marginStart="8dp"
         android:text="turnToTake"
         app:layout_constraintBottom_toBottomOf="@+id/userNameOnly"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/userNameOnly" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/userNameOnly"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
