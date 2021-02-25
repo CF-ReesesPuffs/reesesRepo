@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "584474925180",
+    "project_id": "giftswapper-cb1d5",
+    "storage_bucket": "giftswapper-cb1d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584474925180:android:283806b68a8d30d70551f9",
+        "android_client_info": {
+          "package_name": "com.cfreesespuffs.github.giftswapper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "584474925180-0ej344m7g91l59tlm54vt4qe6gsr0p35.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIvbjFSkAmi4JCzgOaKRuAXJhJZXhBNMI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "584474925180-0ej344m7g91l59tlm54vt4qe6gsr0p35.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

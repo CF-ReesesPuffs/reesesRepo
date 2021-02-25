@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -47,6 +48,8 @@ import com.cfreesespuffs.github.giftswapper.InvitationList;
 import com.cfreesespuffs.github.giftswapper.PendingPage;
 import com.cfreesespuffs.github.giftswapper.R;
 import com.google.android.material.badge.BadgeDrawable;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -65,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     MenuItem bellItem;
     LayerDrawable localLayerDrawable;
     boolean[] isSignedIn = {false};
+    private FirebaseCrashlytics firebaseCrashlytics;
+    private FirebaseAnalytics analytics;
 
     @Override
     public void onResume() {
@@ -136,6 +141,9 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         setContentView(R.layout.activity_main);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        firebaseCrashlytics = FirebaseCrashlytics.getInstance(); // https://github.com/firebase/quickstart-android/blob/master/crash/app/src/main/java/com/google/samples/quickstart/crash/java/MainActivity.java
+        firebaseCrashlytics.log("onCreate"); // https://firebase.google.com/docs/crashlytics/test-implementation?authuser=0&platform=android
+        analytics = FirebaseAnalytics.getInstance(this); //this needed permission to network state
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
@@ -147,6 +155,11 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
         configureAws();
         getIsSignedIn();
+
+        Bundle params = new Bundle();
+        params.putString("user_name", preferences.getString("username", "NA"));
+        params.putString("isSignedIn", isSignedIn.toString());
+        analytics.logEvent("share_image", params);
 
         createSingleIdGuestListSubscription(preferences.getString("username", "NA"));
 

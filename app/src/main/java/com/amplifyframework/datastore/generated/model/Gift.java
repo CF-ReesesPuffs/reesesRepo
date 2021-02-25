@@ -25,6 +25,7 @@ public final class Gift implements Model {
   public static final QueryField NUMBER = field("number");
   public static final QueryField PARTY_GOER = field("partyGoer");
   public static final QueryField TIMES_STOLEN = field("timesStolen");
+  public static final QueryField FILE_KEY = field("fileKey");
   public static final QueryField USER = field("giftUserId");
   public static final QueryField PARTY = field("giftPartyId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
@@ -32,12 +33,13 @@ public final class Gift implements Model {
   private final @ModelField(targetType="String") String number;
   public @ModelField(targetType="String") String partyGoer;
   public @ModelField(targetType="Int") Integer timesStolen;
+  private final @ModelField(targetType="String") String fileKey;
   public @ModelField(targetType="User") @BelongsTo(targetName = "giftUserId", type = User.class) User user;
-  public @ModelField(targetType="Party") @BelongsTo(targetName = "giftPartyId", type = Party.class) Party party;
+  private final @ModelField(targetType="Party") @BelongsTo(targetName = "giftPartyId", type = Party.class) Party party;
   public String getId() {
       return id;
   }
-  
+
   public String getTitle() {
       return title;
   }
@@ -54,6 +56,10 @@ public final class Gift implements Model {
       return timesStolen;
   }
   
+  public String getFileKey() {
+      return fileKey;
+  }
+  
   public User getUser() {
       return user;
   }
@@ -62,12 +68,13 @@ public final class Gift implements Model {
       return party;
   }
   
-  private Gift(String id, String title, String number, String partyGoer, Integer timesStolen, User user, Party party) {
+  private Gift(String id, String title, String number, String partyGoer, Integer timesStolen, String fileKey, User user, Party party) {
     this.id = id;
     this.title = title;
     this.number = number;
     this.partyGoer = partyGoer;
     this.timesStolen = timesStolen;
+    this.fileKey = fileKey;
     this.user = user;
     this.party = party;
   }
@@ -85,6 +92,7 @@ public final class Gift implements Model {
               ObjectsCompat.equals(getNumber(), gift.getNumber()) &&
               ObjectsCompat.equals(getPartyGoer(), gift.getPartyGoer()) &&
               ObjectsCompat.equals(getTimesStolen(), gift.getTimesStolen()) &&
+              ObjectsCompat.equals(getFileKey(), gift.getFileKey()) &&
               ObjectsCompat.equals(getUser(), gift.getUser()) &&
               ObjectsCompat.equals(getParty(), gift.getParty());
       }
@@ -98,6 +106,7 @@ public final class Gift implements Model {
       .append(getNumber())
       .append(getPartyGoer())
       .append(getTimesStolen())
+      .append(getFileKey())
       .append(getUser())
       .append(getParty())
       .toString()
@@ -113,6 +122,7 @@ public final class Gift implements Model {
       .append("number=" + String.valueOf(getNumber()) + ", ")
       .append("partyGoer=" + String.valueOf(getPartyGoer()) + ", ")
       .append("timesStolen=" + String.valueOf(getTimesStolen()) + ", ")
+      .append("fileKey=" + String.valueOf(getFileKey()) + ", ")
       .append("user=" + String.valueOf(getUser()) + ", ")
       .append("party=" + String.valueOf(getParty()))
       .append("}")
@@ -149,6 +159,7 @@ public final class Gift implements Model {
       null,
       null,
       null,
+      null,
       null
     );
   }
@@ -159,6 +170,7 @@ public final class Gift implements Model {
       number,
       partyGoer,
       timesStolen,
+      fileKey,
       user,
       party);
   }
@@ -173,6 +185,7 @@ public final class Gift implements Model {
     BuildStep number(String number);
     BuildStep partyGoer(String partyGoer);
     BuildStep timesStolen(Integer timesStolen);
+    BuildStep fileKey(String fileKey);
     BuildStep user(User user);
     BuildStep party(Party party);
   }
@@ -184,6 +197,7 @@ public final class Gift implements Model {
     private String number;
     private String partyGoer;
     private Integer timesStolen;
+    private String fileKey;
     private User user;
     private Party party;
     @Override
@@ -196,6 +210,7 @@ public final class Gift implements Model {
           number,
           partyGoer,
           timesStolen,
+          fileKey,
           user,
           party);
     }
@@ -222,6 +237,12 @@ public final class Gift implements Model {
     @Override
      public BuildStep timesStolen(Integer timesStolen) {
         this.timesStolen = timesStolen;
+        return this;
+    }
+    
+    @Override
+     public BuildStep fileKey(String fileKey) {
+        this.fileKey = fileKey;
         return this;
     }
     
@@ -260,12 +281,13 @@ public final class Gift implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, String number, String partyGoer, Integer timesStolen, User user, Party party) {
+    private CopyOfBuilder(String id, String title, String number, String partyGoer, Integer timesStolen, String fileKey, User user, Party party) {
       super.id(id);
       super.title(title)
         .number(number)
         .partyGoer(partyGoer)
         .timesStolen(timesStolen)
+        .fileKey(fileKey)
         .user(user)
         .party(party);
     }
@@ -288,6 +310,11 @@ public final class Gift implements Model {
     @Override
      public CopyOfBuilder timesStolen(Integer timesStolen) {
       return (CopyOfBuilder) super.timesStolen(timesStolen);
+    }
+    
+    @Override
+     public CopyOfBuilder fileKey(String fileKey) {
+      return (CopyOfBuilder) super.fileKey(fileKey);
     }
     
     @Override

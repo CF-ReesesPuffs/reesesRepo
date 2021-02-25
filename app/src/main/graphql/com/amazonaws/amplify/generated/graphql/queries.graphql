@@ -42,6 +42,7 @@ query GetUser($id: ID!) {
         number
         partyGoer
         timesStolen
+        fileKey
         user {
           id
           userName
@@ -104,6 +105,24 @@ query GetUser($id: ID!) {
       }
       nextToken
     }
+    friends {
+      items {
+        id
+        userName
+        accepted
+        declined
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
     createdAt
     updatedAt
   }
@@ -143,6 +162,7 @@ query ListUsers(
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -160,6 +180,125 @@ query ListUsers(
           updatedAt
         }
         nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+query GetFriendList($id: ID!) {
+  getFriendList(id: $id) {
+    id
+    userName
+    accepted
+    declined
+    user {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          fileKey
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+query ListFriendLists(
+  $filter: ModelFriendListFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listFriendLists(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      userName
+      accepted
+      declined
+      user {
+        id
+        userName
+        email
+        hosting {
+          nextToken
+        }
+        gifts {
+          nextToken
+        }
+        parties {
+          nextToken
+        }
+        friends {
+          nextToken
+        }
+        createdAt
+        updatedAt
       }
       createdAt
       updatedAt
@@ -204,6 +343,7 @@ query GetGuestList($id: ID!) {
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -217,6 +357,17 @@ query GetGuestList($id: ID!) {
           invitedUser
           takenTurn
           turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
           createdAt
           updatedAt
         }
@@ -250,6 +401,9 @@ query GetGuestList($id: ID!) {
         parties {
           nextToken
         }
+        friends {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -273,6 +427,7 @@ query GetGuestList($id: ID!) {
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -309,6 +464,9 @@ query ListGuestLists(
           nextToken
         }
         parties {
+          nextToken
+        }
+        friends {
           nextToken
         }
         createdAt
@@ -355,6 +513,7 @@ query GetGift($id: ID!) {
     number
     partyGoer
     timesStolen
+    fileKey
     user {
       id
       userName
@@ -384,6 +543,7 @@ query GetGift($id: ID!) {
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -397,6 +557,17 @@ query GetGift($id: ID!) {
           invitedUser
           takenTurn
           turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
           createdAt
           updatedAt
         }
@@ -430,6 +601,9 @@ query GetGift($id: ID!) {
         parties {
           nextToken
         }
+        friends {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -453,6 +627,7 @@ query GetGift($id: ID!) {
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -477,6 +652,7 @@ query ListGifts(
       number
       partyGoer
       timesStolen
+      fileKey
       user {
         id
         userName
@@ -488,6 +664,9 @@ query ListGifts(
           nextToken
         }
         parties {
+          nextToken
+        }
+        friends {
           nextToken
         }
         createdAt
@@ -569,6 +748,7 @@ query GetParty($id: ID!) {
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -582,6 +762,17 @@ query GetParty($id: ID!) {
           invitedUser
           takenTurn
           turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
           createdAt
           updatedAt
         }
@@ -632,6 +823,7 @@ query GetParty($id: ID!) {
         number
         partyGoer
         timesStolen
+        fileKey
         user {
           id
           userName
@@ -694,6 +886,9 @@ query ListPartys(
         parties {
           nextToken
         }
+        friends {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -717,6 +912,7 @@ query ListPartys(
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -771,6 +967,7 @@ query IdByName(
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -784,6 +981,17 @@ query IdByName(
           invitedUser
           takenTurn
           turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
           createdAt
           updatedAt
         }

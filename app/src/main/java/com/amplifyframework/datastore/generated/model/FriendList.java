@@ -1,6 +1,6 @@
 package com.amplifyframework.datastore.generated.model;
 
-import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.annotations.BelongsTo;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,21 +16,20 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
-/** This is an auto generated class representing the User type in your schema. */
+/** This is an auto generated class representing the FriendList type in your schema. */
 @SuppressWarnings("all")
-@ModelConfig(pluralName = "Users")
-@Index(name = "idByName", fields = {"userName"})
-public final class User implements Model {
+@ModelConfig(pluralName = "FriendLists")
+public final class FriendList implements Model {
   public static final QueryField ID = field("id");
   public static final QueryField USER_NAME = field("userName");
-  public static final QueryField EMAIL = field("email");
+  public static final QueryField ACCEPTED = field("accepted");
+  public static final QueryField DECLINED = field("declined");
+  public static final QueryField USER = field("friendListUserId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String userName;
-  private final @ModelField(targetType="String") String email;
-  private final @ModelField(targetType="Party") @HasMany(associatedWith = "theHost", type = Party.class) List<Party> hosting = null;
-  private final @ModelField(targetType="Gift") @HasMany(associatedWith = "user", type = Gift.class) List<Gift> gifts = null;
-  private final @ModelField(targetType="GuestList") @HasMany(associatedWith = "user", type = GuestList.class) List<GuestList> parties = null;
-  private final @ModelField(targetType="FriendList") @HasMany(associatedWith = "user", type = FriendList.class) List<FriendList> friends = null;
+  private final @ModelField(targetType="Boolean") Boolean accepted;
+  private final @ModelField(targetType="Boolean") Boolean declined;
+  private final @ModelField(targetType="User") @BelongsTo(targetName = "friendListUserId", type = User.class) User user;
   public String getId() {
       return id;
   }
@@ -39,30 +38,24 @@ public final class User implements Model {
       return userName;
   }
   
-  public String getEmail() {
-      return email;
+  public Boolean getAccepted() {
+      return accepted;
   }
   
-  public List<Party> getHosting() {
-      return hosting;
+  public Boolean getDeclined() {
+      return declined;
   }
   
-  public List<Gift> getGifts() {
-      return gifts;
+  public User getUser() {
+      return user;
   }
   
-  public List<GuestList> getParties() {
-      return parties;
-  }
-  
-  public List<FriendList> getFriends() {
-      return friends;
-  }
-  
-  private User(String id, String userName, String email) {
+  private FriendList(String id, String userName, Boolean accepted, Boolean declined, User user) {
     this.id = id;
     this.userName = userName;
-    this.email = email;
+    this.accepted = accepted;
+    this.declined = declined;
+    this.user = user;
   }
   
   @Override
@@ -72,10 +65,12 @@ public final class User implements Model {
       } else if(obj == null || getClass() != obj.getClass()) {
         return false;
       } else {
-      User user = (User) obj;
-      return ObjectsCompat.equals(getId(), user.getId()) &&
-              ObjectsCompat.equals(getUserName(), user.getUserName()) &&
-              ObjectsCompat.equals(getEmail(), user.getEmail());
+      FriendList friendList = (FriendList) obj;
+      return ObjectsCompat.equals(getId(), friendList.getId()) &&
+              ObjectsCompat.equals(getUserName(), friendList.getUserName()) &&
+              ObjectsCompat.equals(getAccepted(), friendList.getAccepted()) &&
+              ObjectsCompat.equals(getDeclined(), friendList.getDeclined()) &&
+              ObjectsCompat.equals(getUser(), friendList.getUser());
       }
   }
   
@@ -84,7 +79,9 @@ public final class User implements Model {
     return new StringBuilder()
       .append(getId())
       .append(getUserName())
-      .append(getEmail())
+      .append(getAccepted())
+      .append(getDeclined())
+      .append(getUser())
       .toString()
       .hashCode();
   }
@@ -92,10 +89,12 @@ public final class User implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append("User {")
+      .append("FriendList {")
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("userName=" + String.valueOf(getUserName()) + ", ")
-      .append("email=" + String.valueOf(getEmail()))
+      .append("accepted=" + String.valueOf(getAccepted()) + ", ")
+      .append("declined=" + String.valueOf(getDeclined()) + ", ")
+      .append("user=" + String.valueOf(getUser()))
       .append("}")
       .toString();
   }
@@ -113,7 +112,7 @@ public final class User implements Model {
    * @return an instance of this model with only ID populated
    * @throws IllegalArgumentException Checks that ID is in the proper format
    */
-  public static User justId(String id) {
+  public static FriendList justId(String id) {
     try {
       UUID.fromString(id); // Check that ID is in the UUID format - if not an exception is thrown
     } catch (Exception exception) {
@@ -123,8 +122,10 @@ public final class User implements Model {
               "creating a new object, use the standard builder method and leave the ID field blank."
       );
     }
-    return new User(
+    return new FriendList(
       id,
+      null,
+      null,
       null,
       null
     );
@@ -133,7 +134,9 @@ public final class User implements Model {
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       userName,
-      email);
+      accepted,
+      declined,
+      user);
   }
   public interface UserNameStep {
     BuildStep userName(String userName);
@@ -141,24 +144,30 @@ public final class User implements Model {
   
 
   public interface BuildStep {
-    User build();
+    FriendList build();
     BuildStep id(String id) throws IllegalArgumentException;
-    BuildStep email(String email);
+    BuildStep accepted(Boolean accepted);
+    BuildStep declined(Boolean declined);
+    BuildStep user(User user);
   }
   
 
   public static class Builder implements UserNameStep, BuildStep {
     private String id;
     private String userName;
-    private String email;
+    private Boolean accepted;
+    private Boolean declined;
+    private User user;
     @Override
-     public User build() {
+     public FriendList build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
         
-        return new User(
+        return new FriendList(
           id,
           userName,
-          email);
+          accepted,
+          declined,
+          user);
     }
     
     @Override
@@ -169,8 +178,20 @@ public final class User implements Model {
     }
     
     @Override
-     public BuildStep email(String email) {
-        this.email = email;
+     public BuildStep accepted(Boolean accepted) {
+        this.accepted = accepted;
+        return this;
+    }
+    
+    @Override
+     public BuildStep declined(Boolean declined) {
+        this.declined = declined;
+        return this;
+    }
+    
+    @Override
+     public BuildStep user(User user) {
+        this.user = user;
         return this;
     }
     
@@ -197,10 +218,12 @@ public final class User implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String userName, String email) {
+    private CopyOfBuilder(String id, String userName, Boolean accepted, Boolean declined, User user) {
       super.id(id);
       super.userName(userName)
-        .email(email);
+        .accepted(accepted)
+        .declined(declined)
+        .user(user);
     }
     
     @Override
@@ -209,8 +232,18 @@ public final class User implements Model {
     }
     
     @Override
-     public CopyOfBuilder email(String email) {
-      return (CopyOfBuilder) super.email(email);
+     public CopyOfBuilder accepted(Boolean accepted) {
+      return (CopyOfBuilder) super.accepted(accepted);
+    }
+    
+    @Override
+     public CopyOfBuilder declined(Boolean declined) {
+      return (CopyOfBuilder) super.declined(declined);
+    }
+    
+    @Override
+     public CopyOfBuilder user(User user) {
+      return (CopyOfBuilder) super.user(user);
     }
   }
   
