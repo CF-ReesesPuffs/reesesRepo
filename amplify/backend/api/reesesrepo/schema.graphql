@@ -4,7 +4,16 @@ type User @model @key(name: "idByName", fields: ["userName"], queryField: "idByN
   email: String
   hosting: [Party] @connection(name: "hostList")
   gifts: [Gift] @connection(name: "GiftGroup")
-  parties: [GuestList] @connection(name:"ConUser")
+  parties: [GuestList] @connection(name: "ConUser")
+  friends: [FriendList] @connection(name: "ConFriendList")
+}
+
+type FriendList @model {
+    id: ID!
+    userName: String!
+    accepted: Boolean
+    declined: Boolean
+    user: User @connection(name: "ConFriendList")
 }
 
 type GuestList @model {
@@ -24,6 +33,7 @@ type Gift @model {
   number: String
   partyGoer: String
   timesStolen: Int
+  fileKey: String
   user: User @connection(name: "GiftGroup")
   party: Party @connection(name: "PartyGifts")
 }

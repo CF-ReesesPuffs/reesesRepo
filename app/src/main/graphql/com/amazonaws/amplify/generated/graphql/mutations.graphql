@@ -45,6 +45,7 @@ mutation CreateUser(
         number
         partyGoer
         timesStolen
+        fileKey
         user {
           id
           userName
@@ -99,6 +100,24 @@ mutation CreateUser(
           isFinished
           stealLimit
           lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    friends {
+      items {
+        id
+        userName
+        accepted
+        declined
+        user {
+          id
+          userName
+          email
           createdAt
           updatedAt
         }
@@ -157,6 +176,7 @@ mutation UpdateUser(
         number
         partyGoer
         timesStolen
+        fileKey
         user {
           id
           userName
@@ -211,6 +231,24 @@ mutation UpdateUser(
           isFinished
           stealLimit
           lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    friends {
+      items {
+        id
+        userName
+        accepted
+        declined
+        user {
+          id
+          userName
+          email
           createdAt
           updatedAt
         }
@@ -269,6 +307,7 @@ mutation DeleteUser(
         number
         partyGoer
         timesStolen
+        fileKey
         user {
           id
           userName
@@ -331,6 +370,249 @@ mutation DeleteUser(
       }
       nextToken
     }
+    friends {
+      items {
+        id
+        userName
+        accepted
+        declined
+        user {
+          id
+          userName
+          email
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+mutation CreateFriendList(
+  $input: CreateFriendListInput!
+  $condition: ModelFriendListConditionInput
+) {
+  createFriendList(input: $input, condition: $condition) {
+    id
+    userName
+    accepted
+    declined
+    user {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          fileKey
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+mutation UpdateFriendList(
+  $input: UpdateFriendListInput!
+  $condition: ModelFriendListConditionInput
+) {
+  updateFriendList(input: $input, condition: $condition) {
+    id
+    userName
+    accepted
+    declined
+    user {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          fileKey
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+mutation DeleteFriendList(
+  $input: DeleteFriendListInput!
+  $condition: ModelFriendListConditionInput
+) {
+  deleteFriendList(input: $input, condition: $condition) {
+    id
+    userName
+    accepted
+    declined
+    user {
+      id
+      userName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          fileKey
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
     createdAt
     updatedAt
   }
@@ -375,6 +657,7 @@ mutation CreateGuestList(
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -388,6 +671,17 @@ mutation CreateGuestList(
           invitedUser
           takenTurn
           turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
           createdAt
           updatedAt
         }
@@ -421,6 +715,9 @@ mutation CreateGuestList(
         parties {
           nextToken
         }
+        friends {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -444,6 +741,7 @@ mutation CreateGuestList(
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -496,6 +794,7 @@ mutation UpdateGuestList(
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -509,6 +808,17 @@ mutation UpdateGuestList(
           invitedUser
           takenTurn
           turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
           createdAt
           updatedAt
         }
@@ -542,6 +852,9 @@ mutation UpdateGuestList(
         parties {
           nextToken
         }
+        friends {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -565,6 +878,7 @@ mutation UpdateGuestList(
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -617,6 +931,7 @@ mutation DeleteGuestList(
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -630,6 +945,17 @@ mutation DeleteGuestList(
           invitedUser
           takenTurn
           turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
           createdAt
           updatedAt
         }
@@ -663,6 +989,9 @@ mutation DeleteGuestList(
         parties {
           nextToken
         }
+        friends {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -686,6 +1015,7 @@ mutation DeleteGuestList(
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -708,6 +1038,7 @@ mutation CreateGift(
     number
     partyGoer
     timesStolen
+    fileKey
     user {
       id
       userName
@@ -737,6 +1068,7 @@ mutation CreateGift(
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -750,6 +1082,17 @@ mutation CreateGift(
           invitedUser
           takenTurn
           turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
           createdAt
           updatedAt
         }
@@ -783,6 +1126,9 @@ mutation CreateGift(
         parties {
           nextToken
         }
+        friends {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -806,6 +1152,7 @@ mutation CreateGift(
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -828,6 +1175,7 @@ mutation UpdateGift(
     number
     partyGoer
     timesStolen
+    fileKey
     user {
       id
       userName
@@ -857,6 +1205,7 @@ mutation UpdateGift(
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -870,6 +1219,17 @@ mutation UpdateGift(
           invitedUser
           takenTurn
           turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
           createdAt
           updatedAt
         }
@@ -903,6 +1263,9 @@ mutation UpdateGift(
         parties {
           nextToken
         }
+        friends {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -926,6 +1289,7 @@ mutation UpdateGift(
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -948,6 +1312,7 @@ mutation DeleteGift(
     number
     partyGoer
     timesStolen
+    fileKey
     user {
       id
       userName
@@ -977,6 +1342,7 @@ mutation DeleteGift(
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -990,6 +1356,17 @@ mutation DeleteGift(
           invitedUser
           takenTurn
           turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
           createdAt
           updatedAt
         }
@@ -1023,6 +1400,9 @@ mutation DeleteGift(
         parties {
           nextToken
         }
+        friends {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1046,6 +1426,7 @@ mutation DeleteGift(
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -1103,6 +1484,7 @@ mutation CreateParty(
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -1116,6 +1498,17 @@ mutation CreateParty(
           invitedUser
           takenTurn
           turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
           createdAt
           updatedAt
         }
@@ -1166,6 +1559,7 @@ mutation CreateParty(
         number
         partyGoer
         timesStolen
+        fileKey
         user {
           id
           userName
@@ -1242,6 +1636,7 @@ mutation UpdateParty(
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -1255,6 +1650,17 @@ mutation UpdateParty(
           invitedUser
           takenTurn
           turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
           createdAt
           updatedAt
         }
@@ -1305,6 +1711,7 @@ mutation UpdateParty(
         number
         partyGoer
         timesStolen
+        fileKey
         user {
           id
           userName
@@ -1381,6 +1788,7 @@ mutation DeleteParty(
           number
           partyGoer
           timesStolen
+          fileKey
           createdAt
           updatedAt
         }
@@ -1394,6 +1802,17 @@ mutation DeleteParty(
           invitedUser
           takenTurn
           turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
           createdAt
           updatedAt
         }
@@ -1444,6 +1863,7 @@ mutation DeleteParty(
         number
         partyGoer
         timesStolen
+        fileKey
         user {
           id
           userName
