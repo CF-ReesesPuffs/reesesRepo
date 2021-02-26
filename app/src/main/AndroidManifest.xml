@@ -19,7 +19,8 @@
         <activity android:name=".InvitationList"
             android:label="Invitations" /> <!-- <activity android:name=".PendingPartyFragment" /> -->
         <activity android:name=".Activities.SignupConfirmation" />
-        <activity android:name=".Activities.SignUp" />
+        <activity android:name=".Activities.SignUp"
+            android:windowSoftInputMode="stateVisible"/>
         <activity
             android:name=".Activities.Login"
             android:logo="@mipmap/ic_launcher_round"
