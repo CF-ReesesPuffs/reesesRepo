@@ -1,6 +1,7 @@
 package com.cfreesespuffs.github.giftswapper.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -55,6 +56,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener {
     public ArrayList<Party> parties = new ArrayList<>();
@@ -71,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     private FirebaseCrashlytics firebaseCrashlytics;
     private FirebaseAnalytics analytics;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onResume() {
         super.onResume();
@@ -80,12 +84,12 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                     ModelQuery.get(User.class, preferences.getString("userId", "NA")),
                     response2 -> {
                         pendingParties.clear();
-                        for (GuestList party : response2.getData().getParties()) {
-                            if (party.getInviteStatus().equals("Pending")) {
-                                pendingPartiesHM.put(party.getId(), party.getInvitedUser());
-                                pendingParties.add(party.getParty());
-                            }
-                        }
+                        response2.getData().getParties().stream().filter(guestList -> guestList.getInviteStatus().equals("Pending"))
+                                .forEach(party -> {
+                                    pendingParties.add(party.getParty());
+                                    pendingPartiesHM.put(party.getId(), party.getInvitedUser());
+                                });
+
                         Message message = new Message();
                         message.arg1 = 10;
                         handleCheckLoggedIn.sendMessage(message);
