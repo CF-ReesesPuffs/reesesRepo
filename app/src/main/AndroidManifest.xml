@@ -15,6 +15,7 @@
         android:theme="@style/Theme.Giftswapper">
         <activity android:name=".Activities.EndedParties"></activity>
 <!--        <activity android:name=".Activities.endedPartyJava" />-->
+<!-- https://stackoverflow.com/questions/9111813/how-to-move-the-layout-up-when-the-soft-keyboard-is-shown-android to move layout for keyboard reveal/hide -->
 <!-- https://romannurik.github.io/AndroidAssetStudio/ for the icon batch rendering.  https://stackoverflow.com/questions/37085753/android-studio-image-asset-launcher-icon-background-color/37085828#37085828 -->
         <activity android:name=".InvitationList"
             android:label="Invitations" /> <!-- <activity android:name=".PendingPartyFragment" /> -->

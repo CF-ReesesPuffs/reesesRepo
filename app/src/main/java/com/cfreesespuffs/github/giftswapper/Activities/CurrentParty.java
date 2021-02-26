@@ -59,6 +59,8 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     SharedPreferences preferences;
     String giftStolenToCheck;
 
+    // Todo: if we want to use Android Jetpack Compose, must follow this: https://blog.jetbrains.com/kotlin/2021/02/the-jvm-backend-is-in-beta-let-s-make-it-stable-together/
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
