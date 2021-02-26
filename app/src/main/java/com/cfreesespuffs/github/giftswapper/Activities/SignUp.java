@@ -35,23 +35,18 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        handler = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message msg) {
+        handler = new Handler(Looper.getMainLooper(), msg -> {
+            if (msg.arg1 == 0) {
+                toastEssential("Please choose a different username");
+                Log.e("Amp.EmailMatcher", "Bad email. Bad!");
+            }
 
-                        if (msg.arg1 == 0) {
-                            toastEssential("Please choose a different username");
-                            Log.e("Amp.EmailMatcher", "Bad email. Bad!");
-                        }
+            if (msg.arg1 == 1) {
+                toastEssential("A confirmation code has been sent to your email");
+            }
 
-                        if (msg.arg1 == 1) {
-                            toastEssential("A confirmation code has been sent to your email");
-                        }
-
-                        return false;
-                    }
-                });
+            return false;
+        });
 
         findViewById(R.id.signUpButton).setOnClickListener(view -> {
             EditText userEmail = findViewById(R.id.emailEt);
