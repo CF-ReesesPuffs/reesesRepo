@@ -87,7 +87,7 @@ public class InvitationDetails extends AppCompatActivity {
         Amplify.API.query(
                 ModelQuery.list(User.class, User.ID.eq(preferences.getString("userId", "NA"))),
                 response -> {
-                    for (User user : response.getData()) {
+                    for (User user : response.getData()) { // todo: can be a one liner
                         loggedUser = user;
                     }
                 },
@@ -178,7 +178,7 @@ public class InvitationDetails extends AppCompatActivity {
                         error -> Log.e("AddGiftFail", error.toString())
                 );
 
-                List<GuestList> target = party.getUsers();
+                List<GuestList> target = party.getUsers(); // todo: this can become a lambda.
                 for (GuestList thisGuestList : target) {
                     if (thisGuestList.getInvitedUser().equalsIgnoreCase(loggedUser.getUserName())) {
                         guestList = thisGuestList;
