@@ -67,6 +67,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -146,12 +147,9 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         });
 
         handler = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message message) {
-                        recyclerView.getAdapter().notifyDataSetChanged();
-                        return true;
-                    }
+                message -> {
+                    Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
+                    return true;
                 });
 
         partyDate = findViewById(R.id.editTextDate);
