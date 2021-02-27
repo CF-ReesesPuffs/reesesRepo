@@ -69,7 +69,6 @@ public class InvitationDetails extends AppCompatActivity {
                     hostName.setText(party.getTheHost().getUserName());
 
                     if (!preferences.getString("username", "NA").equals(party.getTheHost().getUserName())) {
-                        Log.e("pref.Username", "we here?");
                         Message message = new Message();
                         message.arg1 = 1;
                         handler.sendMessage(message);
