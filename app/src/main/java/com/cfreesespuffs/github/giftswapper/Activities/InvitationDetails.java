@@ -1,10 +1,12 @@
 package com.cfreesespuffs.github.giftswapper.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -32,6 +34,7 @@ import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class InvitationDetails extends AppCompatActivity {
 
@@ -44,6 +47,7 @@ public class InvitationDetails extends AppCompatActivity {
     SharedPreferences preferences;
     Handler handler;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,12 +164,9 @@ public class InvitationDetails extends AppCompatActivity {
                     error -> Log.e("AddGiftFail", error.toString())
             );
 
-            List<GuestList> target = party.getUsers(); // todo: this can become a lambda.
-            for (GuestList thisGuestList : target) {
-                if (thisGuestList.getInvitedUser().equalsIgnoreCase(loggedUser.getUserName())) {
-                    guestList = thisGuestList;
-                }
-            }
+            GuestList guestList = party.getUsers().stream()
+                    .filter(guest -> guest.getInvitedUser().equalsIgnoreCase(loggedUser.getUserName()))
+                    .findFirst().orElse(null); // https://stackoverflow.com/questions/53719097/retrieve-single-object-from-list-using-java8-stream-api
 
             guestList.inviteStatus = "Accepted";
 
