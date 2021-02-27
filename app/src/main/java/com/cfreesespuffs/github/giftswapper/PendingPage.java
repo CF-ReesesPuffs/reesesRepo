@@ -236,7 +236,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                                         autoSwap(); // also goes to the PostParty activity, and set Party.isFinished() to true.
                                     });
                     twoPlayerSwapAlert.setNegativeButton("No", (dialogInterface, i) -> {
-                    }); // todo: confirm working
+                    });
                     AlertDialog dialog = twoPlayerSwapAlert.create();
                     dialog.show();
                 }
@@ -369,7 +369,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
             builder.setCancelable(true)
                     .setTitle("Party Delete")
                     .setMessage("You looking to delete?")
-                    .setPositiveButton("Confirm", (dialog, which) -> deleteParty()); // todo: confirm is working
+                    .setPositiveButton("Confirm", (dialog, which) -> deleteParty());
             builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
                 // Todo: add analytics here
             });
@@ -390,7 +390,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                         User thisUser = userToGet.getData();
                         for (Gift thisPartysGift : thisUser.getGifts()) {
                             if (thisPartysGift.getParty().getId().equalsIgnoreCase(pendingParty.getId())) {
-                                Amplify.API.mutate( // todo: confirm working
+                                Amplify.API.mutate(
                                         ModelMutation.delete(thisPartysGift),
                                         giftToDelete -> Log.i("Amp.removeGift", "Removed gift"),
                                         error -> Log.e("Amp.removeGift", "Gift NOT GONE")

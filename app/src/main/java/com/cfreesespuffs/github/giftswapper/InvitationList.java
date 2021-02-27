@@ -30,6 +30,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 public class InvitationList extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener {
 
@@ -37,12 +38,13 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
     public ArrayList<Party> parties = new ArrayList<>();
     Handler handleParties;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invitation_list);
 
-        handleParties = new Handler(Looper.getMainLooper(), msg -> { // Todo: confirm is working
+        handleParties = new Handler(Looper.getMainLooper(), msg -> {
                     if (msg.arg1 == 1) {
                     }
                     recyclerView.getAdapter().notifyItemInserted(parties.size());
@@ -55,7 +57,7 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
         Amplify.API.query(
                 ModelQuery.get(User.class, preferences.getString("userId", "NA")),
                 response2 -> {
-                    for (GuestList party : response2.getData().getParties()) { // todo: turn into lambda/iterated.
+                    for (GuestList party : response2.getData().getParties()) {
                         if (party.getInviteStatus().equals("Pending")) {
                             parties.add(party.getParty());
                         }
