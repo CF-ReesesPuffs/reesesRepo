@@ -39,7 +39,6 @@ public class InvitationDetails extends AppCompatActivity {
     Intent intent;
     Party party;
     GuestList guestList;
-    //    int highestNum = 0; // Todo: confirm is working
     EditText giftChosen;
     Button acceptInvite;
     SharedPreferences preferences;
@@ -81,9 +80,7 @@ public class InvitationDetails extends AppCompatActivity {
         Amplify.API.query(
                 ModelQuery.list(User.class, User.ID.eq(preferences.getString("userId", "NA"))),
                 response -> {
-                    for (User user : response.getData()) { // todo: can be a one liner
-                        loggedUser = user;
-                    }
+                    for (User user : response.getData()) loggedUser = user;
                 },
                 error -> Log.e("Amplify.currentUser", "error")
         );
@@ -105,7 +102,7 @@ public class InvitationDetails extends AppCompatActivity {
 
 //=================================================================================================== Decline invite
         Button declineInvite = InvitationDetails.this.findViewById(R.id.declineInvite);
-        declineInvite.setOnClickListener(v -> { // Todo: confirm is working
+        declineInvite.setOnClickListener(v -> {
             List<GuestList> target = party.getUsers();
             for (GuestList thisGuestList : target) {
                 if (thisGuestList.getInvitedUser().equalsIgnoreCase(loggedUser.getUserName())) {
@@ -129,7 +126,7 @@ public class InvitationDetails extends AppCompatActivity {
         acceptInvite = InvitationDetails.this.findViewById(R.id.acceptInvite);
         giftChosen = InvitationDetails.this.findViewById(R.id.giftUserBrings);
 
-        giftChosen.setOnEditorActionListener((v, actionId, event) -> { // Todo: confirm is working
+        giftChosen.setOnEditorActionListener((v, actionId, event) -> {
             if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) | (actionId == EditorInfo.IME_ACTION_DONE)) {
                 acceptInvite.requestFocus();
 
@@ -140,7 +137,7 @@ public class InvitationDetails extends AppCompatActivity {
         });
 
 //============================================= Accept invite
-        acceptInvite.setOnClickListener(v -> { // Todo: confirm is working
+        acceptInvite.setOnClickListener(v -> {
             String giftName = giftChosen.getText().toString();
 
             if (giftName.equals("")) {

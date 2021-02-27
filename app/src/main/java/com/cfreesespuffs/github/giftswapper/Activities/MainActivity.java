@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
 //=====================Populate recyclerView===========================================
 
-        handleParties = new Handler(Looper.getMainLooper(), msg -> { // Todo: confirm is working
+        handleParties = new Handler(Looper.getMainLooper(), msg -> {
             partyRecyclerView.getAdapter().notifyDataSetChanged();
             return false;
         });
@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                             if (party.getInviteStatus().equals("Accepted") && !party.getParty().getIsFinished()) {
                                 parties.add(party.getParty());
                             }
-                            Collections.sort(parties, (party1, party2) -> party1.getPartyDate().compareTo(party2.getPartyDate())); // Todo: confirm is working
+                            Collections.sort(parties, (party1, party2) -> party1.getPartyDate().compareTo(party2.getPartyDate()));
                         }
                         handleParties.sendEmptyMessage(1);
                         Message message = new Message();
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         });
     }
 
-//=========== RecyclerView=======================
+//=========== RecyclerView =======================
 
     private void connectRecycler() {
         partyRecyclerView = findViewById(R.id.party_recyclerview);
@@ -239,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         partyRecyclerView.setAdapter(new PartyAdapter(parties, this));
     }
 
-    //========================================================= user -sign-in
+//========== User Sign-in =======================
     public void getIsSignedIn() {
         Amplify.Auth.fetchAuthSession(
                 result -> {

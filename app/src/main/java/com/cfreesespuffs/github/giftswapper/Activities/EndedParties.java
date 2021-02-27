@@ -51,7 +51,7 @@ public class EndedParties extends AppCompatActivity implements PartyAdapter.Inte
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        oRendHandler = new Handler(Looper.getMainLooper(), msg -> { // Todo: confirms working
+        oRendHandler = new Handler(Looper.getMainLooper(), msg -> {
                     if (msg.arg1 == 1) {
                         Objects.requireNonNull(endedPartiesRv.getAdapter()).notifyDataSetChanged();
                     }

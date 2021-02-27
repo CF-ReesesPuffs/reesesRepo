@@ -171,8 +171,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
             );
         });
 
-//        EditText dateTimeText = findViewById(R.id.editTextDate); // Todo: delete like, a week after 2021-02-25
-
         selectedPriceSpinner.setOnFocusChangeListener((v, hasFocus) -> { // https://stackoverflow.com/questions/23075561/set-focus-on-spinner-when-selected-in-android
             if (hasFocus) {
                 if (selectedPriceSpinner.getWindowToken() != null) {
@@ -287,7 +285,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
             }
 
             //David's find https://github.com/aws-amplify/amplify-android/issues/590
-
             Date dateFormat = date.getTime(); // https://www.candidjava.com/tutorial/java-program-to-convert-calendar-to-date-and-date-to-calendar/#:~:text=Calendar%20object%20to%20Date%20object%2C%20Using%20Calendar.getInstance%20%28%29,object%20to%20Calendar%20object%2C%20Date%20d%3Dnew%20Date%20%281515660075000l%29%3B
 
             SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm a");

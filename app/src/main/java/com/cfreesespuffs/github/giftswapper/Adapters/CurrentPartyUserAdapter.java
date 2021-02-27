@@ -17,15 +17,15 @@ import java.util.ArrayList;
 
 public class CurrentPartyUserAdapter extends RecyclerView.Adapter<CurrentPartyUserAdapter.AdapterViewHolder> {
     public ArrayList<GuestList> userActiveParty;
-    public ArrayList<Gift> giftsBrought;
+//    public ArrayList<Gift> giftsBrought;
     public OnInteractWithTaskListener listener;
 
-    User amplifyUser;
-    Gift giftUpdate;
+//    User amplifyUser;
+//    Gift giftUpdate;
 
     public CurrentPartyUserAdapter(ArrayList<GuestList> userActiveParty, OnInteractWithTaskListener listener) {
         this.userActiveParty = userActiveParty;
-        this.giftsBrought = giftsBrought;
+//        this.giftsBrought = giftsBrought;
         this.listener = listener;
     }
 

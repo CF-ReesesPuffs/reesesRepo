@@ -50,7 +50,7 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
         setSupportActionBar(actionBar);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) { // todo why isn't this used?
             @Override
             public void handleOnBackPressed() {
                 PostParty.this.startActivity(new Intent(PostParty.this, MainActivity.class)); // https://stackoverflow.com/questions/55074497/how-to-add-onbackpressedcallback-to-fragment
@@ -60,19 +60,14 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
         intent = getIntent();
         Button deleteButton = findViewById(R.id.deleteParty);
 
-        handler = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message message) {
-
-                        if (message.arg1 == 5) {
-                            deleteButton.setVisibility(View.VISIBLE);
-                        }
-
-                        connectRecycler();
-                        recyclerView.getAdapter().notifyDataSetChanged();
-                        return false;
+        handler = new Handler(Looper.getMainLooper(), message -> {
+                    if (message.arg1 == 5) {
+                        deleteButton.setVisibility(View.VISIBLE);
                     }
+
+                    connectRecycler();
+                    recyclerView.getAdapter().notifyDataSetChanged();
+                    return false;
                 }
         );
 

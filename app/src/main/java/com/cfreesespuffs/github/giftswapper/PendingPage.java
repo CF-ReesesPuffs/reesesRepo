@@ -356,13 +356,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
             builder.setCancelable(true)
                     .setTitle("Remove Partygoers")
                     .setMessage("Would you like to remove them?")
-                    .setPositiveButton("Yes",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    removePartyGoers();
-                                }
-                            });
+                    .setPositiveButton("Yes", (dialog, which) -> removePartyGoers());
             builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
                 // nothing need be done.
             });
@@ -375,13 +369,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
             builder.setCancelable(true)
                     .setTitle("Party Delete")
                     .setMessage("You looking to delete?")
-                    .setPositiveButton("Confirm",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    deleteParty();
-                                }
-                            });
+                    .setPositiveButton("Confirm", (dialog, which) -> deleteParty()); // todo: confirm is working
             builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
                 // Todo: add analytics here
             });

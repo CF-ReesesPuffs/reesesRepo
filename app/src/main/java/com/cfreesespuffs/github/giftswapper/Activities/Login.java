@@ -33,7 +33,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        handler = new Handler(Looper.getMainLooper(), msg -> { // Todo: confirm is working
+        handler = new Handler(Looper.getMainLooper(), msg -> {
             if (msg.arg1 == 0) {
                 Toast toast = Toast.makeText(getApplicationContext(),
                         "Please check your email and username are correct.", Toast.LENGTH_LONG);
