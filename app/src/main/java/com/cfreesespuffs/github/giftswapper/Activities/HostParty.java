@@ -75,19 +75,15 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
     ArrayList<User> guestList = new ArrayList<>();
     Handler handler, generalHandler;
-
     RecyclerView recyclerView;
     HashMap<String, User> uniqueGuestList = new HashMap<>();
     User currentUser;
     Calendar date; // there are 2 potential calendar options
     TextView partyDate;
-
     Spinner selectedPriceSpinner;
     Spinner stealLimitSpinner;
     boolean spinnerFlag = false;
-
     SharedPreferences preferences;
-
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -98,7 +94,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
         priceSpinner();
         stealLimitSpinner();
-
         selectedPriceSpinner = findViewById(R.id.price_spinner);
         stealLimitSpinner = findViewById(R.id.stealLimit_spinner);
 

@@ -33,24 +33,17 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-//        getActionBar().setDisplayUseLogoEnabled(true);
-
-
-        handler = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message msg) {
-                        if (msg.arg1 == 0) {
-                            Toast toast = Toast.makeText(getApplicationContext(),
-                                    "Please check your email and username are correct.", Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            View toastView = toast.getView();
-                            toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
-                            toast.show();
-                        }
-                        return false;
-                    }
-                });
+        handler = new Handler(Looper.getMainLooper(), msg -> { // Todo: confirm is working
+            if (msg.arg1 == 0) {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Please check your email and username are correct.", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                View toastView = toast.getView();
+                toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+                toast.show();
+            }
+            return false;
+        });
 
         findViewById(R.id.loginButton).setOnClickListener(view -> {
             EditText username = findViewById(R.id.usernameLogin);

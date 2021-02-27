@@ -39,7 +39,7 @@ public class InvitationDetails extends AppCompatActivity {
     Intent intent;
     Party party;
     GuestList guestList;
-    int highestNum = 0;
+    //    int highestNum = 0; // Todo: confirm is working
     EditText giftChosen;
     Button acceptInvite;
     SharedPreferences preferences;
@@ -54,35 +54,30 @@ public class InvitationDetails extends AppCompatActivity {
         intent = getIntent();
         String partyId = intent.getExtras().getString("partyId");
 
-        handler = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message msg) {
+        handler = new Handler(Looper.getMainLooper(), msg -> {
+            if (msg.arg1 == 1) {
+                findViewById(R.id.declineInvite).setVisibility(View.VISIBLE);
+            }
+            return false;
+        });
 
-                        if (msg.arg1 == 1) {
-                            findViewById(R.id.declineInvite).setVisibility(View.VISIBLE);
-                        }
-                        return false;
+        Amplify.API.query(
+                ModelQuery.get(Party.class, partyId),
+                response -> {
+                    party = response.getData();
+                    TextView hostName = InvitationDetails.this.findViewById(R.id.partyHost);
+                    hostName.setText(party.getTheHost().getUserName());
+
+                    if (!preferences.getString("username", "NA").equals(party.getTheHost().getUserName())) {
+                        Log.e("pref.Username", "we here?");
+                        Message message = new Message();
+                        message.arg1 = 1;
+                        handler.sendMessage(message);
                     }
-                });
 
-                Amplify.API.query(
-                        ModelQuery.get(Party.class, partyId),
-                        response -> {
-                            party = response.getData();
-                            TextView hostName = InvitationDetails.this.findViewById(R.id.partyHost);
-                            hostName.setText(party.getTheHost().getUserName());
-
-                            if (!preferences.getString("username", "NA").equals(party.getTheHost().getUserName())) {
-                                Log.e("pref.Username", "we here?");
-                                Message message = new Message();
-                                message.arg1 = 1;
-                                handler.sendMessage(message);
-                            }
-
-                        },
-                        error -> Log.e("Amplify.query", "no party " + error)
-                );
+                },
+                error -> Log.e("Amplify.query", "no party " + error)
+        );
 
         Amplify.API.query(
                 ModelQuery.list(User.class, User.ID.eq(preferences.getString("userId", "NA"))),
@@ -111,92 +106,82 @@ public class InvitationDetails extends AppCompatActivity {
 
 //=================================================================================================== Decline invite
         Button declineInvite = InvitationDetails.this.findViewById(R.id.declineInvite);
-        declineInvite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                List<GuestList> target = party.getUsers();
-                for (GuestList thisGuestList : target) {
-                    if (thisGuestList.getInvitedUser().equalsIgnoreCase(loggedUser.getUserName())) {
-                        guestList = thisGuestList;
-                    }
+        declineInvite.setOnClickListener(v -> { // Todo: confirm is working
+            List<GuestList> target = party.getUsers();
+            for (GuestList thisGuestList : target) {
+                if (thisGuestList.getInvitedUser().equalsIgnoreCase(loggedUser.getUserName())) {
+                    guestList = thisGuestList;
                 }
-
-                guestList.inviteStatus = "Declined";
-
-                Amplify.API.mutate(
-                        ModelMutation.update(guestList),
-                        response -> Log.i("DeclinedInvite", "You declined an invite! " + response.getData().toString()),
-                        error -> Log.e("DeclinedInviteFail", error.toString())
-                );
-
-                Intent gotoMain = new Intent(InvitationDetails.this, MainActivity.class);
-                intent.putExtra("status", guestList.getInviteStatus());
-                InvitationDetails.this.startActivity(gotoMain);
             }
+
+            guestList.inviteStatus = "Declined";
+
+            Amplify.API.mutate(
+                    ModelMutation.update(guestList),
+                    response -> Log.i("DeclinedInvite", "You declined an invite! " + response.getData().toString()),
+                    error -> Log.e("DeclinedInviteFail", error.toString())
+            );
+
+            Intent gotoMain = new Intent(InvitationDetails.this, MainActivity.class);
+            intent.putExtra("status", guestList.getInviteStatus());
+            InvitationDetails.this.startActivity(gotoMain);
         });
 
         acceptInvite = InvitationDetails.this.findViewById(R.id.acceptInvite);
         giftChosen = InvitationDetails.this.findViewById(R.id.giftUserBrings);
 
-        giftChosen.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) | (actionId == EditorInfo.IME_ACTION_DONE)) {
-                    acceptInvite.requestFocus();
+        giftChosen.setOnEditorActionListener((v, actionId, event) -> { // Todo: confirm is working
+            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) | (actionId == EditorInfo.IME_ACTION_DONE)) {
+                acceptInvite.requestFocus();
 
-                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE); // finds the keyboard
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0); // hides the keyboard away in most other cases.
-                }
-                return false; // puts the keyboard away in most other cases.
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE); // finds the keyboard
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0); // hides the keyboard away in most other cases.
             }
+            return false; // puts the keyboard away in most other cases.
         });
 
 //============================================= Accept invite
-        acceptInvite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String giftName = giftChosen.getText().toString();
+        acceptInvite.setOnClickListener(v -> { // Todo: confirm is working
+            String giftName = giftChosen.getText().toString();
 
-                if (giftName.equals("")) {
-                    handlerCheck(1);
-                    return;
-                }
-
-                Gift gift = Gift.builder()
-                        .title(giftName)
-                        .party(party)
-                        .timesStolen(0)
-                        .user(loggedUser) // who *OWNS* the gift
-                        .partyGoer("TBD") // who *holds* the gift
-                        .number(intent.getExtras().getString("partyId", "NA"))
-                        .build();
-
-                Amplify.API.mutate(
-                        ModelMutation.create(gift),
-                        response2 -> Log.i("AddGift", "You saved a new gift to bring, " + giftName),
-                        error -> Log.e("AddGiftFail", error.toString())
-                );
-
-                List<GuestList> target = party.getUsers(); // todo: this can become a lambda.
-                for (GuestList thisGuestList : target) {
-                    if (thisGuestList.getInvitedUser().equalsIgnoreCase(loggedUser.getUserName())) {
-                        guestList = thisGuestList;
-                    }
-                }
-
-                guestList.inviteStatus = "Accepted";
-
-                Amplify.API.mutate(
-                        ModelMutation.update(guestList),
-                        response -> Log.i("AcceptedInvite", "You accepted an invite!"),
-                        error -> Log.e("AcceptedInviteFail", error.toString())
-                );
-
-                Intent gotoPending = new Intent(InvitationDetails.this, MainActivity.class);
-                gotoPending.putExtra("partyName", party.getTitle());
-                InvitationDetails.this.startActivity(gotoPending);
+            if (giftName.equals("")) {
+                handlerCheck(1);
+                return;
             }
+
+            Gift gift = Gift.builder()
+                    .title(giftName)
+                    .party(party)
+                    .timesStolen(0)
+                    .user(loggedUser) // who *OWNS* the gift
+                    .partyGoer("TBD") // who *holds* the gift
+                    .number(intent.getExtras().getString("partyId", "NA"))
+                    .build();
+
+            Amplify.API.mutate(
+                    ModelMutation.create(gift),
+                    response2 -> Log.i("AddGift", "You saved a new gift to bring, " + giftName),
+                    error -> Log.e("AddGiftFail", error.toString())
+            );
+
+            List<GuestList> target = party.getUsers(); // todo: this can become a lambda.
+            for (GuestList thisGuestList : target) {
+                if (thisGuestList.getInvitedUser().equalsIgnoreCase(loggedUser.getUserName())) {
+                    guestList = thisGuestList;
+                }
+            }
+
+            guestList.inviteStatus = "Accepted";
+
+            Amplify.API.mutate(
+                    ModelMutation.update(guestList),
+                    response -> Log.i("AcceptedInvite", "You accepted an invite!"),
+                    error -> Log.e("AcceptedInviteFail", error.toString())
+            );
+
+            Intent gotoPending = new Intent(InvitationDetails.this, MainActivity.class);
+            gotoPending.putExtra("partyName", party.getTitle());
+            InvitationDetails.this.startActivity(gotoPending);
         });
     }
 

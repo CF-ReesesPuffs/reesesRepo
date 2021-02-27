@@ -122,7 +122,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             );
 
             deleteSubscription.start();
-
         }
     }
 
@@ -193,14 +192,10 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
 //=====================Populate recyclerView===========================================
 
-        handleParties = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message msg) {
-                        partyRecyclerView.getAdapter().notifyDataSetChanged();
-                        return false;
-                    }
-                });
+        handleParties = new Handler(Looper.getMainLooper(), msg -> { // Todo: confirm is working
+            partyRecyclerView.getAdapter().notifyDataSetChanged();
+            return false;
+        });
 
         connectRecycler();
 
@@ -217,12 +212,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                             if (party.getInviteStatus().equals("Accepted") && !party.getParty().getIsFinished()) {
                                 parties.add(party.getParty());
                             }
-                            Collections.sort(parties, new Comparator<Party>() {
-                                @Override
-                                public int compare(Party party1, Party party2) {
-                                    return party1.getPartyDate().compareTo(party2.getPartyDate());
-                                }
-                            });
+                            Collections.sort(parties, (party1, party2) -> party1.getPartyDate().compareTo(party2.getPartyDate())); // Todo: confirm is working
                         }
                         handleParties.sendEmptyMessage(1);
                         Message message = new Message();
@@ -357,20 +347,5 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 failure -> Log.e("Sub.SingleGuestList", "failure: " + failure),
                 () -> Log.i("Sub.SingleGuestList", "Sub is closed")
         );
-    }
-
-    private GraphQLRequest<User> getUserByName(String userName) {
-        String document = "query IdByName ($userName: String!) { "
-                + "idByName(userName: $userName) { "
-                + "items { "
-                + "email "
-                + "}"
-                + "}"
-                + "}";
-        return new SimpleGraphQLRequest<>(
-                document,
-                Collections.singletonMap("userName", userName),
-                User.class,
-                new GsonVariablesSerializer());
     }
 }

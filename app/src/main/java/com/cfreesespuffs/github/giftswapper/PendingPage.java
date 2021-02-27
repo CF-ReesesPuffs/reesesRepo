@@ -93,8 +93,6 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
         startParty = PendingPage.this.findViewById(R.id.start_party);
         startParty.setEnabled(false);
 
-        // TODO: set all checkboxes to invisible if NOT host.
-
         handleSingleItem = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
                     @Override
@@ -261,7 +259,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                             counter++;
                             guestList.get(i).turnOrder = counter;
 
-                            Amplify.API.mutate( // don't run this code until we are going to the party
+                            Amplify.API.mutate(
                                     ModelMutation.update(guestList.get(i)),
                                     response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
                                     error -> Log.e("Amplify.turnOrder", "Error: " + error)

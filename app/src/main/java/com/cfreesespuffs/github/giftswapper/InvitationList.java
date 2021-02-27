@@ -42,15 +42,11 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invitation_list);
 
-        handleParties = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message msg) {
-                        if (msg.arg1 == 1) {
-                        }
-                        recyclerView.getAdapter().notifyItemInserted(parties.size());
-                        return false;
+        handleParties = new Handler(Looper.getMainLooper(), msg -> { // Todo: confirm is working
+                    if (msg.arg1 == 1) {
                     }
+                    recyclerView.getAdapter().notifyItemInserted(parties.size());
+                    return false;
                 });
         connectAdapterToRecycler();
 
