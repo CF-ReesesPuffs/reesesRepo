@@ -56,7 +56,7 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
                 ModelQuery.get(User.class, preferences.getString("userId", "NA")),
                 response2 -> {
                     for (GuestList party : response2.getData().getParties()) {
-                        if (party.getInviteStatus().equals("Pending")) {
+                        if (party.getInviteStatus().equals("Pending") && !party.getParty().getIsReady()) {
                             parties.add(party.getParty());
                         }
                     }

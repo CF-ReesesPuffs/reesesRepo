@@ -83,8 +83,10 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             Amplify.API.query(
                     ModelQuery.get(User.class, preferences.getString("userId", "NA")),
                     response2 -> {
+                        Log.e("On.resume", String.valueOf(pendingPartiesHM.size()));
                         pendingParties.clear();
-                        response2.getData().getParties().stream().filter(guestList -> guestList.getInviteStatus().equals("Pending"))
+                        response2.getData().getParties().stream()
+                                .filter(guestList -> guestList.getInviteStatus().equals("Pending") && !guestList.getParty().getIsReady())
                                 .forEach(party -> {
                                     pendingParties.add(party.getParty());
                                     pendingPartiesHM.put(party.getId(), party.getInvitedUser());
@@ -205,7 +207,8 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                     response2 -> {
                         pendingParties.clear();
                         for (GuestList party : response2.getData().getParties()) {
-                            if (party.getInviteStatus().equals("Pending")) {
+                            if (party.getInviteStatus().equals("Pending") && !party.getParty().getIsReady()) {
+                                Log.i("PendingParty.HM", "Party id: " + party.getParty().getId());
                                 pendingPartiesHM.put(party.getId(), party.getInvitedUser());
                                 pendingParties.add(party.getParty());
                             }
@@ -239,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         partyRecyclerView.setAdapter(new PartyAdapter(parties, this));
     }
 
-//========== User Sign-in =======================
+    //========== User Sign-in =======================
     public void getIsSignedIn() {
         Amplify.Auth.fetchAuthSession(
                 result -> {
@@ -349,3 +352,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         );
     }
 }
+
+//                    if (!response.getData().getParty().getIsReady()) {
+//                        Log.i("PendingParties.HM", "partyID: " + response.getData().getId());
