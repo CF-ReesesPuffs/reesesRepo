@@ -45,11 +45,9 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
         setContentView(R.layout.activity_invitation_list);
 
         handleParties = new Handler(Looper.getMainLooper(), msg -> {
-                    if (msg.arg1 == 1) {
-                    }
-                    recyclerView.getAdapter().notifyItemInserted(parties.size());
-                    return false;
-                });
+            recyclerView.getAdapter().notifyItemInserted(parties.size());
+            return false;
+        });
         connectAdapterToRecycler();
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);

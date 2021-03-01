@@ -141,11 +141,10 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
             return false;
         });
 
-        handler = new Handler(Looper.getMainLooper(),
-                message -> {
-                    Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
-                    return true;
-                });
+        handler = new Handler(Looper.getMainLooper(), message -> {
+            Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
+            return true;
+        });
 
         partyDate = findViewById(R.id.editTextDate);
 

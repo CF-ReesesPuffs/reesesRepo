@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
         Bundle params = new Bundle();
         params.putString("user_name", preferences.getString("username", "NA"));
-        params.putString("isSignedIn", isSignedIn.toString());
+        params.putString("isSignedIn", String.valueOf(isSignedIn[0])); // https://www.javacodeexamples.com/java-convert-boolean-to-string-example/338#:~:text=How%20to%20convert%20boolean%20to%20String%20in%20Java?,class%20to%20convert.%20...%203%20Using%20string%20concatenation
         analytics.logEvent("share_image", params);
 
         createSingleIdGuestListSubscription(preferences.getString("username", "NA"));

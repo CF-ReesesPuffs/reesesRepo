@@ -290,17 +290,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
         }
     }
 
-//    private void hostGuestListSub(String host) {
-//        Amplify.API.subscribe(getGuestListByHost(host),
-//                subCheck -> Log.i("Sub.HostGuestList", "success"),
-//                response -> {
-//                    Log.e("Sub.subGuestList", "response: " + response);
-//                    Log.i("Sub.subGuestList", "in response");
-//                },
-//                failure -> Log.e("Sub.subGuestList", "failure: " + failure),
-//                () -> Log.i("Sub.subGuestList", "Sub is closed"));
-//    }
-
     private GraphQLRequest<GuestList> getGuestListByHost(String host) {
         String document = "subscription hostGuestList ($invitee: String) { "
                 + "onUpdateHostGuestList(invitee: $invitee) { "
