@@ -57,19 +57,22 @@ type Party @model {
 
 type Subscription {
   onUpdateOfSpecificParty(id: ID!): Party
-   @aws_subscribe(mutations: ["updateParty"])
+  @aws_subscribe(mutations: ["updateParty"])
 
   onCreateOfUserId(invitedUser: String): GuestList
-   @aws_subscribe(mutations: ["createGuestList"])
+  @aws_subscribe(mutations: ["createGuestList"])
 
-   onDeleteSpecificGuestList(invitedUser: String): GuestList
-   @aws_subscribe(mutations: ["deleteGuestList"])
+  onUpdateOfGuestListByUserId(invitedUser: String): GuestList
+  @aws_subscribe(mutations: ["updateGuestList"])
 
-   onUpdateHostGuestList(invitee: String): GuestList
-   @aws_subscribe(mutations: ["updateGuestList"])
+  onDeleteSpecificGuestList(invitedUser: String): GuestList
+  @aws_subscribe(mutations: ["deleteGuestList"])
 
-   onUpdateGiftOfSpecificParty(number: String): Gift
-   @aws_subscribe(mutations: ["updateGift"])
+  onUpdateHostGuestList(invitee: String): GuestList
+  @aws_subscribe(mutations: ["updateGuestList"])
+
+  onUpdateGiftOfSpecificParty(number: String): Gift
+  @aws_subscribe(mutations: ["updateGift"])
 
 }
 

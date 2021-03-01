@@ -39,7 +39,7 @@ public final class Gift implements Model {
   public String getId() {
       return id;
   }
-
+  
   public String getTitle() {
       return title;
   }
