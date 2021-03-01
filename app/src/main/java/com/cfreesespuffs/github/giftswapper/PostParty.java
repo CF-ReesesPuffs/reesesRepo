@@ -101,8 +101,6 @@ public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWi
         Amplify.API.query(
                 ModelQuery.get(Party.class, intent.getExtras().getString("partyId", "NA")),
                 response -> {
-                    Log.e("Amp.giftqL", "the intent: " + intent.getExtras().getString("partyId"));
-                    Log.e("Amp.giftqL", "the response: " + response);
                     for (Gift gift : response.getData().getGifts()) {
                         endGifts.add(gift);
                     }

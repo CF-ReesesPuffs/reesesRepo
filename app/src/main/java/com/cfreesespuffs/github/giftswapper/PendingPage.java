@@ -25,6 +25,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amazonaws.services.cognitoidentityprovider.model.GetUserAttributeVerificationCodeRequest;
 import com.amplifyframework.api.ApiOperation;
 import com.amplifyframework.api.aws.GsonVariablesSerializer;
 import com.amplifyframework.api.graphql.GraphQLRequest;
@@ -58,6 +59,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
     ApiOperation deleteSubscription;
     ArrayList<GuestList> guestList = new ArrayList<>();
     ArrayList<GuestList> attendeesGuestList = new ArrayList<>();
+    ArrayList<GuestList> declinedGL = new ArrayList<>();
     MenuItem partyDeleter;
     MenuItem guestRemover;
     String partyId;
@@ -205,6 +207,8 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                     if (guestList.get(i).getInviteStatus().contains("Accepted")) {
                         counter++;
                         attendeesGuestList.add(guestList.get(i));
+                    } else {
+                        declinedGL.add(guestList.get(i));
                     }
                 }
 
@@ -220,19 +224,19 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                             .setMessage("There are only two participants. Would you like to automatically swap gifts?")
                             .setPositiveButton("Yes",
                                     (dialog, which) -> {
-                                        for (GuestList guest : attendeesGuestList) {
-                                            Amplify.API.mutate( // don't run this code until we are going to the party
-                                                    ModelMutation.update(guest),
-                                                    response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
-                                                    error -> Log.e("Amplify.turnOrder", "Error: " + error)
-                                            );
-                                        }
+//                                        for (GuestList guest : attendeesGuestList) {
+//                                            Amplify.API.mutate( // don't run this code until we are going to the party
+//                                                    ModelMutation.update(guest),
+//                                                    response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
+//                                                    error -> Log.e("Amplify.turnOrder", "Error: " + error)
+//                                            );
+//                                        }
 
-                                        try { // makes system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
-                                            Thread.sleep(1000);
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
+//                                        try { // makes system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
+//                                            Thread.sleep(1000);
+//                                        } catch (InterruptedException e) {
+//                                            e.printStackTrace();
+//                                        }
                                         autoSwap(); // also goes to the PostParty activity, and set Party.isFinished() to true.
                                     });
                     twoPlayerSwapAlert.setNegativeButton("No", (dialogInterface, i) -> {
@@ -243,8 +247,9 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
 
                 if (!pendingParty.isReady && counter > 2) {
                     counter = 0;
+                    declined(declinedGL);
                     for (int i = 0; i < guestList.size(); i++) {
-                        if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).getTurnOrder() == 0) {
+                        if (guestList.get(i).getInviteStatus().contains("Accepted") && guestList.get(i).getTurnOrder() == 0) { // todo: shouldn't need the "getTurnOrder()..." conditional.
                             counter++;
                             guestList.get(i).turnOrder = counter;
 
@@ -468,6 +473,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
         Amplify.API.query(
                 ModelMutation.update(pendingParty),
                 response2 -> {
+                    declined(declinedGL);
                     subscription.cancel();
                     Intent headToPostParty = new Intent(PendingPage.this, PostParty.class);
                     headToPostParty.putExtra("title", pendingParty.getTitle());
@@ -514,7 +520,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
     private void createSinglePartySubscription(String id) {
         Amplify.API.subscribe(getPartyStatus(id),
                 subCheck -> Log.d("Sub.SingleParty", "Connection established for: " + subCheck),
-                response -> { //TODO: add logic for parties ready
+                response -> {
                     if (response.getData().isReady) {
                         pendingParty.isReady = true;
                         Message toParty = new Message();
@@ -547,5 +553,17 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                 Collections.singletonMap("invitee", host),
                 GuestList.class,
                 new GsonVariablesSerializer());
+    }
+
+    public void declined(ArrayList<GuestList> toDecline) {
+        for (GuestList user : toDecline) {
+            user.inviteStatus = "Declined";
+
+            Amplify.API.mutate(
+                    ModelMutation.update(user),
+                    response -> Log.i("gl.update", "updated: " + user),
+                    error -> Log.e("gl.error", "Error: " + error)
+            );
+        }
     }
 }

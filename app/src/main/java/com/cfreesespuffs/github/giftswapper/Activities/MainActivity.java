@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                                 .filter(guestList -> guestList.getInviteStatus().equals("Pending") && !guestList.getParty().getIsReady())
                                 .forEach(party -> {
                                     pendingParties.add(party.getParty());
+                                    Log.e("query.ppHM", "party put id: " + party.getId());
                                     pendingPartiesHM.put(party.getId(), party.getInvitedUser());
                                 });
 
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
         firebaseCrashlytics = FirebaseCrashlytics.getInstance(); // https://github.com/firebase/quickstart-android/blob/master/crash/app/src/main/java/com/google/samples/quickstart/crash/java/MainActivity.java
         firebaseCrashlytics.log("onCreate"); // https://firebase.google.com/docs/crashlytics/test-implementation?authuser=0&platform=android
-        analytics = FirebaseAnalytics.getInstance(this); //this needed permission to network state
+        analytics = FirebaseAnalytics.getInstance(this); //this needed permission to network state, and "wake lock"
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
@@ -167,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         analytics.logEvent("share_image", params);
 
         createSingleIdGuestListSubscription(preferences.getString("username", "NA"));
+        updateGuestListForBell(preferences.getString("username", "NA"));
 
 //===================================== handler check logged
         handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
@@ -209,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                         for (GuestList party : response2.getData().getParties()) {
                             if (party.getInviteStatus().equals("Pending") && !party.getParty().getIsReady()) {
                                 Log.i("PendingParty.HM", "Party id: " + party.getParty().getId());
-                                pendingPartiesHM.put(party.getId(), party.getInvitedUser());
+                                pendingPartiesHM.put(party.getParty().getId(), party.getInvitedUser());
                                 pendingParties.add(party.getParty());
                             }
                             if (party.getInviteStatus().equals("Accepted") && !party.getParty().getIsFinished()) {
@@ -323,11 +325,15 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     }
 
     private GraphQLRequest<GuestList> getPendingParty(String username) { // https://graphql.org/blog/subscriptions-in-graphql-and-relay/
-        String document = "subscription getPendingParty($invitedUser: String) { "
+        String document = "subscription getPendingParty($invitedUser: String) { " // todo: only return what is needed.
                 + "onCreateOfUserId(invitedUser: $invitedUser) { "
                 + "inviteStatus "
                 + "invitedUser "
                 + "id "
+                + "party { "
+                + "id "
+                + "isReady"
+                + "}"
                 + "}"
                 + "}";
         return new SimpleGraphQLRequest<>(
@@ -341,7 +347,8 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         Amplify.API.subscribe(getPendingParty(username),
                 subCheck -> Log.d("Sub.SingleGuestList", "Connection established. this is ID: " + username),
                 response -> {
-                    pendingPartiesHM.put(response.getData().getId(), response.getData().getInvitedUser());
+                    Log.e("Create.gLSub", "response: " + response);
+                    pendingPartiesHM.put(response.getData().getParty().getId(), response.getData().getInvitedUser());
                     pendingParties.add(response.getData().getParty());
                     Message message = new Message();
                     message.arg1 = 10;
@@ -351,7 +358,43 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 () -> Log.i("Sub.SingleGuestList", "Sub is closed")
         );
     }
-}
 
-//                    if (!response.getData().getParty().getIsReady()) {
-//                        Log.i("PendingParties.HM", "partyID: " + response.getData().getId());
+    private void updateGuestListForBell(String username) {
+        Amplify.API.subscribe(updateGuestListByUserId(username),
+                subCheck -> Log.d("Sub.updateGuestList", "Connection est. This is ID: " + username),
+                response -> {
+                    Party thisParty = response.getData().getParty();
+                    Log.e("PendingP.HM", "This party: " + thisParty);
+                    if (thisParty.getIsReady()) { // party.getInviteStatus().equals("Pending") &&
+                        Log.i("PendingParty.HM", "Party id: " + thisParty.getId());
+                        pendingPartiesHM.remove(thisParty.getId());
+                        Log.e("PendingP.HMremove", String.valueOf(pendingPartiesHM.size()));
+                        Message message = new Message();
+                        message.arg1 = 10;
+                        handleCheckLoggedIn.sendMessage(message);
+                    }
+                },
+                failure -> Log.e("Sub.SingleGuestList", "failure: " + failure),
+                () -> Log.i("Sub.SingleGuestList", "Sub is closed")
+        );
+    }
+
+    private GraphQLRequest<GuestList> updateGuestListByUserId(String username) { // todo: only return what is needed.
+        String document = "subscription updatePendingParty($invitedUser: String) { "
+                + "onUpdateOfGuestListByUserId(invitedUser: $invitedUser) { "
+                + "inviteStatus "
+                + "invitedUser "
+                + "id "
+                + "party { "
+                + "id "
+                + "isReady"
+                + "}"
+                + "}"
+                + "}";
+        return new SimpleGraphQLRequest<>(
+                document,
+                Collections.singletonMap("invitedUser", username),
+                GuestList.class,
+                new GsonVariablesSerializer());
+    }
+}
