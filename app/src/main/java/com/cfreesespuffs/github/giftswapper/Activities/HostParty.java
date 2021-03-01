@@ -67,6 +67,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -74,19 +75,15 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
     ArrayList<User> guestList = new ArrayList<>();
     Handler handler, generalHandler;
-
     RecyclerView recyclerView;
     HashMap<String, User> uniqueGuestList = new HashMap<>();
     User currentUser;
     Calendar date; // there are 2 potential calendar options
     TextView partyDate;
-
     Spinner selectedPriceSpinner;
     Spinner stealLimitSpinner;
     boolean spinnerFlag = false;
-
     SharedPreferences preferences;
-
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -97,7 +94,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
         priceSpinner();
         stealLimitSpinner();
-
         selectedPriceSpinner = findViewById(R.id.price_spinner);
         stealLimitSpinner = findViewById(R.id.stealLimit_spinner);
 
@@ -142,18 +138,13 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 Toast.makeText(this, "We're sorry, we only support up to 10 guest right now. :(", Toast.LENGTH_LONG).show();
             }
 
-
             return false;
         });
 
-        handler = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message message) {
-                        recyclerView.getAdapter().notifyDataSetChanged();
-                        return true;
-                    }
-                });
+        handler = new Handler(Looper.getMainLooper(), message -> {
+            Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
+            return true;
+        });
 
         partyDate = findViewById(R.id.editTextDate);
 
@@ -179,15 +170,10 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
             );
         });
 
-        EditText dateTimeText = findViewById(R.id.editTextDate);
-
-        selectedPriceSpinner.setOnFocusChangeListener(new View.OnFocusChangeListener() { // https://stackoverflow.com/questions/23075561/set-focus-on-spinner-when-selected-in-android
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    if (selectedPriceSpinner.getWindowToken() != null) {
-                        selectedPriceSpinner.performClick();
-                    }
+        selectedPriceSpinner.setOnFocusChangeListener((v, hasFocus) -> { // https://stackoverflow.com/questions/23075561/set-focus-on-spinner-when-selected-in-android
+            if (hasFocus) {
+                if (selectedPriceSpinner.getWindowToken() != null) {
+                    selectedPriceSpinner.performClick();
                 }
             }
         });
@@ -205,29 +191,23 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
             }
         });
 
-        stealLimitSpinner.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    if (stealLimitSpinner.getWindowToken() != null) {
-                        stealLimitSpinner.performClick();
-                    }
+        stealLimitSpinner.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                if (stealLimitSpinner.getWindowToken() != null) {
+                    stealLimitSpinner.performClick();
                 }
             }
         });
 
-        dateTimeText.setOnFocusChangeListener(new View.OnFocusChangeListener() { // https://stackoverflow.com/questions/4165414/how-to-hide-soft-keyboard-on-android-after-clicking-outside-edittext
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                    showDateTimePicker();
-                }
+        partyDate.setOnFocusChangeListener((v, hasFocus) -> { // https://stackoverflow.com/questions/4165414/how-to-hide-soft-keyboard-on-android-after-clicking-outside-edittext
+            if (hasFocus) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                showDateTimePicker();
             }
         });
 
-        dateTimeText.setOnClickListener((view) -> {
+        partyDate.setOnClickListener((view) -> {
             if (view != null) { // https://medium.com/cs-random-thoughts-on-tech/android-force-hide-system-keyboard-while-retaining-edittexts-focus-9d3fd8dbed32
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -235,26 +215,23 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
             showDateTimePicker();
         });
 
-        foundGuest.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
-                    Amplify.API.query(
-                            ModelQuery.list(User.class, User.USER_NAME.beginsWith(foundGuest.getText().toString())),
-                            response -> {
-                                for (User user : response.getData()) {
-                                    if (!uniqueGuestList.containsKey(user.getUserName())) {
-                                        uniqueGuestList.put(user.getUserName(), user);
-                                        guestList.add(user);
-                                    }
-                                    handler.sendEmptyMessage(1);
+        foundGuest.setOnEditorActionListener((v, actionId, event) -> {
+            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                Amplify.API.query(
+                        ModelQuery.list(User.class, User.USER_NAME.beginsWith(foundGuest.getText().toString())),
+                        response -> {
+                            for (User user : response.getData()) {
+                                if (!uniqueGuestList.containsKey(user.getUserName())) {
+                                    uniqueGuestList.put(user.getUserName(), user);
+                                    guestList.add(user);
                                 }
-                            },
-                            error -> Log.e("Amplify", "failed to find user")
-                    );
-                }
-                return false; // false hides keyboard. true leaves it up.
+                                handler.sendEmptyMessage(1);
+                            }
+                        },
+                        error -> Log.e("Amplify", "failed to find user")
+                );
             }
+            return false; // false hides keyboard. true leaves it up.
         });
 
         recyclerView = findViewById(R.id.guestSearchRecycler);
@@ -262,123 +239,118 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         recyclerView.setAdapter(new HostPartyAdapter(guestList, this));
 
         Button addParty = HostParty.this.findViewById(R.id.button_createParty);
-        addParty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        addParty.setOnClickListener(view -> {
 
-                TextView partyName = findViewById(R.id.textViewPartyName);
+            TextView partyName = findViewById(R.id.textViewPartyName);
+            Set guestsToInvite = ((HostPartyAdapter) recyclerView.getAdapter()).usersToAdd;
+            List<User> guestsToInviteList = new ArrayList();
+            guestsToInviteList.addAll(guestsToInvite);
 
-                Set guestsToInvite = ((HostPartyAdapter) recyclerView.getAdapter()).usersToAdd;
-                List<User> guestsToInviteList = new ArrayList();
-                guestsToInviteList.addAll(guestsToInvite);
-
-                boolean flag = false;
-                for (User guest : guestsToInviteList) { // todo: convert to hashmap, this issue will be resolved and could be refactored away.
-                    if (guest.getUserName().equalsIgnoreCase(authUser.getUsername())) flag = true;
-                }
-                if (!flag) guestsToInviteList.add(currentUser);
-
-                if (guestsToInviteList.size() < 2) { // party can't be created with only one participant (only the host, really)
-                    Message noGuestsMsg = new Message();
-                    noGuestsMsg.arg1 = 1;
-                    generalHandler.sendMessage(noGuestsMsg);
-                    return;
-                }
-
-                if (guestsToInviteList.size() > 10) {
-                    Message message = new Message();
-                    message.arg1 = 10;
-                    generalHandler.sendMessage(message);
-                    return;
-                }
-
-                String nameOfParty = partyName.getText().toString();
-                String priceOfParty = selectedPriceSpinner.getSelectedItem().toString();
-
-                if (nameOfParty.equals("")) {
-                    Message message = new Message();
-                    message.arg1 = 4;
-                    generalHandler.sendMessage(message);
-                    return;
-                }
-
-                if (date == null) {
-                    Message message = new Message();
-                    message.arg1 = 3;
-                    generalHandler.sendMessage(message);
-                    return;
-                }
-
-                //David's find https://github.com/aws-amplify/amplify-android/issues/590
-
-                Date dateFormat = date.getTime(); // https://www.candidjava.com/tutorial/java-program-to-convert-calendar-to-date-and-date-to-calendar/#:~:text=Calendar%20object%20to%20Date%20object%2C%20Using%20Calendar.getInstance%20%28%29,object%20to%20Calendar%20object%2C%20Date%20d%3Dnew%20Date%20%281515660075000l%29%3B
-
-                SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm a");
-                String prettyTime = formatTime.format(dateFormat);
-
-                SimpleDateFormat formatDate = new SimpleDateFormat("MMMM dd, yyyy");
-                String prettyDate = formatDate.format(dateFormat);
-
-                SimpleDateFormat sdf;
-                sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-                sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-                String text = sdf.format(dateFormat);
-
-                int stealLimitNumber = (int) stealLimitSpinner.getSelectedItem();
-
-                Party party;
-                party = Party.builder()
-                        .title(nameOfParty)
-                        .hostedAt(prettyTime)
-                        .hostedOn(prettyDate)
-                        .partyDate(text)
-                        .price(priceOfParty)
-                        .theHost(currentUser)
-                        .isReady(false)
-                        .isFinished(false)
-                        .stealLimit(stealLimitNumber)
-                        .lastGiftStolen("")
-                        .build();
-
-                Amplify.API.mutate(
-                        ModelMutation.create(party),
-                        response -> {
-                            Party party2 = response.getData();
-                            for (User guest : guestsToInviteList) {
-                                GuestList inviteStatus = GuestList.builder()
-                                        .inviteStatus("Pending")
-                                        .user(guest)
-                                        .invitee(currentUser.getUserName())
-                                        .invitedUser(guest.getUserName())
-                                        .takenTurn(false)
-                                        .party(party2)
-                                        .turnOrder(0)
-                                        .build();
-
-                                Amplify.API.mutate(
-                                        ModelMutation.create(inviteStatus),
-                                        response2 -> Log.i("Amplify.API", "Users are now pending!!!"),
-                                        error -> Log.e("Amplify/API", "Message failed " + error)
-                                );
-                            }
-
-                            Intent intent = new Intent(HostParty.this, MainActivity.class);
-                            intent.putExtra("title", party2.getTitle());
-                            intent.putExtra("date", party2.getHostedOn());
-                            intent.putExtra("time", party2.getHostedAt());
-                            intent.putExtra("price", party2.getPrice());
-
-                            intent.putExtra("id", party2.getId());
-                            HostParty.this.startActivity(intent);
-                        },
-                        error -> Log.e("Amplify/API", "Message failed " + error)
-                );
+            boolean flag = false;
+            for (User guest : guestsToInviteList) { // todo: convert to hashmap, this issue will be resolved and could be refactored away.
+                if (guest.getUserName().equalsIgnoreCase(authUser.getUsername())) flag = true;
             }
+            if (!flag) guestsToInviteList.add(currentUser);
+
+            if (guestsToInviteList.size() < 2) { // party can't be created with only one participant (only the host, really)
+                Message noGuestsMsg = new Message();
+                noGuestsMsg.arg1 = 1;
+                generalHandler.sendMessage(noGuestsMsg);
+                return;
+            }
+
+            if (guestsToInviteList.size() > 10) {
+                Message message = new Message();
+                message.arg1 = 10;
+                generalHandler.sendMessage(message);
+                return;
+            }
+
+            String nameOfParty = partyName.getText().toString();
+            String priceOfParty = selectedPriceSpinner.getSelectedItem().toString();
+
+            if (nameOfParty.equals("")) {
+                Message message = new Message();
+                message.arg1 = 4;
+                generalHandler.sendMessage(message);
+                return;
+            }
+
+            if (date == null) {
+                Message message = new Message();
+                message.arg1 = 3;
+                generalHandler.sendMessage(message);
+                return;
+            }
+
+            //David's find https://github.com/aws-amplify/amplify-android/issues/590
+            Date dateFormat = date.getTime(); // https://www.candidjava.com/tutorial/java-program-to-convert-calendar-to-date-and-date-to-calendar/#:~:text=Calendar%20object%20to%20Date%20object%2C%20Using%20Calendar.getInstance%20%28%29,object%20to%20Calendar%20object%2C%20Date%20d%3Dnew%20Date%20%281515660075000l%29%3B
+
+            SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm a");
+            String prettyTime = formatTime.format(dateFormat);
+
+            SimpleDateFormat formatDate = new SimpleDateFormat("MMMM dd, yyyy");
+            String prettyDate = formatDate.format(dateFormat);
+
+            SimpleDateFormat sdf;
+            sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+            String text = sdf.format(dateFormat);
+
+            int stealLimitNumber = (int) stealLimitSpinner.getSelectedItem();
+
+            Party party;
+            party = Party.builder()
+                    .title(nameOfParty)
+                    .hostedAt(prettyTime)
+                    .hostedOn(prettyDate)
+                    .partyDate(text)
+                    .price(priceOfParty)
+                    .theHost(currentUser)
+                    .isReady(false)
+                    .isFinished(false)
+                    .stealLimit(stealLimitNumber)
+                    .lastGiftStolen("")
+                    .build();
+
+            Amplify.API.mutate(
+                    ModelMutation.create(party),
+                    response -> {
+                        Party party2 = response.getData();
+                        for (User guest : guestsToInviteList) {
+                            GuestList inviteStatus = GuestList.builder()
+                                    .inviteStatus("Pending")
+                                    .user(guest)
+                                    .invitee(currentUser.getUserName())
+                                    .invitedUser(guest.getUserName())
+                                    .takenTurn(false)
+                                    .party(party2)
+                                    .turnOrder(0)
+                                    .build();
+
+                            Amplify.API.mutate(
+                                    ModelMutation.create(inviteStatus),
+                                    response2 -> Log.i("Amplify.API", "Users are now pending!!!"),
+                                    error -> Log.e("Amplify/API", "Message failed " + error)
+                            );
+                        }
+
+                        Intent intent = new Intent(HostParty.this, MainActivity.class);
+                        intent.putExtra("title", party2.getTitle());
+                        intent.putExtra("date", party2.getHostedOn());
+                        intent.putExtra("time", party2.getHostedAt());
+                        intent.putExtra("price", party2.getPrice());
+
+                        intent.putExtra("id", party2.getId());
+                        HostParty.this.startActivity(intent);
+                    },
+                    error -> Log.e("Amplify/API", "Message failed " + error)
+            );
         });
     }
 
     public void priceSpinner() {
-        String[] pricePoints = {"$0 - $10", "$11 - $20", "$21 - $30", "$31 - $40"};
+        String[] pricePoints = {"$0 - $10", "$11 - $20", "$21 - $30", "$31 - $40"}; // todo: change this to a "CHOOSE ONE" option as the first option, but then will need to write a validation check so that "CHOOSE ONE" doesn't become a price range option.
         Spinner spinner = findViewById(R.id.price_spinner);
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, pricePoints);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -396,21 +368,15 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
     public void showDateTimePicker() { // https://stackoverflow.com/questions/2055509/how-to-create-a-date-and-time-picker-in-android
         Calendar currentDate = Calendar.getInstance();
         date = Calendar.getInstance();
-        new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                date.set(year, monthOfYear, dayOfMonth);
-                new TimePickerDialog(HostParty.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        date.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        date.set(Calendar.MINUTE, minute);
-                        Message dateMessage = new Message();
-                        dateMessage.arg1 = 2;
-                        generalHandler.sendMessage(dateMessage);
-                    }
-                }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), false).show();
-            }
+        new DatePickerDialog(this, (view, year, monthOfYear, dayOfMonth) -> {
+            date.set(year, monthOfYear, dayOfMonth);
+            new TimePickerDialog(HostParty.this, (view1, hourOfDay, minute) -> {
+                date.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                date.set(Calendar.MINUTE, minute);
+                Message dateMessage = new Message();
+                dateMessage.arg1 = 2;
+                generalHandler.sendMessage(dateMessage);
+            }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), false).show();
         }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
     }
 

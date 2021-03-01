@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AF0000"
-    tools:context=".Activities.UserProfile">
+    android:background="#AF0000">
 
     <ImageButton
         android:id="@+id/homePartyDetailButton3"

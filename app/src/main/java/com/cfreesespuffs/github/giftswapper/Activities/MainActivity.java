@@ -1,6 +1,7 @@
 package com.cfreesespuffs.github.giftswapper.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -55,6 +56,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener {
     public ArrayList<Party> parties = new ArrayList<>();
@@ -71,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     private FirebaseCrashlytics firebaseCrashlytics;
     private FirebaseAnalytics analytics;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onResume() {
         super.onResume();
@@ -80,12 +84,12 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                     ModelQuery.get(User.class, preferences.getString("userId", "NA")),
                     response2 -> {
                         pendingParties.clear();
-                        for (GuestList party : response2.getData().getParties()) {
-                            if (party.getInviteStatus().equals("Pending")) {
-                                pendingPartiesHM.put(party.getId(), party.getInvitedUser());
-                                pendingParties.add(party.getParty());
-                            }
-                        }
+                        response2.getData().getParties().stream().filter(guestList -> guestList.getInviteStatus().equals("Pending"))
+                                .forEach(party -> {
+                                    pendingParties.add(party.getParty());
+                                    pendingPartiesHM.put(party.getId(), party.getInvitedUser());
+                                });
+
                         Message message = new Message();
                         message.arg1 = 10;
                         handleCheckLoggedIn.sendMessage(message);
@@ -118,7 +122,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             );
 
             deleteSubscription.start();
-
         }
     }
 
@@ -158,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
         Bundle params = new Bundle();
         params.putString("user_name", preferences.getString("username", "NA"));
-        params.putString("isSignedIn", isSignedIn.toString());
+        params.putString("isSignedIn", String.valueOf(isSignedIn[0])); // https://www.javacodeexamples.com/java-convert-boolean-to-string-example/338#:~:text=How%20to%20convert%20boolean%20to%20String%20in%20Java?,class%20to%20convert.%20...%203%20Using%20string%20concatenation
         analytics.logEvent("share_image", params);
 
         createSingleIdGuestListSubscription(preferences.getString("username", "NA"));
@@ -189,14 +192,10 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
 //=====================Populate recyclerView===========================================
 
-        handleParties = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message msg) {
-                        partyRecyclerView.getAdapter().notifyDataSetChanged();
-                        return false;
-                    }
-                });
+        handleParties = new Handler(Looper.getMainLooper(), msg -> {
+            partyRecyclerView.getAdapter().notifyDataSetChanged();
+            return false;
+        });
 
         connectRecycler();
 
@@ -213,12 +212,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                             if (party.getInviteStatus().equals("Accepted") && !party.getParty().getIsFinished()) {
                                 parties.add(party.getParty());
                             }
-                            Collections.sort(parties, new Comparator<Party>() {
-                                @Override
-                                public int compare(Party party1, Party party2) {
-                                    return party1.getPartyDate().compareTo(party2.getPartyDate());
-                                }
-                            });
+                            Collections.sort(parties, (party1, party2) -> party1.getPartyDate().compareTo(party2.getPartyDate()));
                         }
                         handleParties.sendEmptyMessage(1);
                         Message message = new Message();
@@ -237,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         });
     }
 
-//=========== RecyclerView=======================
+//=========== RecyclerView =======================
 
     private void connectRecycler() {
         partyRecyclerView = findViewById(R.id.party_recyclerview);
@@ -245,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         partyRecyclerView.setAdapter(new PartyAdapter(parties, this));
     }
 
-    //========================================================= user -sign-in
+//========== User Sign-in =======================
     public void getIsSignedIn() {
         Amplify.Auth.fetchAuthSession(
                 result -> {
@@ -353,20 +347,5 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 failure -> Log.e("Sub.SingleGuestList", "failure: " + failure),
                 () -> Log.i("Sub.SingleGuestList", "Sub is closed")
         );
-    }
-
-    private GraphQLRequest<User> getUserByName(String userName) {
-        String document = "query IdByName ($userName: String!) { "
-                + "idByName(userName: $userName) { "
-                + "items { "
-                + "email "
-                + "}"
-                + "}"
-                + "}";
-        return new SimpleGraphQLRequest<>(
-                document,
-                Collections.singletonMap("userName", userName),
-                User.class,
-                new GsonVariablesSerializer());
     }
 }

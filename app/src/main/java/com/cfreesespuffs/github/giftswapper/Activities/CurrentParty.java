@@ -59,6 +59,8 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
     SharedPreferences preferences;
     String giftStolenToCheck;
 
+    // Todo: if we want to use Android Jetpack Compose, must follow this: https://blog.jetbrains.com/kotlin/2021/02/the-jvm-backend-is-in-beta-let-s-make-it-stable-together/
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,16 +90,12 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
             CurrentParty.this.startActivity(intent);
         });
 
-        handler = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message msg) {
-                        connectAdapterToRecycler();
-                        connectAdapterToRecycler2();
-                        recyclerView.getAdapter().notifyDataSetChanged();
-                        return false;
-                    }
-                });
+        handler = new Handler(Looper.getMainLooper(), msg -> {
+            connectAdapterToRecycler();
+            connectAdapterToRecycler2();
+            recyclerView.getAdapter().notifyDataSetChanged();
+            return false;
+        });
 
         handlerGeneral = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 1) {
@@ -119,9 +117,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                 currentTurn = user.getTurnOrder();
                         }
                     }
-                    for (Gift giftBrought : party.getGifts()) {
-                        giftList.add(giftBrought);
-                    }
+                    giftList.addAll(party.getGifts()); // todo: confirm is working
                     handler.sendEmptyMessage(1);
                 },
                 error -> Log.e("Amplify", "Failed to retrieve store")
@@ -187,7 +183,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                     headToPostParty.putExtra("when", String.valueOf(completedParty.HOSTED_ON));
                                     headToPostParty.putExtra("setTime", String.valueOf(completedParty.HOSTED_AT));
 
-                                    subscription.cancel(); // KILL THE SUBSCRIPTION. BURN IT DOWN.
+                                    subscription.cancel();
                                     guestListByHost.cancel();
                                     party.isFinished = true;
 
@@ -292,17 +288,6 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
 
             Toast.makeText(this, "You chose a gift! " + gift.getTitle(), Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void hostGuestListSub(String host) {
-        Amplify.API.subscribe(getGuestListByHost(host),
-                subCheck -> Log.i("Sub.HostGuestList", "success"),
-                response -> {
-                    Log.e("Sub.subGuestList", "response: " + response);
-                    Log.i("Sub.subGuestList", "in response");
-                },
-                failure -> Log.e("Sub.subGuestList", "failure: " + failure),
-                () -> Log.i("Sub.subGuestList", "Sub is closed"));
     }
 
     private GraphQLRequest<GuestList> getGuestListByHost(String host) {

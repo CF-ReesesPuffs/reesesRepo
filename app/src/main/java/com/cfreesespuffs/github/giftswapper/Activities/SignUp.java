@@ -35,33 +35,18 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        handler = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message msg) {
+        handler = new Handler(Looper.getMainLooper(), msg -> {
+            if (msg.arg1 == 0) {
+                toastEssential("Please choose a different username");
+                Log.e("Amp.EmailMatcher", "Bad email. Bad!");
+            }
 
-                        if (msg.arg1 == 0) {
-                            Toast toast = Toast.makeText(getApplicationContext(),
-                                    "Please choose a different username", Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            View toastView = toast.getView();
-                            toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
-                            toast.show();
-                            Log.e("Amp.EmailMatcher", "Bad email. Bad!");
-                        }
+            if (msg.arg1 == 1) {
+                toastEssential("A confirmation code has been sent to your email");
+            }
 
-                        if (msg.arg1 == 1) {
-                            Toast toast = Toast.makeText(getApplicationContext(),
-                                    "A confirmation code has been sent to your email", Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            View toastView = toast.getView();
-                            toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
-                            toast.show();
-                        }
-
-                        return false;
-                    }
-                });
+            return false;
+        });
 
         findViewById(R.id.signUpButton).setOnClickListener(view -> {
             EditText userEmail = findViewById(R.id.emailEt);
@@ -76,43 +61,23 @@ public class SignUp extends AppCompatActivity {
             if (matcher.matches()) {
                 Log.i("Amp.EmailMatcher", "The Email is Good! Clear!");
             } else {
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Enter valid email", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                View toastView = toast.getView();
-                toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
-                toast.show();
+                toastEssential("Enter valid email");
                 Log.e("Amp.EmailMatcher", "Bad email. Bad!");
                 return;
             }
 
             if (userName.getText().toString().contains(" ") || userName.getText().toString().equals("")) {
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Username must be filled and cannot contain spaces.", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                View toastView = toast.getView();
-                toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
-                toast.show();
+                toastEssential("Username must be filled and cannot contain spaces.");
                 return;
             }
 
             if (password.getText().toString().length() < 8) { // https://stackoverflow.com/questions/2506876/how-to-change-position-of-toast-in-android
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Password must be at least 8 characters and no spaces.", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                View toastView = toast.getView(); // find the whole of the toast
-                toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN); //  to keep the rounded corners https://stackoverflow.com/questions/31175601/how-can-i-change-default-toast-message-color-and-background-color-in-android
-                toast.show();
+                toastEssential("Password must be at least 8 characters and no spaces.");
                 return;
             }
 
             if (!password.getText().toString().equals(passwordTwo.getText().toString())) { // https://www.geeksforgeeks.org/character-equals-method-in-java-with-examples/ because PVO forgot that != doesn't work on strings.
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Your password doesn't match.", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                View toastView = toast.getView();
-                toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
-                toast.show();
+                toastEssential("Your password doesn't match.");
                 return;
             }
 
@@ -140,4 +105,14 @@ public class SignUp extends AppCompatActivity {
             );
         });
     }
+
+    public void toastEssential(String text) {
+        Toast toast = Toast.makeText(getApplicationContext(),
+                text, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        View toastView = toast.getView();
+        toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+        toast.show();
+    }
+
 }

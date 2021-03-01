@@ -93,70 +93,64 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
         startParty = PendingPage.this.findViewById(R.id.start_party);
         startParty.setEnabled(false);
 
-        // TODO: set all checkboxes to invisible if NOT host.
+        handleSingleItem = new Handler(Looper.getMainLooper(), msg -> {
+            if (msg.arg1 == 1) {
+                connectAdapterToRecycler();
+                recyclerView.getAdapter().notifyDataSetChanged();
+            }
 
-        handleSingleItem = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message msg) {
-                        if (msg.arg1 == 1) {
-                            connectAdapterToRecycler();
-                            recyclerView.getAdapter().notifyDataSetChanged();
-                        }
+            if (msg.arg1 == 2) {
+                startParty.setText("Go to party!");
+                startParty.setEnabled(true);
+                partyDeleter.setVisible(true);
+                guestRemover.setVisible(true);
+                connectAdapterToRecycler();
+            }
 
-                        if (msg.arg1 == 2) {
-                            startParty.setText("Go to party!");
-                            startParty.setEnabled(true);
-                            partyDeleter.setVisible(true);
-                            guestRemover.setVisible(true);
-                            connectAdapterToRecycler();
-                        }
+            if (msg.arg1 == 3) {
+                startParty.setEnabled(true);
+                startParty.setText("Go to party!");
+            }
 
-                        if (msg.arg1 == 3) {
-                            startParty.setEnabled(true);
-                            startParty.setText("Go to party!");
-                        }
+            if (msg.arg1 == 4) {
 
-                        if (msg.arg1 == 4) {
+                subscription = Amplify.API.subscribe(
+                        getGuestListByHost(pendingParty.getTheHost().getUserName()),
+                        onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
+                        newGuests -> {
+                            Amplify.API.query(
+                                    ModelQuery.get(Party.class, intent.getExtras().getString("id")),
+                                    response -> {
+                                        guestList.clear();
+                                        if (response.getData() != null) { // subscriptions can return a completely empty/null response. ???
+                                            guestList.addAll(response.getData().getUsers());
+                                        }
 
-                            subscription = Amplify.API.subscribe(
-                                    getGuestListByHost(pendingParty.getTheHost().getUserName()),
-                                    onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
-                                    newGuests -> {
-                                        Amplify.API.query(
-                                                ModelQuery.get(Party.class, intent.getExtras().getString("id")),
-                                                response -> {
-                                                    guestList.clear();
-                                                    if (response.getData() != null) { // subscriptions can return a completely empty/null response. ???
-                                                        guestList.addAll(response.getData().getUsers());
-                                                    }
+                                        pendingParty = response.getData();
 
-                                                    pendingParty = response.getData();
-
-                                                    Message message = new Message();
-                                                    message.arg1 = 1;
-                                                    handleSingleItem.sendMessage(message);
-                                                },
-                                                error -> Log.e("Amplify", "Failed to retrieve store")
-                                        );
+                                        Message message = new Message();
+                                        message.arg1 = 1;
+                                        handleSingleItem.sendMessage(message);
                                     },
-                                    error -> Log.e("Amp.Sub.Fail", "Failure: " + error),
-                                    () -> Log.i("Amp.Subscribe.details", "Subscription Complete.")
+                                    error -> Log.e("Amplify", "Failed to retrieve store")
                             );
+                        },
+                        error -> Log.e("Amp.Sub.Fail", "Failure: " + error),
+                        () -> Log.i("Amp.Subscribe.details", "Subscription Complete.")
+                );
 
-                            subscription.start();
+                subscription.start();
 
-                        }
+            }
 
-                        if (msg.arg1 == 6) {
-                            startParty.setEnabled(true);
-                            startParty.setText("Party's over!");
-                        }
+            if (msg.arg1 == 6) {
+                startParty.setEnabled(true);
+                startParty.setText("Party's over!");
+            }
 
-                        recyclerView.getAdapter().notifyItemInserted(guestList.size()); // might not be the right place...
-                        return false;
-                    }
-                });
+            recyclerView.getAdapter().notifyItemInserted(guestList.size()); // might not be the right place...
+            return false;
+        });
 
         connectAdapterToRecycler();
         intent = getIntent();
@@ -225,30 +219,23 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                             .setTitle("Two Party Giftswapping")
                             .setMessage("There are only two participants. Would you like to automatically swap gifts?")
                             .setPositiveButton("Yes",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            for (GuestList guest : attendeesGuestList) {
-                                                Amplify.API.mutate( // don't run this code until we are going to the party
-                                                        ModelMutation.update(guest),
-                                                        response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
-                                                        error -> Log.e("Amplify.turnOrder", "Error: " + error)
-                                                );
-                                            }
-
-                                            try { // makes system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
-                                                Thread.sleep(1000);
-                                            } catch (InterruptedException e) {
-                                                e.printStackTrace();
-                                            }
-                                            autoSwap(); // also goes to the PostParty activity, and set Party.isFinished() to true.
+                                    (dialog, which) -> {
+                                        for (GuestList guest : attendeesGuestList) {
+                                            Amplify.API.mutate( // don't run this code until we are going to the party
+                                                    ModelMutation.update(guest),
+                                                    response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
+                                                    error -> Log.e("Amplify.turnOrder", "Error: " + error)
+                                            );
                                         }
+
+                                        try { // makes system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
+                                            Thread.sleep(1000);
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                        autoSwap(); // also goes to the PostParty activity, and set Party.isFinished() to true.
                                     });
-                    twoPlayerSwapAlert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            return;
-                        }
+                    twoPlayerSwapAlert.setNegativeButton("No", (dialogInterface, i) -> {
                     });
                     AlertDialog dialog = twoPlayerSwapAlert.create();
                     dialog.show();
@@ -261,7 +248,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                             counter++;
                             guestList.get(i).turnOrder = counter;
 
-                            Amplify.API.mutate( // don't run this code until we are going to the party
+                            Amplify.API.mutate(
                                     ModelMutation.update(guestList.get(i)),
                                     response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
                                     error -> Log.e("Amplify.turnOrder", "Error: " + error)
@@ -273,17 +260,14 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                             .setTitle("let the party begin!")
                             .setMessage("the confetti is launched")
                             .setPositiveButton("huzzah",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            pendingParty.isReady = true;
-                                            Amplify.API.mutate(
-                                                    ModelMutation.update(pendingParty),
-                                                    response -> Log.i("Amp.partyReady", "all set to go"),
-                                                    error -> Log.e("Amp.partyReady", "it did not go")
-                                            );
-                                            goToParty();
-                                        }
+                                    (dialogInterface, i) -> {
+                                        pendingParty.isReady = true;
+                                        Amplify.API.mutate(
+                                                ModelMutation.update(pendingParty),
+                                                response -> Log.i("Amp.partyReady", "all set to go"),
+                                                error -> Log.e("Amp.partyReady", "it did not go")
+                                        );
+                                        goToParty();
                                     });
                     AlertDialog dialog = finalPartyAlert.create();
                     dialog.show();
@@ -348,33 +332,6 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
         );
 
         deleteSubscription.start();
-
-//        subscription = Amplify.API.subscribe( // TODO: how to focus/narrow subscription so it doesn't get the firehose of ALL EVERYTHING ALWAYS BEING CHANGED.
-//                getGuestListByHost(pendingParty.getTheHost().getUserName()),
-//                onEstablished -> Log.i("Amp.Subscribe", "Subscription to Guestlist: Success"),
-//                newGuests -> {
-//                    Amplify.API.query(
-//                            ModelQuery.get(Party.class, intent.getExtras().getString("id")),
-//                            response -> {
-//                                guestList.clear();
-//                                if (response.getData() != null) { // subscriptions can return a completely empty/null response. ???
-//                                    guestList.addAll(response.getData().getUsers());
-//                                }
-//
-//                                pendingParty = response.getData();
-//
-//                                Message message = new Message();
-//                                message.arg1 = 1;
-//                                handleSingleItem.sendMessage(message);
-//                            },
-//                            error -> Log.e("Amplify", "Failed to retrieve store")
-//                    );
-//                },
-//                error -> Log.e("Amp.Sub.Fail", "Failure: " + error),
-//                () -> Log.i("Amp.Subscribe.details", "Subscription Complete.")
-//        );
-//
-//        subscription.start();
     }
 
     private void connectAdapterToRecycler() {
@@ -399,18 +356,9 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
             builder.setCancelable(true)
                     .setTitle("Remove Partygoers")
                     .setMessage("Would you like to remove them?")
-                    .setPositiveButton("Yes",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    removePartyGoers();
-                                }
-                            });
-            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // nothing need be done.
-                }
+                    .setPositiveButton("Yes", (dialog, which) -> removePartyGoers());
+            builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+                // nothing need be done.
             });
             AlertDialog dialog = builder.create();
             dialog.show();
@@ -421,18 +369,9 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
             builder.setCancelable(true)
                     .setTitle("Party Delete")
                     .setMessage("You looking to delete?")
-                    .setPositiveButton("Confirm",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    deleteParty();
-                                }
-                            });
-            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // Todo: add analytics here
-                }
+                    .setPositiveButton("Confirm", (dialog, which) -> deleteParty());
+            builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+                // Todo: add analytics here
             });
             AlertDialog dialog = builder.create();
             dialog.show();
@@ -451,10 +390,8 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                         User thisUser = userToGet.getData();
                         for (Gift thisPartysGift : thisUser.getGifts()) {
                             if (thisPartysGift.getParty().getId().equalsIgnoreCase(pendingParty.getId())) {
-                                Gift giftToRemove = thisPartysGift;
-
                                 Amplify.API.mutate(
-                                        ModelMutation.delete(giftToRemove),
+                                        ModelMutation.delete(thisPartysGift),
                                         giftToDelete -> Log.i("Amp.removeGift", "Removed gift"),
                                         error -> Log.e("Amp.removeGift", "Gift NOT GONE")
                                 );
@@ -611,5 +548,4 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                 GuestList.class,
                 new GsonVariablesSerializer());
     }
-
 }

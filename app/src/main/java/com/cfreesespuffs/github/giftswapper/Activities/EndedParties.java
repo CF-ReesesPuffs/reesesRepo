@@ -51,15 +51,11 @@ public class EndedParties extends AppCompatActivity implements PartyAdapter.Inte
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        oRendHandler = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message msg) {
-                        if (msg.arg1 == 1) {
-                            Objects.requireNonNull(endedPartiesRv.getAdapter()).notifyDataSetChanged();
-                        }
-                        return false;
+        oRendHandler = new Handler(Looper.getMainLooper(), msg -> {
+                    if (msg.arg1 == 1) {
+                        Objects.requireNonNull(endedPartiesRv.getAdapter()).notifyDataSetChanged();
                     }
+                    return false;
                 });
 
         endedPartiesRv = findViewById(R.id.giftRecycler);

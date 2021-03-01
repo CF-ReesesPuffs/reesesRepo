@@ -30,6 +30,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 public class InvitationList extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener {
 
@@ -37,21 +38,16 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
     public ArrayList<Party> parties = new ArrayList<>();
     Handler handleParties;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invitation_list);
 
-        handleParties = new Handler(Looper.getMainLooper(),
-                new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(@NonNull Message msg) {
-                        if (msg.arg1 == 1) {
-                        }
-                        recyclerView.getAdapter().notifyItemInserted(parties.size());
-                        return false;
-                    }
-                });
+        handleParties = new Handler(Looper.getMainLooper(), msg -> {
+            recyclerView.getAdapter().notifyItemInserted(parties.size());
+            return false;
+        });
         connectAdapterToRecycler();
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
