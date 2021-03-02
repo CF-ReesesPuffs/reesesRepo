@@ -9,7 +9,7 @@
         android:id="@+id/pending_page_menu_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gold_yellow"
+        android:background="@color/green"
         android:minHeight="?attr/actionBarSize"
         app:title=" " />
 
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:text="Party Details"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/text_white"
         android:textSize="24sp"
         app:layout_anchor="@+id/pending_page_menu_toolbar"
         app:layout_anchorGravity="center" />
@@ -39,6 +39,6 @@
         app:iconGravity="textEnd"
         app:iconPadding="4dp"
         app:iconSize="60dp"
-        app:iconTint="#000000" />
+        app:iconTint="#fff" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

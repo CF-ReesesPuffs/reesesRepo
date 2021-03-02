@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/post_part_actionbar"
+        android:id="@+id/attended_party_actionbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/green"
@@ -18,11 +18,11 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:paddingStart="18dp"
-        android:text="Party Finale!"
-        android:textAlignment="center"
+        android:text="Attended Parties"
+        android:textAlignment="viewStart"
         android:textColor="@color/text_white"
         android:textSize="20sp"
-        app:layout_anchor="@+id/post_part_actionbar"
+        app:layout_anchor="@+id/attended_party_actionbar"
         app:layout_anchorGravity="center|start" />
 
     <Button
