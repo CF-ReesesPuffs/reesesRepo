@@ -7,21 +7,23 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/post_part_actionbar"
+        android:id="@+id/attended_party_actionbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gold_yellow"
+        android:background="@color/green"
         app:title=" " />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:paddingStart="18dp"
         android:text="Attended Parties"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        app:layout_anchor="@+id/post_part_actionbar"
-        app:layout_anchorGravity="center" />
+        android:textAlignment="viewStart"
+        android:textColor="@color/text_white"
+        android:textSize="20sp"
+        app:layout_anchor="@+id/attended_party_actionbar"
+        app:layout_anchorGravity="center|start" />
 
     <Button
         android:id="@+id/customHomeButton"
@@ -38,6 +40,6 @@
         app:iconGravity="textEnd"
         app:iconPadding="4dp"
         app:iconSize="60dp"
-        app:iconTint="#000000" />
+        app:iconTint="#fff" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -3,6 +3,7 @@ package com.cfreesespuffs.github.giftswapper.Activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +16,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Button;
 
 import com.amplifyframework.api.aws.GsonVariablesSerializer;
 import com.amplifyframework.api.graphql.GraphQLRequest;
@@ -47,7 +49,9 @@ public class EndedParties extends AppCompatActivity implements PartyAdapter.Inte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ended_party);
+        setContentView(R.layout.attended_party_navigation);
+        Toolbar actionBar = findViewById(R.id.attended_party_actionbar);
+        setSupportActionBar(actionBar);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -57,6 +61,12 @@ public class EndedParties extends AppCompatActivity implements PartyAdapter.Inte
                     }
                     return false;
                 });
+
+        Button homeDetailButton = EndedParties.this.findViewById(R.id.customHomeButton);
+        homeDetailButton.setOnClickListener((view) -> {
+            Intent goToMain = new Intent(EndedParties.this, MainActivity.class);
+            EndedParties.this.startActivity(goToMain);
+        });
 
         endedPartiesRv = findViewById(R.id.giftRecycler);
         endedPartiesRv.setLayoutManager(new LinearLayoutManager(this));

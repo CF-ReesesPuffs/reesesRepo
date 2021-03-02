@@ -20,7 +20,7 @@
             android:id="@+id/currentPartyToolBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/gold_yellow"
+            android:background="@color/green"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_constraintEnd_toEndOf="parent"
@@ -50,11 +50,12 @@
             android:id="@+id/currentPartyTitleTb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="14dp"
+            android:fontFamily="sans-serif-medium"
             android:text="TEST"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="@+id/currentPartyToolBar"
+            android:textColor="@color/text_white"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -65,9 +66,9 @@
         android:layout_width="176dp"
         android:layout_height="50dp"
         android:background="@drawable/et_style"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.025"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/giftRecycler"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/giftRecycler"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <androidx.recyclerview.widget.RecyclerView
