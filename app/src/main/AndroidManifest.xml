@@ -15,6 +15,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Giftswapper">
 
+        <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 IMPORTANT ONLY USE THIS WHILE TESTING-->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713" />
+
+<!--        -->
+
+        <!-- use for actual deployment: android:value="ca-app-pub-1868733521318045~2955131906" -->
+
         <activity android:name=".Activities.EndedParties"
             android:theme="@style/Theme.AllNoActionBarNone"
             android:label="Attended Parties"/>

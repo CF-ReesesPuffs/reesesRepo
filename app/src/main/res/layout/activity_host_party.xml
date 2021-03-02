@@ -5,93 +5,99 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#AF0000"
-
     tools:context=".Activities.HostParty">
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/gsAdview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        app:adSize="BANNER"
+        app:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_createParty" />
 
     <TextView
         android:id="@+id/textView_party"
         android:layout_width="106dp"
         android:layout_height="20dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/autour_one"
         android:text="Party Name"
         android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.167"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewPartyName"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/textViewPartyName"
         android:layout_width="312dp"
         android:layout_height="36dp"
-        android:layout_marginStart="40dp"
         android:background="@drawable/et_style"
         android:elegantTextHeight="true"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/editTextDate"
         app:layout_constraintTop_toBottomOf="@+id/textView_party" />
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="46dp"
         android:layout_height="18dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/autour_one"
         android:text="When"
         android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.138"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/editTextDate"
         app:layout_constraintTop_toBottomOf="@+id/textViewPartyName" />
 
     <EditText
         android:id="@+id/editTextDate"
         android:layout_width="312dp"
         android:layout_height="36dp"
-        android:layout_marginStart="40dp"
         android:background="@drawable/et_style"
         android:elegantTextHeight="true"
         android:ems="10"
         android:focusableInTouchMode="false"
         android:inputType="date"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/price_spinner"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
     <TextView
         android:id="@+id/priceRangeTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/autour_one"
         android:text="Price Range"
         android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.164"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/price_spinner"
         app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
 
     <Spinner
         android:id="@+id/price_spinner"
         android:layout_width="128dp"
         android:layout_height="36dp"
-        android:layout_marginStart="40dp"
         android:background="@drawable/et_style"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/userFindGuestSearch"
         app:layout_constraintTop_toBottomOf="@+id/priceRangeTv" />
 
     <TextView
         android:id="@+id/stealLimitTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/autour_one"
         android:text="Steal Limit"
         android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.76"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/stealLimit_spinner"
         app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
 
     <Spinner
@@ -115,34 +121,33 @@
         android:text="Search"
         android:textColor="#FFFFFF"
         android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/guestSearchRecycler"
         app:layout_constraintStart_toEndOf="@+id/userFindGuestSearch"
         app:layout_constraintTop_toBottomOf="@+id/price_spinner" />
+
 
     <TextView
         android:id="@+id/userNameTv"
         android:layout_width="104dp"
         android:layout_height="0dp"
+        android:layout_marginStart="4dp"
         android:fontFamily="@font/autour_one"
         android:text="Username"
         android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/userFindGuestSearch"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.162"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toStartOf="@+id/userFindGuestSearch" />
 
     <EditText
         android:id="@+id/userFindGuestSearch"
         android:layout_width="210dp"
         android:layout_height="36dp"
-        android:layout_marginStart="40dp"
         android:layout_marginTop="38dp"
         android:background="@drawable/et_style"
         android:elegantTextHeight="true"
         android:ems="10"
         android:imeOptions="actionDone"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guestSearchRecycler"
         app:layout_constraintTop_toBottomOf="@+id/price_spinner" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -159,7 +164,7 @@
 
     <Button
         android:id="@+id/button_createParty"
-        android:layout_width="300sp"
+        android:layout_width="wrap_content"
         android:layout_height="64dp"
         android:layout_marginTop="18dp"
         android:fontFamily="@font/architects_daughter"
@@ -167,8 +172,8 @@
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/guestSearchRecycler"
+        app:layout_constraintStart_toStartOf="@+id/guestSearchRecycler"
         app:layout_constraintTop_toBottomOf="@+id/guestSearchRecycler"
         app:layout_constraintVertical_bias="0.0" />
 

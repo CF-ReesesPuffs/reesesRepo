@@ -55,6 +55,11 @@ import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.Adapters.HostPartyAdapter;
 import com.cfreesespuffs.github.giftswapper.PendingPage;
 import com.cfreesespuffs.github.giftswapper.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -84,6 +89,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
     Spinner stealLimitSpinner;
     boolean spinnerFlag = false;
     SharedPreferences preferences;
+    private AdView hPAdView;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -91,6 +97,18 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host_party);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        MobileAds.initialize(this);
+        hPAdView = findViewById(R.id.gsAdview);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        hPAdView.loadAd(adRequest);
 
         priceSpinner();
         stealLimitSpinner();

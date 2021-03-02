@@ -48,6 +48,14 @@ import com.cfreesespuffs.github.giftswapper.Adapters.PartyAdapter;
 import com.cfreesespuffs.github.giftswapper.InvitationList;
 import com.cfreesespuffs.github.giftswapper.PendingPage;
 import com.cfreesespuffs.github.giftswapper.R;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
@@ -73,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     boolean[] isSignedIn = {false};
     private FirebaseCrashlytics firebaseCrashlytics;
     private FirebaseAnalytics analytics;
+
+    private AdView mAdView;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -124,6 +134,17 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        MobileAds.initialize(this);
+        mAdView = findViewById(R.id.gsAdview);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         firebaseCrashlytics = FirebaseCrashlytics.getInstance(); // https://github.com/firebase/quickstart-android/blob/master/crash/app/src/main/java/com/google/samples/quickstart/crash/java/MainActivity.java
         firebaseCrashlytics.log("onCreate"); // https://firebase.google.com/docs/crashlytics/test-implementation?authuser=0&platform=android
