@@ -43,23 +43,22 @@ dependencies {
     implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.19.0@aar'){transitive = true}
     implementation 'com.amplifyframework:aws-analytics-pinpoint:1.4.1'
 
-    implementation 'com.google.android.gms:play-services-auth:19.0.0'
-    implementation 'com.google.firebase:firebase-core:18.0.0'
-    implementation 'com.google.firebase:firebase-messaging:21.0.0'
-//    implementation 'com.google.android.gms:play-services-ads:19.5.0'
     implementation 'androidx.activity:activity:1.2.0-beta01'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.navigation:navigation-fragment:2.3.1'
     implementation 'androidx.navigation:navigation-ui:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.google.android.gms:play-services-ads:19.7.0'
+    implementation 'com.google.firebase:firebase-core:18.0.2'
+    implementation 'com.google.firebase:firebase-messaging:21.0.1'
 
     implementation platform('com.google.firebase:firebase-bom:26.5.0')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-crashlytics'
-//    implementation 'com.google.firebase:firebase-crashlytics:17.3.1'
-//    implementation 'com.google.firebase:firebase-analytics:18.0.2'
 //    https://firebase.google.com/docs/crashlytics/upgrade-sdk?platform=android
 
     testImplementation 'junit:junit:4.+'
