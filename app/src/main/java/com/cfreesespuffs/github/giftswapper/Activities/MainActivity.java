@@ -79,27 +79,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     public void onResume() {
         super.onResume();
 
-        if (!preferences.getString("userId", "NA").equals("NA")) { // might be able to remove.
-            Amplify.API.query(
-                    ModelQuery.get(User.class, preferences.getString("userId", "NA")),
-                    response2 -> {
-                        Log.e("On.resume", String.valueOf(pendingPartiesHM.size()));
-                        pendingParties.clear();
-                        response2.getData().getParties().stream()
-                                .filter(guestList -> guestList.getInviteStatus().equals("Pending") && !guestList.getParty().getIsReady())
-                                .forEach(party -> {
-                                    pendingParties.add(party.getParty());
-                                    Log.e("query.ppHM", "party put id: " + party.getId());
-                                    pendingPartiesHM.put(party.getId(), party.getInvitedUser());
-                                });
-
-                        Message message = new Message();
-                        message.arg1 = 10;
-                        handleCheckLoggedIn.sendMessage(message);
-                    },
-                    error -> Log.e("Amplify", "Failed to retrieve store")
-            );
-
             ApiOperation deleteSubscription = Amplify.API.subscribe(
                     ModelSubscription.onDelete(Party.class),
                     subWork -> Log.i("Amp.subOnDelete", "sub is working"),
@@ -126,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
             deleteSubscription.start();
         }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -210,7 +188,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                         pendingParties.clear();
                         for (GuestList party : response2.getData().getParties()) {
                             if (party.getInviteStatus().equals("Pending") && !party.getParty().getIsReady()) {
-                                Log.i("PendingParty.HM", "Party id: " + party.getParty().getId());
                                 pendingPartiesHM.put(party.getParty().getId(), party.getInvitedUser());
                                 pendingParties.add(party.getParty());
                             }
@@ -347,7 +324,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         Amplify.API.subscribe(getPendingParty(username),
                 subCheck -> Log.d("Sub.SingleGuestList", "Connection established. this is ID: " + username),
                 response -> {
-                    Log.e("Create.gLSub", "response: " + response);
                     pendingPartiesHM.put(response.getData().getParty().getId(), response.getData().getInvitedUser());
                     pendingParties.add(response.getData().getParty());
                     Message message = new Message();
@@ -364,11 +340,8 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 subCheck -> Log.d("Sub.updateGuestList", "Connection est. This is ID: " + username),
                 response -> {
                     Party thisParty = response.getData().getParty();
-                    Log.e("PendingP.HM", "This party: " + thisParty);
                     if (thisParty.getIsReady()) { // party.getInviteStatus().equals("Pending") &&
-                        Log.i("PendingParty.HM", "Party id: " + thisParty.getId());
                         pendingPartiesHM.remove(thisParty.getId());
-                        Log.e("PendingP.HMremove", String.valueOf(pendingPartiesHM.size()));
                         Message message = new Message();
                         message.arg1 = 10;
                         handleCheckLoggedIn.sendMessage(message);
