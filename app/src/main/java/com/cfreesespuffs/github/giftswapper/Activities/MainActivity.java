@@ -248,6 +248,11 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         }
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
 //=========== RecyclerView =======================
 
     private void connectRecycler() {
