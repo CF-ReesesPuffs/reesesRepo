@@ -89,32 +89,32 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     public void onResume() {
         super.onResume();
 
-            ApiOperation deleteSubscription = Amplify.API.subscribe(
-                    ModelSubscription.onDelete(Party.class),
-                    subWork -> Log.i("Amp.subOnDelete", "sub is working"),
-                    lessParty -> {
-                        Amplify.API.query(
-                                ModelQuery.get(User.class, preferences.getString("userId", "NA")),
-                                partyList -> {
-                                    parties.clear();
-                                    for (GuestList party : partyList.getData().getParties()) {
-                                        if (party.getInviteStatus().equals("Accepted") && !party.getParty().getIsFinished()) {
-                                            parties.add(party.getParty());
-                                        }
+        ApiOperation deleteSubscription = Amplify.API.subscribe(
+                ModelSubscription.onDelete(Party.class),
+                subWork -> Log.i("Amp.subOnDelete", "sub is working"),
+                lessParty -> {
+                    Amplify.API.query(
+                            ModelQuery.get(User.class, preferences.getString("userId", "NA")),
+                            partyList -> {
+                                parties.clear();
+                                for (GuestList party : partyList.getData().getParties()) {
+                                    if (party.getInviteStatus().equals("Accepted") && !party.getParty().getIsFinished()) {
+                                        parties.add(party.getParty());
                                     }
-                                    Message message = new Message();
-                                    message.arg1 = 1;
-                                    handleParties.sendMessage(message);
-                                },
-                                error -> Log.e("mp.subscribe", "failed sub query")
-                        );
-                    },
-                    subError -> Log.e("Amp.subOnDelete", "failed to subscribe on delete"),
-                    () -> Log.i("Amp.subOnDelete", "delete sub complete")
-            );
+                                }
+                                Message message = new Message();
+                                message.arg1 = 1;
+                                handleParties.sendMessage(message);
+                            },
+                            error -> Log.e("mp.subscribe", "failed sub query")
+                    );
+                },
+                subError -> Log.e("Amp.subOnDelete", "failed to subscribe on delete"),
+                () -> Log.i("Amp.subOnDelete", "delete sub complete")
+        );
 
-            deleteSubscription.start();
-        }
+        deleteSubscription.start();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -232,6 +232,20 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             Intent goToHostPartyIntent = new Intent(MainActivity.this, HostParty.class);
             MainActivity.this.startActivity(goToHostPartyIntent);
         });
+
+        if (getIntent().hasExtra("startTime")) {
+            String stringStartTime = getIntent().getExtras().getString("startTime", "NA");
+            if (!stringStartTime.equals("NA")) {
+                long startTime = Long.parseLong(stringStartTime);
+                long endTime = System.currentTimeMillis();
+                Bundle params2 = new Bundle();
+                params2.putString("duration", Long.toString(endTime - startTime));
+                params2.putString("user_name", preferences.getString("username", "NA"));
+                analytics.logEvent("invite_accept", params2);
+
+                Log.e("inviteAccept.Time", Long.toString(endTime - startTime));
+            }
+        }
     }
 
 //=========== RecyclerView =======================

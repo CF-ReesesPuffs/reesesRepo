@@ -76,7 +76,6 @@ public class InvitationDetails extends AppCompatActivity {
                         message.arg1 = 1;
                         handler.sendMessage(message);
                     }
-
                 },
                 error -> Log.e("Amplify.query", "no party " + error)
         );
@@ -123,7 +122,7 @@ public class InvitationDetails extends AppCompatActivity {
             );
 
             Intent gotoMain = new Intent(InvitationDetails.this, MainActivity.class);
-            intent.putExtra("status", guestList.getInviteStatus());
+            intent.putExtra("status", guestList.getInviteStatus()); //TODO do we use status?
             InvitationDetails.this.startActivity(gotoMain);
         });
 
@@ -142,6 +141,9 @@ public class InvitationDetails extends AppCompatActivity {
 
 //============================================= Accept invite
         acceptInvite.setOnClickListener(v -> {
+
+            long startTime = System.currentTimeMillis();
+
             String giftName = giftChosen.getText().toString();
 
             if (giftName.equals("")) {
@@ -158,12 +160,6 @@ public class InvitationDetails extends AppCompatActivity {
                     .number(intent.getExtras().getString("partyId", "NA"))
                     .build();
 
-            Amplify.API.mutate(
-                    ModelMutation.create(gift),
-                    response2 -> Log.i("AddGift", "You saved a new gift to bring, " + giftName),
-                    error -> Log.e("AddGiftFail", error.toString())
-            );
-
             GuestList guestList = party.getUsers().stream()
                     .filter(guest -> guest.getInvitedUser().equalsIgnoreCase(loggedUser.getUserName()))
                     .findFirst().orElse(null); // https://stackoverflow.com/questions/53719097/retrieve-single-object-from-list-using-java8-stream-api
@@ -171,14 +167,25 @@ public class InvitationDetails extends AppCompatActivity {
             guestList.inviteStatus = "Accepted";
 
             Amplify.API.mutate(
-                    ModelMutation.update(guestList),
-                    response -> Log.i("AcceptedInvite", "You accepted an invite!"),
-                    error -> Log.e("AcceptedInviteFail", error.toString())
-            );
+                    ModelMutation.create(gift),
+                    response2 -> {
+                        Log.i("AddGift", "You saved a new gift to bring, " + giftName);
 
-            Intent gotoPending = new Intent(InvitationDetails.this, MainActivity.class);
-            gotoPending.putExtra("partyName", party.getTitle());
-            InvitationDetails.this.startActivity(gotoPending);
+                        Amplify.API.mutate(
+                                ModelMutation.update(guestList),
+                                response -> Log.i("AcceptedInvite", "You accepted an invite!"),
+                                error -> Log.e("AcceptedInviteFail", error.toString())
+                        );
+
+                        Log.e("system.startTIme", Long.toString(startTime));
+
+                        Intent gotoPending = new Intent(InvitationDetails.this, MainActivity.class);
+                        gotoPending.putExtra("partyName", party.getTitle());
+                        gotoPending.putExtra("startTime", Long.toString(startTime));
+                        InvitationDetails.this.startActivity(gotoPending);
+                    },
+                    error -> Log.e("AddGiftFail", error.toString())
+            );
         });
     }
 
