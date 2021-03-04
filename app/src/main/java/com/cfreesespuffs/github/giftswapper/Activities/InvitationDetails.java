@@ -173,16 +173,17 @@ public class InvitationDetails extends AppCompatActivity {
 
                         Amplify.API.mutate(
                                 ModelMutation.update(guestList),
-                                response -> Log.i("AcceptedInvite", "You accepted an invite!"),
+                                response -> {
+                                    Log.i("AcceptedInvite", "You accepted an invite!");
+                                    Log.e("system.startTIme", Long.toString(startTime));
+                                    Intent gotoPending = new Intent(InvitationDetails.this, MainActivity.class);
+                                    gotoPending.putExtra("partyName", party.getTitle());
+                                    gotoPending.putExtra("startTime", Long.toString(startTime));
+                                    InvitationDetails.this.startActivity(gotoPending);
+                                },
                                 error -> Log.e("AcceptedInviteFail", error.toString())
                         );
 
-                        Log.e("system.startTIme", Long.toString(startTime));
-
-                        Intent gotoPending = new Intent(InvitationDetails.this, MainActivity.class);
-                        gotoPending.putExtra("partyName", party.getTitle());
-                        gotoPending.putExtra("startTime", Long.toString(startTime));
-                        InvitationDetails.this.startActivity(gotoPending);
                     },
                     error -> Log.e("AddGiftFail", error.toString())
             );

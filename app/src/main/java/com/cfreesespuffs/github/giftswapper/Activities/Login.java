@@ -81,8 +81,10 @@ public class Login extends AppCompatActivity {
             EditText username = findViewById(R.id.usernameLogin);
             EditText password = findViewById(R.id.passwordLogin);
 
+            String userNameLc = username.getText().toString().toLowerCase();
+
             Amplify.Auth.signIn(
-                    username.getText().toString().toLowerCase(),
+                    userNameLc,
                     password.getText().toString(),
                     result -> {
                         Log.i("Amplify.login", "Sign in successful for: " + result);
@@ -91,7 +93,7 @@ public class Login extends AppCompatActivity {
                         preferenceEditor.putString("username", username.getText().toString());
 
                         Amplify.API.query(
-                                ModelQuery.list(User.class, User.USER_NAME.eq(username.getText().toString())),
+                                ModelQuery.list(User.class, User.USER_NAME.eq(userNameLc)),
                                 response -> {
                                     for (User user : response.getData()) {
                                         preferenceEditor.putString("userId", user.getId());
@@ -115,7 +117,7 @@ public class Login extends AppCompatActivity {
                 Login.this.startActivity(new Intent(Login.this, SignUp.class)));
     }
 
-    @Override
+    @Override // best practice for autoplaying bg video
     protected void onPause() {
         super.onPause();
         mCurrentVideoPos = vVmP.getCurrentPosition();

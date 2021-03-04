@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00FFFFFF"
     tools:context=".Activities.Login">
 
     <!-- https://www.tutorialspoint.com/how-to-make-a-background-20-transparent-on-android -->
@@ -13,7 +12,6 @@
         android:id="@+id/videoViewLogin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#00FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
