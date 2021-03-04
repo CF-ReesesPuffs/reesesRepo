@@ -87,13 +87,12 @@ public class Login extends AppCompatActivity {
                     userNameLc,
                     password.getText().toString(),
                     result -> {
-                        Log.i("Amplify.login", "Sign in successful for: " + result);
                         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
                         SharedPreferences.Editor preferenceEditor = preferences.edit();
                         preferenceEditor.putString("username", username.getText().toString());
 
                         Amplify.API.query(
-                                ModelQuery.list(User.class, User.USER_NAME.eq(userNameLc)),
+                                ModelQuery.list(User.class, User.SEARCH_NAME.eq(userNameLc)),
                                 response -> {
                                     for (User user : response.getData()) {
                                         preferenceEditor.putString("userId", user.getId());

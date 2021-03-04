@@ -23,9 +23,11 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 public final class User implements Model {
   public static final QueryField ID = field("id");
   public static final QueryField USER_NAME = field("userName");
+  public static final QueryField SEARCH_NAME = field("searchName");
   public static final QueryField EMAIL = field("email");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String userName;
+  private final @ModelField(targetType="String", isRequired = true) String searchName;
   private final @ModelField(targetType="String") String email;
   private final @ModelField(targetType="Party") @HasMany(associatedWith = "theHost", type = Party.class) List<Party> hosting = null;
   private final @ModelField(targetType="Gift") @HasMany(associatedWith = "user", type = Gift.class) List<Gift> gifts = null;
@@ -37,6 +39,10 @@ public final class User implements Model {
   
   public String getUserName() {
       return userName;
+  }
+  
+  public String getSearchName() {
+      return searchName;
   }
   
   public String getEmail() {
@@ -59,9 +65,10 @@ public final class User implements Model {
       return friends;
   }
   
-  private User(String id, String userName, String email) {
+  private User(String id, String userName, String searchName, String email) {
     this.id = id;
     this.userName = userName;
+    this.searchName = searchName;
     this.email = email;
   }
   
@@ -75,6 +82,7 @@ public final class User implements Model {
       User user = (User) obj;
       return ObjectsCompat.equals(getId(), user.getId()) &&
               ObjectsCompat.equals(getUserName(), user.getUserName()) &&
+              ObjectsCompat.equals(getSearchName(), user.getSearchName()) &&
               ObjectsCompat.equals(getEmail(), user.getEmail());
       }
   }
@@ -84,6 +92,7 @@ public final class User implements Model {
     return new StringBuilder()
       .append(getId())
       .append(getUserName())
+      .append(getSearchName())
       .append(getEmail())
       .toString()
       .hashCode();
@@ -95,6 +104,7 @@ public final class User implements Model {
       .append("User {")
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("userName=" + String.valueOf(getUserName()) + ", ")
+      .append("searchName=" + String.valueOf(getSearchName()) + ", ")
       .append("email=" + String.valueOf(getEmail()))
       .append("}")
       .toString();
@@ -126,6 +136,7 @@ public final class User implements Model {
     return new User(
       id,
       null,
+      null,
       null
     );
   }
@@ -133,10 +144,16 @@ public final class User implements Model {
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       userName,
+      searchName,
       email);
   }
   public interface UserNameStep {
-    BuildStep userName(String userName);
+    SearchNameStep userName(String userName);
+  }
+  
+
+  public interface SearchNameStep {
+    BuildStep searchName(String searchName);
   }
   
 
@@ -147,9 +164,10 @@ public final class User implements Model {
   }
   
 
-  public static class Builder implements UserNameStep, BuildStep {
+  public static class Builder implements UserNameStep, SearchNameStep, BuildStep {
     private String id;
     private String userName;
+    private String searchName;
     private String email;
     @Override
      public User build() {
@@ -158,13 +176,21 @@ public final class User implements Model {
         return new User(
           id,
           userName,
+          searchName,
           email);
     }
     
     @Override
-     public BuildStep userName(String userName) {
+     public SearchNameStep userName(String userName) {
         Objects.requireNonNull(userName);
         this.userName = userName;
+        return this;
+    }
+    
+    @Override
+     public BuildStep searchName(String searchName) {
+        Objects.requireNonNull(searchName);
+        this.searchName = searchName;
         return this;
     }
     
@@ -197,15 +223,21 @@ public final class User implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String userName, String email) {
+    private CopyOfBuilder(String id, String userName, String searchName, String email) {
       super.id(id);
       super.userName(userName)
+        .searchName(searchName)
         .email(email);
     }
     
     @Override
      public CopyOfBuilder userName(String userName) {
       return (CopyOfBuilder) super.userName(userName);
+    }
+    
+    @Override
+     public CopyOfBuilder searchName(String searchName) {
+      return (CopyOfBuilder) super.searchName(searchName);
     }
     
     @Override

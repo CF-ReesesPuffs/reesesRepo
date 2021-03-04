@@ -140,9 +140,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                         error -> Log.e("Amp.Sub.Fail", "Failure: " + error),
                         () -> Log.i("Amp.Subscribe.details", "Subscription Complete.")
                 );
-
                 subscription.start();
-
             }
 
             if (msg.arg1 == 6) {
@@ -224,19 +222,6 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                             .setMessage("There are only two participants. Would you like to automatically swap gifts?")
                             .setPositiveButton("Yes",
                                     (dialog, which) -> {
-//                                        for (GuestList guest : attendeesGuestList) {
-//                                            Amplify.API.mutate( // don't run this code until we are going to the party
-//                                                    ModelMutation.update(guest),
-//                                                    response -> Log.i("Amplify.turnOrder", "You have a turn! " + response.getData()),
-//                                                    error -> Log.e("Amplify.turnOrder", "Error: " + error)
-//                                            );
-//                                        }
-
-//                                        try { // makes system pause/wait/sleep to allow above for loop to finish executing. https://www.thejavaprogrammer.com/java-delay/
-//                                            Thread.sleep(1000);
-//                                        } catch (InterruptedException e) {
-//                                            e.printStackTrace();
-//                                        }
                                         autoSwap(); // also goes to the PostParty activity, and set Party.isFinished() to true.
                                     });
                     twoPlayerSwapAlert.setNegativeButton("No", (dialogInterface, i) -> {

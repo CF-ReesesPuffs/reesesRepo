@@ -50,10 +50,12 @@ public class SignupConfirmation extends AppCompatActivity {
                     usernameConfirm.getText().toString().toLowerCase(),
                     confirmCode.getText().toString(),
                     result -> {
+                        String usernameLowerCase = usernameConfirm.getText().toString().toLowerCase();
                         message.arg1 = 123;
                         signUpHandler.sendEmptyMessage(message.arg1);
                         User newUser = User.builder()
                                 .userName(username)
+                                .searchName(usernameLowerCase)
                                 .email(email)
                                 .build();
                         Amplify.API.mutate(

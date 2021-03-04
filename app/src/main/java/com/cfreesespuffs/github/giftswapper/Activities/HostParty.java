@@ -84,6 +84,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
     HashMap<String, User> uniqueGuestList = new HashMap<>();
     User currentUser;
     Calendar date; // there are 2 potential calendar options
+    TextView foundGuest;
     TextView partyDate;
     Spinner selectedPriceSpinner;
     Spinner stealLimitSpinner;
@@ -166,13 +167,16 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
         partyDate = findViewById(R.id.editTextDate);
 
-        TextView foundGuest = findViewById(R.id.userFindGuestSearch);
+        foundGuest = findViewById(R.id.userFindGuestSearch);
 
         Button findGuestButton = findViewById(R.id.findGuest_button);
+
         findGuestButton.setOnClickListener((view) -> { // https://stackoverflow.com/questions/9596010/android-use-done-button-on-keyboard-to-click-button
 
+            String guestLc = foundGuest.getText().toString().toLowerCase();
+
             Amplify.API.query(
-                    ModelQuery.list(User.class, User.USER_NAME.beginsWith(foundGuest.getText().toString())),
+                    ModelQuery.list(User.class, User.SEARCH_NAME.beginsWith(guestLc)),
                     response -> {
                         for (User user : response.getData()) {
                             if (!uniqueGuestList.containsKey(user.getUserName())) {

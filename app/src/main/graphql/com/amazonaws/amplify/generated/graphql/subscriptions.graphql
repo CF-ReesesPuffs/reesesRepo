@@ -15,6 +15,7 @@ subscription OnUpdateOfSpecificParty($id: ID!) {
     theHost {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -85,6 +86,7 @@ subscription OnUpdateOfSpecificParty($id: ID!) {
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -120,6 +122,7 @@ subscription OnUpdateOfSpecificParty($id: ID!) {
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -159,6 +162,7 @@ subscription OnCreateOfUserId($invitedUser: String) {
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -233,6 +237,7 @@ subscription OnCreateOfUserId($invitedUser: String) {
       theHost {
         id
         userName
+        searchName
         email
         hosting {
           nextToken
@@ -293,6 +298,7 @@ subscription OnUpdateOfGuestListByUserId($invitedUser: String) {
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -367,6 +373,7 @@ subscription OnUpdateOfGuestListByUserId($invitedUser: String) {
       theHost {
         id
         userName
+        searchName
         email
         hosting {
           nextToken
@@ -427,6 +434,7 @@ subscription OnDeleteSpecificGuestList($invitedUser: String) {
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -501,6 +509,7 @@ subscription OnDeleteSpecificGuestList($invitedUser: String) {
       theHost {
         id
         userName
+        searchName
         email
         hosting {
           nextToken
@@ -561,6 +570,7 @@ subscription OnUpdateHostGuestList($invitee: String) {
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -635,6 +645,7 @@ subscription OnUpdateHostGuestList($invitee: String) {
       theHost {
         id
         userName
+        searchName
         email
         hosting {
           nextToken
@@ -695,6 +706,7 @@ subscription OnUpdateGiftOfSpecificParty($number: String) {
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -769,6 +781,7 @@ subscription OnUpdateGiftOfSpecificParty($number: String) {
       theHost {
         id
         userName
+        searchName
         email
         hosting {
           nextToken
@@ -822,6 +835,7 @@ subscription OnCreateUser {
   onCreateUser {
     id
     userName
+    searchName
     email
     hosting {
       items {
@@ -839,6 +853,7 @@ subscription OnCreateUser {
         theHost {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -865,6 +880,7 @@ subscription OnCreateUser {
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -900,6 +916,7 @@ subscription OnCreateUser {
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -933,6 +950,7 @@ subscription OnCreateUser {
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -950,6 +968,7 @@ subscription OnUpdateUser {
   onUpdateUser {
     id
     userName
+    searchName
     email
     hosting {
       items {
@@ -967,6 +986,7 @@ subscription OnUpdateUser {
         theHost {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -993,6 +1013,7 @@ subscription OnUpdateUser {
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -1028,6 +1049,7 @@ subscription OnUpdateUser {
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -1061,6 +1083,7 @@ subscription OnUpdateUser {
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -1078,6 +1101,7 @@ subscription OnDeleteUser {
   onDeleteUser {
     id
     userName
+    searchName
     email
     hosting {
       items {
@@ -1095,6 +1119,7 @@ subscription OnDeleteUser {
         theHost {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -1121,6 +1146,7 @@ subscription OnDeleteUser {
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -1156,6 +1182,7 @@ subscription OnDeleteUser {
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -1189,6 +1216,7 @@ subscription OnDeleteUser {
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -1211,6 +1239,7 @@ subscription OnCreateFriendList {
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -1283,6 +1312,7 @@ subscription OnUpdateFriendList {
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -1355,6 +1385,7 @@ subscription OnDeleteFriendList {
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -1429,6 +1460,7 @@ subscription OnCreateGuestList {
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -1503,6 +1535,7 @@ subscription OnCreateGuestList {
       theHost {
         id
         userName
+        searchName
         email
         hosting {
           nextToken
@@ -1563,6 +1596,7 @@ subscription OnUpdateGuestList {
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -1637,6 +1671,7 @@ subscription OnUpdateGuestList {
       theHost {
         id
         userName
+        searchName
         email
         hosting {
           nextToken
@@ -1697,6 +1732,7 @@ subscription OnDeleteGuestList {
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -1771,6 +1807,7 @@ subscription OnDeleteGuestList {
       theHost {
         id
         userName
+        searchName
         email
         hosting {
           nextToken
@@ -1831,6 +1868,7 @@ subscription OnCreateGift {
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -1905,6 +1943,7 @@ subscription OnCreateGift {
       theHost {
         id
         userName
+        searchName
         email
         hosting {
           nextToken
@@ -1965,6 +2004,7 @@ subscription OnUpdateGift {
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -2039,6 +2079,7 @@ subscription OnUpdateGift {
       theHost {
         id
         userName
+        searchName
         email
         hosting {
           nextToken
@@ -2099,6 +2140,7 @@ subscription OnDeleteGift {
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -2173,6 +2215,7 @@ subscription OnDeleteGift {
       theHost {
         id
         userName
+        searchName
         email
         hosting {
           nextToken
@@ -2238,6 +2281,7 @@ subscription OnCreateParty {
     theHost {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -2308,6 +2352,7 @@ subscription OnCreateParty {
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -2343,6 +2388,7 @@ subscription OnCreateParty {
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -2387,6 +2433,7 @@ subscription OnUpdateParty {
     theHost {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -2457,6 +2504,7 @@ subscription OnUpdateParty {
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -2492,6 +2540,7 @@ subscription OnUpdateParty {
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -2536,6 +2585,7 @@ subscription OnDeleteParty {
     theHost {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -2606,6 +2656,7 @@ subscription OnDeleteParty {
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -2641,6 +2692,7 @@ subscription OnDeleteParty {
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt

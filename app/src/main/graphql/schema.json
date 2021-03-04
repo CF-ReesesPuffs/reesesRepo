@@ -482,6 +482,22 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "searchName",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "email",
                         "description": null,
                         "args": [],
@@ -2769,6 +2785,16 @@
                         "defaultValue": null
                     },
                     {
+                        "name": "searchName",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
                         "name": "email",
                         "description": null,
                         "type": {
@@ -3457,6 +3483,20 @@
                         "defaultValue": null
                     },
                     {
+                        "name": "searchName",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null
+                    },
+                    {
                         "name": "email",
                         "description": null,
                         "type": {
@@ -3479,6 +3519,16 @@
                 "inputFields": [
                     {
                         "name": "userName",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "searchName",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -3562,6 +3612,16 @@
                     },
                     {
                         "name": "userName",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "searchName",
                         "description": null,
                         "type": {
                             "kind": "SCALAR",
