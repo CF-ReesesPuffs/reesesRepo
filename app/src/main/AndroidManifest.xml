@@ -14,7 +14,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Giftswapper">
-        <activity android:name=".Activities.videoViewTest"></activity>
         <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 IMPORTANT ONLY USE THIS WHILE TESTING -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

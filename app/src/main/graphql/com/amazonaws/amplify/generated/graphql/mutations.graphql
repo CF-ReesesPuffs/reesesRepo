@@ -6,6 +6,7 @@ mutation CreateUser(
   createUser(input: $input, condition: $condition) {
     id
     userName
+    searchName
     email
     hosting {
       items {
@@ -23,6 +24,7 @@ mutation CreateUser(
         theHost {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -49,6 +51,7 @@ mutation CreateUser(
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -84,6 +87,7 @@ mutation CreateUser(
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -117,6 +121,7 @@ mutation CreateUser(
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -137,6 +142,7 @@ mutation UpdateUser(
   updateUser(input: $input, condition: $condition) {
     id
     userName
+    searchName
     email
     hosting {
       items {
@@ -154,6 +160,7 @@ mutation UpdateUser(
         theHost {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -180,6 +187,7 @@ mutation UpdateUser(
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -215,6 +223,7 @@ mutation UpdateUser(
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -248,6 +257,7 @@ mutation UpdateUser(
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -268,6 +278,7 @@ mutation DeleteUser(
   deleteUser(input: $input, condition: $condition) {
     id
     userName
+    searchName
     email
     hosting {
       items {
@@ -285,6 +296,7 @@ mutation DeleteUser(
         theHost {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -311,6 +323,7 @@ mutation DeleteUser(
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -346,6 +359,7 @@ mutation DeleteUser(
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -379,6 +393,7 @@ mutation DeleteUser(
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -404,6 +419,7 @@ mutation CreateFriendList(
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -479,6 +495,7 @@ mutation UpdateFriendList(
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -554,6 +571,7 @@ mutation DeleteFriendList(
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -631,6 +649,7 @@ mutation CreateGuestList(
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -705,6 +724,7 @@ mutation CreateGuestList(
       theHost {
         id
         userName
+        searchName
         email
         hosting {
           nextToken
@@ -768,6 +788,7 @@ mutation UpdateGuestList(
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -842,6 +863,7 @@ mutation UpdateGuestList(
       theHost {
         id
         userName
+        searchName
         email
         hosting {
           nextToken
@@ -905,6 +927,7 @@ mutation DeleteGuestList(
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -979,6 +1002,7 @@ mutation DeleteGuestList(
       theHost {
         id
         userName
+        searchName
         email
         hosting {
           nextToken
@@ -1042,6 +1066,7 @@ mutation CreateGift(
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -1116,6 +1141,7 @@ mutation CreateGift(
       theHost {
         id
         userName
+        searchName
         email
         hosting {
           nextToken
@@ -1179,6 +1205,7 @@ mutation UpdateGift(
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -1253,6 +1280,7 @@ mutation UpdateGift(
       theHost {
         id
         userName
+        searchName
         email
         hosting {
           nextToken
@@ -1316,6 +1344,7 @@ mutation DeleteGift(
     user {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -1390,6 +1419,7 @@ mutation DeleteGift(
       theHost {
         id
         userName
+        searchName
         email
         hosting {
           nextToken
@@ -1458,6 +1488,7 @@ mutation CreateParty(
     theHost {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -1528,6 +1559,7 @@ mutation CreateParty(
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -1563,6 +1595,7 @@ mutation CreateParty(
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -1610,6 +1643,7 @@ mutation UpdateParty(
     theHost {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -1680,6 +1714,7 @@ mutation UpdateParty(
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -1715,6 +1750,7 @@ mutation UpdateParty(
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -1762,6 +1798,7 @@ mutation DeleteParty(
     theHost {
       id
       userName
+      searchName
       email
       hosting {
         items {
@@ -1832,6 +1869,7 @@ mutation DeleteParty(
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt
@@ -1867,6 +1905,7 @@ mutation DeleteParty(
         user {
           id
           userName
+          searchName
           email
           createdAt
           updatedAt

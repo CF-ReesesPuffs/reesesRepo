@@ -1,6 +1,7 @@
 type User @model @key(name: "idByName", fields: ["userName"], queryField: "idByName") {
   id: ID!
   userName: String!
+  searchName: String!
   email: String
   hosting: [Party] @connection(name: "hostList")
   gifts: [Gift] @connection(name: "GiftGroup")
