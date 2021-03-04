@@ -161,11 +161,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         configureAws();
         getIsSignedIn();
 
-        Bundle params = new Bundle();
-        params.putString("user_name", preferences.getString("username", "NA"));
-        params.putString("isSignedIn", String.valueOf(isSignedIn[0])); // https://www.javacodeexamples.com/java-convert-boolean-to-string-example/338#:~:text=How%20to%20convert%20boolean%20to%20String%20in%20Java?,class%20to%20convert.%20...%203%20Using%20string%20concatenation
-        analytics.logEvent("share_image", params);
-
         createSingleIdGuestListSubscription(preferences.getString("username", "NA"));
         updateGuestListForBell(preferences.getString("username", "NA"));
 
@@ -238,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             if (!stringStartTime.equals("NA")) {
                 long startTime = Long.parseLong(stringStartTime);
                 long endTime = System.currentTimeMillis();
+
                 Bundle params2 = new Bundle();
                 params2.putString("duration", Long.toString(endTime - startTime));
                 params2.putString("user_name", preferences.getString("username", "NA"));
@@ -270,6 +266,10 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                     } else {
                         MainActivity.this.startActivity(new Intent(MainActivity.this, Login.class));
                     }
+                    Bundle params = new Bundle();
+                    params.putString("user_name", preferences.getString("username", "NA"));
+                    params.putString("isSignedIn", String.valueOf(isSignedIn[0])); // https://www.javacodeexamples.com/java-convert-boolean-to-string-example/338#:~:text=How%20to%20convert%20boolean%20to%20String%20in%20Java?,class%20to%20convert.%20...%203%20Using%20string%20concatenation
+                    analytics.logEvent("share_image", params);
                 },
                 error -> Log.e("Amplify.login", error.toString())
         );

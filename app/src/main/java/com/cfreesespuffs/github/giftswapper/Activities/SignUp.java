@@ -81,15 +81,16 @@ public class SignUp extends AppCompatActivity {
                 return;
             }
 
+            String lowerCaseUserName = userName.getText().toString().toLowerCase();
+
             Amplify.Auth.signUp(
-                    userName.getText().toString().toLowerCase(),
+                    lowerCaseUserName,
                     password.getText().toString(),
                     AuthSignUpOptions.builder().userAttribute(AuthUserAttributeKey.email(), userEmail.getText().toString()).build(),
                     result -> {
                         Message message = new Message();
                         message.arg1 = 1;
                         handler.sendMessage(message);
-
                         Intent intent = new Intent(this, SignupConfirmation.class);
                         intent.putExtra("username", userName.getText().toString());
                         intent.putExtra("password", password.getText().toString());
