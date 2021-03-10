@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,11 +16,14 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.auth.AuthUserAttributeKey;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.User;
@@ -30,20 +34,30 @@ public class SignupConfirmation extends AppCompatActivity {
 
     Handler signUpHandler;
     Message message = new Message();
-    EditText usernameConfirm;
+    EditText usernameConfirm, confirmCode;
     String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_confirmation);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable((getResources().getColor(R.color.green))));
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);  // https://www.geeksforgeeks.org/how-to-change-the-color-of-status-bar-in-an-android-app/
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.green));
 
         Intent intent = getIntent();
         username = intent.getExtras().getString("username");
+
         usernameConfirm = findViewById(R.id.usernameConfirmEt);
+        usernameConfirm.setTextColor(getResources().getColor(R.color.black));
+        usernameConfirm.setText(username);
+
+        confirmCode = findViewById(R.id.codeEt);
+        confirmCode.setTextColor(getResources().getColor(R.color.black));
 
         findViewById(R.id.signUpConfirmButton).setOnClickListener(view -> {
-            EditText confirmCode = findViewById(R.id.codeEt);
             String password = intent.getExtras().getString("password");
             String email = intent.getExtras().getString("email");
             Amplify.Auth.confirmSignUp(
@@ -73,29 +87,36 @@ public class SignupConfirmation extends AppCompatActivity {
                                     preferenceEditor.putString("username", username);
                                     preferenceEditor.apply();
 
-                                    this.startActivity(new Intent(SignupConfirmation.this, MainActivity.class));
+                                    Amplify.API.query(
+                                            ModelQuery.list(User.class, User.SEARCH_NAME.eq(usernameLowerCase)),
+                                            response -> {
+                                                for (User user : response.getData()) {
+                                                    Log.e("mQ", "userId: " + user.getId());
+                                                    preferenceEditor.putString("userId", user.getId());
+                                                    preferenceEditor.apply();
+                                                    this.startActivity(new Intent(SignupConfirmation.this, MainActivity.class));
+                                                }
+                                            },
+                                            error -> Log.e("Amp.userId", "FAIL: " + error)
+                                    );
+
                                 },
                                 thisError -> Log.e("Auth.Result", "Fail")
                         );
                     },
                     error -> {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "Incorrect Confirmation String. Try Again Please", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        View toastView = toast.getView();
-                        toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
-                        toast.show();
+                        message.arg1 = 456;
+                        signUpHandler.sendMessage(message);
                     }
             );
         });
 
         signUpHandler = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 123) {
-                Context context = getApplicationContext();
-                CharSequence text = "User Confirmation Complete!";
-                int duration = Toast.LENGTH_LONG;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                toastEssential("User Confirmation Complete!");
+            }
+            if (message.arg1 == 456) {
+                toastEssential("Incorrect Confirmation String. Try Again Please");
             }
             return false;
         });
@@ -104,26 +125,26 @@ public class SignupConfirmation extends AppCompatActivity {
         resendCodeButton.setOnClickListener(view -> {
 
             if (usernameConfirm.getText().toString().isEmpty()) {
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Input your username below please.", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                View toastView = toast.getView();
-                toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
-                toast.show();
+                toastEssential("Input your username below please.");
                 return;
             }
 
             Amplify.Auth.resendSignUpCode(usernameConfirm.getText().toString().toLowerCase(),
                     success -> {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "New confirmation code has been resent to email.", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        View toastView = toast.getView();
-                        toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
-                        toast.show();
+                        toastEssential("New confirmation code has been resent to email.");
                     },
                     error -> Log.e("AuthDemo", "Failed to resend code.", error)
             );
         });
     }
+
+    public void toastEssential(String text) {
+        Toast toast = Toast.makeText(getApplicationContext(),
+                text, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.TOP, 0, 190);
+        View toastView = toast.getView();
+        toastView.setBackground(getDrawable(R.drawable.toast_bg));
+        toast.show();
+    }
+
 }

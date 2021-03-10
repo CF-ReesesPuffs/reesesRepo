@@ -42,8 +42,8 @@
         android:text="@string/host_a_party"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/party_recyclerview"
+        app:layout_constraintStart_toStartOf="@+id/party_recyclerview"
         app:layout_constraintTop_toBottomOf="@+id/party_recyclerview" />
 
     <TextView
@@ -55,11 +55,10 @@
         android:text="Your Parties"
         android:textColor="#000000"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.186"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/party_recyclerview"
+        app:layout_constraintHorizontal_bias="0.06"
+        app:layout_constraintStart_toStartOf="@+id/party_recyclerview"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

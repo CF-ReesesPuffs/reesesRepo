@@ -41,6 +41,7 @@
         android:elegantTextHeight="true"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@+id/editTextDate"
         app:layout_constraintTop_toBottomOf="@+id/textView_party" />
 
