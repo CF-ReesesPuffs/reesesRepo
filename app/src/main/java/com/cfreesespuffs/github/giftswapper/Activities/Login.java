@@ -34,6 +34,8 @@ public class Login extends AppCompatActivity {
     VideoView videoView;
     MediaPlayer vVmP;
     int mCurrentVideoPos;
+    EditText username;
+    EditText password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +79,12 @@ public class Login extends AppCompatActivity {
             return false;
         });
 
+        username = findViewById(R.id.usernameLogin);
+        username.setTextColor(getResources().getColor(R.color.black));
+        password = findViewById(R.id.passwordLogin);
+        password.setTextColor(getResources().getColor(R.color.black));
+
         findViewById(R.id.loginButton).setOnClickListener(view -> {
-            EditText username = findViewById(R.id.usernameLogin);
-            EditText password = findViewById(R.id.passwordLogin);
 
             String userNameLc = username.getText().toString().toLowerCase();
 

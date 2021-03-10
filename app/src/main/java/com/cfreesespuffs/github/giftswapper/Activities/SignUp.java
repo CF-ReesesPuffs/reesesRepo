@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +15,8 @@ import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -30,11 +33,20 @@ import java.util.regex.Pattern;
 public class SignUp extends AppCompatActivity {
 
     Handler handler;
+    EditText userEmail;
+    EditText userName;
+    EditText password;
+    EditText passwordTwo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable((getResources().getColor(R.color.green))));
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);  // https://www.geeksforgeeks.org/how-to-change-the-color-of-status-bar-in-an-android-app/
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.green));
 
         handler = new Handler(Looper.getMainLooper(), msg -> {
             if (msg.arg1 == 0) {
@@ -49,11 +61,16 @@ public class SignUp extends AppCompatActivity {
             return false;
         });
 
+        userEmail = findViewById(R.id.emailEt);
+        userEmail.setTextColor(getResources().getColor(R.color.black));
+        userName = findViewById(R.id.usernameEt);
+        userName.setTextColor(getResources().getColor(R.color.black));
+        password = findViewById(R.id.passwordOneEt);
+        password.setTextColor(getResources().getColor(R.color.black));
+        passwordTwo = findViewById((R.id.passwordTwoEt));
+        passwordTwo.setTextColor(getResources().getColor(R.color.black));
+
         findViewById(R.id.signUpButton).setOnClickListener(view -> {
-            EditText userEmail = findViewById(R.id.emailEt);
-            EditText userName = findViewById(R.id.usernameEt);
-            EditText password = findViewById(R.id.passwordOneEt);
-            EditText passwordTwo = findViewById((R.id.passwordTwoEt));
 
             String regex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"; // https://emailregex.com/
             Pattern pattern = Pattern.compile(regex);

@@ -63,6 +63,7 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
         Amplify.API.query(
                 ModelQuery.get(User.class, preferences.getString("userId", "NA")),
                 response2 -> {
+                    Log.e("userID", "here is userID: " + preferences.getString("userId", "NA"));
                     if (response2.getData().getParties().isEmpty()) return;
                     for (GuestList party : response2.getData().getParties()) {
                         if (party.getInviteStatus().equals("Pending") && !party.getParty().getIsReady()) {
