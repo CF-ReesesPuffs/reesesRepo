@@ -79,23 +79,18 @@ public class SignupConfirmation extends AppCompatActivity {
                         );
                     },
                     error -> {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "Incorrect Confirmation String. Try Again Please", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        View toastView = toast.getView();
-                        toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
-                        toast.show();
+                        message.arg1 = 456;
+                        signUpHandler.sendMessage(message);
                     }
             );
         });
 
         signUpHandler = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 123) {
-                Context context = getApplicationContext();
-                CharSequence text = "User Confirmation Complete!";
-                int duration = Toast.LENGTH_LONG;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                toastEssential("User Confirmation Complete!");
+            }
+            if (message.arg1 == 456) {
+                toastEssential("Incorrect Confirmation String. Try Again Please");
             }
             return false;
         });
@@ -104,26 +99,32 @@ public class SignupConfirmation extends AppCompatActivity {
         resendCodeButton.setOnClickListener(view -> {
 
             if (usernameConfirm.getText().toString().isEmpty()) {
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Input your username below please.", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                View toastView = toast.getView();
-                toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
-                toast.show();
+                toastEssential("Input your username below please.");
                 return;
             }
 
             Amplify.Auth.resendSignUpCode(usernameConfirm.getText().toString().toLowerCase(),
                     success -> {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "New confirmation code has been resent to email.", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        View toastView = toast.getView();
-                        toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
-                        toast.show();
+                        toastEssential("New confirmation code has been resent to email.");
+//                        Toast toast = Toast.makeText(getApplicationContext(),
+//                                "New confirmation code has been resent to email.", Toast.LENGTH_LONG);
+//                        toast.setGravity(Gravity.CENTER, 0, 0);
+//                        View toastView = toast.getView();
+//                        toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+//                        toast.show();
                     },
                     error -> Log.e("AuthDemo", "Failed to resend code.", error)
             );
         });
     }
+
+    public void toastEssential(String text) {
+        Toast toast = Toast.makeText(getApplicationContext(),
+                text, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.TOP, 0, 190);
+        View toastView = toast.getView();
+        toastView.setBackground(getDrawable(R.drawable.toast_bg));
+        toast.show();
+    }
+
 }

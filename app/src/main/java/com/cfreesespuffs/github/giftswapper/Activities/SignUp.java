@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -110,9 +111,10 @@ public class SignUp extends AppCompatActivity {
     public void toastEssential(String text) {
         Toast toast = Toast.makeText(getApplicationContext(),
                 text, Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.setGravity(Gravity.TOP, 0, 190);
         View toastView = toast.getView();
-        toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+        // https://stackoverflow.com/questions/6687666/android-how-to-set-the-colour-of-a-toasts-text if wanted to change text color.
+        toastView.setBackground(getDrawable(R.drawable.toast_bg));
         toast.show();
     }
 

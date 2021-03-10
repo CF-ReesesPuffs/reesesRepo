@@ -44,7 +44,7 @@ public class Login extends AppCompatActivity {
         Uri uri2 = Uri.parse("android.resource://"
                 + getPackageName()
                 + "/"
-                + R.raw.welcomevideo);
+                + R.raw.welcomefade);
 
         videoView.setVideoURI(uri2);
         videoView.start();
@@ -69,9 +69,9 @@ public class Login extends AppCompatActivity {
             if (msg.arg1 == 0) {
                 Toast toast = Toast.makeText(getApplicationContext(),
                         "Please check your email and username are correct.", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.setGravity(Gravity.TOP, 0, 190);
                 View toastView = toast.getView();
-                toastView.getBackground().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+                toastView.setBackground(getDrawable(R.drawable.toast_bg));
                 toast.show();
             }
             return false;
