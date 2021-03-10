@@ -1,5 +1,6 @@
 package com.cfreesespuffs.github.giftswapper.Adapters;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,12 +40,16 @@ public class HostPartyAdapter extends RecyclerView.Adapter<HostPartyAdapter.Gues
         });
         return guestListViewHolder;
     }
+//        dateView.setTextColor(Color.parseColor("#000000"));
 
     @Override
     public void onBindViewHolder(@NonNull HostPartyAdapter.GuestListViewHolder holder, int position) {
         holder.user = guestList.get(position);
+
         TextView usernameView = holder.itemView.findViewById(R.id.usernameFragment);
         usernameView.setText(holder.user.getUserName());
+        usernameView.setTextColor(Color.parseColor("#000000"));
+
         holder.checkBox.setOnCheckedChangeListener(null);
         holder.checkBox.setSelected(holder.usernameView.isSelected());
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

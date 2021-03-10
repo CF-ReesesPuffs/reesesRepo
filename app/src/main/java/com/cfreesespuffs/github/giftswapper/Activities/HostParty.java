@@ -7,12 +7,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 //import android.app.AlertDialog;
+import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 //import android.content.DialogInterface;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -26,6 +29,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -99,6 +104,12 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         setContentView(R.layout.activity_host_party);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
+
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);  // https://www.geeksforgeeks.org/how-to-change-the-color-of-status-bar-in-an-android-app/
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.green));
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -166,10 +177,15 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         });
 
         partyDate = findViewById(R.id.editTextDate);
+        partyDate.setTextColor(Color.parseColor("#000000"));
 
         foundGuest = findViewById(R.id.userFindGuestSearch);
+        foundGuest.setTextColor(Color.parseColor("#000000"));
+
+//        hostPartyButton.setBackgroundColor(getResources().getColor(R.color.green));
 
         Button findGuestButton = findViewById(R.id.findGuest_button);
+        findGuestButton.setBackgroundColor(getResources().getColor(R.color.green));
 
         findGuestButton.setOnClickListener((view) -> { // https://stackoverflow.com/questions/9596010/android-use-done-button-on-keyboard-to-click-button
 
@@ -261,6 +277,8 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         recyclerView.setAdapter(new HostPartyAdapter(guestList, this));
 
         Button addParty = HostParty.this.findViewById(R.id.button_createParty);
+        addParty.setBackgroundColor(getResources().getColor(R.color.green));
+
         addParty.setOnClickListener(view -> {
 
             TextView partyName = findViewById(R.id.textViewPartyName);
@@ -374,7 +392,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
     public void priceSpinner() {
         String[] pricePoints = {"$0 - $10", "$11 - $20", "$21 - $30", "$31 - $40"}; // todo: change this to a "CHOOSE ONE" option as the first option, but then will need to write a validation check so that "CHOOSE ONE" doesn't become a price range option.
         Spinner spinner = findViewById(R.id.price_spinner);
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, pricePoints);
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(this, R.layout.black_bg_spinner_item, pricePoints);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
@@ -382,7 +400,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
     public void stealLimitSpinner() {
         Integer[] stealLimitOptions = {1, 2, 3, 4, 5, 6};
         Spinner spinner = findViewById(R.id.stealLimit_spinner);
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, stealLimitOptions);
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, R.layout.black_bg_spinner_item, stealLimitOptions);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }

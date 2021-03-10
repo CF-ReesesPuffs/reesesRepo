@@ -16,6 +16,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.amplifyframework.api.aws.GsonVariablesSerializer;
@@ -52,6 +54,10 @@ public class EndedParties extends AppCompatActivity implements PartyAdapter.Inte
         setContentView(R.layout.attended_party_navigation);
         Toolbar actionBar = findViewById(R.id.attended_party_actionbar);
         setSupportActionBar(actionBar);
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);  // https://www.geeksforgeeks.org/how-to-change-the-color-of-status-bar-in-an-android-app/
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.green));
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
