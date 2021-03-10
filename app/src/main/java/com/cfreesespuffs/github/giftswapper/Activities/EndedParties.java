@@ -75,6 +75,7 @@ public class EndedParties extends AppCompatActivity implements PartyAdapter.Inte
         Amplify.API.query(
                 ModelQuery.get(User.class, prefs.getString("userId", "NA")),
                 response -> {
+                    if (response.getData().getParties().isEmpty()) return;
                     for (GuestList guestList : response.getData().getParties()) {
                         if (guestList.getParty().getIsFinished()) {
                             endedPartiesHM.put(guestList.getId(), guestList.getParty());
