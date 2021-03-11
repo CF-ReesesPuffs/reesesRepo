@@ -43,7 +43,6 @@
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/party_recyclerview"
-        app:layout_constraintStart_toStartOf="@+id/party_recyclerview"
         app:layout_constraintTop_toBottomOf="@+id/party_recyclerview" />
 
     <TextView
@@ -60,5 +59,17 @@
         app:layout_constraintStart_toStartOf="@+id/party_recyclerview"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/addfriend"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="11dp"
+        android:text="ADD"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/host_party_button"
+        app:layout_constraintEnd_toStartOf="@+id/host_party_button"
+        app:layout_constraintStart_toStartOf="@+id/party_recyclerview"
+        app:layout_constraintTop_toTopOf="@+id/host_party_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

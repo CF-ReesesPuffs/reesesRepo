@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.VectorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,6 +42,7 @@ import com.amplifyframework.api.graphql.model.ModelSubscription;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.auth.options.AuthSignOutOptions;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.FriendList;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
@@ -76,12 +78,12 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     RecyclerView partyRecyclerView;
     ImageButton loginButton;
     SharedPreferences preferences;
-    MenuItem bellItem;
+    MenuItem bellItem, friendItem;
     LayerDrawable localLayerDrawable;
+    VectorDrawable friendLayerDrawable;
     boolean[] isSignedIn = {false};
     private FirebaseCrashlytics firebaseCrashlytics;
     private FirebaseAnalytics analytics;
-
     private AdView mAdView;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -124,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        friendItem = menu.findItem(R.id.mainActivityFriendBadge);
+        friendLayerDrawable = (VectorDrawable) friendItem.getIcon();
         bellItem = menu.findItem(R.id.mainActivityBadge);
         localLayerDrawable = (LayerDrawable) bellItem.getIcon();
         return super.onPrepareOptionsMenu(menu);
@@ -152,7 +156,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
-
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);  // https://www.geeksforgeeks.org/how-to-change-the-color-of-status-bar-in-an-android-app/
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -242,7 +245,15 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 Log.e("inviteAccept.Time", Long.toString(endTime - startTime));
             }
         }
+
+        Button addFriendButton = findViewById(R.id.addfriend);
+        addFriendButton.setOnClickListener((view) -> {
+            Intent gotoAddFriend = new Intent(MainActivity.this, FindFriends.class);
+            MainActivity.this.startActivity(gotoAddFriend);
+        });
+
     }
+
 
     @Override
     public void onBackPressed() {

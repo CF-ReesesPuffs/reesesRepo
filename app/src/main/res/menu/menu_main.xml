@@ -16,9 +16,17 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/mainActivityFriendBadge"
+        android:icon="@drawable/ic_profileicon"
+        app:showAsAction="ifRoom"
+        android:title="friendbadge"
+        />
+
+    <item
         android:id="@+id/mainActivityBadge"
         android:icon="@drawable/party_badge"
         app:showAsAction="ifRoom"
         android:title="bellBadge" />
+
 
 </menu>
