@@ -1,5 +1,6 @@
 package com.cfreesespuffs.github.giftswapper.Activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,15 +19,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.FriendList;
 import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.Adapters.FriendAdapter;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class FindFriends extends AppCompatActivity implements FriendAdapter.FriendListListener {
 
@@ -91,6 +96,30 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
         recyclerView = findViewById(R.id.friendSearchRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new FriendAdapter(friendList, this));
+
+        Button addFriends = findViewById(R.id.button_friendRequest);
+        addFriends.setOnClickListener(view -> {
+            Set<User> friendsToRequest = ((FriendAdapter) Objects.requireNonNull(recyclerView.getAdapter())).friendsToAdd;
+            friendsToRequest.addAll(friendsToRequest);
+
+            for (User user : friendsToRequest) {
+                FriendList friendList = FriendList.builder()
+                        .userName(user.getUserName())
+                        .accepted(false) // todo: accepted should be isConnected
+                        .declined(false) // todo: declined should be isRespondedTo
+                        .user(currentUser)
+                        .build();
+
+                Amplify.API.mutate(
+                        ModelMutation.create(friendList),
+                        response -> Log.i("Amp.friendlist", "Friend now available!: " + response.getData()),
+                        error -> Log.e("Amp.friendlist", "No friend for you!")
+                );
+
+            }
+            Intent intent = new Intent(FindFriends.this, MainActivity.class);
+            FindFriends.this.startActivity(intent);
+        });
     }
 
     @Override
