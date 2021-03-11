@@ -35,7 +35,7 @@
             android:name=".Activities.Login"
             android:logo="@mipmap/ic_launcher_round"
             android:theme="@style/Theme.AllNoActionBarNone" />
-<!--            android:windowSoftInputMode="stateVisible"-->
+        <!--            android:windowSoftInputMode="stateVisible"-->
 
         <activity
             android:name=".PostParty"
@@ -57,9 +57,13 @@
             </intent-filter>
         </activity>
 
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
-    </application>
+        <activity
+            android:name=".Activities.FindFriends"
+            android:label="Find Friends" />
 
-</manifest>
+    <meta-data
+        android:name="preloaded_fonts"
+        android:resource="@array/preloaded_fonts" />
+</application>
+
+    </manifest>

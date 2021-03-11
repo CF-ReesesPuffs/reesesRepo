@@ -40,7 +40,6 @@ public class HostPartyAdapter extends RecyclerView.Adapter<HostPartyAdapter.Gues
         });
         return guestListViewHolder;
     }
-//        dateView.setTextColor(Color.parseColor("#000000"));
 
     @Override
     public void onBindViewHolder(@NonNull HostPartyAdapter.GuestListViewHolder holder, int position) {

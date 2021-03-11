@@ -41,6 +41,7 @@ import com.amplifyframework.api.graphql.model.ModelSubscription;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.auth.options.AuthSignOutOptions;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.FriendList;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
@@ -242,7 +243,15 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 Log.e("inviteAccept.Time", Long.toString(endTime - startTime));
             }
         }
+
+        Button addFriendButton = findViewById(R.id.addfriend);
+        addFriendButton.setOnClickListener((view) -> {
+            Intent gotoAddFriend = new Intent(MainActivity.this, FindFriends.class);
+            MainActivity.this.startActivity(gotoAddFriend);
+        });
+
     }
+
 
     @Override
     public void onBackPressed() {
