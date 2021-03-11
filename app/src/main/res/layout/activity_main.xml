@@ -61,7 +61,6 @@
 
     <Button
         android:id="@+id/addfriend"
-
         android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
@@ -72,6 +71,5 @@
         app:layout_constraintEnd_toStartOf="@+id/host_party_button"
         app:layout_constraintStart_toStartOf="@+id/party_recyclerview"
         app:layout_constraintTop_toTopOf="@+id/host_party_button" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
