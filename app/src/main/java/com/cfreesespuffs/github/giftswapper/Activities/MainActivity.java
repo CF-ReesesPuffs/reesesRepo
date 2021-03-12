@@ -333,6 +333,11 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             Intent goToNotificationsIntent = new Intent(MainActivity.this, InvitationList.class);
             MainActivity.this.startActivity(goToNotificationsIntent);
         }
+
+        if (item.getItemId() == R.id.mainActivityFriendBadge) {
+            Intent goToFriends = new Intent(MainActivity.this, FindFriends.class);
+            MainActivity.this.startActivity(goToFriends);
+        }
         return true;
     }
 
