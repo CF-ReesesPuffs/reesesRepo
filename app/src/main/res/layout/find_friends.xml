@@ -22,7 +22,8 @@
     <TextView
         android:id="@+id/userNameTv"
         android:layout_width="104dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:fontFamily="@font/autour_one"
         android:text="Username"
         android:textColor="#000000"
@@ -35,7 +36,7 @@
         android:id="@+id/friendSearchET"
         android:layout_width="210dp"
         android:layout_height="36dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/et_style"
         android:elegantTextHeight="true"
         android:ems="10"
@@ -48,11 +49,10 @@
         android:id="@+id/friendSearchRecycler"
         android:layout_width="312dp"
         android:layout_height="280dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="72dp"
         android:background="@drawable/et_style"
         android:paddingTop="6dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -68,5 +68,28 @@
         app:layout_constraintEnd_toEndOf="@+id/friendSearchRecycler"
         app:layout_constraintStart_toStartOf="@+id/friendSearchRecycler"
         app:layout_constraintTop_toBottomOf="@+id/friendSearchRecycler" />
+
+    <TextView
+        android:id="@+id/friendRequest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/autour_one"
+        android:text="Friend Requests"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/friendRequestRv"
+        app:layout_constraintEnd_toEndOf="@+id/friendRequestRv"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/friendRequestRv" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/friendRequestRv"
+        android:layout_width="312dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/et_style"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_friendRequest" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

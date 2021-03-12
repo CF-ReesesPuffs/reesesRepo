@@ -59,7 +59,8 @@
 
         <activity
             android:name=".Activities.FindFriends"
-            android:label="Find Friends" />
+            android:label="Find Friends"
+            android:windowSoftInputMode="stateHidden"/>
 
     <meta-data
         android:name="preloaded_fonts"

@@ -1,5 +1,6 @@
 package com.cfreesespuffs.github.giftswapper.Adapters;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,11 +24,14 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
     public OnInteractWithTaskListener listener;
     public ArrayList<GuestList> toRemove = new ArrayList<>();
     public String host;
+    public SharedPreferences preferences;
+    public String currentUsername;
 
-    public ViewAdapter(List<GuestList> guestList, String host, OnInteractWithTaskListener listener) {
+    public ViewAdapter(List<GuestList> guestList, String host, String currentUserName, OnInteractWithTaskListener listener) {
         this.guestList = guestList;
         this.listener = listener;
         this.host = host;
+        this.currentUsername = currentUserName;
     }
 
     @NonNull
@@ -47,34 +51,33 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.AdapterViewHol
     public void onBindViewHolder(@NonNull AdapterViewHolder holder, int position) { // position is the position in the array
         holder.guestList = guestList.get(position);
 
+        Log.i("pref.un", "un is: " + currentUsername);
+
         TextView userName = holder.itemView.findViewById(R.id.guestName);
         TextView status = holder.itemView.findViewById(R.id.status);
 
         userName.setText(holder.guestList.getUser().getUserName());
         status.setText(holder.guestList.getInviteStatus());
 
-        if (host.equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
+        if (host.equalsIgnoreCase(currentUsername)) {
             holder.checkBox.setVisibility(View.VISIBLE);
         }
 
-        if (holder.guestList.getUser().getUserName().equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
+        if (holder.guestList.getUser().getUserName().equalsIgnoreCase(currentUsername)) {
             holder.checkBox.setVisibility(View.INVISIBLE);
         }
 
         holder.checkBox.setOnCheckedChangeListener(null);
         holder.checkBox.setSelected(holder.checkBox.isSelected()); // this line diverges from HostPartyAdapter template
-        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    userName.setSelected(true);
-                    Log.i("Android.viewAdapter", "This has been selected. " + guestList.get(position));
-                    toRemove.add(guestList.get(position));
-                } else {
-                    userName.setSelected(false);
-                    Log.i("Android.viewAdapter", "This has been DESELECTED. " + guestList.get(position));
-                    toRemove.remove(guestList.get(position));
-                }
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                userName.setSelected(true);
+                Log.i("Android.viewAdapter", "This has been selected. " + guestList.get(position));
+                toRemove.add(guestList.get(position));
+            } else {
+                userName.setSelected(false);
+                Log.i("Android.viewAdapter", "This has been DESELECTED. " + guestList.get(position));
+                toRemove.remove(guestList.get(position));
             }
         });
         holder.checkBox.setChecked(userName.isSelected());

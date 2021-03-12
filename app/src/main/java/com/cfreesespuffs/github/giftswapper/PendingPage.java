@@ -12,10 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -67,6 +69,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
     int counter = 0;
     Button startParty;
     Intent intent;
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,8 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
         setContentView(R.layout.pending_page_navigation);
         Toolbar toolbar = findViewById(R.id.pending_page_menu_toolbar);
         setSupportActionBar(toolbar);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         drawerLayout = findViewById(R.id.pending_page_drawer);
         navigationView = findViewById(R.id.pending_page_navigation_view);
@@ -164,7 +169,7 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                     TextView hostTv = findViewById(R.id.hostTv);
                     hostTv.setText(String.format("Host: %s", pendingParty.getTheHost().getUserName()));
 
-                    if (pendingParty.getTheHost().getUserName().equalsIgnoreCase(Amplify.Auth.getCurrentUser().getUsername())) {
+                    if (pendingParty.getTheHost().getUserName().equalsIgnoreCase(preferences.getString("username", "NA"))) {
                         Message message = new Message();
                         message.arg1 = 2;
                         handleSingleItem.sendMessage(message);
@@ -328,9 +333,9 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
         recyclerView = findViewById(R.id.postPartyRV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         if (pendingParty != null) {
-            recyclerView.setAdapter(new ViewAdapter(guestList, pendingParty.getTheHost().getUserName(), this));
+            recyclerView.setAdapter(new ViewAdapter(guestList, pendingParty.getTheHost().getUserName(), preferences.getString("username", "NA"), this));
         } else {
-            recyclerView.setAdapter(new ViewAdapter(guestList, "Alan Smithee", this)); // not great code. Could break one user's experience :P
+            recyclerView.setAdapter(new ViewAdapter(guestList, "Alan Smithee",preferences.getString("username", "NA"), this)); // not great code. Could break one user's experience :P
         }
     }
 
