@@ -30,7 +30,6 @@ import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -40,8 +39,10 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
     EditText friendSearchField;
     User currentUser;
     Button findFriend;
-    HashMap<String, User> uniqueFriendList, uniqueFriendRequestList = new HashMap<>();
-    ArrayList<User> friendList, requestFriendList = new ArrayList<>();
+    HashMap<String, User> uniqueFriendRequestList = new HashMap<>();
+    HashMap<String, User> uniqueFriendList = new HashMap<>();
+    ArrayList<User> friendList = new ArrayList<>();
+    ArrayList<FriendList> requestFriendList = new ArrayList<>();
     Handler handler;
     RecyclerView recyclerView, friendRequestRV;
 
@@ -58,7 +59,9 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
         window.setStatusBarColor(this.getResources().getColor(R.color.green));
 
         handler = new Handler(Looper.getMainLooper(), message -> {
+            Log.e("amp.rFL", "in arraylist " + requestFriendList.toString());
             Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
+            Objects.requireNonNull(friendRequestRV.getAdapter()).notifyDataSetChanged(); // todo: might not be efficient?
             return true;
         });
 
@@ -81,7 +84,8 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
                     ModelQuery.list(User.class, User.SEARCH_NAME.beginsWith(friendLc)),
                     response -> {
                         for (User user : response.getData()) {
-                            if (!uniqueFriendList.containsKey(user.getUserName())) {
+                            if (!uniqueFriendList.containsKey(user.getUserName())
+                                    && !user.getUserName().equals(preferences.getString("username", "NA"))) {
                                 uniqueFriendList.put(user.getUserName(), user);
                                 friendList.add(user);
                             }
@@ -105,7 +109,6 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
         Button addFriends = findViewById(R.id.button_friendRequest);
         addFriends.setOnClickListener(view -> {
             Set<User> friendsToRequest = ((FriendAdapter) Objects.requireNonNull(recyclerView.getAdapter())).friendsToAdd;
-            friendsToRequest.addAll(friendsToRequest);
 
             for (User user : friendsToRequest) {
                 FriendList friendList = FriendList.builder()
@@ -125,6 +128,24 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
             Intent intent = new Intent(FindFriends.this, MainActivity.class);
             FindFriends.this.startActivity(intent);
         });
+
+        Amplify.API.query(
+                ModelQuery.list(FriendList.class, FriendList.USER_NAME.eq(preferences.getString("username", "NA"))),
+                response -> {
+                    for (FriendList friendList : response.getData()) {
+                        if (!friendList.getAccepted()
+                                && !friendList.getDeclined()
+                                && !uniqueFriendRequestList.containsKey(friendList.getId())) {
+                            uniqueFriendRequestList.put(friendList.getId(), friendList.getUser());
+                            requestFriendList.add(friendList);
+                        }
+                    }
+                    handler.sendEmptyMessage(1);
+                },
+                error -> Log.e("Amp.friendRequest", "Failed to find: " + error)
+        );
+
+
     }
 
     @Override
@@ -133,7 +154,7 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
     }
 
     @Override
-    public void rfListener(User user) {
+    public void rfListener(FriendList user) {
 
     }
 }
