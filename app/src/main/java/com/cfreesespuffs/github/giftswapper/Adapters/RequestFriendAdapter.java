@@ -45,7 +45,7 @@ public class RequestFriendAdapter extends RecyclerView.Adapter<RequestFriendAdap
         Log.e("ViewH", "FriendList: " + friendRequestList.toString());
 
         TextView requestFriend = holder.itemView.findViewById(R.id.requestName);
-        requestFriend.setText(holder.friendList.getUserName());
+        requestFriend.setText(holder.friendList.getUser().getUserName());
         requestFriend.setTextColor(Color.parseColor("#000000"));
 
     }
