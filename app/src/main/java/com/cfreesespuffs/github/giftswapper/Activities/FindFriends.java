@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -104,7 +105,7 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
 
         friendRequestRV = findViewById(R.id.friendRequestRv);
         friendRequestRV.setLayoutManager(new LinearLayoutManager(this));
-        friendRequestRV.setAdapter(new RequestFriendAdapter(requestFriendList,this));
+        friendRequestRV.setAdapter(new RequestFriendAdapter(requestFriendList, this));
 
         Button addFriends = findViewById(R.id.button_friendRequest);
         addFriends.setOnClickListener(view -> {
@@ -154,7 +155,40 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
     }
 
     @Override
-    public void rfListener(FriendList user) {
+    public void rfListener(FriendList friendRequestor) {
+        AlertDialog.Builder confirmFriend = new AlertDialog.Builder(this);
+        confirmFriend.setCancelable(true)
+                .setTitle("Friends List")
+                .setMessage("Would you like to accept this request?")
+                .setPositiveButton("Accept",
+                        (dialog, which) -> {
+                            Log.e("listener.Positive", "Yes Pos.");
+                            friendRequestor.accepted = true;
 
+                            Amplify.API.mutate(
+                                    ModelMutation.update(friendRequestor),
+                                    response -> Log.i("Amp.friendRequestor", "Success"),
+                                    error -> Log.e("Amp.friendRequestor", "Fail")
+                                    );
+
+                            FriendList friendList;
+                            friendList = FriendList.builder()
+                                    .userName(friendRequestor.getUser().getUserName())
+                                    .declined(false)
+                                    .accepted(true)
+                                    .user(currentUser)
+                                    .build();
+
+                            Amplify.API.mutate(
+                                    ModelMutation.create(friendList),
+                                    response2 -> Log.i("Amp.friendBuild", "Success"),
+                                    error2 -> Log.e("Amp.friendBuild", "error" + error2)
+                            ); // todo: pickup here to build out Negative button.
+                        });
+        confirmFriend.setNegativeButton("Decline", (dialog, which) -> {
+            Log.e("listener.Negative", "No Neg.");
+        });
+        AlertDialog dialog = confirmFriend.create();
+        dialog.show();
     }
 }
