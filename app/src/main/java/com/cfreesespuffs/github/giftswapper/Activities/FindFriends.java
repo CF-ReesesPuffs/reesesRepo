@@ -186,6 +186,13 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
                             ); // todo: pickup here to build out Negative button.
                         });
         confirmFriend.setNegativeButton("Decline", (dialog, which) -> {
+
+            Amplify.API.mutate(
+                    ModelMutation.delete(friendRequestor),
+                    response -> Log.i("Requestor", "DELETED"),
+                    error -> Log.e("Requestor", "ERROR: " + error)
+            );
+
             Log.e("listener.Negative", "No Neg.");
         });
         AlertDialog dialog = confirmFriend.create();
