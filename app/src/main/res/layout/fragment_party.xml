@@ -4,39 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
+    android:layout_height="60dp"
     tools:context=".Fragments.PartyFragment">
 
     <TextView
         android:id="@+id/party_time"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_marginEnd="24dp"
+        android:layout_height="wrap_content"
         android:text="Time"
+        android:textAlignment="textEnd"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.55" />
+        app:layout_constraintEnd_toEndOf="@+id/party_date"
+        app:layout_constraintTop_toBottomOf="@+id/party_date" />
 
     <TextView
         android:id="@+id/party_title"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
         android:text="Title"
-        app:layout_constraintBottom_toBottomOf="@+id/party_date"
-        app:layout_constraintEnd_toStartOf="@+id/party_date"
-        app:layout_constraintHorizontal_bias="0.333"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/party_date" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
 
     <TextView
         android:id="@+id/party_date"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_marginEnd="32dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="18sp"
         android:text="Date"
-        app:layout_constraintBottom_toBottomOf="@+id/party_time"
-        app:layout_constraintEnd_toStartOf="@+id/party_time"
-        app:layout_constraintTop_toTopOf="@+id/party_time" />
+        android:textAlignment="textEnd"
+        app:layout_constraintBottom_toTopOf="@+id/party_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

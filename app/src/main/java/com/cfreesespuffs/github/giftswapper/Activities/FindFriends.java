@@ -112,18 +112,31 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
             Set<User> friendsToRequest = ((FriendAdapter) Objects.requireNonNull(recyclerView.getAdapter())).friendsToAdd;
 
             for (User user : friendsToRequest) {
-                FriendList friendList = FriendList.builder()
-                        .userName(user.getUserName())
-                        .accepted(false) // todo: accepted should be isConnected
-                        .declined(false) // todo: declined should be isRespondedTo
-                        .user(currentUser)
-                        .build();
 
-                Amplify.API.mutate(
-                        ModelMutation.create(friendList),
-                        response -> Log.i("Amp.friendlist", "Friend now available!: " + response.getData()),
-                        error -> Log.e("Amp.friendlist", "No friend for you!")
+                Amplify.API.query(
+                        ModelQuery.list(FriendList.class, FriendList.USER_NAME.eq(user.getUserName())),
+                        response -> {
+                            for (FriendList friendList : response.getData()) {
+                                if (!friendList.getUser().getUserName().equals(currentUser.getUserName())) { // todo: confirm this logic.
+
+                                    FriendList friendListToDb = FriendList.builder()
+                                            .userName(user.getUserName())
+                                            .accepted(false) // todo: accepted should be isConnected
+                                            .declined(false) // todo: declined should be isRespondedTo
+                                            .user(currentUser)
+                                            .build();
+
+                                    Amplify.API.mutate(
+                                            ModelMutation.create(friendListToDb),
+                                            response2 -> Log.i("Amp.friendlist", "Friend now available!: " + response.getData()),
+                                            error2 -> Log.e("Amp.friendlist", "No friend for you! " + error2)
+                                    );
+                                }
+                            }
+                        },
+                        error -> Log.e("FriendRequest", "Error: " + error)
                 );
+
 
             }
             Intent intent = new Intent(FindFriends.this, MainActivity.class);
@@ -169,7 +182,7 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
                                     ModelMutation.update(friendRequestor),
                                     response -> Log.i("Amp.friendRequestor", "Success"),
                                     error -> Log.e("Amp.friendRequestor", "Fail")
-                                    );
+                            );
 
                             FriendList friendList;
                             friendList = FriendList.builder()
