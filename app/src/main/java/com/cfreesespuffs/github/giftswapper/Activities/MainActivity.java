@@ -1,6 +1,5 @@
 package com.cfreesespuffs.github.giftswapper.Activities;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +22,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -52,7 +50,6 @@ import com.cfreesespuffs.github.giftswapper.PendingPage;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -64,14 +61,12 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener {
     public ArrayList<Party> parties = new ArrayList<>();
     public ArrayList<Party> pendingParties = new ArrayList<>();
+    public HashMap<String, FriendList> friendListsHM = new HashMap<>();
     public HashMap<String, String> pendingPartiesHM = new HashMap<>();
     Handler handleCheckLoggedIn;
     Handler handleParties;
@@ -188,6 +183,10 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 createBellBadge(pendingPartiesHM.size());
             }
 
+            if (message.arg1 == 20) {
+                createFriendBadge(friendListsHM.size());
+            }
+
             return false;
         });
 
@@ -201,6 +200,25 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         connectRecycler();
 
         if (!preferences.getString("userId", "NA").equals("NA")) {
+
+            Amplify.API.query(
+                    ModelQuery.list(FriendList.class, FriendList.USER_NAME.eq(preferences.getString("username", "NA"))), // todo: might need to create custom list?
+                    response3 -> {
+                        friendListsHM.clear();
+                        for (FriendList friendList : response3.getData()) {
+                            if (!friendList.getAccepted()
+                                    && !friendList.getDeclined()) {
+                                friendListsHM.put(friendList.getUserName(), friendList);
+                            }
+                        }
+                        Message message = new Message();
+                        message.arg1 = 20;
+                        handleCheckLoggedIn.sendMessage(message);
+                    },
+                    error -> Log.e("Query.friendlist", "Error: " + error)
+            );
+
+
             Amplify.API.query(
                     ModelQuery.get(User.class, preferences.getString("userId", "NA")),
                     response2 -> {
@@ -355,6 +373,21 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         localLayerDrawable.mutate();
         localLayerDrawable.setDrawableByLayerId(R.id.badge, badgeDrawable);
         bellItem.setIcon(localLayerDrawable);
+    }
+
+    private void createFriendBadge(int paramInt) {
+        Drawable friendBadgeDrawable = friendLayerDrawable.findDrawableByLayerId(R.id.friendBadgeItem); // Vector drawable is *not* "just" drawable.
+        com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable badgeDrawable;
+
+        if (friendBadgeDrawable instanceof com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable && paramInt <10) {
+            badgeDrawable = (com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable) friendBadgeDrawable;
+        } else {
+            badgeDrawable = new com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable(this);
+        }
+        badgeDrawable.setCount(paramInt);
+        localLayerDrawable.mutate();
+        localLayerDrawable.setDrawableByLayerId(R.id.friendBadgeItem, badgeDrawable);
+        friendItem.setIcon(localLayerDrawable);
     }
 
     private GraphQLRequest<GuestList> getPendingParty(String username) { // https://graphql.org/blog/subscriptions-in-graphql-and-relay/

@@ -117,7 +117,7 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
                         ModelQuery.list(FriendList.class, FriendList.USER_NAME.eq(user.getUserName())),
                         response -> {
                             for (FriendList friendList : response.getData()) {
-                                if (!friendList.getUser().getUserName().equals(currentUser.getUserName())) { // todo: confirm this logic.
+                                if (!friendList.getUser().getUserName().equals(currentUser.getUserName())) {
 
                                     FriendList friendListToDb = FriendList.builder()
                                             .userName(user.getUserName())
@@ -136,8 +136,6 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
                         },
                         error -> Log.e("FriendRequest", "Error: " + error)
                 );
-
-
             }
             Intent intent = new Intent(FindFriends.this, MainActivity.class);
             FindFriends.this.startActivity(intent);
@@ -158,13 +156,10 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
                 },
                 error -> Log.e("Amp.friendRequest", "Failed to find: " + error)
         );
-
-
     }
 
     @Override
     public void listener(User user) {
-
     }
 
     @Override
@@ -196,7 +191,7 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
                                     ModelMutation.create(friendList),
                                     response2 -> Log.i("Amp.friendBuild", "Success"),
                                     error2 -> Log.e("Amp.friendBuild", "error" + error2)
-                            ); // todo: pickup here to build out Negative button.
+                            );
                         });
         confirmFriend.setNegativeButton("Decline", (dialog, which) -> {
 

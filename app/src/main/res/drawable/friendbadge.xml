@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/friendBadgeItem"
+        android:drawable="@drawable/ic_profileicon"
+        android:gravity="center"
+        android:title="profileIcon" />
+
+    <item
+        android:id="@+id/badge"
+        android:drawable="@color/transparent"
+        android:title="profileIcon" />
+
+</layer-list>
