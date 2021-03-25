@@ -73,9 +73,10 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     RecyclerView partyRecyclerView;
     ImageButton loginButton;
     SharedPreferences preferences;
-    MenuItem bellItem, friendItem;
+    MenuItem bellItem;
+    MenuItem friendItem;
     LayerDrawable localLayerDrawable;
-    VectorDrawable friendLayerDrawable;
+    LayerDrawable friendLayerDrawable;
     boolean[] isSignedIn = {false};
     private FirebaseCrashlytics firebaseCrashlytics;
     private FirebaseAnalytics analytics;
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         friendItem = menu.findItem(R.id.mainActivityFriendBadge);
-        friendLayerDrawable = (VectorDrawable) friendItem.getIcon();
+        friendLayerDrawable = (LayerDrawable) friendItem.getIcon();
         bellItem = menu.findItem(R.id.mainActivityBadge);
         localLayerDrawable = (LayerDrawable) bellItem.getIcon();
         return super.onPrepareOptionsMenu(menu);
@@ -376,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     }
 
     private void createFriendBadge(int paramInt) {
-        Drawable friendBadgeDrawable = friendLayerDrawable.findDrawableByLayerId(R.id.friendBadgeItem); // Vector drawable is *not* "just" drawable.
+        Drawable friendBadgeDrawable = friendLayerDrawable.findDrawableByLayerId(R.id.thisFriend); // Vector drawable is *not* "just" drawable.
         com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable badgeDrawable;
 
         if (friendBadgeDrawable instanceof com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable && paramInt <10) {
@@ -385,9 +386,9 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
             badgeDrawable = new com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable(this);
         }
         badgeDrawable.setCount(paramInt);
-        localLayerDrawable.mutate();
-        localLayerDrawable.setDrawableByLayerId(R.id.friendBadgeItem, badgeDrawable);
-        friendItem.setIcon(localLayerDrawable);
+        friendLayerDrawable.mutate();
+        friendLayerDrawable.setDrawableByLayerId(R.id.badgeOnFriend, badgeDrawable);
+        friendItem.setIcon(friendLayerDrawable);
     }
 
     private GraphQLRequest<GuestList> getPendingParty(String username) { // https://graphql.org/blog/subscriptions-in-graphql-and-relay/
