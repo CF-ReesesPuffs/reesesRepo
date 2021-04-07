@@ -1,6 +1,5 @@
 package com.cfreesespuffs.github.giftswapper.Activities;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +22,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -52,7 +50,6 @@ import com.cfreesespuffs.github.giftswapper.PendingPage;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -64,23 +61,22 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener {
     public ArrayList<Party> parties = new ArrayList<>();
     public ArrayList<Party> pendingParties = new ArrayList<>();
+    public HashMap<String, FriendList> friendListsHM = new HashMap<>();
     public HashMap<String, String> pendingPartiesHM = new HashMap<>();
     Handler handleCheckLoggedIn;
     Handler handleParties;
     RecyclerView partyRecyclerView;
     ImageButton loginButton;
     SharedPreferences preferences;
-    MenuItem bellItem, friendItem;
+    MenuItem bellItem;
+    MenuItem friendItem;
     LayerDrawable localLayerDrawable;
-    VectorDrawable friendLayerDrawable;
+    LayerDrawable friendLayerDrawable;
     boolean[] isSignedIn = {false};
     private FirebaseCrashlytics firebaseCrashlytics;
     private FirebaseAnalytics analytics;
@@ -127,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         friendItem = menu.findItem(R.id.mainActivityFriendBadge);
-        friendLayerDrawable = (VectorDrawable) friendItem.getIcon();
+        friendLayerDrawable = (LayerDrawable) friendItem.getIcon();
         bellItem = menu.findItem(R.id.mainActivityBadge);
         localLayerDrawable = (LayerDrawable) bellItem.getIcon();
         return super.onPrepareOptionsMenu(menu);
@@ -188,6 +184,10 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 createBellBadge(pendingPartiesHM.size());
             }
 
+            if (message.arg1 == 20) {
+                createFriendBadge(friendListsHM.size());
+            }
+
             return false;
         });
 
@@ -201,6 +201,27 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         connectRecycler();
 
         if (!preferences.getString("userId", "NA").equals("NA")) {
+
+            Amplify.API.query(
+                    ModelQuery.list(FriendList.class, FriendList.USER_NAME.eq(preferences.getString("username", "NA"))), // todo: might need to create custom list?
+                    response3 -> {
+                        friendListsHM.clear();
+                        for (FriendList friendList : response3.getData()) {
+                            if (!friendList.getAccepted()
+                                    && !friendList.getDeclined()) {
+                                Log.e("inResponse.fL", "ind'l fL" + friendList);
+                                friendListsHM.put(friendList.getUser().getUserName(), friendList);
+                            }
+                        }
+                        Log.e("FL.size", "count: " + friendListsHM.size());
+                        Message message = new Message();
+                        message.arg1 = 20;
+                        handleCheckLoggedIn.sendMessage(message);
+                    },
+                    error -> Log.e("Query.friendlist", "Error: " + error)
+            );
+
+
             Amplify.API.query(
                     ModelQuery.get(User.class, preferences.getString("userId", "NA")),
                     response2 -> {
@@ -241,7 +262,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 params2.putString("duration", Long.toString(endTime - startTime));
                 params2.putString("user_name", preferences.getString("username", "NA"));
                 analytics.logEvent("invite_accept", params2);
-
                 Log.e("inviteAccept.Time", Long.toString(endTime - startTime));
             }
         }
@@ -253,7 +273,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         });
 
     }
-
 
     @Override
     public void onBackPressed() {
@@ -355,6 +374,21 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         localLayerDrawable.mutate();
         localLayerDrawable.setDrawableByLayerId(R.id.badge, badgeDrawable);
         bellItem.setIcon(localLayerDrawable);
+    }
+
+    private void createFriendBadge(int paramInt) {
+        Drawable friendBadgeDrawable = friendLayerDrawable.findDrawableByLayerId(R.id.thisFriend); // Vector drawable is *not* "just" drawable.
+        com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable badgeDrawable;
+
+        if (friendBadgeDrawable instanceof com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable && paramInt < 10) {
+            badgeDrawable = (com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable) friendBadgeDrawable;
+        } else {
+            badgeDrawable = new com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable(this);
+        }
+        badgeDrawable.setCount(paramInt);
+        friendLayerDrawable.mutate();
+        friendLayerDrawable.setDrawableByLayerId(R.id.badgeOnFriend, badgeDrawable);
+        friendItem.setIcon(friendLayerDrawable);
     }
 
     private GraphQLRequest<GuestList> getPendingParty(String username) { // https://graphql.org/blog/subscriptions-in-graphql-and-relay/

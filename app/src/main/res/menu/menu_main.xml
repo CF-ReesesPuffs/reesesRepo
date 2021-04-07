@@ -17,7 +17,7 @@
 
     <item
         android:id="@+id/mainActivityFriendBadge"
-        android:icon="@drawable/ic_profileicon"
+        android:icon="@drawable/friend_badge_two"
         app:showAsAction="ifRoom"
         android:title="friendbadge"
         />

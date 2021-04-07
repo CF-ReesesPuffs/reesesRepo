@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -104,26 +105,37 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
 
         friendRequestRV = findViewById(R.id.friendRequestRv);
         friendRequestRV.setLayoutManager(new LinearLayoutManager(this));
-        friendRequestRV.setAdapter(new RequestFriendAdapter(requestFriendList,this));
+        friendRequestRV.setAdapter(new RequestFriendAdapter(requestFriendList, this));
 
         Button addFriends = findViewById(R.id.button_friendRequest);
         addFriends.setOnClickListener(view -> {
             Set<User> friendsToRequest = ((FriendAdapter) Objects.requireNonNull(recyclerView.getAdapter())).friendsToAdd;
 
             for (User user : friendsToRequest) {
-                FriendList friendList = FriendList.builder()
-                        .userName(user.getUserName())
-                        .accepted(false) // todo: accepted should be isConnected
-                        .declined(false) // todo: declined should be isRespondedTo
-                        .user(currentUser)
-                        .build();
 
-                Amplify.API.mutate(
-                        ModelMutation.create(friendList),
-                        response -> Log.i("Amp.friendlist", "Friend now available!: " + response.getData()),
-                        error -> Log.e("Amp.friendlist", "No friend for you!")
+                Amplify.API.query(
+                        ModelQuery.list(FriendList.class, FriendList.USER_NAME.eq(user.getUserName())),
+                        response -> {
+                            for (FriendList friendList : response.getData()) {
+                                if (!friendList.getUser().getUserName().equals(currentUser.getUserName())) {
+
+                                    FriendList friendListToDb = FriendList.builder()
+                                            .userName(user.getUserName())
+                                            .accepted(false) // todo: accepted should be isConnected
+                                            .declined(false) // todo: declined should be isRespondedTo
+                                            .user(currentUser)
+                                            .build();
+
+                                    Amplify.API.mutate(
+                                            ModelMutation.create(friendListToDb),
+                                            response2 -> Log.i("Amp.friendlist", "Friend now available!: " + response.getData()),
+                                            error2 -> Log.e("Amp.friendlist", "No friend for you! " + error2)
+                                    );
+                                }
+                            }
+                        },
+                        error -> Log.e("FriendRequest", "Error: " + error)
                 );
-
             }
             Intent intent = new Intent(FindFriends.this, MainActivity.class);
             FindFriends.this.startActivity(intent);
@@ -144,17 +156,54 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
                 },
                 error -> Log.e("Amp.friendRequest", "Failed to find: " + error)
         );
-
-
     }
 
     @Override
     public void listener(User user) {
-
     }
 
     @Override
-    public void rfListener(FriendList user) {
+    public void rfListener(FriendList friendRequestor) {
+        AlertDialog.Builder confirmFriend = new AlertDialog.Builder(this);
+        confirmFriend.setCancelable(true)
+                .setTitle("Friends List")
+                .setMessage("Would you like to accept this request?")
+                .setPositiveButton("Accept",
+                        (dialog, which) -> {
+                            Log.e("listener.Positive", "Yes Pos.");
+                            friendRequestor.accepted = true;
 
+                            Amplify.API.mutate(
+                                    ModelMutation.update(friendRequestor),
+                                    response -> Log.i("Amp.friendRequestor", "Success"),
+                                    error -> Log.e("Amp.friendRequestor", "Fail")
+                            );
+
+                            FriendList friendList;
+                            friendList = FriendList.builder()
+                                    .userName(friendRequestor.getUser().getUserName())
+                                    .declined(false)
+                                    .accepted(true)
+                                    .user(currentUser)
+                                    .build();
+
+                            Amplify.API.mutate(
+                                    ModelMutation.create(friendList),
+                                    response2 -> Log.i("Amp.friendBuild", "Success"),
+                                    error2 -> Log.e("Amp.friendBuild", "error" + error2)
+                            );
+                        });
+        confirmFriend.setNegativeButton("Decline", (dialog, which) -> {
+
+            Amplify.API.mutate(
+                    ModelMutation.delete(friendRequestor),
+                    response -> Log.i("Requestor", "DELETED"),
+                    error -> Log.e("Requestor", "ERROR: " + error)
+            );
+
+            Log.e("listener.Negative", "No Neg.");
+        });
+        AlertDialog dialog = confirmFriend.create();
+        dialog.show();
     }
 }
