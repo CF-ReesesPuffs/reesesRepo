@@ -831,6 +831,225 @@ subscription OnUpdateGiftOfSpecificParty($number: String) {
     updatedAt
   }
 }
+subscription OnCreateOfFriendList($userName: String) {
+  onCreateOfFriendList(userName: $userName) {
+    id
+    userName
+    accepted
+    declined
+    user {
+      id
+      userName
+      searchName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          fileKey
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteOfFriendList($userName: String) {
+  onDeleteOfFriendList(userName: $userName) {
+    id
+    userName
+    accepted
+    declined
+    user {
+      id
+      userName
+      searchName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          fileKey
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateOfFriendList($userName: String) {
+  onUpdateOfFriendList(userName: $userName) {
+    id
+    userName
+    accepted
+    declined
+    user {
+      id
+      userName
+      searchName
+      email
+      hosting {
+        items {
+          id
+          title
+          hostedOn
+          hostedAt
+          partyDateAWS
+          partyDate
+          price
+          isReady
+          isFinished
+          stealLimit
+          lastGiftStolen
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gifts {
+        items {
+          id
+          title
+          number
+          partyGoer
+          timesStolen
+          fileKey
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      parties {
+        items {
+          id
+          inviteStatus
+          invitee
+          invitedUser
+          takenTurn
+          turnOrder
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      friends {
+        items {
+          id
+          userName
+          accepted
+          declined
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
 subscription OnCreateUser {
   onCreateUser {
     id

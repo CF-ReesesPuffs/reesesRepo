@@ -75,5 +75,14 @@ type Subscription {
   onUpdateGiftOfSpecificParty(number: String): Gift
   @aws_subscribe(mutations: ["updateGift"])
 
+  onCreateOfFriendList(userName: String): FriendList
+  @aws_subscribe(mutations: ["createFriendList"])
+
+  onDeleteOfFriendList(userName: String): FriendList
+  @aws_subscribe(mutations: ["deleteFriendList"])
+
+  onUpdateOfFriendList(userName: String): FriendList
+  @aws_subscribe(mutations: ["updateFriendList"])
+
 }
 
