@@ -162,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
         createSingleIdGuestListSubscription(preferences.getString("username", "NA"));
         updateGuestListForBell(preferences.getString("username", "NA"));
+        updateFriendListForBell(preferences.getString("username", "NA"));
 
 //===================================== handler check logged
         handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
@@ -186,6 +187,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
             if (message.arg1 == 20) {
                 createFriendBadge(friendListsHM.size());
+
             }
 
             return false;
@@ -460,4 +462,41 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 GuestList.class,
                 new GsonVariablesSerializer());
     }
+
+    private void updateFriendListForBell(String username) {
+        Amplify.API.subscribe(updateFriendListByUserName(username),
+                subCheck -> Log.d("Sub.updateFriendList", "connection established"),
+                response -> {
+                    FriendList friendList = response.getData();
+                    if(!friendList.getAccepted() && !friendList.getDeclined()) {
+                        Log.i("Sub.FriendList", "new friendList: " + friendList);
+                        friendListsHM.put(friendList.getUser().getUserName(), friendList);
+                    }
+                    Message message = new Message();
+                    message.arg1 = 20;
+                    handleCheckLoggedIn.sendMessage(message);
+                },
+            failure -> Log.e("Sub.updateFriendList", "failure: " + failure),
+                () -> Log.i("Sub.updateFriendList", "SUb is closed")
+        );
+    }
+
+    private GraphQLRequest<FriendList> updateFriendListByUserName(String username) {
+        String document = "subscription createFriendList($user: String) { "
+                + "onCreateOfFriendList(userName: $user) { "
+                + "accepted "
+                + "declined "
+                + "user { "
+                + "userName"
+                + "}"
+                + "}"
+                + "}";
+        return new SimpleGraphQLRequest<>(
+                document,
+                Collections.singletonMap("user", username),
+                FriendList.class,
+                new GsonVariablesSerializer());
+    }
+
+
 }
