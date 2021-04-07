@@ -209,9 +209,11 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                         for (FriendList friendList : response3.getData()) {
                             if (!friendList.getAccepted()
                                     && !friendList.getDeclined()) {
-                                friendListsHM.put(friendList.getUserName(), friendList);
+                                Log.e("inResponse.fL", "ind'l fL" + friendList);
+                                friendListsHM.put(friendList.getUser().getUserName(), friendList);
                             }
                         }
+                        Log.e("FL.size", "count: " + friendListsHM.size());
                         Message message = new Message();
                         message.arg1 = 20;
                         handleCheckLoggedIn.sendMessage(message);
@@ -260,7 +262,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 params2.putString("duration", Long.toString(endTime - startTime));
                 params2.putString("user_name", preferences.getString("username", "NA"));
                 analytics.logEvent("invite_accept", params2);
-
                 Log.e("inviteAccept.Time", Long.toString(endTime - startTime));
             }
         }
@@ -272,7 +273,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         });
 
     }
-
 
     @Override
     public void onBackPressed() {
@@ -380,7 +380,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         Drawable friendBadgeDrawable = friendLayerDrawable.findDrawableByLayerId(R.id.thisFriend); // Vector drawable is *not* "just" drawable.
         com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable badgeDrawable;
 
-        if (friendBadgeDrawable instanceof com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable && paramInt <10) {
+        if (friendBadgeDrawable instanceof com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable && paramInt < 10) {
             badgeDrawable = (com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable) friendBadgeDrawable;
         } else {
             badgeDrawable = new com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable(this);

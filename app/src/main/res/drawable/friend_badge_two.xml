@@ -5,7 +5,7 @@
         android:id="@+id/thisFriend"
         android:drawable="@drawable/ic_friend_foreground"
         android:gravity="center"
-        android:title="BELL" />
+        android:title="FRIEND" />
     <item
         android:id="@+id/badgeOnFriend"
         android:drawable="@android:color/transparent"
