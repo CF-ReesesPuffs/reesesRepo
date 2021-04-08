@@ -39,9 +39,8 @@ public final class GuestList implements Model {
     public String getId() {
         return id;
     }
-
-
-    public String getInviteStatus() {
+  
+  public String getInviteStatus() {
       return inviteStatus;
   }
   

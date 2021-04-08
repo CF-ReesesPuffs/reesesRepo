@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.icu.util.Measure;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Window;
@@ -31,6 +33,7 @@ import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -42,6 +45,7 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
     Button findFriend;
     HashMap<String, User> uniqueFriendRequestList = new HashMap<>();
     HashMap<String, User> uniqueFriendList = new HashMap<>();
+    HashSet<String> userFriendList = new HashSet<>();
     ArrayList<User> friendList = new ArrayList<>();
     ArrayList<FriendList> requestFriendList = new ArrayList<>();
     Handler handler;
@@ -81,11 +85,17 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
         findFriend.setOnClickListener((view) -> {
             String friendLc = friendSearchField.getText().toString().toLowerCase();
 
+            ArrayList<FriendList> friendAL = (ArrayList)currentUser.getFriends();
+            for(FriendList friendList : friendAL){
+                userFriendList.add(friendList.getUserName());
+            }
+
             Amplify.API.query(
                     ModelQuery.list(User.class, User.SEARCH_NAME.beginsWith(friendLc)),
                     response -> {
                         for (User user : response.getData()) {
                             if (!uniqueFriendList.containsKey(user.getUserName())
+                                    && !userFriendList.contains(user.getUserName())
                                     && !user.getUserName().equals(preferences.getString("username", "NA"))) {
                                 uniqueFriendList.put(user.getUserName(), user);
                                 friendList.add(user);
@@ -113,28 +123,17 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
 
             for (User user : friendsToRequest) {
 
-                Amplify.API.query(
-                        ModelQuery.list(FriendList.class, FriendList.USER_NAME.eq(user.getUserName())),
-                        response -> {
-                            for (FriendList friendList : response.getData()) {
-                                if (!friendList.getUser().getUserName().equals(currentUser.getUserName())) {
+                FriendList friendListToDb = FriendList.builder()
+                        .userName(user.getUserName())
+                        .accepted(false) // todo: accepted should be isConnected
+                        .declined(false) // todo: declined should be isRespondedTo
+                        .user(currentUser)
+                        .build();
 
-                                    FriendList friendListToDb = FriendList.builder()
-                                            .userName(user.getUserName())
-                                            .accepted(false) // todo: accepted should be isConnected
-                                            .declined(false) // todo: declined should be isRespondedTo
-                                            .user(currentUser)
-                                            .build();
-
-                                    Amplify.API.mutate(
-                                            ModelMutation.create(friendListToDb),
-                                            response2 -> Log.i("Amp.friendlist", "Friend now available!: " + response.getData()),
-                                            error2 -> Log.e("Amp.friendlist", "No friend for you! " + error2)
-                                    );
-                                }
-                            }
-                        },
-                        error -> Log.e("FriendRequest", "Error: " + error)
+                Amplify.API.mutate(
+                        ModelMutation.create(friendListToDb),
+                        response2 -> Log.i("Amp.friendlist", "Friend now available!: " + response2.getData()),
+                        error2 -> Log.e("Amp.friendlist", "No friend for you! " + error2)
                 );
             }
             Intent intent = new Intent(FindFriends.this, MainActivity.class);
@@ -192,6 +191,9 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
                                     response2 -> Log.i("Amp.friendBuild", "Success"),
                                     error2 -> Log.e("Amp.friendBuild", "error" + error2)
                             );
+
+                            requestFriendList.remove(friendRequestor);
+                            handler.sendEmptyMessage(1);
                         });
         confirmFriend.setNegativeButton("Decline", (dialog, which) -> {
 
