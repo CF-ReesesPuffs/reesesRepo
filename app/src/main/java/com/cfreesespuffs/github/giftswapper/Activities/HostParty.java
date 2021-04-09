@@ -188,14 +188,14 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         findGuestButton.setOnClickListener((view) -> { // https://stackoverflow.com/questions/9596010/android-use-done-button-on-keyboard-to-click-button
 
             String guestLc = foundGuest.getText().toString().toLowerCase();
-
+// todo: (swap for friendsList) check against currentUser friendList for any that containt guestLC
             Amplify.API.query(
                     ModelQuery.list(User.class, User.SEARCH_NAME.beginsWith(guestLc)),
                     response -> {
                         for (User user : response.getData()) {
                             if (!uniqueGuestList.containsKey(user.getUserName())) {
-                                uniqueGuestList.put(user.getUserName(), user);
-                                guestList.add(user);
+                                uniqueGuestList.put(user.getUserName(), user); // todo: swap to hashset
+                                guestList.add(user); // todo: change only to string.
                             }
                             handler.sendEmptyMessage(1);
                         }
@@ -355,6 +355,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                     ModelMutation.create(party),
                     response -> {
                         Party party2 = response.getData();
+                        // todo: to use friendlist, will need to query for each friendlist username to bring in user.
                         for (User guest : guestsToInviteList) {
                             GuestList inviteStatus = GuestList.builder()
                                     .inviteStatus("Pending")

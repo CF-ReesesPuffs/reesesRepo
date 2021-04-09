@@ -45,7 +45,7 @@ public class BadgeDrawable extends Drawable {
         }
 
         Rect localRect = getBounds();
-        float width = localRect.right - localRect.left;
+        float width = (localRect.right - localRect.left); // changes location of where badge will show.
         float height = localRect.bottom - localRect.top;
         float circleRadius;
 
