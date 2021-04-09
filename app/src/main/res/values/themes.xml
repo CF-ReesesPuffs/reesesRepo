@@ -12,6 +12,7 @@
         <item name="android:actionBarStyle">@style/actionBar</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/green</item>
+        <item name="android:actionButtonStyle">@style/ActionButtonStyle</item> <!-- https://stackoverflow.com/questions/9131954/is-there-a-way-to-reduce-the-spacing-between-the-action-item-icons-on-action-bar -->
         <!-- Customize your theme here. -->
     </style>
 
