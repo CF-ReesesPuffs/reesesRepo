@@ -356,9 +356,15 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         }
 
         if (item.getItemId() == R.id.mainActivityFriendBadge) {
-            Intent goToFriends = new Intent(MainActivity.this, FindFriends.class);
+            Intent goToFriendFinder = new Intent(MainActivity.this, FindFriends.class);
+            MainActivity.this.startActivity(goToFriendFinder);
+        }
+
+        if (item.getItemId() == R.id.friendsPage) {
+            Intent goToFriends = new Intent(MainActivity.this, FriendsPage.class);
             MainActivity.this.startActivity(goToFriends);
         }
+
         return true;
     }
 

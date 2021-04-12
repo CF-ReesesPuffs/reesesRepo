@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/attended_party_actionbar"
+        android:id="@+id/friend_page_actionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/green"
@@ -22,7 +21,7 @@
         android:textAlignment="viewStart"
         android:textColor="@color/text_white"
         android:textSize="20sp"
-        app:layout_anchor="@+id/attended_party_actionbar"
+        app:layout_anchor="@+id/friend_page_actionBar"
         app:layout_anchorGravity="center|start" />
 
     <Button

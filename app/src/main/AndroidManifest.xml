@@ -14,7 +14,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Giftswapper">
-        <activity android:name=".Activities.FriendsPage"></activity>
         <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 IMPORTANT ONLY USE THIS WHILE TESTING -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -25,6 +24,11 @@
             android:label="Attended Parties"
             android:theme="@style/Theme.AllNoActionBarNone" /> <!-- https://stackoverflow.com/questions/9111813/how-to-move-the-layout-up-when-the-soft-keyboard-is-shown-android to move layout for keyboard reveal/hide -->
         <!-- https://romannurik.github.io/AndroidAssetStudio/ for the icon batch rendering.  https://stackoverflow.com/questions/37085753/android-studio-image-asset-launcher-icon-background-color/37085828#37085828 -->
+        <activity
+            android:name=".Activities.FriendsPage"
+            android:label="Friends"
+            android:theme="@style/Theme.AllNoActionBarNone"
+            />
         <activity
             android:name=".InvitationList"
             android:label="Invitations" /> <!-- <activity android:name=".PendingPartyFragment" /> -->
@@ -52,7 +56,6 @@
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

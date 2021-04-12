@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/frindsList"
+        android:id="@+id/friendsPage"
         android:title="Friends"
         app:showAsAction="never" />
 
