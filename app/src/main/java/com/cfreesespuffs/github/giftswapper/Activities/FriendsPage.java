@@ -6,16 +6,23 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.FriendList;
+import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.Adapters.FriendPageAdapter;
 import com.cfreesespuffs.github.giftswapper.Adapters.PartyAdapter;
 import com.cfreesespuffs.github.giftswapper.R;
@@ -46,18 +53,35 @@ public class FriendsPage extends AppCompatActivity implements FriendPageAdapter.
 
         handler = new Handler(Looper.getMainLooper(), msg -> {
             if (msg.arg1 == 1) {
-//                Objects.requireNonNull(friendsRv.getAdapter().notifyDataSetChanged());
+                friendsRv.getAdapter().notifyDataSetChanged();
             }
             return false;
+        });
+
+        Button homeDetailButton = FriendsPage.this.findViewById(R.id.customHomeButton);
+        homeDetailButton.setOnClickListener((view) -> {
+            Intent goToMain = new Intent(FriendsPage.this, MainActivity.class);
+            FriendsPage.this.startActivity(goToMain);
         });
 
         friendsRv = findViewById(R.id.friendRecycler);
         friendsRv.setLayoutManager(new LinearLayoutManager(this));
         friendsRv.setAdapter(new FriendPageAdapter(friends, this));
+
+        Amplify.API.query(
+                ModelQuery.get(User.class, prefs.getString("userId", "NA")),
+                response -> {
+                    Log.e("Amp.query", "Response: " + response);
+                    if (response.getData().getFriends().isEmpty()) return;
+                    for (FriendList friend : response.getData().getFriends()) {
+                        friends.add(friend);
+                    }
+                    handler.sendEmptyMessage(1);
+                },
+                error -> Log.e("Amp.query", "Error: " + error)
+        );
     }
 
     @Override
-    public void listener(FriendList friendList) {
-
-    }
+    public void listener(FriendList friendList) {    }
 }
