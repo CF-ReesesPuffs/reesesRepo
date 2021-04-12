@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        layout="@layout/activity_friends_page" />
+
+    <include
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        layout="@layout/friend_page_actionbar" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/attended_party_actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/green"
+        app:title=" " />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:paddingStart="18dp"
+        android:text="Friends"
+        android:textAlignment="viewStart"
+        android:textColor="@color/text_white"
+        android:textSize="20sp"
+        app:layout_anchor="@+id/attended_party_actionbar"
+        app:layout_anchorGravity="center|start" />
+
+    <Button
+        android:id="@+id/customHomeButton"
+        android:layout_width="53dp"
+        android:layout_height="56dp"
+        android:layout_gravity="right"
+        android:background="#00FFFFFF"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:textColor="#0022FD"
+        app:icon="@drawable/home_foreground"
+        app:iconGravity="textEnd"
+        app:iconPadding="4dp"
+        app:iconSize="60dp"
+        app:iconTint="#fff" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
