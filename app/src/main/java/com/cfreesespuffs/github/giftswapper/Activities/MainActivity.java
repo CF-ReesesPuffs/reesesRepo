@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         if (!preferences.getString("userId", "NA").equals("NA")) {
 
             Amplify.API.query(
-                    ModelQuery.list(FriendList.class, FriendList.USER_NAME.eq(preferences.getString("username", "NA"))), // todo: might need to create custom list?
+                    ModelQuery.list(FriendList.class, FriendList.USER_NAME.eq(preferences.getString("username", "NA"))),
                     response3 -> {
                         friendListsHM.clear();
                         for (FriendList friendList : response3.getData()) {

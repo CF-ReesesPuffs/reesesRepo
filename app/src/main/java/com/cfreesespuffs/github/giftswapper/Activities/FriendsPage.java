@@ -19,6 +19,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import com.amplifyframework.api.aws.GsonVariablesSerializer;
+import com.amplifyframework.api.graphql.GraphQLRequest;
+import com.amplifyframework.api.graphql.SimpleGraphQLRequest;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.FriendList;
@@ -28,6 +31,7 @@ import com.cfreesespuffs.github.giftswapper.Adapters.PartyAdapter;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 public class FriendsPage extends AppCompatActivity implements FriendPageAdapter.FriendPageListener {
@@ -68,20 +72,35 @@ public class FriendsPage extends AppCompatActivity implements FriendPageAdapter.
         friendsRv.setLayoutManager(new LinearLayoutManager(this));
         friendsRv.setAdapter(new FriendPageAdapter(friends, this));
 
+        Log.e("Pref.User", "prefs : " + prefs.getString("userId", "NA"));
+
         Amplify.API.query(
-                ModelQuery.get(User.class, prefs.getString("userId", "NA")),
+                getFriendsById(prefs.getString("userId", "NA")),
                 response -> {
-                    Log.e("Amp.query", "Response: " + response);
-                    if (response.getData().getFriends().isEmpty()) return;
-                    for (FriendList friend : response.getData().getFriends()) {
-                        friends.add(friend);
-                    }
-                    handler.sendEmptyMessage(1);
+                    Log.e("Amp.query", "response GF by id: " + response);
                 },
-                error -> Log.e("Amp.query", "Error: " + error)
+                error -> Log.e("Amp.query", "error: " + error)
         );
     }
 
+    private GraphQLRequest<User> getFriendsById(String id) {
+        String document = "query getUser($id: ID!) { "
+                + "getUser(id: $id) { "
+                + "friends { "
+                + "items { "
+                + "userName"
+                + "}"
+                + "}"
+                + "}"
+                + "}";
+        return new SimpleGraphQLRequest<>(
+                document,
+                Collections.singletonMap("id", id),
+                User.class,
+                new GsonVariablesSerializer());
+    }
+
     @Override
-    public void listener(FriendList friendList) {    }
+    public void listener(FriendList friendList) {
+    }
 }
