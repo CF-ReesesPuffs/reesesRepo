@@ -87,4 +87,3 @@ type Subscription {
   @aws_subscribe(mutations: ["updateFriendList"])
 
 }
-

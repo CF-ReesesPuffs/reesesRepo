@@ -28,8 +28,8 @@ public final class FriendList implements Model {
   public static final QueryField USER = field("userID");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String userName;
-  private final @ModelField(targetType="Boolean") Boolean accepted;
-  private final @ModelField(targetType="Boolean") Boolean declined;
+  public @ModelField(targetType="Boolean") Boolean accepted;
+  public @ModelField(targetType="Boolean") Boolean declined;
   private final @ModelField(targetType="User") @BelongsTo(targetName = "userID", type = User.class) User user;
   public String getId() {
       return id;

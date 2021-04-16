@@ -18,58 +18,15 @@ subscription OnUpdateOfSpecificParty($id: ID!) {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -83,29 +40,6 @@ subscription OnUpdateOfSpecificParty($id: ID!) {
         invitedUser
         takenTurn
         turnOrder
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -119,29 +53,6 @@ subscription OnUpdateOfSpecificParty($id: ID!) {
         partyGoer
         timesStolen
         fileKey
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -165,58 +76,15 @@ subscription OnCreateOfUserId($invitedUser: String) {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -239,45 +107,13 @@ subscription OnCreateOfUserId($invitedUser: String) {
         userName
         searchName
         email
-        hosting {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
-        parties {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       users {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -301,58 +137,15 @@ subscription OnUpdateOfGuestListByUserId($invitedUser: String) {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -375,45 +168,13 @@ subscription OnUpdateOfGuestListByUserId($invitedUser: String) {
         userName
         searchName
         email
-        hosting {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
-        parties {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       users {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -437,58 +198,15 @@ subscription OnDeleteSpecificGuestList($invitedUser: String) {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -511,45 +229,13 @@ subscription OnDeleteSpecificGuestList($invitedUser: String) {
         userName
         searchName
         email
-        hosting {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
-        parties {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       users {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -573,58 +259,15 @@ subscription OnUpdateHostGuestList($invitee: String) {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -647,45 +290,13 @@ subscription OnUpdateHostGuestList($invitee: String) {
         userName
         searchName
         email
-        hosting {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
-        parties {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       users {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -709,58 +320,15 @@ subscription OnUpdateGiftOfSpecificParty($number: String) {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -783,45 +351,13 @@ subscription OnUpdateGiftOfSpecificParty($number: String) {
         userName
         searchName
         email
-        hosting {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
-        parties {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       users {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -834,6 +370,7 @@ subscription OnUpdateGiftOfSpecificParty($number: String) {
 subscription OnCreateOfFriendList($userName: String) {
   onCreateOfFriendList(userName: $userName) {
     id
+    userID
     userName
     accepted
     declined
@@ -843,58 +380,15 @@ subscription OnCreateOfFriendList($userName: String) {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -907,6 +401,7 @@ subscription OnCreateOfFriendList($userName: String) {
 subscription OnDeleteOfFriendList($userName: String) {
   onDeleteOfFriendList(userName: $userName) {
     id
+    userID
     userName
     accepted
     declined
@@ -916,58 +411,15 @@ subscription OnDeleteOfFriendList($userName: String) {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -980,6 +432,7 @@ subscription OnDeleteOfFriendList($userName: String) {
 subscription OnUpdateOfFriendList($userName: String) {
   onUpdateOfFriendList(userName: $userName) {
     id
+    userID
     userName
     accepted
     declined
@@ -989,58 +442,15 @@ subscription OnUpdateOfFriendList($userName: String) {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -1069,20 +479,6 @@ subscription OnCreateUser {
         isFinished
         stealLimit
         lastGiftStolen
-        theHost {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        users {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -1096,29 +492,6 @@ subscription OnCreateUser {
         partyGoer
         timesStolen
         fileKey
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -1132,29 +505,6 @@ subscription OnCreateUser {
         invitedUser
         takenTurn
         turnOrder
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -1163,17 +513,10 @@ subscription OnCreateUser {
     friends {
       items {
         id
+        userID
         userName
         accepted
         declined
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -1202,20 +545,6 @@ subscription OnUpdateUser {
         isFinished
         stealLimit
         lastGiftStolen
-        theHost {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        users {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -1229,29 +558,6 @@ subscription OnUpdateUser {
         partyGoer
         timesStolen
         fileKey
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -1265,29 +571,6 @@ subscription OnUpdateUser {
         invitedUser
         takenTurn
         turnOrder
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -1296,17 +579,10 @@ subscription OnUpdateUser {
     friends {
       items {
         id
+        userID
         userName
         accepted
         declined
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -1335,20 +611,6 @@ subscription OnDeleteUser {
         isFinished
         stealLimit
         lastGiftStolen
-        theHost {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        users {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -1362,29 +624,6 @@ subscription OnDeleteUser {
         partyGoer
         timesStolen
         fileKey
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -1398,29 +637,6 @@ subscription OnDeleteUser {
         invitedUser
         takenTurn
         turnOrder
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -1429,17 +645,10 @@ subscription OnDeleteUser {
     friends {
       items {
         id
+        userID
         userName
         accepted
         declined
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -1452,6 +661,7 @@ subscription OnDeleteUser {
 subscription OnCreateFriendList {
   onCreateFriendList {
     id
+    userID
     userName
     accepted
     declined
@@ -1461,58 +671,15 @@ subscription OnCreateFriendList {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -1525,6 +692,7 @@ subscription OnCreateFriendList {
 subscription OnUpdateFriendList {
   onUpdateFriendList {
     id
+    userID
     userName
     accepted
     declined
@@ -1534,58 +702,15 @@ subscription OnUpdateFriendList {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -1598,6 +723,7 @@ subscription OnUpdateFriendList {
 subscription OnDeleteFriendList {
   onDeleteFriendList {
     id
+    userID
     userName
     accepted
     declined
@@ -1607,58 +733,15 @@ subscription OnDeleteFriendList {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -1682,58 +765,15 @@ subscription OnCreateGuestList {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -1756,45 +796,13 @@ subscription OnCreateGuestList {
         userName
         searchName
         email
-        hosting {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
-        parties {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       users {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -1818,58 +826,15 @@ subscription OnUpdateGuestList {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -1892,45 +857,13 @@ subscription OnUpdateGuestList {
         userName
         searchName
         email
-        hosting {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
-        parties {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       users {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -1954,58 +887,15 @@ subscription OnDeleteGuestList {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -2028,45 +918,13 @@ subscription OnDeleteGuestList {
         userName
         searchName
         email
-        hosting {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
-        parties {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       users {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -2090,58 +948,15 @@ subscription OnCreateGift {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -2164,45 +979,13 @@ subscription OnCreateGift {
         userName
         searchName
         email
-        hosting {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
-        parties {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       users {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -2226,58 +1009,15 @@ subscription OnUpdateGift {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -2300,45 +1040,13 @@ subscription OnUpdateGift {
         userName
         searchName
         email
-        hosting {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
-        parties {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       users {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -2362,58 +1070,15 @@ subscription OnDeleteGift {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -2436,45 +1101,13 @@ subscription OnDeleteGift {
         userName
         searchName
         email
-        hosting {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
-        parties {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       users {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -2503,58 +1136,15 @@ subscription OnCreateParty {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -2568,29 +1158,6 @@ subscription OnCreateParty {
         invitedUser
         takenTurn
         turnOrder
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -2604,29 +1171,6 @@ subscription OnCreateParty {
         partyGoer
         timesStolen
         fileKey
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -2655,58 +1199,15 @@ subscription OnUpdateParty {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -2720,29 +1221,6 @@ subscription OnUpdateParty {
         invitedUser
         takenTurn
         turnOrder
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -2756,29 +1234,6 @@ subscription OnUpdateParty {
         partyGoer
         timesStolen
         fileKey
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -2807,58 +1262,15 @@ subscription OnDeleteParty {
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -2872,29 +1284,6 @@ subscription OnDeleteParty {
         invitedUser
         takenTurn
         turnOrder
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -2908,29 +1297,6 @@ subscription OnDeleteParty {
         partyGoer
         timesStolen
         fileKey
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }

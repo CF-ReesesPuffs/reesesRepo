@@ -21,20 +21,6 @@ mutation CreateUser(
         isFinished
         stealLimit
         lastGiftStolen
-        theHost {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        users {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -48,29 +34,6 @@ mutation CreateUser(
         partyGoer
         timesStolen
         fileKey
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -84,29 +47,6 @@ mutation CreateUser(
         invitedUser
         takenTurn
         turnOrder
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -115,17 +55,10 @@ mutation CreateUser(
     friends {
       items {
         id
+        userID
         userName
         accepted
         declined
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -157,20 +90,6 @@ mutation UpdateUser(
         isFinished
         stealLimit
         lastGiftStolen
-        theHost {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        users {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -184,29 +103,6 @@ mutation UpdateUser(
         partyGoer
         timesStolen
         fileKey
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -220,29 +116,6 @@ mutation UpdateUser(
         invitedUser
         takenTurn
         turnOrder
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -251,17 +124,10 @@ mutation UpdateUser(
     friends {
       items {
         id
+        userID
         userName
         accepted
         declined
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -293,20 +159,6 @@ mutation DeleteUser(
         isFinished
         stealLimit
         lastGiftStolen
-        theHost {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        users {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -320,29 +172,6 @@ mutation DeleteUser(
         partyGoer
         timesStolen
         fileKey
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -356,29 +185,6 @@ mutation DeleteUser(
         invitedUser
         takenTurn
         turnOrder
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -387,17 +193,10 @@ mutation DeleteUser(
     friends {
       items {
         id
+        userID
         userName
         accepted
         declined
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -413,6 +212,7 @@ mutation CreateFriendList(
 ) {
   createFriendList(input: $input, condition: $condition) {
     id
+    userID
     userName
     accepted
     declined
@@ -422,58 +222,15 @@ mutation CreateFriendList(
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -489,6 +246,7 @@ mutation UpdateFriendList(
 ) {
   updateFriendList(input: $input, condition: $condition) {
     id
+    userID
     userName
     accepted
     declined
@@ -498,58 +256,15 @@ mutation UpdateFriendList(
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -565,6 +280,7 @@ mutation DeleteFriendList(
 ) {
   deleteFriendList(input: $input, condition: $condition) {
     id
+    userID
     userName
     accepted
     declined
@@ -574,58 +290,15 @@ mutation DeleteFriendList(
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -652,58 +325,15 @@ mutation CreateGuestList(
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -726,45 +356,13 @@ mutation CreateGuestList(
         userName
         searchName
         email
-        hosting {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
-        parties {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       users {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -791,58 +389,15 @@ mutation UpdateGuestList(
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -865,45 +420,13 @@ mutation UpdateGuestList(
         userName
         searchName
         email
-        hosting {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
-        parties {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       users {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -930,58 +453,15 @@ mutation DeleteGuestList(
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -1004,45 +484,13 @@ mutation DeleteGuestList(
         userName
         searchName
         email
-        hosting {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
-        parties {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       users {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -1069,58 +517,15 @@ mutation CreateGift(
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -1143,45 +548,13 @@ mutation CreateGift(
         userName
         searchName
         email
-        hosting {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
-        parties {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       users {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -1208,58 +581,15 @@ mutation UpdateGift(
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -1282,45 +612,13 @@ mutation UpdateGift(
         userName
         searchName
         email
-        hosting {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
-        parties {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       users {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -1347,58 +645,15 @@ mutation DeleteGift(
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -1421,45 +676,13 @@ mutation DeleteGift(
         userName
         searchName
         email
-        hosting {
-          nextToken
-        }
-        gifts {
-          nextToken
-        }
-        parties {
-          nextToken
-        }
-        friends {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       users {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -1491,58 +714,15 @@ mutation CreateParty(
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -1556,29 +736,6 @@ mutation CreateParty(
         invitedUser
         takenTurn
         turnOrder
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -1592,29 +749,6 @@ mutation CreateParty(
         partyGoer
         timesStolen
         fileKey
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -1646,58 +780,15 @@ mutation UpdateParty(
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -1711,29 +802,6 @@ mutation UpdateParty(
         invitedUser
         takenTurn
         turnOrder
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -1747,29 +815,6 @@ mutation UpdateParty(
         partyGoer
         timesStolen
         fileKey
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -1801,58 +846,15 @@ mutation DeleteParty(
       searchName
       email
       hosting {
-        items {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       gifts {
-        items {
-          id
-          title
-          number
-          partyGoer
-          timesStolen
-          fileKey
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       parties {
-        items {
-          id
-          inviteStatus
-          invitee
-          invitedUser
-          takenTurn
-          turnOrder
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       friends {
-        items {
-          id
-          userName
-          accepted
-          declined
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       createdAt
@@ -1866,29 +868,6 @@ mutation DeleteParty(
         invitedUser
         takenTurn
         turnOrder
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
@@ -1902,29 +881,6 @@ mutation DeleteParty(
         partyGoer
         timesStolen
         fileKey
-        user {
-          id
-          userName
-          searchName
-          email
-          createdAt
-          updatedAt
-        }
-        party {
-          id
-          title
-          hostedOn
-          hostedAt
-          partyDateAWS
-          partyDate
-          price
-          isReady
-          isFinished
-          stealLimit
-          lastGiftStolen
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
