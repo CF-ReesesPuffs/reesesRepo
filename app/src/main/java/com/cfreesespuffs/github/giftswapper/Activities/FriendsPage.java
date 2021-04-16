@@ -75,7 +75,7 @@ public class FriendsPage extends AppCompatActivity implements FriendPageAdapter.
         Log.e("Pref.User", "prefs : " + prefs.getString("userId", "NA"));
 
         Amplify.API.query(
-                getFriendsById(prefs.getString("userId", "NA")),
+                getFriendsWithFriendsListRequest(prefs.getString("userId", "NA")),
                 response -> {
                     Log.e("Amp.query", "response GF by id: " + response);
                 },
@@ -83,7 +83,7 @@ public class FriendsPage extends AppCompatActivity implements FriendPageAdapter.
         );
     }
 
-    private GraphQLRequest<User> getFriendsById(String id) {
+    private GraphQLRequest<User> getFriendsWithFriendsListRequest(String id) {
         String document = "query getUser($id: ID!) { "
                 + "getUser(id: $id) { "
                 + "friends { "
