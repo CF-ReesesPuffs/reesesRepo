@@ -34,23 +34,23 @@ public final class Party implements Model {
   public static final QueryField STEAL_LIMIT = field("stealLimit");
   public static final QueryField LAST_GIFT_STOLEN = field("lastGiftStolen");
   public static final QueryField THE_HOST = field("partyTheHostId");
-    private final @ModelField(targetType="ID", isRequired = true) String id;
-    private final @ModelField(targetType="String", isRequired = true) String title;
-    private final @ModelField(targetType="String") String hostedOn;
-    private final @ModelField(targetType="String") String hostedAt;
-    private final @ModelField(targetType="AWSDate") Temporal.Date partyDateAWS;
-    private final @ModelField(targetType="String") String partyDate;
-    private final @ModelField(targetType="String") String price;
-    public @ModelField(targetType="Boolean") Boolean isReady;
-    public @ModelField(targetType="Boolean") Boolean isFinished;
-    private final @ModelField(targetType="Int") Integer stealLimit;
-    public @ModelField(targetType="String") String lastGiftStolen;
-    private final @ModelField(targetType="User") @BelongsTo(targetName = "partyTheHostId", type = User.class) User theHost;
-    private final @ModelField(targetType="GuestList") @HasMany(associatedWith = "party", type = GuestList.class) List<GuestList> users = null;
-    private final @ModelField(targetType="Gift") @HasMany(associatedWith = "party", type = Gift.class) List<Gift> gifts = null;
-    public String getId() {
-        return id;
-    }
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="String", isRequired = true) String title;
+  private final @ModelField(targetType="String") String hostedOn;
+  private final @ModelField(targetType="String") String hostedAt;
+  private final @ModelField(targetType="AWSDate") Temporal.Date partyDateAWS;
+  private final @ModelField(targetType="String") String partyDate;
+  private final @ModelField(targetType="String") String price;
+  private final @ModelField(targetType="Boolean") Boolean isReady;
+  private final @ModelField(targetType="Boolean") Boolean isFinished;
+  private final @ModelField(targetType="Int") Integer stealLimit;
+  private final @ModelField(targetType="String") String lastGiftStolen;
+  private final @ModelField(targetType="User") @BelongsTo(targetName = "partyTheHostId", type = User.class) User theHost;
+  private final @ModelField(targetType="GuestList") @HasMany(associatedWith = "party", type = GuestList.class) List<GuestList> users = null;
+  private final @ModelField(targetType="Gift") @HasMany(associatedWith = "party", type = Gift.class) List<Gift> gifts = null;
+  public String getId() {
+      return id;
+  }
   
   public String getTitle() {
       return title;
