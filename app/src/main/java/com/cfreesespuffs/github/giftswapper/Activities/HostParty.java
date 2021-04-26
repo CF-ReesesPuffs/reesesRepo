@@ -52,6 +52,7 @@ import com.amplifyframework.core.Amplify;
 
 import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.core.reachability.Host;
+import com.amplifyframework.datastore.generated.model.FriendList;
 import com.amplifyframework.datastore.generated.model.GuestList;
 
 import com.amplifyframework.datastore.generated.model.Party;
@@ -80,12 +81,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static java.util.stream.Collectors.toList;
 
 public class HostParty extends AppCompatActivity implements HostPartyAdapter.GuestListListener, DatePickerDialog.OnDateSetListener {
 
     ArrayList<User> guestList = new ArrayList<>();
     Handler handler, generalHandler;
     RecyclerView recyclerView;
+    ArrayList<String> userFriendList = new ArrayList<>();
     HashMap<String, User> uniqueGuestList = new HashMap<>();
     User currentUser;
     Calendar date; // there are 2 potential calendar options
@@ -121,6 +127,18 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         hPAdView = findViewById(R.id.gsAdview);
         AdRequest adRequest = new AdRequest.Builder().build();
         hPAdView.loadAd(adRequest);
+
+        Amplify.API.query(
+                ModelQuery.list(FriendList.class, FriendList.USER.eq(preferences.getString("userId", "NA"))),
+                response -> {
+                    Log.e("Amp.query", "response Host FriendsList: " + response);
+                    for(FriendList friend : response.getData()){
+                        userFriendList.add(friend.getUserName());
+                    }
+                    // TODO: toast if friendlist is empty "you need some friends"
+                },
+                error -> Log.e("Amp.query", "error: " + error)
+        );
 
         priceSpinner();
         stealLimitSpinner();
@@ -188,22 +206,30 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         findGuestButton.setOnClickListener((view) -> { // https://stackoverflow.com/questions/9596010/android-use-done-button-on-keyboard-to-click-button
 
             String guestLc = foundGuest.getText().toString().toLowerCase();
-// todo: (swap for friendsList) check against currentUser friendList for any that containt guestLC
-            Amplify.API.query(
-                    ModelQuery.list(User.class, User.SEARCH_NAME.beginsWith(guestLc)),
-                    response -> {
-                        for (User user : response.getData()) {
-                            if (!uniqueGuestList.containsKey(user.getUserName())) {
-                                uniqueGuestList.put(user.getUserName(), user); // todo: swap to hashset
-                                guestList.add(user); // todo: change only to string.
-                            }
-                            handler.sendEmptyMessage(1);
-                        }
-                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                        inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
-                    },
-                    error -> Log.e("Amplify", "failed to find user")
-            );
+
+            List<String> selectedFriends = userFriendList.stream()
+                    .filter(friend -> friend.contains(guestLc))
+                    .collect(toList());
+
+            Log.e("Amp.Friends", "Selected Friends: " + selectedFriends);
+
+            handler.sendEmptyMessage(1);
+
+//            Amplify.API.query(
+//                    ModelQuery.list(User.class, User.SEARCH_NAME.beginsWith(guestLc)),
+//                    response -> {
+//                        for (User user : response.getData()) {
+//                            if (!uniqueGuestList.containsKey(user.getUserName())) {
+//                                uniqueGuestList.put(user.getUserName(), user); // todo: swap to hashset
+//                                guestList.add(user); // todo: change only to string.
+//                            }
+//                            handler.sendEmptyMessage(1);
+//                        }
+//                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+//                        inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+//                    },
+//                    error -> Log.e("Amplify", "failed to find user")
+//            );
         });
 
         selectedPriceSpinner.setOnFocusChangeListener((v, hasFocus) -> { // https://stackoverflow.com/questions/23075561/set-focus-on-spinner-when-selected-in-android
