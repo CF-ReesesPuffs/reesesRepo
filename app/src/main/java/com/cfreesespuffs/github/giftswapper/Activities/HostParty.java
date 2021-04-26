@@ -1,13 +1,11 @@
 package com.cfreesespuffs.github.giftswapper.Activities;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 //import android.app.AlertDialog;
-import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 //import android.content.DialogInterface;
@@ -23,7 +21,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import android.text.InputType;
 import android.preference.PreferenceManager;
 
 import android.util.Log;
@@ -36,29 +33,23 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.auth.AuthUser;
 import com.amplifyframework.core.Amplify;
 
-import com.amplifyframework.core.model.temporal.Temporal;
-import com.amplifyframework.core.reachability.Host;
+import com.amplifyframework.datastore.generated.model.FriendList;
 import com.amplifyframework.datastore.generated.model.GuestList;
 
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
 
 import com.cfreesespuffs.github.giftswapper.Adapters.HostPartyAdapter;
-import com.cfreesespuffs.github.giftswapper.PendingPage;
 import com.cfreesespuffs.github.giftswapper.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
@@ -66,26 +57,26 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public class HostParty extends AppCompatActivity implements HostPartyAdapter.GuestListListener, DatePickerDialog.OnDateSetListener {
 
     ArrayList<User> guestList = new ArrayList<>();
     Handler handler, generalHandler;
     RecyclerView recyclerView;
+    ArrayList<String> userFriendList = new ArrayList<>();
+    ArrayList<String> selectedFriends = new ArrayList<>();
     HashMap<String, User> uniqueGuestList = new HashMap<>();
     User currentUser;
     Calendar date; // there are 2 potential calendar options
@@ -122,6 +113,18 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         AdRequest adRequest = new AdRequest.Builder().build();
         hPAdView.loadAd(adRequest);
 
+        Amplify.API.query(
+                ModelQuery.list(FriendList.class, FriendList.USER.eq(preferences.getString("userId", "NA"))),
+                response -> {
+                    Log.e("Amp.query", "response Host FriendsList: " + response);
+                    for(FriendList friend : response.getData()){
+                        userFriendList.add(friend.getUserName());
+                    }
+                    // TODO: toast if friendlist is empty "you need some friends"
+                },
+                error -> Log.e("Amp.query", "error: " + error)
+        );
+
         priceSpinner();
         stealLimitSpinner();
         selectedPriceSpinner = findViewById(R.id.price_spinner);
@@ -155,14 +158,18 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
             }
 
             if (message.arg1 == 5) {
-                Log.e("Handler.5", "What is flag? " + spinnerFlag);
-
                 if (spinnerFlag) {
                     stealLimitSpinner.setFocusableInTouchMode(true);
                     stealLimitSpinner.requestFocus();
                 }
                 spinnerFlag = true; // makes the spinner open up correctly but only intermittently.
             }
+
+//            if (message.arg1 == 6) {
+//                recyclerView.getAdapter().notifyDataSetChanged();
+//                Log.e("HPA", "Bump!!!");
+//                //Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
+//            }
 
             if (message.arg1 == 10) {
                 Toast.makeText(this, "We're sorry, we only support up to 10 guest right now. :(", Toast.LENGTH_LONG).show();
@@ -188,22 +195,31 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         findGuestButton.setOnClickListener((view) -> { // https://stackoverflow.com/questions/9596010/android-use-done-button-on-keyboard-to-click-button
 
             String guestLc = foundGuest.getText().toString().toLowerCase();
-// todo: (swap for friendsList) check against currentUser friendList for any that containt guestLC
-            Amplify.API.query(
-                    ModelQuery.list(User.class, User.SEARCH_NAME.beginsWith(guestLc)),
-                    response -> {
-                        for (User user : response.getData()) {
-                            if (!uniqueGuestList.containsKey(user.getUserName())) {
-                                uniqueGuestList.put(user.getUserName(), user); // todo: swap to hashset
-                                guestList.add(user); // todo: change only to string.
-                            }
-                            handler.sendEmptyMessage(1);
-                        }
-                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                        inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
-                    },
-                    error -> Log.e("Amplify", "failed to find user")
-            );
+
+            selectedFriends = userFriendList.stream()
+                    .filter(friend -> friend.contains(guestLc)).collect(Collectors.toCollection(ArrayList::new));
+
+            Log.e("HPA.Friends", "Selected Friends: " + selectedFriends);
+
+           // Message message = new Message();
+           // message.arg1 = 6;
+            //generalHandler.sendMessage(message);
+
+//            Amplify.API.query(
+//                    ModelQuery.list(User.class, User.SEARCH_NAME.beginsWith(guestLc)),
+//                    response -> {
+//                        for (User user : response.getData()) {
+//                            if (!uniqueGuestList.containsKey(user.getUserName())) {
+//                                uniqueGuestList.put(user.getUserName(), user); // todo: swap to hashset
+//                                guestList.add(user); // todo: change only to string.
+//                            }
+                          //  handler.sendEmptyMessage(1);
+//                        }
+//                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+//                        inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+//                    },
+//                    error -> Log.e("Amplify", "failed to find user")
+//            );
         });
 
         selectedPriceSpinner.setOnFocusChangeListener((v, hasFocus) -> { // https://stackoverflow.com/questions/23075561/set-focus-on-spinner-when-selected-in-android
@@ -261,7 +277,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                                     uniqueGuestList.put(user.getUserName(), user);
                                     guestList.add(user);
                                 }
-                                handler.sendEmptyMessage(1);
+                               // handler.sendEmptyMessage(1);
                             }
                         },
                         error -> Log.e("Amplify", "failed to find user")
@@ -272,7 +288,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
         recyclerView = findViewById(R.id.guestSearchRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new HostPartyAdapter(guestList, this));
+        recyclerView.setAdapter(new HostPartyAdapter(userFriendList, this));
 
         Button addParty = HostParty.this.findViewById(R.id.button_createParty);
         addParty.setBackgroundColor(getResources().getColor(R.color.green));
@@ -420,7 +436,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
     }
 
     @Override
-    public void listener(User user) {
+    public void listener(String user) {
     }
 
     @Override
