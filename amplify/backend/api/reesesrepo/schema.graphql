@@ -6,15 +6,17 @@ type User @model @key(name: "idByName", fields: ["userName"], queryField: "idByN
   hosting: [Party] @connection(name: "hostList")
   gifts: [Gift] @connection(name: "GiftGroup")
   parties: [GuestList] @connection(name: "ConUser")
-  friends: [FriendList] @connection(name: "ConFriendList")
+  friends: [FriendList] @connection(keyName: "byUser", fields: ["id"])
 }
 
-type FriendList @model {
+type FriendList @model
+    @key(name: "byUser", fields: ["userID", "userName"]) {
     id: ID!
+    userID: ID!
     userName: String!
     accepted: Boolean
     declined: Boolean
-    user: User @connection(name: "ConFriendList")
+    user: User @connection(fields: ["userID"])
 }
 
 type GuestList @model {
@@ -85,4 +87,3 @@ type Subscription {
   @aws_subscribe(mutations: ["updateFriendList"])
 
 }
-

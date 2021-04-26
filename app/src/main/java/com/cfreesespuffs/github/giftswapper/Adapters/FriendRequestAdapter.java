@@ -18,13 +18,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendListViewHolder> {
+public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestAdapter.FriendListViewHolder> {
 
     public ArrayList<User> friendList;
     public FriendListListener listener;
     public Set<User> friendsToAdd = new HashSet<>();
 
-    public FriendAdapter(ArrayList<User> friendList, FriendListListener listener) {
+    public FriendRequestAdapter(ArrayList<User> friendList, FriendListListener listener) {
         this.friendList = friendList;
         this.listener = listener;
     }
@@ -34,7 +34,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendList
     public FriendListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_friend_list, parent, false);
-        FriendAdapter.FriendListViewHolder friendListViewHolder = new FriendAdapter.FriendListViewHolder(view);
+        FriendRequestAdapter.FriendListViewHolder friendListViewHolder = new FriendRequestAdapter.FriendListViewHolder(view);
 
         view.setOnClickListener((newView) -> {
             listener.listener(friendListViewHolder.user);

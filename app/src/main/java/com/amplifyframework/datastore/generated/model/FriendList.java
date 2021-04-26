@@ -19,20 +19,21 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 /** This is an auto generated class representing the FriendList type in your schema. */
 @SuppressWarnings("all")
 @ModelConfig(pluralName = "FriendLists")
+@Index(name = "byUser", fields = {"userID","userName"})
 public final class FriendList implements Model {
   public static final QueryField ID = field("id");
   public static final QueryField USER_NAME = field("userName");
   public static final QueryField ACCEPTED = field("accepted");
   public static final QueryField DECLINED = field("declined");
-  public static final QueryField USER = field("friendListUserId");
-    private final @ModelField(targetType="ID", isRequired = true) String id;
-    private final @ModelField(targetType="String", isRequired = true) String userName;
-    public @ModelField(targetType="Boolean") Boolean accepted;
-    public @ModelField(targetType="Boolean") Boolean declined;
-    private final @ModelField(targetType="User") @BelongsTo(targetName = "friendListUserId", type = User.class) User user;
-    public String getId() {
-        return id;
-    }
+  public static final QueryField USER = field("userID");
+  private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="String", isRequired = true) String userName;
+  public @ModelField(targetType="Boolean") Boolean accepted;
+  public @ModelField(targetType="Boolean") Boolean declined;
+  private final @ModelField(targetType="User") @BelongsTo(targetName = "userID", type = User.class) User user;
+  public String getId() {
+      return id;
+  }
   
   public String getUserName() {
       return userName;

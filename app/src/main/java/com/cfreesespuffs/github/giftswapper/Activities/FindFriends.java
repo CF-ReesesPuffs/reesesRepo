@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.icu.util.Measure;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Window;
@@ -27,7 +25,7 @@ import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.FriendList;
 import com.amplifyframework.datastore.generated.model.User;
-import com.cfreesespuffs.github.giftswapper.Adapters.FriendAdapter;
+import com.cfreesespuffs.github.giftswapper.Adapters.FriendRequestAdapter;
 import com.cfreesespuffs.github.giftswapper.Adapters.RequestFriendAdapter;
 import com.cfreesespuffs.github.giftswapper.R;
 
@@ -37,7 +35,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class FindFriends extends AppCompatActivity implements FriendAdapter.FriendListListener, RequestFriendAdapter.RequestFriendListListener {
+public class FindFriends extends AppCompatActivity implements FriendRequestAdapter.FriendListListener, RequestFriendAdapter.RequestFriendListListener {
 
     SharedPreferences preferences;
     EditText friendSearchField;
@@ -111,7 +109,7 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
 
         recyclerView = findViewById(R.id.friendSearchRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new FriendAdapter(friendList, this));
+        recyclerView.setAdapter(new FriendRequestAdapter(friendList, this));
 
         friendRequestRV = findViewById(R.id.friendRequestRv);
         friendRequestRV.setLayoutManager(new LinearLayoutManager(this));
@@ -119,7 +117,7 @@ public class FindFriends extends AppCompatActivity implements FriendAdapter.Frie
 
         Button addFriends = findViewById(R.id.button_friendRequest);
         addFriends.setOnClickListener(view -> {
-            Set<User> friendsToRequest = ((FriendAdapter) Objects.requireNonNull(recyclerView.getAdapter())).friendsToAdd;
+            Set<User> friendsToRequest = ((FriendRequestAdapter) Objects.requireNonNull(recyclerView.getAdapter())).friendsToAdd;
 
             for (User user : friendsToRequest) {
 

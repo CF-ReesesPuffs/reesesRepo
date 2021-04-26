@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         if (!preferences.getString("userId", "NA").equals("NA")) {
 
             Amplify.API.query(
-                    ModelQuery.list(FriendList.class, FriendList.USER_NAME.eq(preferences.getString("username", "NA"))), // todo: might need to create custom list?
+                    ModelQuery.list(FriendList.class, FriendList.USER_NAME.eq(preferences.getString("username", "NA"))),
                     response3 -> {
                         friendListsHM.clear();
                         for (FriendList friendList : response3.getData()) {
@@ -356,9 +356,15 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         }
 
         if (item.getItemId() == R.id.mainActivityFriendBadge) {
-            Intent goToFriends = new Intent(MainActivity.this, FindFriends.class);
+            Intent goToFriendFinder = new Intent(MainActivity.this, FindFriends.class);
+            MainActivity.this.startActivity(goToFriendFinder);
+        }
+
+        if (item.getItemId() == R.id.friendsPage) {
+            Intent goToFriends = new Intent(MainActivity.this, FriendsPage.class);
             MainActivity.this.startActivity(goToFriends);
         }
+
         return true;
     }
 

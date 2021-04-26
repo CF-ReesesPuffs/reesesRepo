@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/attended_party_actionbar"
+        android:id="@+id/friend_page_actionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/green"
@@ -17,11 +17,11 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:paddingStart="18dp"
-        android:text="Attended Parties"
+        android:text="Friends"
         android:textAlignment="viewStart"
         android:textColor="@color/text_white"
         android:textSize="20sp"
-        app:layout_anchor="@+id/attended_party_actionbar"
+        app:layout_anchor="@+id/friend_page_actionBar"
         app:layout_anchorGravity="center|start" />
 
     <Button

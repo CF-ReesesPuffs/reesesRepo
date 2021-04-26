@@ -4,17 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Activities.EndedParties"
+    tools:context=".Activities.FriendsPage"
     >
 
     <include
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
-        layout="@layout/activity_ended_party" />
+        layout="@layout/activity_friends_page" />
 
     <include
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
-        layout="@layout/attended_parties_actionbar" />
+        layout="@layout/friend_page_actionbar"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
