@@ -293,14 +293,14 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
             TextView partyName = findViewById(R.id.textViewPartyName);
             Set guestsToInvite = ((HostPartyAdapter) recyclerView.getAdapter()).usersToAdd;
-            List<User> guestsToInviteList = new ArrayList();
+            List<String> guestsToInviteList = new ArrayList();
             guestsToInviteList.addAll(guestsToInvite);
 
             boolean flag = false;
-            for (User guest : guestsToInviteList) { // todo: convert to hashmap, this issue will be resolved and could be refactored away.
-                if (guest.getUserName().equalsIgnoreCase(authUser.getUsername())) flag = true;
+            for (String guest : guestsToInviteList) { // todo: convert to hashmap, this issue will be resolved and could be refactored away.
+                if (guest.equalsIgnoreCase(authUser.getUsername())) flag = true;
             }
-            if (!flag) guestsToInviteList.add(currentUser);
+            if (!flag) guestsToInviteList.add(currentUser.getUserName());
 
             if (guestsToInviteList.size() < 2) { // party can't be created with only one participant (only the host, really)
                 Message noGuestsMsg = new Message();
@@ -363,12 +363,22 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                     .lastGiftStolen("")
                     .build();
 
+            ArrayList<User> actualUsers = new ArrayList<>();
+
+            for (String thisGuest : guestsToInviteList) {
+                Amplify.API.query( // todo: create new list search method using userName and not just id.
+                        ModelQuery.list(User.class, User.SEARCH_NAME.eq(thisGuest.toLowerCase())),
+                        response -> response.getData().iterator().forEachRemaining(actualUsers::add),
+                        error -> Log.i("actualUsers", "Error: " + error)
+                );
+            }
+
             Amplify.API.mutate(
                     ModelMutation.create(party),
                     response -> {
                         Party party2 = response.getData();
                         // todo: to use friendlist, will need to query for each friendlist username to bring in user.
-                        for (User guest : guestsToInviteList) {
+                        for (User guest : actualUsers) {
                             GuestList inviteStatus = GuestList.builder()
                                     .inviteStatus("Pending")
                                     .user(guest)
