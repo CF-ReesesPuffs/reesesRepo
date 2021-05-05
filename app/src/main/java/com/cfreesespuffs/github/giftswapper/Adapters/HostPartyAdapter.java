@@ -12,17 +12,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class HostPartyAdapter extends RecyclerView.Adapter<HostPartyAdapter.GuestListViewHolder> {
     public ArrayList<String> guestList;
     public GuestListListener listener;
-    public Set<String> usersToAdd = new HashSet<>();
+    public Set<String> usersToAdd = new HashSet<String>();
 
     public HostPartyAdapter(ArrayList<String> guestList, GuestListListener listener){
         this.guestList = guestList;

@@ -66,13 +66,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 public class HostParty extends AppCompatActivity implements HostPartyAdapter.GuestListListener, DatePickerDialog.OnDateSetListener {
 
-    ArrayList<User> guestList = new ArrayList<>();
+    ArrayList<String> guestList = new ArrayList<>();
     Handler handler, generalHandler;
     RecyclerView recyclerView;
     ArrayList<String> userFriendList = new ArrayList<>();
@@ -116,10 +116,10 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         Amplify.API.query(
                 ModelQuery.list(FriendList.class, FriendList.USER.eq(preferences.getString("userId", "NA"))),
                 response -> {
-                    Log.e("Amp.query", "response Host FriendsList: " + response);
-                    for(FriendList friend : response.getData()){
+                    for (FriendList friend : response.getData()) {
                         userFriendList.add(friend.getUserName());
                     }
+                    Log.e("Amp.query", "response Host FriendsList: " + userFriendList);
                     // TODO: toast if friendlist is empty "you need some friends"
                 },
                 error -> Log.e("Amp.query", "error: " + error)
@@ -165,12 +165,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 spinnerFlag = true; // makes the spinner open up correctly but only intermittently.
             }
 
-//            if (message.arg1 == 6) {
-//                recyclerView.getAdapter().notifyDataSetChanged();
-//                Log.e("HPA", "Bump!!!");
-//                //Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
-//            }
-
             if (message.arg1 == 10) {
                 Toast.makeText(this, "We're sorry, we only support up to 10 guest right now. :(", Toast.LENGTH_LONG).show();
             }
@@ -180,6 +174,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
         handler = new Handler(Looper.getMainLooper(), message -> {
             Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
+            Log.e("HPA.handler", "sF strings :" + selectedFriends);
             return true;
         });
 
@@ -196,30 +191,29 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
             String guestLc = foundGuest.getText().toString().toLowerCase();
 
-            selectedFriends = userFriendList.stream()
-                    .filter(friend -> friend.contains(guestLc)).collect(Collectors.toCollection(ArrayList::new));
+//            final String regex = guestLc; // todo: this shall be mine!
+//            final Pattern pattern = Pattern.compile(regex);
+//            final Matcher matcher = pattern.matcher(string);
+//
+//            selectedFriends = userFriendList.stream()
+//                    .filter(friend -> friend.contains(guestLc)).collect(Collectors.toCollection(ArrayList::new));
 
-            Log.e("HPA.Friends", "Selected Friends: " + selectedFriends);
-
-           // Message message = new Message();
-           // message.arg1 = 6;
-            //generalHandler.sendMessage(message);
-
-//            Amplify.API.query(
-//                    ModelQuery.list(User.class, User.SEARCH_NAME.beginsWith(guestLc)),
-//                    response -> {
-//                        for (User user : response.getData()) {
-//                            if (!uniqueGuestList.containsKey(user.getUserName())) {
-//                                uniqueGuestList.put(user.getUserName(), user); // todo: swap to hashset
+            Amplify.API.query(
+                    ModelQuery.list(User.class, User.SEARCH_NAME.beginsWith(guestLc)),
+                    response -> {
+                        for (User user : response.getData()) {
+                            if (!uniqueGuestList.containsKey(user.getUserName()) && userFriendList.contains(user.getSearchName())) {
+                                uniqueGuestList.put(user.getUserName(), user); // todo: swap to hashset
 //                                guestList.add(user); // todo: change only to string.
-//                            }
-                          //  handler.sendEmptyMessage(1);
-//                        }
-//                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-//                        inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
-//                    },
-//                    error -> Log.e("Amplify", "failed to find user")
-//            );
+                                selectedFriends.add(user.getUserName());
+                            }
+                            handler.sendEmptyMessage(1);
+                        }
+                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+                    },
+                    error -> Log.e("Amplify", "failed to find user")
+            );
         });
 
         selectedPriceSpinner.setOnFocusChangeListener((v, hasFocus) -> { // https://stackoverflow.com/questions/23075561/set-focus-on-spinner-when-selected-in-android
@@ -275,9 +269,11 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                             for (User user : response.getData()) {
                                 if (!uniqueGuestList.containsKey(user.getUserName())) {
                                     uniqueGuestList.put(user.getUserName(), user);
-                                    guestList.add(user);
+                                    selectedFriends.add(user.getUserName());
+                                    guestList.add(user.getUserName());
                                 }
-                               // handler.sendEmptyMessage(1);
+                                Log.e("HPA.Friends", "Selected Friends: " + selectedFriends);
+                                handler.sendEmptyMessage(1);
                             }
                         },
                         error -> Log.e("Amplify", "failed to find user")
@@ -288,7 +284,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
 
         recyclerView = findViewById(R.id.guestSearchRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new HostPartyAdapter(userFriendList, this));
+        recyclerView.setAdapter(new HostPartyAdapter(selectedFriends, this)); // selectedFriends. Arraylist<String>
 
         Button addParty = HostParty.this.findViewById(R.id.button_createParty);
         addParty.setBackgroundColor(getResources().getColor(R.color.green));
