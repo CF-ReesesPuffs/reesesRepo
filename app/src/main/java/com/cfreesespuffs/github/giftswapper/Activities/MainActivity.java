@@ -111,6 +111,26 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 () -> Log.i("Amp.subOnDelete", "delete sub complete")
         );
 
+        if (!preferences.getString("userId", "NA").equals("NA")) {
+
+            Amplify.API.query(
+                    ModelQuery.list(FriendList.class, FriendList.USER_NAME.eq(preferences.getString("username", "NA"))),
+                    response3 -> {
+                        for (FriendList friendList : response3.getData()) {
+                            friendListsHM.clear();
+                            if (!friendList.getAccepted()
+                                    && !friendList.getDeclined()) {
+                                friendListsHM.put(friendList.getUser().getUserName(), friendList);
+                            }
+                        }
+                        Message message = new Message();
+                        message.arg1 = 20;
+                        handleCheckLoggedIn.sendMessage(message);
+                    },
+                    error -> Log.e("Query.friendlist", "Error: " + error)
+            );
+        }
+
         deleteSubscription.start();
     }
 
@@ -187,7 +207,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
             if (message.arg1 == 20) {
                 createFriendBadge(friendListsHM.size());
-
             }
 
             return false;
@@ -204,24 +223,23 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
         if (!preferences.getString("userId", "NA").equals("NA")) {
 
-            Amplify.API.query(
-                    ModelQuery.list(FriendList.class, FriendList.USER_NAME.eq(preferences.getString("username", "NA"))),
-                    response3 -> {
-                        friendListsHM.clear();
-                        for (FriendList friendList : response3.getData()) {
-                            if (!friendList.getAccepted()
-                                    && !friendList.getDeclined()) {
-                                Log.e("inResponse.fL", "ind'l fL" + friendList);
-                                friendListsHM.put(friendList.getUser().getUserName(), friendList);
-                            }
-                        }
-                        Log.e("FL.size", "count: " + friendListsHM.size());
-                        Message message = new Message();
-                        message.arg1 = 20;
-                        handleCheckLoggedIn.sendMessage(message);
-                    },
-                    error -> Log.e("Query.friendlist", "Error: " + error)
-            );
+//            Amplify.API.query(
+//                    ModelQuery.list(FriendList.class, FriendList.USER_NAME.eq(preferences.getString("username", "NA"))),
+//                    response3 -> {
+//                        for (FriendList friendList : response3.getData()) {
+//                            if (!friendList.getAccepted()
+//                                    && !friendList.getDeclined()) {
+//                                Log.e("inResponse.fL", "ind'l fL" + friendList);
+//                                friendListsHM.put(friendList.getUser().getUserName(), friendList);
+//                            }
+//                        }
+//                        Log.e("FL.size", "count: " + friendListsHM.size());
+//                        Message message = new Message();
+//                        message.arg1 = 20;
+//                        handleCheckLoggedIn.sendMessage(message);
+//                    },
+//                    error -> Log.e("Query.friendlist", "Error: " + error)
+//            );
 
 
             Amplify.API.query(
@@ -473,8 +491,9 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         Amplify.API.subscribe(updateFriendListByUserName(username),
                 subCheck -> Log.d("Sub.updateFriendList", "connection established"),
                 response -> {
+                    friendListsHM.clear();
                     FriendList friendList = response.getData();
-                    if(!friendList.getAccepted() && !friendList.getDeclined()) {
+                    if (!friendList.getAccepted() && !friendList.getDeclined()) {
                         Log.i("Sub.FriendList", "new friendList: " + friendList);
                         friendListsHM.put(friendList.getUser().getUserName(), friendList);
                     }
@@ -482,8 +501,8 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                     message.arg1 = 20;
                     handleCheckLoggedIn.sendMessage(message);
                 },
-            failure -> Log.e("Sub.updateFriendList", "failure: " + failure),
-                () -> Log.i("Sub.updateFriendList", "SUb is closed")
+                failure -> Log.e("Sub.updateFriendList", "failure: " + failure),
+                () -> Log.i("Sub.updateFriendList", "Sub is closed")
         );
     }
 

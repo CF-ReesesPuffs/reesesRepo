@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -55,6 +56,14 @@ public class FindFriends extends AppCompatActivity implements FriendRequestAdapt
         setContentView(R.layout.find_friends);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(FindFriends.this, MainActivity.class);
+                FindFriends.this.startActivity(intent);
+            }
+        };
+
         Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -83,8 +92,8 @@ public class FindFriends extends AppCompatActivity implements FriendRequestAdapt
         findFriend.setOnClickListener((view) -> {
             String friendLc = friendSearchField.getText().toString().toLowerCase();
 
-            ArrayList<FriendList> friendAL = (ArrayList)currentUser.getFriends();
-            for(FriendList friendList : friendAL){
+            ArrayList<FriendList> friendAL = (ArrayList) currentUser.getFriends();
+            for (FriendList friendList : friendAL) {
                 userFriendList.add(friendList.getUserName());
             }
 
@@ -175,6 +184,8 @@ public class FindFriends extends AppCompatActivity implements FriendRequestAdapt
                                     response -> Log.i("Amp.friendRequestor", "Success"),
                                     error -> Log.e("Amp.friendRequestor", "Fail")
                             );
+
+                            Log.e("Friend.two", "rfListener: " + currentUser.getId());
 
                             FriendList friendList;
                             friendList = FriendList.builder()
