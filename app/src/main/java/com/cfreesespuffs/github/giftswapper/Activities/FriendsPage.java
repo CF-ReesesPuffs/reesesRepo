@@ -1,5 +1,6 @@
 package com.cfreesespuffs.github.giftswapper.Activities;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -71,13 +72,15 @@ public class FriendsPage extends AppCompatActivity implements FriendPageAdapter.
         friendsRv = findViewById(R.id.friendRecycler);
         friendsRv.setLayoutManager(new LinearLayoutManager(this));
         friendsRv.setAdapter(new FriendPageAdapter(friends, this));
-        
+
         Amplify.API.query(
                 ModelQuery.list(FriendList.class, FriendList.USER.eq(prefs.getString("userId", "NA"))),
                 response -> {
                     Log.e("Amp.query", "response GF by id: " + response);
-                    for(FriendList friend : response.getData()){
-                        friends.add(friend);
+                    for (FriendList friend : response.getData()) {
+                        if (!friend.getDeclined() && friend.getAccepted()) {
+                            friends.add(friend);
+                        }
                     }
                     Message message = new Message();
                     message.arg1 = 1;
