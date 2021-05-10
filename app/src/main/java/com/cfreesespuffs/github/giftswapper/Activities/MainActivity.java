@@ -11,7 +11,6 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.VectorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -171,11 +170,11 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         analytics = FirebaseAnalytics.getInstance(this); //this needed permission to network state, and "wake lock"
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.main_accent)));
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);  // https://www.geeksforgeeks.org/how-to-change-the-color-of-status-bar-in-an-android-app/
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(this.getResources().getColor(R.color.green));
+        window.setStatusBarColor(this.getResources().getColor(R.color.main_accent));
 
         configureAws();
         getIsSignedIn();
@@ -266,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         }
 
         Button hostPartyButton = MainActivity.this.findViewById(R.id.host_party_button);
-        hostPartyButton.setBackgroundColor(getResources().getColor(R.color.green));
+        hostPartyButton.setBackgroundColor(getResources().getColor(R.color.main_accent));
         hostPartyButton.setOnClickListener((view) -> {
             Intent goToHostPartyIntent = new Intent(MainActivity.this, HostParty.class);
             MainActivity.this.startActivity(goToHostPartyIntent);

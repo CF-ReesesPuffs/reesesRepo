@@ -1,6 +1,5 @@
 package com.cfreesespuffs.github.giftswapper.Activities;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -33,11 +32,9 @@ import com.cfreesespuffs.github.giftswapper.PostParty;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.Set;
 
 public class EndedParties extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener {
 
@@ -57,7 +54,7 @@ public class EndedParties extends AppCompatActivity implements PartyAdapter.Inte
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);  // https://www.geeksforgeeks.org/how-to-change-the-color-of-status-bar-in-an-android-app/
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(this.getResources().getColor(R.color.green));
+        window.setStatusBarColor(this.getResources().getColor(R.color.main_accent));
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 

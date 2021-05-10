@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AF0000"
+    android:background="@drawable/gradient_bg"
     tools:context=".Activities.HostParty">
 
     <com.google.android.gms.ads.AdView
@@ -13,13 +13,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="608dp"
         app:adSize="BANNER"
         app:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_createParty" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.931" />
 
     <TextView
         android:id="@+id/textView_party"
@@ -33,17 +35,35 @@
         app:layout_constraintStart_toStartOf="@+id/textViewPartyName"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:id="@+id/textViewPartyName"
         android:layout_width="312dp"
         android:layout_height="36dp"
-        android:background="@drawable/et_style"
-        android:elegantTextHeight="true"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@+id/editTextDate"
-        app:layout_constraintTop_toBottomOf="@+id/textView_party" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_party">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/partyNameMaterial"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Sampe"
+            android:background="#B3F0F0F0"
+            android:padding="0dp"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--    <EditText-->
+    <!--        android:id="@+id/textViewPartyName"-->
+    <!--        android:layout_width="312dp"-->
+    <!--        android:layout_height="36dp"-->
+    <!--        android:background="@drawable/et_style"-->
+    <!--        android:elegantTextHeight="true"-->
+    <!--        android:ems="10"-->
+    <!--        android:inputType="textPersonName"-->
+    <!--        android:textColor="@color/black"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/editTextDate"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/textView_party" />-->
 
     <TextView
         android:id="@+id/textView12"
@@ -167,15 +187,14 @@
         android:id="@+id/button_createParty"
         android:layout_width="wrap_content"
         android:layout_height="64dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="52dp"
         android:fontFamily="@font/architects_daughter"
         android:text="Create the Party"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/guestSearchRecycler"
+        app:layout_constraintHorizontal_bias="0.266"
         app:layout_constraintStart_toStartOf="@+id/guestSearchRecycler"
-        app:layout_constraintTop_toBottomOf="@+id/guestSearchRecycler"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/guestSearchRecycler" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

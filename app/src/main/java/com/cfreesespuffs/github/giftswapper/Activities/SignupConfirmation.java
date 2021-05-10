@@ -2,11 +2,8 @@ package com.cfreesespuffs.github.giftswapper.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,11 +21,9 @@ import android.widget.Toast;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
-import com.amplifyframework.auth.AuthUserAttributeKey;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.R;
-import com.google.android.gms.auth.api.Auth;
 
 public class SignupConfirmation extends AppCompatActivity {
 
@@ -41,11 +36,11 @@ public class SignupConfirmation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_confirmation);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable((getResources().getColor(R.color.green))));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable((getResources().getColor(R.color.main_accent))));
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);  // https://www.geeksforgeeks.org/how-to-change-the-color-of-status-bar-in-an-android-app/
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(this.getResources().getColor(R.color.green));
+        window.setStatusBarColor(this.getResources().getColor(R.color.main_accent));
 
         Intent intent = getIntent();
         username = intent.getExtras().getString("username");

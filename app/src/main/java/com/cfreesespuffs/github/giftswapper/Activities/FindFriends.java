@@ -64,11 +64,11 @@ public class FindFriends extends AppCompatActivity implements FriendRequestAdapt
             }
         };
 
-        Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
+        Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.main_accent)));
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(this.getResources().getColor(R.color.green));
+        window.setStatusBarColor(this.getResources().getColor(R.color.main_accent));
 
         handler = new Handler(Looper.getMainLooper(), message -> {
             Log.e("amp.rFL", "in arraylist " + requestFriendList.toString());
@@ -87,7 +87,7 @@ public class FindFriends extends AppCompatActivity implements FriendRequestAdapt
         friendSearchField.setTextColor(Color.parseColor("#000000"));
 
         findFriend = findViewById(R.id.findFriend_button);
-        findFriend.setBackgroundColor(getResources().getColor(R.color.green));
+        findFriend.setBackgroundColor(getResources().getColor(R.color.main_accent));
 
         findFriend.setOnClickListener((view) -> {
             String friendLc = friendSearchField.getText().toString().toLowerCase();
