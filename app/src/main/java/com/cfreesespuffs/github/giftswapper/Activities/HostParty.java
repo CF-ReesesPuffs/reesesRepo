@@ -178,7 +178,7 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         partyDate = findViewById(R.id.editTextDate);
         partyDate.setTextColor(Color.parseColor("#000000"));
 
-        foundGuest = findViewById(R.id.userFindGuestSearch);
+        foundGuest = findViewById(R.id.userFindGuestSearchInput);
         foundGuest.setTextColor(Color.parseColor("#000000"));
 
         Button findGuestButton = findViewById(R.id.findGuest_button);

@@ -48,23 +48,10 @@
             android:id="@+id/partyNameMaterial"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Sample"
             android:background="@drawable/light_edges_round"
             android:padding="0dp"
             android:inputType="textPersonName" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <!--    <EditText-->
-    <!--        android:id="@+id/textViewPartyName"-->
-    <!--        android:layout_width="312dp"-->
-    <!--        android:layout_height="36dp"-->
-    <!--        android:background="@drawable/et_style"-->
-    <!--        android:elegantTextHeight="true"-->
-    <!--        android:ems="10"-->
-    <!--        android:inputType="textPersonName"-->
-    <!--        android:textColor="@color/black"-->
-    <!--        app:layout_constraintStart_toStartOf="@+id/editTextDate"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/textView_party" />-->
 
     <TextView
         android:id="@+id/textView12"
@@ -82,7 +69,7 @@
         android:id="@+id/editTextDate"
         android:layout_width="312dp"
         android:layout_height="36dp"
-        android:background="@drawable/et_style"
+        android:background="@drawable/light_edges_round"
         android:elegantTextHeight="true"
         android:ems="10"
         android:focusableInTouchMode="false"
@@ -138,14 +125,15 @@
         android:layout_width="80dp"
         android:layout_height="48dp"
         android:layout_marginStart="18dp"
-        android:layout_marginTop="32dp"
         android:fontFamily="sans-serif"
         android:text="Search"
         android:textColor="#FFFFFF"
         android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/userFindGuestSearch"
         app:layout_constraintEnd_toEndOf="@+id/guestSearchRecycler"
         app:layout_constraintStart_toEndOf="@+id/userFindGuestSearch"
-        app:layout_constraintTop_toBottomOf="@+id/price_spinner" />
+        app:layout_constraintTop_toTopOf="@+id/userFindGuestSearch"
+        app:layout_constraintVertical_bias="0.29000002" />
 
 
     <TextView
@@ -159,25 +147,36 @@
         app:layout_constraintBottom_toTopOf="@+id/userFindGuestSearch"
         app:layout_constraintStart_toStartOf="@+id/userFindGuestSearch" />
 
-    <EditText
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:id="@+id/userFindGuestSearch"
         android:layout_width="210dp"
         android:layout_height="36dp"
         android:layout_marginTop="38dp"
-        android:background="@drawable/et_style"
         android:elegantTextHeight="true"
         android:ems="10"
+
         android:imeOptions="actionDone"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="@+id/guestSearchRecycler"
-        app:layout_constraintTop_toBottomOf="@+id/price_spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/price_spinner">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/userFindGuestSearchInput"
+            android:background="@drawable/light_edges_round"
+            android:padding="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/guestSearchRecycler"
         android:layout_width="312dp"
         android:layout_height="180dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/et_style"
+        android:background="@drawable/light_edges_round"
         android:paddingTop="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
