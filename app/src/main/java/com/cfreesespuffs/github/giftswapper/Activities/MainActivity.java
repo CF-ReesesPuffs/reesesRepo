@@ -417,7 +417,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     }
 
     private GraphQLRequest<GuestList> getPendingParty(String username) { // https://graphql.org/blog/subscriptions-in-graphql-and-relay/
-        String document = "subscription getPendingParty($invitedUser: String) { " // todo: only return what is needed.
+        String document = "subscription getPendingParty($invitedUser: String) { "
                 + "onCreateOfUserId(invitedUser: $invitedUser) { "
                 + "inviteStatus "
                 + "invitedUser "
@@ -467,7 +467,7 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         );
     }
 
-    private GraphQLRequest<GuestList> updateGuestListByUserId(String username) { // todo: only return what is needed.
+    private GraphQLRequest<GuestList> updateGuestListByUserId(String username) {
         String document = "subscription updatePendingParty($invitedUser: String) { "
                 + "onUpdateOfGuestListByUserId(invitedUser: $invitedUser) { "
                 + "inviteStatus "

@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AF0000"
-    android:visibility="visible"
+    android:background="@drawable/gradient_bg"
     tools:context=".Activities.CurrentParty">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -65,18 +64,20 @@
         android:id="@+id/usersRecycler"
         android:layout_width="176dp"
         android:layout_height="50dp"
-        android:background="@drawable/et_style"
+        android:background="@drawable/light_edges_round"
         app:layout_constraintEnd_toEndOf="@+id/giftRecycler"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintStart_toStartOf="@+id/giftRecycler"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/giftRecycler"
-        android:layout_width="380dp"
-        android:layout_height="275dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="275dp"
         android:background="@drawable/et_style"
         android:paddingTop="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,6 +92,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="@+id/usersRecycler"
+        app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toStartOf="@+id/usersRecycler"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 

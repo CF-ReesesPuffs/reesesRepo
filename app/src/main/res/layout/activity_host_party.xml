@@ -13,22 +13,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="608dp"
+        android:layout_marginBottom="4dp"
         app:adSize="BANNER"
         app:adUnitId="ca-app-pub-3940256099942544/6300978111"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.931" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView_party"
         android:layout_width="106dp"
         android:layout_height="20dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         android:fontFamily="@font/autour_one"
         android:text="Party Name"
         android:textColor="#000000"
@@ -36,8 +34,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:id="@+id/textViewPartyName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="312dp"
         android:layout_height="36dp"
         android:layout_margin="0dp"
@@ -49,8 +47,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/light_edges_round"
-            android:padding="0dp"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:padding="0dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -58,7 +56,7 @@
         android:layout_width="46dp"
         android:layout_height="18dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/autour_one"
         android:text="When"
         android:textColor="#000000"
@@ -82,7 +80,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/autour_one"
         android:text="Price Range"
         android:textColor="#000000"
@@ -93,7 +91,7 @@
         android:id="@+id/price_spinner"
         android:layout_width="128dp"
         android:layout_height="36dp"
-        android:background="@drawable/et_style"
+        android:background="@drawable/light_edges_round"
         app:layout_constraintStart_toStartOf="@+id/userFindGuestSearch"
         app:layout_constraintTop_toBottomOf="@+id/priceRangeTv" />
 
@@ -102,7 +100,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/autour_one"
         android:text="Steal Limit"
         android:textColor="#000000"
@@ -111,10 +109,10 @@
 
     <Spinner
         android:id="@+id/stealLimit_spinner"
-        android:layout_width="128dp"
+        android:layout_width="136dp"
         android:layout_height="36dp"
-        android:layout_marginStart="56dp"
-        android:background="@drawable/et_style"
+        android:layout_marginStart="48dp"
+        android:background="@drawable/light_edges_round"
         app:layout_constraintBottom_toBottomOf="@+id/price_spinner"
         app:layout_constraintStart_toEndOf="@+id/price_spinner"
         app:layout_constraintTop_toTopOf="@+id/price_spinner"
@@ -122,9 +120,9 @@
 
     <Button
         android:id="@+id/findGuest_button"
-        android:layout_width="80dp"
+        android:layout_width="90dp"
         android:layout_height="48dp"
-        android:layout_marginStart="18dp"
+        android:layout_marginStart="8dp"
         android:fontFamily="sans-serif"
         android:text="Search"
         android:textColor="#FFFFFF"
@@ -147,54 +145,52 @@
         app:layout_constraintBottom_toTopOf="@+id/userFindGuestSearch"
         app:layout_constraintStart_toStartOf="@+id/userFindGuestSearch" />
 
-
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:id="@+id/userFindGuestSearch"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="210dp"
         android:layout_height="36dp"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="88dp"
         android:elegantTextHeight="true"
         android:ems="10"
-
         android:imeOptions="actionDone"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="@+id/guestSearchRecycler"
-        app:layout_constraintTop_toBottomOf="@+id/price_spinner">
+        app:layout_constraintTop_toBottomOf="@+id/editTextDate">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/userFindGuestSearchInput"
-            android:background="@drawable/light_edges_round"
-            android:padding="0dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@drawable/light_edges_round"
+            android:padding="0dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/guestSearchRecycler"
         android:layout_width="312dp"
-        android:layout_height="180dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/light_edges_round"
         android:paddingTop="6dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_createParty"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userFindGuestSearch" />
 
     <Button
         android:id="@+id/button_createParty"
-        android:layout_width="wrap_content"
+        android:layout_width="312dp"
         android:layout_height="64dp"
-        android:layout_marginTop="52dp"
         android:fontFamily="@font/architects_daughter"
         android:text="Create the Party"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/guestSearchRecycler"
-        app:layout_constraintHorizontal_bias="0.266"
-        app:layout_constraintStart_toStartOf="@+id/guestSearchRecycler"
-        app:layout_constraintTop_toBottomOf="@+id/guestSearchRecycler" />
+        app:layout_constraintBottom_toTopOf="@+id/gsAdview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

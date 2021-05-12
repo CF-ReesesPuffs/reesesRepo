@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_bg"
     tools:context=".Activities.FriendsPage">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/friendRecycler"
-        android:layout_width="380dp"
+        android:layout_width="match_parent"
         android:layout_height="495dp"
         android:layout_marginTop="78dp"
         android:background="@drawable/et_style"

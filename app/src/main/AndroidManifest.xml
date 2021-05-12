@@ -52,6 +52,7 @@
         <activity android:name=".Activities.InvitationDetails" />
         <activity
             android:name=".Activities.HostParty"
+            android:windowSoftInputMode="adjustNothing"
             android:label="Host a Party" /> <!-- https://stackoverflow.com/questions/14483393/how-do-i-change-the-android-actionbar-title-and-icon -->
         <activity android:name=".Activities.MainActivity">
             <intent-filter>

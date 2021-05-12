@@ -4,31 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AF0000"
+    android:background="@drawable/gradient_bg"
     tools:context=".Activities.InvitationDetails">
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="371dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/tv_style"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/main_accent"
         android:elegantTextHeight="true"
         android:padding="6sp"
         android:text="You've been invited!"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:textColor="@color/black"
+        android:textColor="@color/text_white"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <!-- todo: remove rounded corners -->
+
+    <TextView
+        android:id="@+id/partyName"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@drawable/et_style"
+        android:elevation="10dp"
+        android:padding="3sp"
+        android:text="Party Name"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="#333333"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="110dp"
         android:layout_height="44dp"
-        android:layout_marginStart="42dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/tv_style"
         android:elegantTextHeight="true"
@@ -36,26 +51,26 @@
         android:text="Host:"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toStartOf="@+id/partyHost"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/partyName"
+        android:textColor="@color/text_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.29"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/partyName" />
 
     <TextView
         android:id="@+id/partyHost"
         android:layout_width="150dp"
         android:layout_height="44dp"
-        android:layout_marginEnd="42dp"
+        android:layout_marginStart="119dp"
         android:background="@drawable/tv_style"
         android:elegantTextHeight="true"
         android:padding="3sp"
         android:text="Host"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/black"
+        android:textColor="@color/text_white"
         app:layout_constraintBottom_toBottomOf="@+id/textView2"
-        app:layout_constraintEnd_toEndOf="@+id/partyName"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="@+id/textView2" />
 
     <TextView
@@ -68,7 +83,7 @@
         android:text="Price"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/black"
+        android:textColor="@color/text_white"
         app:layout_constraintBottom_toBottomOf="@+id/textView6"
         app:layout_constraintEnd_toEndOf="@+id/timeOfParty"
         app:layout_constraintTop_toTopOf="@+id/textView6" />
@@ -84,7 +99,7 @@
         android:text="Time:"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/black"
+        android:textColor="@color/text_white"
         app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -98,7 +113,7 @@
         android:text="Time"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/black"
+        android:textColor="@color/text_white"
         app:layout_constraintBottom_toBottomOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="@+id/dateOfParty"
         app:layout_constraintTop_toTopOf="@+id/textView5" />
@@ -114,7 +129,7 @@
         android:text="Budget:"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/black"
+        android:textColor="@color/text_white"
         app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -128,7 +143,7 @@
         android:text="Date"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/black"
+        android:textColor="@color/text_white"
         app:layout_constraintBottom_toBottomOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="@+id/partyHost"
         app:layout_constraintHorizontal_bias="1.0"
@@ -147,7 +162,7 @@
         android:text="When:"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/black"
+        android:textColor="@color/text_white"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -179,7 +194,7 @@
         android:layout_width="352dp"
         android:layout_height="56dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/tv_style"
+        android:background="@drawable/light_edges_round"
         android:ems="10"
         android:inputType="textPersonName"
         android:textColor="@color/black"
@@ -195,28 +210,13 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/tv_style"
         android:padding="5sp"
-        android:text="Gift you are bringing!"
+        android:text="What are bringing?"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/budgetLimit"
-        app:layout_constraintStart_toStartOf="@+id/textView6"
+        android:textColor="@color/text_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/budgetLimit" />
-
-    <TextView
-        android:id="@+id/partyName"
-        android:layout_width="371dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/tv_style"
-        android:text="Party Title"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

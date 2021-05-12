@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
@@ -45,9 +46,12 @@ public class SignupConfirmation extends AppCompatActivity {
         Intent intent = getIntent();
         username = intent.getExtras().getString("username");
 
-        usernameConfirm = findViewById(R.id.usernameConfirmEt);
-        usernameConfirm.setTextColor(getResources().getColor(R.color.black));
-        usernameConfirm.setText(username);
+//        usernameConfirm = findViewById(R.id.usernameConfirmEt);
+//        usernameConfirm.setTextColor(getResources().getColor(R.color.black));
+//        usernameConfirm.setText(username);
+
+        TextView usernameTv = findViewById(R.id.codeConfirmTv);
+        usernameTv.setText(String.format("Confirmation Code for %s", username));
 
         confirmCode = findViewById(R.id.codeEt);
         confirmCode.setTextColor(getResources().getColor(R.color.black));
@@ -136,7 +140,7 @@ public class SignupConfirmation extends AppCompatActivity {
     public void toastEssential(String text) {
         Toast toast = Toast.makeText(getApplicationContext(),
                 text, Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.TOP, 0, 190);
+        toast.setGravity(Gravity.TOP, 0, 190); // todo: make it display at bottom.
         View toastView = toast.getView();
         toastView.setBackground(getDrawable(R.drawable.toast_bg));
         toast.show();

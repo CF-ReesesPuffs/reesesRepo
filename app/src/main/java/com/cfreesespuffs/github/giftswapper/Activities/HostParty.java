@@ -201,7 +201,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                         for (User user : response.getData()) {
                             if (!uniqueGuestList.containsKey(user.getUserName()) && userFriendList.contains(user.getSearchName())) {
                                 uniqueGuestList.put(user.getUserName(), user); // todo: swap to hashset
-//                                guestList.add(user); // todo: change only to string.
                                 selectedFriends.add(user.getUserName());
                             }
                             handler.sendEmptyMessage(1);
@@ -339,8 +338,10 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
             SimpleDateFormat formatDate = new SimpleDateFormat("MMMM dd, yyyy");
             String prettyDate = formatDate.format(dateFormat);
 
-            SimpleDateFormat sdf;
-            sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+            SimpleDateFormat sdf = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+            }
             sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
             String text = sdf.format(dateFormat);
 

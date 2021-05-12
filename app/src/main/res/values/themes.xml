@@ -52,9 +52,8 @@
         <item name="colorOnSecondary">@color/text_white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <item name="background">@color/main_background</item>
         <item name="backgroundColor">@color/main_accent</item>
-        <item name="android:background">@color/main_background</item>
+<!--        <item name="android:background">@color/main_background</item>-->
         <item name="android:editTextBackground">@color/text_white</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:fontFamily">"@font/autour_one"</item>

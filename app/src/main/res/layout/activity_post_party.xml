@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AF0000"
+    android:background="@drawable/gradient_bg"
     tools:context=".PostParty">
 
     <TextView
@@ -16,14 +16,14 @@
         android:fontFamily="@font/autour_one"
         android:text="partyName"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:textColor="@color/black"
+        android:textColor="@color/text_grey"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/postPartyRV"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/postPartyRV"
-        android:layout_width="384dp"
+        android:layout_width="match_parent"
         android:layout_height="388dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/et_style"

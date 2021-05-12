@@ -94,6 +94,10 @@ public class SignUp extends AppCompatActivity {
             }
 
             String lowerCaseUserName = userName.getText().toString().toLowerCase();
+            if (lowerCaseUserName.length() > 20) {
+                toastEssential("Create a shorter username");
+                return;
+            }
 
             Amplify.Auth.signUp(
                     lowerCaseUserName,
