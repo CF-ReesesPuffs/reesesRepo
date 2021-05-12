@@ -12,7 +12,7 @@
         android:id="@+id/tb_Current_Party"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/green"
+        android:background="@color/main_accent"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/Theme.Giftswapper.NoActionBar"
         app:layout_constraintStart_toStartOf="parent"

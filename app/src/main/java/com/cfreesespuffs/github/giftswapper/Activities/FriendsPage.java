@@ -1,6 +1,5 @@
 package com.cfreesespuffs.github.giftswapper.Activities;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -20,20 +19,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import com.amplifyframework.api.aws.GsonVariablesSerializer;
-import com.amplifyframework.api.graphql.GraphQLRequest;
-import com.amplifyframework.api.graphql.SimpleGraphQLRequest;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.FriendList;
-import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.Adapters.FriendPageAdapter;
-import com.cfreesespuffs.github.giftswapper.Adapters.PartyAdapter;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Objects;
 
 public class FriendsPage extends AppCompatActivity implements FriendPageAdapter.FriendPageListener {
 
@@ -52,7 +44,7 @@ public class FriendsPage extends AppCompatActivity implements FriendPageAdapter.
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);  // https://www.geeksforgeeks.org/how-to-change-the-color-of-status-bar-in-an-android-app/
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(this.getResources().getColor(R.color.green));
+        window.setStatusBarColor(this.getResources().getColor(R.color.main_accent));
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 

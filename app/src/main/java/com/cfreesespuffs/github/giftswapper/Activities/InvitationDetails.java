@@ -122,7 +122,7 @@ public class InvitationDetails extends AppCompatActivity {
             );
 
             Intent gotoMain = new Intent(InvitationDetails.this, MainActivity.class);
-            intent.putExtra("status", guestList.getInviteStatus()); //TODO do we use status?
+            intent.putExtra("status", guestList.getInviteStatus());
             InvitationDetails.this.startActivity(gotoMain);
         });
 

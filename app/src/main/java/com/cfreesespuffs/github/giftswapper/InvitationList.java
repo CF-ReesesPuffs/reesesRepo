@@ -1,6 +1,5 @@
 package com.cfreesespuffs.github.giftswapper;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,14 +12,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.amplifyframework.api.graphql.model.ModelQuery;
-import com.amplifyframework.auth.AuthUser;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
@@ -29,11 +26,8 @@ import com.cfreesespuffs.github.giftswapper.Activities.InvitationDetails;
 import com.cfreesespuffs.github.giftswapper.Adapters.PartyAdapter;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.TimeZone;
-import java.util.stream.Collectors;
 
 public class InvitationList extends AppCompatActivity implements PartyAdapter.InteractWithPartyListener {
 
@@ -46,11 +40,11 @@ public class InvitationList extends AppCompatActivity implements PartyAdapter.In
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invitation_list);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.main_accent)));
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);  // https://www.geeksforgeeks.org/how-to-change-the-color-of-status-bar-in-an-android-app/
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(this.getResources().getColor(R.color.green));
+        window.setStatusBarColor(this.getResources().getColor(R.color.main_accent));
 
         handleParties = new Handler(Looper.getMainLooper(), msg -> {
             recyclerView.getAdapter().notifyItemInserted(parties.size());

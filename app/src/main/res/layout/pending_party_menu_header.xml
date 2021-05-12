@@ -5,7 +5,7 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="150dp"
-    android:background="#AFAB5D">
+    android:background="@color/main_accent">
 
     <TextView
         android:id="@+id/pending_party_headerTv"
@@ -16,7 +16,7 @@
         android:fontFamily="@font/autour_one"
         android:foregroundTint="#FFFFFF"
         android:text="Party Settings"
-        android:textColor="@color/black"
+        android:textColor="@color/text_white"
         android:textSize="28sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

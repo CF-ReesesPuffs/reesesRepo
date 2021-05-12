@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_alignParentTop="false"
-    android:background="#AF0000"
+    android:background="@drawable/gradient_bg"
     app:barrierAllowsGoneWidgets="false"
     app:layout_constrainedHeight="false"
     tools:context=".PendingPage">
@@ -15,30 +15,27 @@
         android:layout_width="wrap_content"
         android:layout_height="39dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="72dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/autour_one"
         android:text="partyName"
         android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="#000000"
+        android:textColor="#333333"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/price"
-        app:layout_constraintStart_toStartOf="@+id/price"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="@+id/price" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/postPartyRV"
-        android:layout_width="340dp"
+        android:layout_width="match_parent"
         android:layout_height="263dp"
         android:background="@drawable/et_style"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.56" />
+        app:layout_constraintVertical_bias="0.641" />
 
     <TextView
         android:id="@+id/pendingPageInvitedGuests"
@@ -50,7 +47,7 @@
         android:padding="0sp"
         android:text="Invited Guests"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/black"
+        android:textColor="#333333"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/postPartyRV"
         app:layout_constraintEnd_toEndOf="@+id/postPartyRV"
@@ -70,7 +67,7 @@
         android:text="Host:"
         android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/black"
+        android:textColor="@color/text_white"
         app:layout_constraintBottom_toTopOf="@+id/pendingPageInvitedGuests"
         app:layout_constraintEnd_toEndOf="@+id/postPartyRV"
         app:layout_constraintHorizontal_bias="0.04"
@@ -78,7 +75,7 @@
 
     <TextView
         android:id="@+id/price"
-        android:layout_width="200dp"
+        android:layout_width="160dp"
         android:layout_height="44dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/tv_style"
@@ -87,7 +84,7 @@
         android:paddingStart="9sp"
         android:text="Price: "
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/black"
+        android:textColor="@color/text_white"
         app:layout_constraintBottom_toTopOf="@+id/startDate"
         app:layout_constraintStart_toStartOf="@+id/startDate" />
 
@@ -102,7 +99,7 @@
         android:paddingStart="9sp"
         android:text="startDate"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/black"
+        android:textColor="@color/text_white"
         app:layout_constraintBottom_toTopOf="@+id/hostTv"
         app:layout_constraintStart_toStartOf="@+id/hostTv" />
 
@@ -130,7 +127,7 @@
         android:padding="3sp"
         android:text="startTime"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/black"
+        android:textColor="@color/text_white"
         app:layout_constraintBottom_toBottomOf="@+id/startDate"
         app:layout_constraintStart_toEndOf="@+id/startDate"
         app:layout_constraintTop_toTopOf="@+id/startDate" />
@@ -145,9 +142,9 @@
         android:text="Wait for host to start party!"
         android:textColor="#FFFFFF"
         android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="@+id/postPartyRV"
-        app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintStart_toStartOf="@+id/postPartyRV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/postPartyRV" />
 
     <!-- If you care to turn on an example header bar. But! It hides the menu hamburger icon :\ -->

@@ -4,24 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_bg"
     android:theme="@style/Theme.gsSignUpConfirmLogin"
     tools:context=".Activities.SignupConfirmation">
-
-    <Button
-        android:id="@+id/signUpConfirmButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="192dp"
-        android:fontFamily="@font/architects_daughter"
-        android:text="Confirm Sign Up"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/codeEt"
-        app:layout_constraintVertical_bias="0.312" />
-
 
     <Button
         android:id="@+id/resendConfirmB"
@@ -34,56 +19,44 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/usernameConfirmEt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:background="@drawable/et_style"
-        android:elegantTextHeight="true"
-        android:ems="10"
-        android:fontFamily="sans-serif"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameconfirmTv" />
-
     <TextView
-        android:id="@+id/usernameconfirmTv"
-        android:layout_width="wrap_content"
+        android:id="@+id/codeConfirmTv"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="228dp"
-        android:text="Username"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginBottom="4dp"
+        android:text="Confirmation Code for"
+        android:textAlignment="center"
+        android:textColor="@color/text_grey"
+        app:layout_constraintBottom_toTopOf="@+id/codeEt"
+        app:layout_constraintEnd_toEndOf="@+id/codeEt"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="@+id/codeEt" />
 
     <EditText
         android:id="@+id/codeEt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="340dp"
-        android:background="@drawable/et_style"
+        android:background="@drawable/light_edges_round"
         android:elegantTextHeight="true"
         android:ems="10"
         android:fontFamily="sans-serif"
         android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/codeConfirmTv"
+    <Button
+        android:id="@+id/signUpConfirmButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:text="Confirmation Code"
-        app:layout_constraintBottom_toTopOf="@+id/codeEt"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/architects_daughter"
+        android:text="Confirm Sign Up"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/codeEt" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

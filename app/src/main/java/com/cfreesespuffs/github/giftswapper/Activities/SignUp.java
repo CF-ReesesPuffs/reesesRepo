@@ -1,13 +1,9 @@
 package com.cfreesespuffs.github.giftswapper.Activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,9 +13,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amplifyframework.auth.AuthUserAttributeKey;
@@ -42,11 +36,11 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable((getResources().getColor(R.color.green))));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable((getResources().getColor(R.color.main_accent))));
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);  // https://www.geeksforgeeks.org/how-to-change-the-color-of-status-bar-in-an-android-app/
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(this.getResources().getColor(R.color.green));
+        window.setStatusBarColor(this.getResources().getColor(R.color.main_accent));
 
         handler = new Handler(Looper.getMainLooper(), msg -> {
             if (msg.arg1 == 0) {
@@ -100,6 +94,10 @@ public class SignUp extends AppCompatActivity {
             }
 
             String lowerCaseUserName = userName.getText().toString().toLowerCase();
+            if (lowerCaseUserName.length() > 20) {
+                toastEssential("Create a shorter username");
+                return;
+            }
 
             Amplify.Auth.signUp(
                     lowerCaseUserName,

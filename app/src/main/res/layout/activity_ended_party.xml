@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AF0000">
+    android:background="@drawable/gradient_bg">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/giftRecycler"
-        android:layout_width="380dp"
+        android:layout_width="0dp"
         android:layout_height="495dp"
         android:layout_marginTop="78dp"
         android:background="@drawable/et_style"

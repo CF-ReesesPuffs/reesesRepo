@@ -66,9 +66,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TimeZone;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class HostParty extends AppCompatActivity implements HostPartyAdapter.GuestListListener, DatePickerDialog.OnDateSetListener {
 
@@ -95,12 +92,12 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         setContentView(R.layout.activity_host_party);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.main_accent)));
 
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);  // https://www.geeksforgeeks.org/how-to-change-the-color-of-status-bar-in-an-android-app/
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(this.getResources().getColor(R.color.green));
+        window.setStatusBarColor(this.getResources().getColor(R.color.main_accent));
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -181,11 +178,11 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         partyDate = findViewById(R.id.editTextDate);
         partyDate.setTextColor(Color.parseColor("#000000"));
 
-        foundGuest = findViewById(R.id.userFindGuestSearch);
+        foundGuest = findViewById(R.id.userFindGuestSearchInput);
         foundGuest.setTextColor(Color.parseColor("#000000"));
 
         Button findGuestButton = findViewById(R.id.findGuest_button);
-        findGuestButton.setBackgroundColor(getResources().getColor(R.color.green));
+        findGuestButton.setBackgroundColor(getResources().getColor(R.color.main_accent));
 
         findGuestButton.setOnClickListener((view) -> { // https://stackoverflow.com/questions/9596010/android-use-done-button-on-keyboard-to-click-button
 
@@ -204,7 +201,6 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                         for (User user : response.getData()) {
                             if (!uniqueGuestList.containsKey(user.getUserName()) && userFriendList.contains(user.getSearchName())) {
                                 uniqueGuestList.put(user.getUserName(), user); // todo: swap to hashset
-//                                guestList.add(user); // todo: change only to string.
                                 selectedFriends.add(user.getUserName());
                             }
                             handler.sendEmptyMessage(1);
@@ -287,11 +283,11 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
         recyclerView.setAdapter(new HostPartyAdapter(selectedFriends, this)); // selectedFriends. Arraylist<String>
 
         Button addParty = HostParty.this.findViewById(R.id.button_createParty);
-        addParty.setBackgroundColor(getResources().getColor(R.color.green));
+        addParty.setBackgroundColor(getResources().getColor(R.color.main_accent));
 
         addParty.setOnClickListener(view -> {
 
-            TextView partyName = findViewById(R.id.textViewPartyName);
+            TextView partyName = findViewById(R.id.partyNameMaterial);
             Set guestsToInvite = ((HostPartyAdapter) recyclerView.getAdapter()).usersToAdd;
             List<String> guestsToInviteList = new ArrayList();
             guestsToInviteList.addAll(guestsToInvite);
@@ -342,8 +338,10 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
             SimpleDateFormat formatDate = new SimpleDateFormat("MMMM dd, yyyy");
             String prettyDate = formatDate.format(dateFormat);
 
-            SimpleDateFormat sdf;
-            sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+            SimpleDateFormat sdf = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+            }
             sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
             String text = sdf.format(dateFormat);
 

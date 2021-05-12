@@ -9,7 +9,7 @@
         android:id="@+id/friend_page_actionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/green"
+        android:background="@color/main_accent"
         app:title=" " />
 
     <TextView
