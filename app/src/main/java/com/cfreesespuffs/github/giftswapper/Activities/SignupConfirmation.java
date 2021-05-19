@@ -46,10 +46,6 @@ public class SignupConfirmation extends AppCompatActivity {
         Intent intent = getIntent();
         username = intent.getExtras().getString("username");
 
-//        usernameConfirm = findViewById(R.id.usernameConfirmEt);
-//        usernameConfirm.setTextColor(getResources().getColor(R.color.black));
-//        usernameConfirm.setText(username);
-
         TextView usernameTv = findViewById(R.id.codeConfirmTv);
         usernameTv.setText(String.format("Confirmation Code for %s", username));
 
