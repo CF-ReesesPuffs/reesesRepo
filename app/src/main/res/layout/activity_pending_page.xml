@@ -14,7 +14,8 @@
         android:id="@+id/partyName"
         android:layout_width="wrap_content"
         android:layout_height="39dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="63dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/autour_one"
         android:text="partyName"
@@ -23,24 +24,140 @@
         android:textColor="#333333"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/price"
-        app:layout_constraintStart_toStartOf="@+id/price" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/postPartyRV"
-        android:layout_width="match_parent"
-        android:layout_height="263dp"
-        android:background="@drawable/et_style"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.641" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:background="@drawable/tv_style_left"
+        android:gravity="center|end"
+        android:paddingStart="9sp"
+        android:text="Price"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/text_white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/hostTv"
+        app:layout_constraintEnd_toEndOf="@+id/startTime"
+        app:layout_constraintStart_toStartOf="@+id/startTime"
+        app:layout_constraintTop_toTopOf="@+id/hostTv" />
+
+    <TextView
+        android:id="@+id/priceEntry"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="4dp"
+        android:background="@drawable/tv_style_right"
+        android:gravity="center|start"
+        android:text="PriceEntry"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/text_white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/price"
+        app:layout_constraintStart_toEndOf="@+id/price"
+        app:layout_constraintTop_toTopOf="@+id/price" />
+
+    <TextView
+        android:id="@+id/startDate"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/tv_style_left"
+        android:gravity="center|end"
+        android:paddingStart="9sp"
+        android:text="Date"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/text_white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/hostTv"
+        app:layout_constraintStart_toStartOf="@+id/hostTv"
+        app:layout_constraintTop_toBottomOf="@+id/price" />
+
+    <TextView
+        android:id="@+id/dateEntry"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="4dp"
+        android:background="@drawable/tv_style_right"
+        android:gravity="center|start"
+        android:text="DateEntry"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/text_white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/startDate"
+        app:layout_constraintStart_toEndOf="@+id/startDate"
+        app:layout_constraintTop_toTopOf="@+id/startDate" />
+
+    <TextView
+        android:id="@+id/startTime"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/tv_style_left"
+        android:gravity="center|end"
+        android:text="Time"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/text_white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/dateEntry"
+        app:layout_constraintStart_toEndOf="@+id/dateEntry"
+        app:layout_constraintTop_toTopOf="@+id/dateEntry" />
+
+    <TextView
+        android:id="@+id/timeEntry"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="4dp"
+        android:background="@drawable/tv_style_right"
+        android:gravity="center|start"
+        android:text="TimeEntry"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/text_white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/startTime"
+        app:layout_constraintStart_toEndOf="@+id/startTime"
+        app:layout_constraintTop_toTopOf="@+id/startTime"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/hostTv"
+        android:layout_width="24pt"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/tv_style_left"
+        android:elegantTextHeight="true"
+        android:gravity="center|end"
+        android:text="Host"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/text_white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.092"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/partyName" />
+
+    <TextView
+        android:id="@+id/hostEntry"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="4dp"
+        android:background="@drawable/tv_style_right"
+        android:gravity="center|start"
+        android:text="    "
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/text_white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/hostTv"
+        app:layout_constraintStart_toEndOf="@+id/hostTv"
+        app:layout_constraintTop_toTopOf="@+id/hostTv" />
 
     <TextView
         android:id="@+id/pendingPageInvitedGuests"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:elegantTextHeight="true"
         android:fontFamily="@font/autour_one"
         android:gravity="bottom"
@@ -49,103 +166,37 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#333333"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/postPartyRV"
         app:layout_constraintEnd_toEndOf="@+id/postPartyRV"
         app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintStart_toStartOf="@+id/postPartyRV" />
+        app:layout_constraintStart_toStartOf="@+id/postPartyRV"
+        app:layout_constraintTop_toBottomOf="@+id/startDate" />
 
-    <TextView
-        android:id="@+id/hostTv"
-        android:layout_width="280dp"
-        android:layout_height="44dp"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/tv_style"
-        android:elegantTextHeight="true"
-        android:gravity="center|start"
-        android:padding="3sp"
-        android:paddingStart="9sp"
-        android:text="Host:"
-        android:textAlignment="textStart"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/text_white"
-        app:layout_constraintBottom_toTopOf="@+id/pendingPageInvitedGuests"
-        app:layout_constraintEnd_toEndOf="@+id/postPartyRV"
-        app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintStart_toStartOf="@+id/postPartyRV" />
-
-    <TextView
-        android:id="@+id/price"
-        android:layout_width="wrap_content"
-        android:layout_height="44dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/postPartyRV"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/tv_style"
-        android:gravity="center|start"
-        android:padding="3sp"
-        android:paddingStart="9sp"
-        android:text="Price: "
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/text_white"
-        app:layout_constraintBottom_toTopOf="@+id/startDate"
-        app:layout_constraintStart_toStartOf="@+id/startDate" />
-
-    <TextView
-        android:id="@+id/startDate"
-        android:layout_width="200dp"
-        android:layout_height="44dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/tv_style"
-        android:gravity="center|start"
-        android:padding="3sp"
-        android:paddingStart="9sp"
-        android:text="startDate"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/text_white"
-        app:layout_constraintBottom_toTopOf="@+id/hostTv"
-        app:layout_constraintStart_toStartOf="@+id/hostTv" />
-
-    <!--    <ImageButton-->
-    <!--        android:id="@+id/homePartyDetailButton"-->
-    <!--        android:layout_width="51dp"-->
-    <!--        android:layout_height="44dp"-->
-    <!--        android:layout_marginTop="28dp"-->
-    <!--        android:layout_marginEnd="16dp"-->
-    <!--        android:background="@color/gold_yellow"-->
-    <!--        android:backgroundTint="#99ED8922"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@+id/partyName"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        app:layout_constraintVertical_bias="1.0"-->
-    <!--        app:srcCompat="@drawable/home_foreground" />-->
-
-    <TextView
-        android:id="@+id/startTime"
-        android:layout_width="125dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/tv_style"
-        android:gravity="center"
-        android:padding="3sp"
-        android:text="startTime"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/text_white"
-        app:layout_constraintBottom_toBottomOf="@+id/startDate"
-        app:layout_constraintStart_toEndOf="@+id/startDate"
-        app:layout_constraintTop_toTopOf="@+id/startDate" />
+        android:background="@drawable/et_style"
+        android:paddingTop="8sp"
+        app:layout_constraintBottom_toTopOf="@+id/start_party"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pendingPageInvitedGuests" />
 
     <Button
         android:id="@+id/start_party"
         android:layout_width="wrap_content"
         android:layout_height="51dp"
-
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
         android:fontFamily="@font/architects_daughter"
         android:text="Wait for host to start party!"
         android:textColor="#FFFFFF"
         android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/postPartyRV" />
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- If you care to turn on an example header bar. But! It hides the menu hamburger icon :\ -->
     <!--    <androidx.appcompat.widget.Toolbar-->
