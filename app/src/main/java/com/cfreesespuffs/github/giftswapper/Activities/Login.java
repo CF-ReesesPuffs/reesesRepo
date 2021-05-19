@@ -3,6 +3,7 @@ package com.cfreesespuffs.github.giftswapper.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -37,6 +38,7 @@ public class Login extends AppCompatActivity {
     EditText username;
     EditText password;
 
+    @SuppressLint("UseCompatLoadingForDrawables") // Might fix drawable issue?
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
