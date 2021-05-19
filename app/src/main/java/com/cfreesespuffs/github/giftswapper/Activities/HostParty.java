@@ -162,6 +162,10 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
                 spinnerFlag = true; // makes the spinner open up correctly but only intermittently.
             }
 
+            if (message.arg1 == 6) {
+                Toast.makeText(this, "Please shorten the party name.", Toast.LENGTH_LONG).show();
+            }
+
             if (message.arg1 == 10) {
                 Toast.makeText(this, "We're sorry, we only support up to 10 guest right now. :(", Toast.LENGTH_LONG).show();
             }
@@ -318,6 +322,13 @@ public class HostParty extends AppCompatActivity implements HostPartyAdapter.Gue
             if (nameOfParty.equals("")) {
                 Message message = new Message();
                 message.arg1 = 4;
+                generalHandler.sendMessage(message);
+                return;
+            }
+
+            if (nameOfParty.length() > 20) {
+                Message message = new Message();
+                message.arg1 = 6;
                 generalHandler.sendMessage(message);
                 return;
             }
