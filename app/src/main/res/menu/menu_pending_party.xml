@@ -21,10 +21,10 @@
                 />
 
                     <!-- For the above title, I originally had a dummy "1: " in the title. It would seem that might gunk something up because it was showing up even after I had set the title programmatically. ga ke itse. -->
-            <item
-                android:id="@+id/twoPotential"
-                android:icon="@drawable/ic_profile_foreground"
-                android:title="Potential" />
+<!--            <item-->
+<!--                android:id="@+id/twoPotential"-->
+<!--                android:icon="@drawable/ic_profile_foreground"-->
+<!--                android:title="Potential" />-->
         </menu>
 
     </item>

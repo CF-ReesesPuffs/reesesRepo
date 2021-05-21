@@ -34,7 +34,8 @@ import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+// todo: import confetti?
 
 public class InvitationDetails extends AppCompatActivity {
 
@@ -61,6 +62,11 @@ public class InvitationDetails extends AppCompatActivity {
             if (msg.arg1 == 1) {
                 findViewById(R.id.declineInvite).setVisibility(View.VISIBLE);
             }
+
+            if (msg.arg1 ==2) {
+                TextView hostName = InvitationDetails.this.findViewById(R.id.partyHost);
+                hostName.setText(party.getTheHost().getUserName());
+            }
             return false;
         });
 
@@ -68,14 +74,16 @@ public class InvitationDetails extends AppCompatActivity {
                 ModelQuery.get(Party.class, partyId),
                 response -> {
                     party = response.getData();
-                    TextView hostName = InvitationDetails.this.findViewById(R.id.partyHost);
-                    hostName.setText(party.getTheHost().getUserName());
 
                     if (!preferences.getString("username", "NA").equals(party.getTheHost().getUserName())) {
                         Message message = new Message();
                         message.arg1 = 1;
                         handler.sendMessage(message);
                     }
+
+                    Message message = new Message();
+                    message.arg1 = 2;
+                    handler.sendMessage(message);
                 },
                 error -> Log.e("Amplify.query", "no party " + error)
         );

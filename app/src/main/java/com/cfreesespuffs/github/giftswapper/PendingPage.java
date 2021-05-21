@@ -101,6 +101,10 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
         startParty.setEnabled(false);
 
         handleSingleItem = new Handler(Looper.getMainLooper(), msg -> {
+
+            TextView hostTv = findViewById(R.id.hostEntry);
+            hostTv.setText(pendingParty.getTheHost().getUserName());
+
             if (msg.arg1 == 1) {
                 connectAdapterToRecycler();
                 recyclerView.getAdapter().notifyDataSetChanged();
@@ -165,9 +169,6 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
                 ModelQuery.get(Party.class, partyId),
                 response -> {
                     pendingParty = response.getData();
-
-                    TextView hostTv = findViewById(R.id.hostTv);
-                    hostTv.setText(String.format("Host: %s", pendingParty.getTheHost().getUserName()));
 
                     if (pendingParty.getTheHost().getUserName().equalsIgnoreCase(preferences.getString("username", "NA"))) {
                         Message message = new Message();
@@ -282,15 +283,15 @@ PendingPage extends AppCompatActivity implements ViewAdapter.OnInteractWithTaskL
             startActivity(intent1);
         });
 
-        TextView date = PendingPage.this.findViewById(R.id.startDate);
+        TextView date = PendingPage.this.findViewById(R.id.dateEntry);
         date.setText(intent.getExtras().getString("date"));
 
-        TextView time = PendingPage.this.findViewById(R.id.startTime);
+        TextView time = PendingPage.this.findViewById(R.id.timeEntry);
         time.setText(intent.getExtras().getString("time"));
 
         // Has to be included, otherwise doesn't show up via layout xml \
-        TextView priceDef = PendingPage.this.findViewById(R.id.price);//|
-        priceDef.setText(String.format("Price: %s", intent.getExtras().getString("price")));
+        TextView priceDef = PendingPage.this.findViewById(R.id.priceEntry);//|
+        priceDef.setText(intent.getExtras().getString("price"));
         // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^|
 
         Amplify.API.query(

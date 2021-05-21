@@ -19,11 +19,12 @@
 
     <TextView
         android:id="@+id/party_title"
-        android:layout_width="280dp"
+        android:layout_width="240sp"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:ellipsize="end"
         android:maxLines="1"
+        android:singleLine="true"
         android:text="Title"
         android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"

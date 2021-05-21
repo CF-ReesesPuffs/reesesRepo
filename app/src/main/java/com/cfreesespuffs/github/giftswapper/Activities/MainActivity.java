@@ -200,11 +200,11 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
                 hostButton.setVisibility(View.INVISIBLE);
             }
 
-            if (message.arg1 == 10) {
+            if (message.arg1 == 10 && !pendingPartiesHM.isEmpty()) {
                 createBellBadge(pendingPartiesHM.size());
             }
 
-            if (message.arg1 == 20) {
+            if (message.arg1 == 20 && !friendListsHM.isEmpty()) {
                 createFriendBadge(friendListsHM.size());
             }
 
@@ -221,25 +221,6 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
         connectRecycler();
 
         if (!preferences.getString("userId", "NA").equals("NA")) {
-
-//            Amplify.API.query(
-//                    ModelQuery.list(FriendList.class, FriendList.USER_NAME.eq(preferences.getString("username", "NA"))),
-//                    response3 -> {
-//                        for (FriendList friendList : response3.getData()) {
-//                            if (!friendList.getAccepted()
-//                                    && !friendList.getDeclined()) {
-//                                Log.e("inResponse.fL", "ind'l fL" + friendList);
-//                                friendListsHM.put(friendList.getUser().getUserName(), friendList);
-//                            }
-//                        }
-//                        Log.e("FL.size", "count: " + friendListsHM.size());
-//                        Message message = new Message();
-//                        message.arg1 = 20;
-//                        handleCheckLoggedIn.sendMessage(message);
-//                    },
-//                    error -> Log.e("Query.friendlist", "Error: " + error)
-//            );
-
 
             Amplify.API.query(
                     ModelQuery.get(User.class, preferences.getString("userId", "NA")),
