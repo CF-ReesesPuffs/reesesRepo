@@ -34,7 +34,8 @@ import com.amplifyframework.datastore.generated.model.User;
 import com.cfreesespuffs.github.giftswapper.R;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+// todo: import confetti?
 
 public class InvitationDetails extends AppCompatActivity {
 
