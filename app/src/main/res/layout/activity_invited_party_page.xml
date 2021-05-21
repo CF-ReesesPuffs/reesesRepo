@@ -22,7 +22,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-    <!-- todo: remove rounded corners -->
 
     <TextView
         android:id="@+id/partyName"
@@ -72,11 +71,8 @@
         android:elegantTextHeight="true"
         android:padding="3sp"
         android:text="Host"
-
         android:textSize="14sp"
         android:gravity="center|end"
-
-
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/text_white"
@@ -195,10 +191,9 @@
 
     <TextView
         android:id="@+id/bringingTv"
-        android:layout_width="wrap_content"
+        android:layout_width="352dp"
         android:layout_height="40dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/tv_style"
+        android:background="@drawable/tv_style_top"
         android:padding="5sp"
         android:paddingStart="15sp"
         android:paddingEnd="15sp"
@@ -215,15 +210,19 @@
         android:layout_width="352dp"
         android:layout_height="56dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/light_edges_round"
+        android:background="@drawable/light_edges_bottom"
         android:ems="10"
         android:inputType="textPersonName"
+        android:maxLength="24"
+        android:paddingStart="12sp"
+        android:paddingEnd="12sp"
+        android:textAlignment="center"
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/acceptInvite"
         app:layout_constraintEnd_toEndOf="@+id/bringingTv"
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="@+id/bringingTv" />
-
+<!-- https://stackoverflow.com/questions/6066212/how-do-you-set-the-max-number-of-characters-for-an-edittext-in-android -->
     <Button
         android:id="@+id/declineInvite"
         android:layout_width="123dp"
