@@ -101,6 +101,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
             if (message.arg1 == 1) {
                 Toast.makeText(this, "It is your turn, pick a gift!", Toast.LENGTH_LONG).show();
             }
+            recyclerView.smoothScrollToPosition(currentTurn);  // todo: https://dev.to/aldok/how-to-scroll-recyclerview-to-a-certain-position-5ck4
             return false;
         });
 
@@ -139,11 +140,13 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                 for (int i = 1; i < gLHashMap.size() + 1; i++) {
                                     if (!gLHashMap.get(i).getTakenTurn()) {
                                         currentTurn = i;
+                                        Message turnAlertMsg = new Message();
                                         if (gLHashMap.get(i).getUser().getUserName().equalsIgnoreCase(amplifyUser.getUserName())) {
-                                            Message turnAlertMsg = new Message();
                                             turnAlertMsg.arg1 = 1;
-                                            handlerGeneral.sendMessage(turnAlertMsg);
+                                        } else {
+                                            turnAlertMsg.arg1 = 2;
                                         }
+                                        handlerGeneral.sendEmptyMessage(2);
                                         break;
                                     }
                                 }

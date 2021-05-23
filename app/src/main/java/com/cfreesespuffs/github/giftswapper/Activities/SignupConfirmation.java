@@ -29,7 +29,7 @@ import com.cfreesespuffs.github.giftswapper.R;
 public class SignupConfirmation extends AppCompatActivity {
 
     Handler signUpHandler;
-    Message message = new Message();
+    Message message;
     EditText usernameConfirm, confirmCode;
     String username;
 
@@ -56,10 +56,11 @@ public class SignupConfirmation extends AppCompatActivity {
             String password = intent.getExtras().getString("password");
             String email = intent.getExtras().getString("email");
             Amplify.Auth.confirmSignUp(
-                    usernameConfirm.getText().toString().toLowerCase(),
+                    username.toLowerCase(),
                     confirmCode.getText().toString(),
                     result -> {
-                        String usernameLowerCase = usernameConfirm.getText().toString().toLowerCase();
+                        String usernameLowerCase = username.toLowerCase();
+                        message = new Message();
                         message.arg1 = 123;
                         signUpHandler.sendEmptyMessage(message.arg1);
                         User newUser = User.builder()
@@ -100,6 +101,7 @@ public class SignupConfirmation extends AppCompatActivity {
                         );
                     },
                     error -> {
+                        message = new Message();
                         message.arg1 = 456;
                         signUpHandler.sendMessage(message);
                     }
@@ -124,7 +126,7 @@ public class SignupConfirmation extends AppCompatActivity {
                 return;
             }
 
-            Amplify.Auth.resendSignUpCode(usernameConfirm.getText().toString().toLowerCase(),
+            Amplify.Auth.resendSignUpCode(username.toLowerCase(),
                     success -> {
                         toastEssential("New confirmation code has been resent to email.");
                     },
@@ -136,7 +138,7 @@ public class SignupConfirmation extends AppCompatActivity {
     public void toastEssential(String text) {
         Toast toast = Toast.makeText(getApplicationContext(),
                 text, Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.TOP, 0, 190); // todo: make it display at bottom.
+        toast.setGravity(Gravity.BOTTOM, 0, 190); // todo: make it display at bottom.
         View toastView = toast.getView();
         toastView.setBackground(getDrawable(R.drawable.toast_bg));
         toast.show();

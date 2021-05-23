@@ -50,7 +50,7 @@ public class SignUp extends AppCompatActivity {
             }
 
             if (msg.arg1 == 1) {
-                toastEssential("A confirmation code has been sent to your email");
+                toastEssential("A confirmation code has been sent to your email", 190);
             }
 
             return false;
@@ -129,6 +129,17 @@ public class SignUp extends AppCompatActivity {
         Toast toast = Toast.makeText(getApplicationContext(),
                 text, Toast.LENGTH_LONG);
         toast.setGravity(Gravity.TOP, 0, 190);
+        View toastView = toast.getView();
+        // https://stackoverflow.com/questions/6687666/android-how-to-set-the-colour-of-a-toasts-text if wanted to change text color.
+        toastView.setBackground(getDrawable(R.drawable.toast_bg));
+        toast.show();
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public void toastEssential(String text, int yOffset) {
+        Toast toast = Toast.makeText(getApplicationContext(),
+                text, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.BOTTOM, 0, 190);
         View toastView = toast.getView();
         // https://stackoverflow.com/questions/6687666/android-how-to-set-the-colour-of-a-toasts-text if wanted to change text color.
         toastView.setBackground(getDrawable(R.drawable.toast_bg));
