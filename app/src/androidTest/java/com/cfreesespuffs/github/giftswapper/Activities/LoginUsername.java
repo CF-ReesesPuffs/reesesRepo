@@ -1,6 +1,7 @@
 package com.cfreesespuffs.github.giftswapper.Activities;
 
 
+import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -31,13 +32,13 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class LoginPassword {
+public class LoginUsername {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void loginPassword() {
+    public void loginUsernameAndPassword() {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
@@ -48,20 +49,20 @@ public class LoginPassword {
         }
 
         ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.passwordLogin),
+                allOf(withId(R.id.usernameLogin),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                2),
+                                1),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("codefellows"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("pal"), closeSoftKeyboard());
 
         ViewInteraction editText = onView(
-                allOf(withId(R.id.passwordLogin), withText("•••••••••••"), // had to go to previous test to properly grab the unicode for "•" otherwise it showed up as [diamondQuestionMark] and would fail.
+                allOf(withId(R.id.usernameLogin), withText("pal"),
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
-        editText.check(matches(withText("•••••••••••")));
+        editText.check(matches(withText("pal")));
     }
 
     private static Matcher<View> childAtPosition(
