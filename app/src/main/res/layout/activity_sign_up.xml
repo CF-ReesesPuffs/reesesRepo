@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_bg"
     android:theme="@style/Theme.gsSignUpConfirmLogin"
-    tools:context=".Activities.SignUp">
+    tools:context=".activities.SignUp">
 
     <TextView
         android:id="@+id/emailTv"

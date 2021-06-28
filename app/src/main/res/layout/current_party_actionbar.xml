@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activities.CurrentParty">
+    tools:context=".activities.CurrentParty">
     <!-- https://stackoverflow.com/questions/51146885/androidx-constraintlayout-widget-constraintlayout-dont-have-chains-that-you-can -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tb_Current_Party"

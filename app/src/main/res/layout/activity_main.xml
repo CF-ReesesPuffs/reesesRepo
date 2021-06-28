@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_bg"
-    tools:context=".Activities.MainActivity">
+    android:id="@+id/activityMain"
+    tools:context=".activities.MainActivity">
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/gsAdview"

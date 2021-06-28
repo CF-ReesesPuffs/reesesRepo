@@ -10,7 +10,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,13 +20,10 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazonaws.services.cognitoidentityprovider.model.GetUserAttributeVerificationCodeRequest;
 import com.amplifyframework.api.ApiOperation;
 import com.amplifyframework.api.aws.GsonVariablesSerializer;
 import com.amplifyframework.api.graphql.GraphQLRequest;
@@ -40,8 +36,8 @@ import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
-import com.cfreesespuffs.github.giftswapper.Activities.CurrentParty;
-import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
+import com.cfreesespuffs.github.giftswapper.activities.CurrentParty;
+import com.cfreesespuffs.github.giftswapper.activities.MainActivity;
 import com.cfreesespuffs.github.giftswapper.Adapters.ViewAdapter;
 import com.google.android.material.navigation.NavigationView;
 

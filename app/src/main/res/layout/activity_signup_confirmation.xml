@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_bg"
     android:theme="@style/Theme.gsSignUpConfirmLogin"
-    tools:context=".Activities.SignupConfirmation">
+    tools:context=".activities.SignupConfirmation">
 
     <Button
         android:id="@+id/resendConfirmB"

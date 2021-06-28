@@ -22,7 +22,7 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
 import com.amplifyframework.datastore.generated.model.User;
-import com.cfreesespuffs.github.giftswapper.Activities.InvitationDetails;
+import com.cfreesespuffs.github.giftswapper.activities.InvitationDetails;
 import com.cfreesespuffs.github.giftswapper.Adapters.PartyAdapter;
 
 import java.text.SimpleDateFormat;

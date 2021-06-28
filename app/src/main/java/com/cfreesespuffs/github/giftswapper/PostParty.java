@@ -1,7 +1,6 @@
 package com.cfreesespuffs.github.giftswapper;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,13 +24,12 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Gift;
 import com.amplifyframework.datastore.generated.model.GuestList;
 import com.amplifyframework.datastore.generated.model.Party;
-import com.cfreesespuffs.github.giftswapper.Activities.EndedParties;
-import com.cfreesespuffs.github.giftswapper.Activities.MainActivity;
+import com.cfreesespuffs.github.giftswapper.activities.EndedParties;
+import com.cfreesespuffs.github.giftswapper.activities.MainActivity;
 import com.cfreesespuffs.github.giftswapper.Adapters.GiftAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.prefs.PreferenceChangeEvent;
 
 public class PostParty extends AppCompatActivity implements GiftAdapter.OnCommWithGiftsListener {
 

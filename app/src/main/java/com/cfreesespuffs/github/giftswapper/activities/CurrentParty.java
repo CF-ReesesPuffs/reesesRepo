@@ -1,6 +1,5 @@
-package com.cfreesespuffs.github.giftswapper.Activities;
+package com.cfreesespuffs.github.giftswapper.activities;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -170,7 +169,7 @@ public class CurrentParty extends AppCompatActivity implements GiftAdapter.OnCom
                                     giftList.add(giftBrought);
                                 }
 
-                                Boolean allTaken = true;
+                                boolean allTaken = true;
                                 for (Gift gift : giftList) {
                                     if (gift.getPartyGoer().equals("TBD")) allTaken = false;
                                 }

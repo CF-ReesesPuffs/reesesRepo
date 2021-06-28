@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.Login">
+    tools:context=".activities.Login"
+    android:id="@+id/login">
 
     <!-- https://www.tutorialspoint.com/how-to-make-a-background-20-transparent-on-android -->
 

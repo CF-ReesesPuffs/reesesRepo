@@ -1,4 +1,4 @@
-package com.cfreesespuffs.github.giftswapper.Activities;
+package com.cfreesespuffs.github.giftswapper.activities;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
@@ -369,12 +369,12 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
     private void createBellBadge(int paramInt) {
 
         Drawable bellBadgeDrawable = localLayerDrawable.findDrawableByLayerId(R.id.badge);
-        com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable badgeDrawable;
+        com.cfreesespuffs.github.giftswapper.activities.BadgeDrawable badgeDrawable;
 
         if (bellBadgeDrawable instanceof BadgeDrawable && paramInt < 10) {
-            badgeDrawable = (com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable) bellBadgeDrawable;
+            badgeDrawable = (com.cfreesespuffs.github.giftswapper.activities.BadgeDrawable) bellBadgeDrawable;
         } else {
-            badgeDrawable = new com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable(this);
+            badgeDrawable = new com.cfreesespuffs.github.giftswapper.activities.BadgeDrawable(this);
         }
         badgeDrawable.setCount(paramInt);
         localLayerDrawable.mutate();
@@ -384,12 +384,12 @@ public class MainActivity extends AppCompatActivity implements PartyAdapter.Inte
 
     private void createFriendBadge(int paramInt) {
         Drawable friendBadgeDrawable = friendLayerDrawable.findDrawableByLayerId(R.id.thisFriend); // Vector drawable is *not* "just" drawable.
-        com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable badgeDrawable;
+        com.cfreesespuffs.github.giftswapper.activities.BadgeDrawable badgeDrawable;
 
-        if (friendBadgeDrawable instanceof com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable && paramInt < 10) {
-            badgeDrawable = (com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable) friendBadgeDrawable;
+        if (friendBadgeDrawable instanceof com.cfreesespuffs.github.giftswapper.activities.BadgeDrawable && paramInt < 10) {
+            badgeDrawable = (com.cfreesespuffs.github.giftswapper.activities.BadgeDrawable) friendBadgeDrawable;
         } else {
-            badgeDrawable = new com.cfreesespuffs.github.giftswapper.Activities.BadgeDrawable(this);
+            badgeDrawable = new com.cfreesespuffs.github.giftswapper.activities.BadgeDrawable(this);
         }
         badgeDrawable.setCount(paramInt);
         friendLayerDrawable.mutate();

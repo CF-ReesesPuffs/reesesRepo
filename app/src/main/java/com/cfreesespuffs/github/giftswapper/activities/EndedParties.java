@@ -1,4 +1,4 @@
-package com.cfreesespuffs.github.giftswapper.Activities;
+package com.cfreesespuffs.github.giftswapper.activities;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;

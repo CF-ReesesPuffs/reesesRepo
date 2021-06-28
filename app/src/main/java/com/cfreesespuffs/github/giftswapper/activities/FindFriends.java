@@ -1,4 +1,4 @@
-package com.cfreesespuffs.github.giftswapper.Activities;
+package com.cfreesespuffs.github.giftswapper.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
